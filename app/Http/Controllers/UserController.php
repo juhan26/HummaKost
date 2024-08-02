@@ -27,7 +27,7 @@ class UserController extends Controller
         }
 
 
-        return view('users.index', compact('users'));
+        return view('pages.users.index', compact('users'));
     }
 
     /**
