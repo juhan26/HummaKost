@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -45,7 +44,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
 
-        $validated = $request->validated(); 
+        $validated = $request->validated();
         User::create($validated)->assignRole('member');
         return redirect()->route('user.index')->with('success', 'User Added Success');
     }
