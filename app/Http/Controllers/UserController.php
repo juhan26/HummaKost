@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,18 +16,19 @@ class UserController extends Controller
     public function index()
     {
         if (Auth::user()->hasRole('super_admin')) {
-            $users = User::all();
+            $users = User::latest()->paginate(10);
         } else if (Auth::user()->hasRole('admin')) {
             $users = User::whereHas('roles', function ($query) {
                 $query->where('name', 'member');
             })->orWhereHas('roles', function ($query) {
                 $query->where('name', 'admin');
-            })->get();
+            })->latest()->paginate(10);
         } else if (Auth::user()->hasRole('member')) {
-            $users = User::role('member')->get();
+            $users = User::role('member')->latest()->paginate(10);
         }
 
-        return view('user.index', compact('users'));
+
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -39,15 +42,18 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+
+        $validated = $request->validated(); 
+        User::create($validated)->assignRole('member');
+        return redirect()->route('user.index')->with('success', 'User Added Success');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
         //
     }
@@ -55,7 +61,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
         //
     }
@@ -63,16 +69,24 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->update($request->all());
+        return redirect()->route('user.index')->with('success', 'User Updated Success');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        try {
+            $user->delete();
+            return redirect()->route('user.index')->with('success', 'User Deleted Success');
+        } catch (\Exception $e) {
+            if ($e->getCode() === '23000') {
+                return redirect()->route('user.index')->with('error', 'Cannot delete this user because he/she has related data in other tables');
+            }
+        }
     }
 }
