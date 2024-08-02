@@ -4,28 +4,7 @@
     data-assets-path="../../assets/" data-template="vertical-menu-template" data-style="light">
 
 <head>
-<<<<<<< HEAD:resources/views/app.blade.php
     @include('components.layouts.head')
-=======
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    @vite(['resources/css/app.css','resources/js/app.js'])
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
->>>>>>> 969344ae30288c438034bd204e9ae463487ae230:resources/views/layouts/app.blade.php
 </head>
 
 <body>
