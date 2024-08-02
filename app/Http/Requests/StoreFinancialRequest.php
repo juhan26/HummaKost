@@ -30,6 +30,7 @@ class StoreFinancialRequest extends FormRequest
             'payment_proof' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
             'status' => ['required', Rule::in(['Pending', 'Accepted', 'Rejected'])],
             'financial_date' => 'required|date',
+            'has_paid_until'=>
         ];
     }
 }
