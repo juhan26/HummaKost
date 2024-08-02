@@ -4,6 +4,7 @@
     data-assets-path="../../assets/" data-template="vertical-menu-template" data-style="light">
 
 <head>
+<<<<<<< HEAD
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,6 +23,9 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+=======
+    @include('components.layouts.head')
+>>>>>>> 22b6aef90d7e333bc5a284cd0daf78521ec62d9c
 </head>
 
 <body>
