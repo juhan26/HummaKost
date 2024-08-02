@@ -31,7 +31,6 @@
             <!-- / Layout page -->
         </div>
     </div>
-    
     @include('components.layouts.script')
 </body>
 </html>
