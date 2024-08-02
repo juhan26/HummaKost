@@ -26,9 +26,9 @@ class UserSeeder extends Seeder
         ])->assignRole('admin');
 
         User::create([
-            "name" => "guest",
-            "email" => "guest@gmail.com",
-            "password" => "12345678",
-        ])->assignRole('guest');
+            "name"=>"member",
+            "email"=>"member@gmail.com",
+            "password"=>"12345678",
+        ])->assignRole('member');
     }
 }
