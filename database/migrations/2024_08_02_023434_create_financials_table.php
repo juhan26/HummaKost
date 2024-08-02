@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migravtions.
      */
     public function up(): void
     {
@@ -18,8 +18,9 @@ return new class extends Migration
             $table->enum('types', ['Income', 'Expense']);
             $table->decimal('nominal', 12, 2);
             $table->string('payment_proof');
-            $table->enum('status', ['Pending', 'Accepted', 'Rejected']);
+            $table->enum('status', ['Pending', 'Accepted', 'Rejected'])->default('Pending');
             $table->date('financial_date')->default(now());
+            $table->date('has_paid_until');
             $table->timestamps();
         });
     }
