@@ -1,15 +1,15 @@
 <!-- resources/views/users/index.blade.php -->
 
-@extends('layouts.app')
+@extends('app')
 
 @section('content')
-<div class="container">
-    {{-- Store Modal --}}
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <p>{{ $error }}</p>
-        @endforeach
-    @endif
+    <div class="container">
+        {{-- Store Modal --}}
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        @endif
 
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Add User</button>
 
