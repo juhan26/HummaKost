@@ -21,6 +21,11 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="row g-6">
+                            @if ($errors->any())
+                                @foreach ($errors->all() as $error)
+                                    <p>{{ $error }}</p>
+                                @endforeach
+                            @endif
                             @yield('content')
                         </div>
                     </div>
@@ -33,4 +38,5 @@
     </div>
     @include('components.layouts.script')
 </body>
+
 </html>

@@ -18,4 +18,9 @@ class Financial extends Model
         'status',
         'financial_date',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
