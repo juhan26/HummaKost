@@ -1,0 +1,1 @@
+"use strict";!function(){var e=document.querySelector(".invoice-amount"),e=(e&&new Cleave(e,{numeral:!0}),new Date,document.querySelectorAll(".invoice-date"));e&&e.forEach(function(e){e.flatpickr({monthSelectorType:"static"})})}();
