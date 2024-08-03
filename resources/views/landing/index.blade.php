@@ -189,19 +189,19 @@
                     <!-- left -->
                     <div class="2xl:pt-[150px] pt-5">
                         <div class="2xl:w-[677px] w-full">
-                            <h2 class="font-display text-primary-500 font-semibold 2xl:text-2xl md:text-lg text-sm pb-2 2xl:pb-6" data-aos="fade-down" data-aos-duration="1000">START TO SUCCESS
+                            <h2 class="font-display text-primary-500 font-semibold 2xl:text-2xl md:text-lg text-sm pb-2 2xl:pb-6" data-aos="fade-down" data-aos-duration="1000">Welcome To
                             </h2>
                             <h1 class="capitalize mb-4 lg:mb-6 font-display font-semibold md:text-3xl text-2xl 2xl:text-[56px] 2xl:leading-[72px] text-primary-900" data-aos="fade-down" data-aos-duration="1000">
-                                Access To <span class="text-primary-500 after-svg banner_5000">5000+</span> Courses
-                                from <span class="text-primary-500 after-svg banner_300">300</span> Instructors
-                                & Institutions
+                                Kontrakan <span class="text-primary-500 after-svg banner_5000">Las Vegas</span> Kontrakan
+                                ter- <span class="text-primary-500 after-svg banner_300">Keren</span> Acakadulss
+                                & Ter-Ancur
                             </h1>
-                            <p class="text-gray-500 font-normal font-display lg:text-[20px] md:text-base text-sm lg:leading-7 mb-8 pt-4 xl:pt-0" data-aos="fade-down" data-aos-duration="1000">Various versions have
-                                evolved over the years, sometimes by accident,</p>
+                            <p class="text-gray-500 font-normal font-display lg:text-[20px] md:text-base text-sm lg:leading-7 mb-8 pt-4 xl:pt-0" data-aos="fade-down" data-aos-duration="1000"> Disini orangnya ganteng
+                                ganteng, keren-keren, pinter-pinter, asik-asik, pokonya asoy lahh</p>
                             <form action="" data-aos="fade-down" data-aos-duration="1000">
                                 <div class="flex justify-between items-center ">
                                     <div class="relative w-full xl:max-w-[648px]">
-                                        <input type="text" class="px-6 py-6 block w-full shadow-[-4px_-4px_44px_rgba(0,0,0,0.08)] rounded focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out" placeholder="What do want to learn?">
+                                        <input type="text" class="px-6 py-6 block w-full shadow-[-4px_-4px_44px_rgba(0,0,0,0.08)] rounded focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out" placeholder="Cari orang di kontrakan ini?">
                                         <span class="absolute top-6 right-6">
                                             <svg class="" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M10.875 18.75C15.2242 18.75 18.75 15.2242 18.75 10.875C18.75 6.52576 15.2242 3 10.875 3C6.52576 3 3 6.52576 3 10.875C3 15.2242 6.52576 18.75 10.875 18.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -216,9 +216,9 @@
                     <!-- left -->
                     <!-- right -->
                     <div class="mt-5 2xl:mt-[156px] relative">
-                        <div class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20">
-                            <img src="/assets/img/images/banner_img.png" alt="" class="">
-                        </div>
+                        <div class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center">
+                            <img src="/assets/img/images/banner_img.png" alt="" class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" style="margin-top: 7rem; margin-left: 9rem; width: 40rem; height: 40rem; transform: rotate(4deg);" data-aos="fade-left" data-aos-duration="1000">
+                        </div>                        
                         <div class="bg-white xl:px-5 xl:w-[197px] md:px-3 px-2 xl:py-[18px] md:py-2.5 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[197px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4">
                             <span>
                                 <svg width="44" height="45" viewBox="0 0 44 45" fill="none" xmlns="http://www.w3.org/2000/svg">
