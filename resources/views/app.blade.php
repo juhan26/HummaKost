@@ -5,6 +5,7 @@
 
 <head>
     @include('components.layouts.head')
+
 </head>
 
 <body>
@@ -38,5 +39,4 @@
     </div>
     @include('components.layouts.script')
 </body>
-
 </html>
