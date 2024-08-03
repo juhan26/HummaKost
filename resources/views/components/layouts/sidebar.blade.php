@@ -40,7 +40,7 @@
                     </svg> --}}
                 </span>
             </span>
-            <span class="app-brand-text demo menu-text fw-semibold ms-2">Las VeGas</span>
+            <span class="app-brand-text demo menu-text fw-semibold ms-2">KONTRAKAN</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -65,6 +65,18 @@
             <a href="{{ url('dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-3-line"></i>
                 <div>Dashboard</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
+            <a href="{{ url('users') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-home-3-line"></i>
+                <div>Users</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('financial.index') ? 'active' : '' }}">
+            <a href="{{ url('financials') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-home-3-line"></i>
+                <div>Financials</div>
             </a>
         </li>
 
