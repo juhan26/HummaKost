@@ -6,7 +6,7 @@
     <div class="container">
         {{-- Store Modal --}}
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Add User</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Add User</button>
 
         <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
             aria-hidden="true">
@@ -14,8 +14,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createModalLabel">Add User</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body">
