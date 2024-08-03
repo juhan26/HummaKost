@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('status', ['Pending', 'Accepted', 'Rejected'])->default('Pending');
             $table->date('financial_date')->default(now());
             $table->date('has_paid_until');
+            $table->decimal('total_income', 12, 2);
             $table->timestamps();
         });
     }

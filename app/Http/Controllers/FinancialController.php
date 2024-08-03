@@ -50,6 +50,7 @@ class FinancialController extends Controller
                     'payment_proof' => $payment_proof_path,
                     'financial_date' => $request->financial_date,
                     'has_paid_until' => $lastFinancial->has_paid_until,
+                    'total_income' => $lastFinancial->total_income,
                 ]);
             } else {
                 $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d'); //28
@@ -71,6 +72,7 @@ class FinancialController extends Controller
                     'payment_proof' => $payment_proof_path,
                     'financial_date' => $request->financial_date,
                     'has_paid_until' => $income_date,
+                    'total_income' => 0,
                 ]);
             }
         } else {
@@ -90,18 +92,21 @@ class FinancialController extends Controller
 
         if (Financial::count() === 0) {
             $newAmount = Financial::sum('amount') + $financial->nominal;
-
+            // $newTotalIncome = Financial::sum('nominal') + $financial->nominal;
             $financial->update([
                 'amount' => $newAmount,
                 'has_paid_until' => $lastHasPaidUntil->addDays($paidDays)->format('Y-m-d'),
-                'status' => 'Accepted'
+                'status' => 'Accepted',
+                // 'total_income' => $newTotalIncome,
             ]);
         } else {
             $newAmount = Financial::latest('id')->first()->amount + $financial->nominal;
+            $newTotalIncome = Financial::where('user_id', Auth::user()->id)->latest('id')->first()->total_income + $financial->nominal;
             $financial->update([
                 'amount' => $newAmount,
                 'has_paid_until' => $lastHasPaidUntil->addDays($paidDays)->format('Y-m-d'),
-                'status' => 'Accepted'
+                'status' => 'Accepted',
+                'total_income' => $newTotalIncome
             ]);
         }
 
