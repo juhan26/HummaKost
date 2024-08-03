@@ -24,11 +24,11 @@ class StoreFinancialRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric|min:0|not_regex:/-/',
+            // 'amount' => 'required|numeric|min:0|not_regex:/-/',
             'types' => ['required', Rule::in(['Income', 'Expense'])],
             'nominal' => 'required|numeric|min:0|not_regex:/-/',
             'payment_proof' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
-            'status' => ['required', Rule::in(['Pending', 'Accepted', 'Rejected'])],
+            // 'status' => ['required', Rule::in(['Pending', 'Accepted', 'Rejected'])],
             'financial_date' => 'required|date',
         ];
     }
