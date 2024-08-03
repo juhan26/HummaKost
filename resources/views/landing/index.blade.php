@@ -41,11 +41,11 @@
                 <!-- logo -->
                 <div>
                     <a href="#">
-                        <img src="/assets/img/images/logo.png" alt="">
+                        <img src="/assets/img/images/logo.png" alt="New Logo" style="width:70px; height:70px;">
                     </a>
                 </div>
                 <!-- logo -->
-
+    
                 <!-- menu -->
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
@@ -65,7 +65,7 @@
                     </li>
                 </ul>
                 <!-- menu end -->
-
+    
                 <!-- right menu -->
                 <div class="flex items-center gap-6">
                     <a href="" class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
@@ -91,6 +91,7 @@
             </div>
         </div>
     </header>
+    
 
     <!-- Mobile Menu Area Start -->
     <div class="nav-menu" id="nav-menu">
@@ -1118,7 +1119,7 @@
                     </div>
                     <div class="xl:w-1/2 w-full relative flex justify-center">
                         <div class="inline-flex justify-center xl:absolute xl:bottom-[-96px] xl:left-1/2 xl:-translate-x-1/2 transform">
-                            <img src="/assets/img/images/achievement-person.png" alt="">
+                            <img src="/assets/images/achievement-person.png" alt="">
                             <span class="absolute -left-[12%] top-[65%] z-50 animate-bounce">
                                 <svg width="78" height="78" viewBox="0 0 78 78" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M44.6995 48.6013L44.3147 61.8428C44.3025 62.2322 44.1713 62.6086 43.9389 62.9213C43.7066 63.234 43.384 63.4681 43.0147 63.5922C42.6453 63.7162 42.2469 63.7243 41.8728 63.6152C41.4988 63.5062 41.1671 63.2853 40.9223 62.9822L32.6225 52.6575C32.4473 52.4396 32.2269 52.2623 31.9765 52.1378C31.7262 52.0133 31.4518 51.9446 31.1723 51.9365L17.9308 51.5517C17.5414 51.5395 17.165 51.4083 16.8523 51.1759C16.5396 50.9436 16.3055 50.621 16.1814 50.2517C16.0574 49.8823 16.0493 49.4839 16.1584 49.1098C16.2674 48.7358 16.4883 48.4041 16.7914 48.1592L27.1161 39.8595C27.334 39.6843 27.5113 39.4639 27.6358 39.2135C27.7603 38.9632 27.8289 38.6888 27.837 38.4093L28.2219 25.1678C28.2341 24.7784 28.3653 24.402 28.5976 24.0893C28.83 23.7766 29.1526 23.5425 29.5219 23.4184C29.8913 23.2944 30.2897 23.2863 30.6638 23.3954C31.0378 23.5044 31.3695 23.7253 31.6143 24.0284L39.9141 34.3531C40.0893 34.571 40.3097 34.7483 40.56 34.8728C40.8104 34.9973 41.0848 35.0659 41.3643 35.074L54.6058 35.4589C54.9952 35.4711 55.3716 35.6022 55.6843 35.8346C55.997 36.067 56.2311 36.3896 56.3552 36.7589C56.4792 37.1282 56.4873 37.5267 56.3782 37.9008C56.2692 38.2748 56.0483 38.6065 55.7452 38.8513L45.4205 47.1511C45.2026 47.3263 45.0253 47.5467 44.9008 47.797C44.7763 48.0474 44.7077 48.3218 44.6995 48.6013V48.6013Z" fill="#0075FD" />
@@ -1162,7 +1163,7 @@
                         <div class="xl:p-8 md:p-6 p-4 bg-white shadow-[0px_0px_72px_rgba(0,0,0,0.08)] rounded-[30px] relative testimonial-card">
                             <div class="flex items-center gap-2.5 lg:mb-6 mb-3">
                                 <div class="lg:w-[72px] sm:w-12 w-10 lg:h-[72px] sm:h-12 h-10 rounded-full">
-                                    <img src="/assets/img/images/testimonial-01.png" alt="" class="w-full h-full rounded-full">
+                                    <img src="/assets/images/testimonial-01.png" alt="" class="w-full h-full rounded-full">
                                 </div>
                                 <div>
                                     <h2 class="md:mb-2 font-display lg:text-2xl md:text-lg text-base text-gray-black font-semibold tracking-[0.002em]">Jenny Wilson</h2>
@@ -1185,7 +1186,7 @@
                         <div class="xl:p-8 md:p-6 p-4 bg-white shadow-[0px_0px_72px_rgba(0,0,0,0.08)] rounded-[30px] relative testimonial-card">
                             <div class="flex items-center gap-2.5 lg:mb-6 mb-3">
                                 <div class="lg:w-[72px] sm:w-12 w-10 lg:h-[72px] sm:h-12 h-10 rounded-full">
-                                    <img src="/assets/img/images/testimonial-02.png" alt="" class="w-full h-full rounded-full">
+                                    <img src="/assets/images/testimonial-02.png" alt="" class="w-full h-full rounded-full">
                                 </div>
                                 <div>
                                     <h2 class="md:mb-2 font-display lg:text-2xl md:text-lg text-base text-gray-black font-semibold tracking-[0.002em]">Jenny Wilson</h2>
@@ -1208,7 +1209,7 @@
                         <div class="xl:p-8 md:p-6 p-4 bg-white shadow-[0px_0px_72px_rgba(0,0,0,0.08)] rounded-[30px] relative testimonial-card">
                             <div class="flex items-center gap-2.5 lg:mb-6 mb-3">
                                 <div class="lg:w-[72px] sm:w-12 w-10 lg:h-[72px] sm:h-12 h-10 rounded-full">
-                                    <img src="/assets/img/images/testimonial-01.png" alt="" class="w-full h-full rounded-full">
+                                    <img src="/assets/images/testimonial-01.png" alt="" class="w-full h-full rounded-full">
                                 </div>
                                 <div>
                                     <h2 class="md:mb-2 font-display lg:text-2xl md:text-lg text-base text-gray-black font-semibold tracking-[0.002em]">Jenny Wilson</h2>
@@ -1242,8 +1243,8 @@
             <div class="flex flex-col justify-center items-center lg:justify-between pt-20 lg:pt-0 lg:flex-row gap-8">
                 <div class="max-w-[660px]">
                     <div class="inline-block relative">
-                        <img src="/assets/img/images/cta-hero.png" alt="" class="relative z-50">
-                        <img src="/assets/img/images/cta-border.png" alt="" class="absolute left-5 bottom-5 z-20">
+                        <img src="/assets/images/cta-hero.png" alt="" class="relative z-50">
+                        <img src="/assets/images/cta-border.png" alt="" class="absolute left-5 bottom-5 z-20">
                         <span class="absolute -left-[10%] -bottom-[15%] z-50 animate-pulse">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="10" cy="10" r="10" fill="#20B486" />
@@ -1292,7 +1293,7 @@
                 <div class="footer-widget min-w-[320px]">
                     <div class="footer-widget-title xl:mb-6 md:mb-4 mb-3">
                         <a href="#" class="cursor-pointer">
-                            <img src="/assets/img/images/logo.png" alt="">
+                            <img src="/assets/img/images/logo.png" alt="New Logo" style="width:90px; height:90px;">
                         </a>
                     </div>
                     <div class="footer-widget-content">
