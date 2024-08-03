@@ -76,7 +76,7 @@
                                 <path d="M12 15.375C12.6213 15.375 13.125 14.8713 13.125 14.25C13.125 13.6287 12.6213 13.125 12 13.125C11.3787 13.125 10.875 13.6287 10.875 14.25C10.875 14.8713 11.3787 15.375 12 15.375Z" fill="currentColor" />
                             </svg>
                         </span>
-                        <span>Login</span>
+                        <a href="{{ route('login') }}"><span>Login</span></a>
                     </a>
                     <a href="#" class="hidden xl:inline-block btn-primary">
                         <span>Sign up for Free</span>
@@ -1153,7 +1153,7 @@
                 </div>
             </div>
             <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">Student <span class="text-primary-500 after-svg feedback">Feedback</span></h2>
-            <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by accident,</p>            
+            <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by accident,</p>
         </div>
         <div class="slider-container extra-width">
             <div class="swiper testimonialSwipper relative">
