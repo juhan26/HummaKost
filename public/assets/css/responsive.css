@@ -1,0 +1,44 @@
+@media (max-width:1279px) {
+  .hamburger-btn {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (max-width:991px) {
+    .section-padding, footer{
+        padding: 60px 0px;
+    }
+    .swiper-container-horizontal>.swiper-pagination-bullets{
+        bottom: -40px;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+      display: none;
+    }
+    .counter-card .icon svg{
+      width: 32px;
+      height: 32px;
+    }
+}
+@media (max-width:767px) {
+  .section-padding, footer{
+    padding: 40px 0px;
+  }
+  .swiper-container-horizontal>.swiper-pagination-bullets{
+    bottom: -20px;
+  }
+}
+@media (max-width:525px) {
+  .section-padding, footer {
+    padding: 32px 0px;
+  }
+  .counter-card .icon svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+
+/* slider container  */

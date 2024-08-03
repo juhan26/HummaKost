@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,6 +11,8 @@ Route::get('/', function () {
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+    Route::get('/home', function () { return view('landing.index'); });
+
 });
 
 require_once __DIR__ . '/chandra.php';
