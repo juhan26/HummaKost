@@ -4,44 +4,61 @@
 
 @section('content')
     <div class="container">
-        {{-- Store Modal --}}
 
-        {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Add User</button>
+        @hasrole('member|admin')
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Add
+                Financial</button>
 
-        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel">Add User</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('user.store') }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="name" class="col-form-label">Name:</label>
-                                <input type="text" class="form-control" name="name" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="col-form-label">Email:</label>
-                                <input type="email" class="form-control" name="email" id="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="col-form-label">Password:</label>
-                                <input type="text" class="form-control" name="password" id="password">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Send message</button>
-                            </div>
-                        </form>
+            <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createModalLabel">Add Add
+                                Financial</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('financial.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="user_id" class="col-form-label">Name:</label>
+                                    <input type="hidden" class="form-control" name="user_id" id="user_id"
+                                        value="{{ Auth::user()->id }}">
+                                    <input type="text" class="form-control" disabled value="{{ Auth::user()->name }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="types" class="col-form-label">Type:</label>
+                                    <select class="form-select" aria-label="Default select example" name="types"
+                                        id="types">
+                                        <option selected>Open this select menu</option>
+                                        <option value="Income">Income</option>
+                                        <option value="Expense">Expense</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nominal" class="col-form-label">Nominal:</label>
+                                    <input type="number" class="form-control" name="nominal" id="nominal">
+                                </div>
+                                <div class="form-group">
+                                    <label for="payment_proof" class="col-form-label">Payment Proof:</label>
+                                    <input type="file" class="form-control" name="payment_proof" id="payment_proof">
+                                </div>
+                                <div class="form-group">
+                                    <label for="financial_date" class="col-form-label">Financial Date:</label>
+                                    <input type="date" class="form-control" name="financial_date" id="financial_date">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Send message</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div> --}}
+        @endhasrole
+        {{-- Store Modal --}}
+
         {{-- Store Modal --}}
         <h1>Financial Data</h1>
 
@@ -76,7 +93,13 @@
                             <td>{{ $financial->financial_date }}</td>
                             <td>{{ $financial->has_paid_until }}</td>
                             <td>
-                                {{--  --}}
+                                @if ($financial->status === 'Pending')
+                                    <form action="{{ route('financial.accept', $financial->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-success">Accept</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty

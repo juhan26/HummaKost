@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFinancialRequest;
 use App\Http\Requests\UpdateFinancialRequest;
 use App\Models\Financial;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,12 +37,77 @@ class FinancialController extends Controller
      */
     public function store(StoreFinancialRequest $request)
     {
-        //
+
+        $payment_proof_path = $request->payment_proof->store('payment_proofs', 'public');
+        $lastFinancial = Financial::where('user_id', Auth::user()->id)->latest()->first();
+        if ($request->types === "Income") {
+            if ($lastFinancial) {
+                Financial::create([
+                    'user_id' => $request->user_id,
+                    'amount' => 0,
+                    'types' => $request->types,
+                    'nominal' => $request->nominal,
+                    'payment_proof' => $payment_proof_path,
+                    'financial_date' => $request->financial_date,
+                    'has_paid_until' => $lastFinancial->has_paid_until,
+                ]);
+            } else {
+                $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d'); //28
+                $currentDate = date('Y-m-d');
+                $startDateTimestamp = strtotime($startDate);
+                $currentDateTimestamp = strtotime($currentDate);
+                if ($startDateTimestamp === $currentDateTimestamp) {
+                    $daysDifference = ($currentDateTimestamp / $startDateTimestamp);
+                } else {
+                    $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24) + 1; //4
+                }
+                $incomeDateRaw = Carbon::parse($currentDate);
+                $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d');
+                Financial::create([
+                    'user_id' => $request->user_id,
+                    'amount' => 0,
+                    'types' => $request->types,
+                    'nominal' => $request->nominal,
+                    'payment_proof' => $payment_proof_path,
+                    'financial_date' => $request->financial_date,
+                    'has_paid_until' => $income_date,
+                ]);
+            }
+        } else {
+            return "next feathure";
+        }
+
+        return redirect()->route('financial.index')->with('success', 'Successful Create Financial');
     }
 
     /**
      * Display the specified resource.
      */
+    public function accept(Financial $financial)
+    {
+        $paidDays = $financial->nominal / 10000;
+        $lastHasPaidUntil = Carbon::parse($financial->has_paid_until);
+
+        if (Financial::count() === 0) {
+            $newAmount = Financial::sum('amount') + $financial->nominal;
+
+            $financial->update([
+                'amount' => $newAmount,
+                'has_paid_until' => $lastHasPaidUntil->addDays($paidDays)->format('Y-m-d'),
+                'status' => 'Accepted'
+            ]);
+        } else {
+            $newAmount = Financial::latest('id')->first()->amount + $financial->nominal;
+            $financial->update([
+                'amount' => $newAmount,
+                'has_paid_until' => $lastHasPaidUntil->addDays($paidDays)->format('Y-m-d'),
+                'status' => 'Accepted'
+            ]);
+        }
+
+        return redirect()->route('financial.index')->with('success', 'Successful Accepted Financial');
+    }
+
     public function show(Financial $financial)
     {
         //

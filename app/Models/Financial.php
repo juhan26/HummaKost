@@ -17,6 +17,7 @@ class Financial extends Model
         'payment_proof',
         'status',
         'financial_date',
+        'has_paid_until'
     ];
 
     public function users()
