@@ -1426,7 +1426,7 @@
                             <input type="email" placeholder="Email here" class="p-4 bg-gray-custom/50 rounded-lg w-full block mb-6 focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out">
                             <!-- /focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out -->
                             <button type="button" class="btn-primary">
-                                <span>Subscribe Now</span>
+                                <span>Subscribes Now</span>
                             </button>
                         </form>
                     </div>
