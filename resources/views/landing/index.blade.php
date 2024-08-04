@@ -7,13 +7,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <meta name="description" content="E-learning - Online Course Single Page HTML Template.Using HTMl CSS Javascript Tailwind css jquery" />
+    <meta name="description" content="Kontrakan Las Vegas" />
 
-    <title>E-learning - Online Course</title>
+    <title>Kontrakan Las Vegas</title>
 
     <!-- favicon -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 
-    <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->
     <!-- <link rel="shortcut icon" type="image/jpg" href="./img/favicon-16x16.png" /> -->
     <!-- favicon -->
@@ -41,7 +42,7 @@
                 <!-- logo -->
                 <div>
                     <a href="#">
-                        <img src="/assets/img/images/logo.png" alt="New Logo" style="width:70px; height:70px;">
+                        <img src="/assets/img/images/logo.png" alt="New Logo" style="width:11rem; height:3rem;">
                     </a>
                 </div>
                 <!-- logo -->
@@ -217,7 +218,7 @@
                     <!-- right -->
                     <div class="mt-5 2xl:mt-[156px] relative">
                         <div class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center">
-                            <img src="/assets/img/images/banner_img.png" alt="" class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" style="margin-top: 7rem; margin-left: 9rem; width: 40rem; height: 40rem; transform: rotate(4deg);" data-aos="fade-left" data-aos-duration="1000">
+                            <img src="/assets/img/images/banner_img.png" alt="" class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" data-tilt style="margin-top: 7rem; margin-left: 9rem; width: 30rem; height: 20rem; transform: rotate(4deg);" data-aos="fade-left" data-aos-duration="1000">
                         </div>                        
                         <div class="bg-white xl:px-5 xl:w-[197px] md:px-3 px-2 xl:py-[18px] md:py-2.5 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[197px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4">
                             <span>
@@ -228,17 +229,17 @@
                             </span>
                             <span class="text-xl text-gray-600">5.0 Rating</span>
                         </div>
-
+        
                         <span class="2xl:absolute 2xl:top-[55px] 2xl:right-[-90px] z-10 animate-pulse hidden 2xl:inline-block">
                             <svg width="133" height="123" viewBox="0 0 133 123" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M129.565 3.0665C122.861 35.2321 103.672 88.7725 80.5502 45.6094C51.6481 -8.34447 46.9199 63.7019 44.5824 95.5299C44.7666 93.6398 41.0855 165.407 3.60982 68.6392" stroke="#FFC27A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M129.565 3.0665C122.861 35.2321 103.672 88.7725 3.06598 110.066" stroke="#A5A5A5" stroke-width="4" stroke-linecap="round"></path>
                             </svg>
                         </span>
                     </div>
                     <!-- right -->
                 </div>
             </div>
-        </div>
+        </div>        
         <!-- banner wrapper end -->
 
     </section>
@@ -1293,7 +1294,7 @@
                 <div class="footer-widget min-w-[320px]">
                     <div class="footer-widget-title xl:mb-6 md:mb-4 mb-3">
                         <a href="#" class="cursor-pointer">
-                            <img src="/assets/img/images/logo.png" alt="New Logo" style="width:90px; height:90px;">
+                            <img src="/assets/img/images/logo.png" alt="New Logo" style="width:300px; height:90px;">
                         </a>
                     </div>
                     <div class="footer-widget-content">
@@ -1436,6 +1437,15 @@
     <!-- footer area end -->
 
     <!-- all script file -->
+    <script>
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.5,
+        });
+    </script>
+    
     <script src="/assets/plugins/js/jquery.js"></script>
     <script src="/assets/plugins/js/swipper.js"></script>
     <script src="/assets/plugins/js/waypoint.js"></script>
