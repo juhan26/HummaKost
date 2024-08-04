@@ -1418,7 +1418,7 @@
                 </div>
                 <div class="footer-widget min-w-[320px]">
                     <div class="footer-widget-title xl:mb-8 md:mb-5 mb-3">
-                        <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Subscribe</h2>
+                        <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Subscribes</h2>
                     </div>
                     <div class="footer-widget-content">
                         <p class="text-base text-gray-500 mb-8 max-w-[297px]">Lorem Ipsum has been them an industry printer took a galley make book.</p>
