@@ -82,7 +82,7 @@
         <li class="menu-item {{ request()->routeIs('dailyschedule.index') ? 'active' : '' }}">
             <a href="{{ url('dailyschedules') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-3-line"></i>
-                <div>Financials</div>
+                <div>Daily Schedules</div>
             </a>
         </li>
 

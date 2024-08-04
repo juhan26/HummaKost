@@ -13,32 +13,54 @@ class DailyScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = DailySchedule::all();
-        return view('pages.dailyschedules.index', compact('schedules'));
+        // Mengambil semua jadwal dan mengelompokkan berdasarkan hari
+        $schedules = DailySchedule::with('users')->get()->groupBy('day');
+
+        // Mengubah koleksi menjadi format yang sesuai untuk tampilan
+        $formattedSchedules = $schedules->mapWithKeys(function ($items, $day) {
+            return [
+                $day => $items->map(function ($item) {
+                    return [
+                        'user_name' => $item->users->name, // Mengambil nama pengguna
+                        'task' => $item->task,
+                    ];
+                })
+            ];
+        });
+
+        return view('pages.dailyschedules.index', ['schedules' => $formattedSchedules]);
     }
+
+
+    // app/Http/Controllers/DailyScheduleController.php
+
+
 
     public function random()
     {
+        // Mengambil pengguna yang tidak memiliki peran 'super_admin'
+        $users = User::role('super_admin')->get(); // Mengambil semua pengguna dengan peran 'super_admin'
 
-        $users = User::all();
+        // Ambil semua pengguna kecuali yang dengan peran 'super_admin'
+        $users = User::whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'super_admin')->orWhere('name', 'admin');
+        })->get();
+
         $tasks = ['Masak', 'Cuci Piring', 'Belanja', 'Turu'];
         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
         DailySchedule::truncate();
 
         $schedules = [];
-
         $taskPerUser = ceil(count($users) / count($tasks));
 
         foreach ($days as $day) {
             $shuffledUsers = collect($users)->shuffle();
             $defaultShuffle = collect($tasks)->shuffle();
-
             $shuffledTasks = clone $defaultShuffle;
 
             $dailyTasks = [];
             foreach ($shuffledUsers as $index => $user) {
-
                 if ($shuffledTasks->isEmpty()) {
                     $shuffledTasks = clone $defaultShuffle;
                 }
@@ -48,7 +70,8 @@ class DailyScheduleController extends Controller
                 $dailyTasks[] = [
                     'user_id' => $user->id,
                     'task' => $task,
-                    'day' => $day
+                    'day' => $day,
+                    'user_name' => $user->name, // Menyertakan nama pengguna
                 ];
             }
 
@@ -63,6 +86,7 @@ class DailyScheduleController extends Controller
 
         return redirect()->route('dailyschedule.index')->with('success', 'Jadwal piket berhasil diacak dan disimpan');
     }
+
 
     /**
      * Show the form for creating a new resource.
