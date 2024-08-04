@@ -1,40 +1,36 @@
-<!-- resources/views/users/index.blade.php -->
-
 @extends('app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-5">
         {{-- Store Modal --}}
+        <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#createModal">Add
+            User</button>
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Add User</button>
-
-        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createModalLabel">Add User</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('user.store') }}" method="POST">
                             @csrf
-                            <div class="form-group">
-                                <label for="name" class="col-form-label">Name:</label>
-                                <input type="text" class="form-control" name="name" id="name">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name:</label>
+                                <input type="text" class="form-control" name="name" id="name" required>
                             </div>
-                            <div class="form-group">
-                                <label for="email" class="col-form-label">Email:</label>
-                                <input type="email" class="form-control" name="email" id="email">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" class="form-control" name="email" id="email" required>
                             </div>
-                            <div class="form-group">
-                                <label for="password" class="col-form-label">Password:</label>
-                                <input type="text" class="form-control" name="password" id="password">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" class="form-control" name="password" id="password" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Send message</button>
+                                <button type="submit" class="btn btn-primary">Add User</button>
                             </div>
                         </form>
                     </div>
@@ -42,8 +38,8 @@
             </div>
         </div>
         {{-- Store Modal --}}
-        <h1>Daftar Pengguna</h1>
 
+        <h1 class="mb-4">Daftar Pengguna</h1>
 
         <table class="table table-bordered">
             <thead>
@@ -62,43 +58,47 @@
                         <td>{{ $user->email }}</td>
                         <td>
                             {{-- Edit Modal --}}
-                            <button type="button" class="btn btn-warning" data-toggle="modal"
-                                data-target="#editModal{{ $user->id }}">Edit</button>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#editModal{{ $user->id }}">Edit</button>
 
-                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1"
                                 aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+                                <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Update User
                                                 {{ $user->name }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form action="{{ route('user.update', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                <div class="form-group">
-                                                    <label for="name" class="col-form-label">Name:</label>
-                                                    <input type="text" class="form-control" name="name" id="name"
-                                                        value="{{ $user->name }}">
+                                                <div class="mb-3">
+                                                    <label for="editName{{ $user->id }}"
+                                                        class="form-label">Name:</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                        id="editName{{ $user->id }}" value="{{ $user->name }}"
+                                                        required>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="email" class="col-form-label">Email:</label>
-                                                    <input type="email" class="form-control" name="email" id="email"
-                                                        value="{{ $user->email }}">
+                                                <div class="mb-3">
+                                                    <label for="editEmail{{ $user->id }}"
+                                                        class="form-label">Email:</label>
+                                                    <input type="email" class="form-control" name="email"
+                                                        id="editEmail{{ $user->id }}" value="{{ $user->email }}"
+                                                        required>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="password" class="col-form-label">Password:</label>
-                                                    <input type="text" class="form-control" name="password"
-                                                        id="password" value="{{ $user->password }}">
+                                                <div class="mb-3">
+                                                    <label for="editPassword{{ $user->id }}"
+                                                        class="form-label">Password:</label>
+                                                    <input type="password" class="form-control" name="password"
+                                                        id="editPassword{{ $user->id }}">
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -108,22 +108,18 @@
                             {{-- Edit Modal --}}
 
                             {{-- Delete User --}}
-
-                            <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="delete-form"
-                                onsubmit="return confirm('Are you sure, want to delete this user?')">
+                            <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline"
+                                onsubmit="return confirm('Are you sure you want to delete this user?')">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
-
                             {{-- Delete User --}}
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td>
-                            Data is Empty
-                        </td>
+                        <td colspan="4" class="text-center">Data is Empty</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -50,4 +50,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Financial::class);
     }
+
+    public function daily_schedules(){
+        return $this->hasMany(DailySchedule::class);
+    }
 }
