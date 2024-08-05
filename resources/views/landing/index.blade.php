@@ -1193,11 +1193,8 @@
     <!-- intructor section start -->
     <section class="section-padding instructor-section bg-secondary-50">
         <div class="container px-4 2xl:px-0">
-            <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Our Best <span class="text-primary-500 after-svg instructor">Instructor</span></h2>
-            <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident,
-            </p>
+            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4"><span class="text-primary-500 after-svg instructor">Member</span></h2>
+            <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident,</p>
         </div>
         <div class="slider-container mx-auto px-4 2xl:px-0">
             <div class="swiper instructorSwipper relative">
@@ -1621,9 +1618,8 @@
             <div class="flex flex-col justify-center items-center lg:justify-between pt-20 lg:pt-0 lg:flex-row gap-8">
                 <div class="max-w-[660px]">
                     <div class="inline-block relative">
-                        <img src="/assets/images/cta-hero.png" alt="" class="relative z-50">
-                        <img src="/assets/images/cta-border.png" alt=""
-                            class="absolute left-5 bottom-5 z-20">
+                        <img src="/assets/images/cta-hero.png" alt="" class="relative z-50" style="width: 35rem;">
+                        <img src="/assets/images/cta-border.png" alt="" class="absolute left-5 bottom-5 z-20">
                         <span class="absolute -left-[10%] -bottom-[15%] z-50 animate-pulse">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
