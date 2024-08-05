@@ -76,7 +76,7 @@
                     <a href=""
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
                         <span class="flex justify-center items-center">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             {{-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M19.5 8.25H4.5C4.08579 8.25 3.75 8.58579 3.75 9V19.5C3.75 19.9142 4.08579 20.25 4.5 20.25H19.5C19.9142 20.25 20.25 19.9142 20.25 19.5V9C20.25 8.58579 19.9142 8.25 19.5 8.25Z"
@@ -89,13 +89,13 @@
                                 <path
                                     d="M12 15.375C12.6213 15.375 13.125 14.8713 13.125 14.25C13.125 13.6287 12.6213 13.125 12 13.125C11.3787 13.125 10.875 13.6287 10.875 14.25C10.875 14.8713 11.3787 15.375 12 15.375Z"
                                     fill="currentColor" />
-                            </svg>
+                            </svg> --}}
                         </span>
-                        <a href="{{ route('login') }}"><span>Login</span></a>
+                        <a href="{{ route('login') }}" class="hidden xl:inline-block btn-primary"><span>Login</span></a>
                     </a>
-                    <a href="#" class="hidden xl:inline-block btn-primary">
+                    {{-- <a href="#" class="hidden xl:inline-block btn-primary">
                         <span>Sign up for Free</span>
-                    </a>
+                    </a> --}}
                     <div class="xl:hidden inline-block hamburger-btn" id="hamburger-btn">
                         <span></span>
                         <span></span>
@@ -610,7 +610,7 @@
     <!-- course area end -->
 
     <!-- popular category area start -->
-    <section id="about" class="section-padding bg-gray-white">
+    {{-- <section id="about" class="section-padding bg-gray-white">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <div class="pt-8 xl:pt-0">
                 <h2
@@ -1187,7 +1187,7 @@
                 <!-- item end-->
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- popular category area end -->
 
     <!-- intructor section start -->
@@ -1325,7 +1325,7 @@
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Our <span class="text-primary-500 after-svg achievement">Achievement</span></h2>
+                About <span class="text-primary-500 after-svg achievement">Las Vegas</span></h2>
             <p class="text-gray-500 md:text-xl text-base xl:mb-[100px] md:mb-8 mb-4">Various versions have evolved over
                 the years, sometimes by accident,</p>
             <div class="mb-[200px]">
@@ -1485,7 +1485,7 @@
             </div>
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Student <span class="text-primary-500 after-svg feedback">Feedback</span></h2>
+                Member <span class="text-primary-500 after-svg feedback">Feedback</span></h2>
             <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by
                 accident,</p>
         </div>
@@ -1666,8 +1666,8 @@
                     <p class="lg:text-2xl text-lg text-primary-900 lg:mb-[50px] font-display mb-4">Start learning by
                         registering for free</p>
                     <div>
-                        <a href="#" class="btn-primary">
-                            <span>Sign up for Free</span>
+                        <a href="#" class="hidden xl:inline-block btn-primary">
+                            <span>Login</span>
                         </a>
                     </div>
                 </div>
