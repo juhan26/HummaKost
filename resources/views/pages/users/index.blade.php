@@ -14,8 +14,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('user.store') }}" method="POST">
+                        <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            <div class="mb-3">
+                                <label for="photo" class="form-label">Profile Photo:</label>
+                                <input type="file" class="form-control" name="photo" id="photo">
+                            </div>
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name:</label>
                                 <input type="text" class="form-control" name="name" id="name" required>
@@ -45,6 +49,7 @@
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Photo</th>
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Aksi</th>
@@ -54,6 +59,11 @@
                 @forelse ($users as $index => $user)
                     <tr>
                         <td>{{ $index + 1 }}</td>
+                        <td>
+                            <img style="width: 200px"
+                                src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
+                                alt="{{ $user->name }}">
+                        </td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>

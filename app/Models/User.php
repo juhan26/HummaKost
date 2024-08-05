@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'photo',
         'name',
         'email',
         'password',
@@ -51,7 +52,8 @@ class User extends Authenticatable
         return $this->hasMany(Financial::class);
     }
 
-    public function daily_schedules(){
+    public function daily_schedules()
+    {
         return $this->hasMany(DailySchedule::class);
     }
 }
