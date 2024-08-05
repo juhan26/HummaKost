@@ -67,6 +67,18 @@
                 <div>Dashboard</div>
             </a>
         </li>
+        <li class="menu-header mt-5">
+            <span class="menu-header-text">Properties</span>
+        </li>
+        <li class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }}">
+            <a href="{{ url('/properties') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-home-2-line"></i>
+                <div>Properties</div>
+            </a>
+        </li>
+        <li class="menu-header mt-5">
+            <span class="menu-header-text">Users</span>
+        </li>
         <li class="menu-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
             <a href="{{ url('users') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
@@ -88,9 +100,8 @@
 
 
         <!-- Apps & Pages -->
-        {{-- <li class="menu-header mt-5">
-            <span class="menu-header-text" data-i18n="Apps & Pages">Anggota</span>
-        </li>
+
+        {{--
         <li class="menu-item {{ request()->routeIs('members') ? 'active' : '' }}">
             <a href="{{ url('anggota') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-account-group"></i>
