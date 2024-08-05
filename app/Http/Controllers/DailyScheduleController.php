@@ -43,7 +43,7 @@ class DailyScheduleController extends Controller
 
         // Ambil semua pengguna kecuali yang dengan peran 'super_admin'
         $users = User::whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'super_admin')->orWhere('name', 'admin');
+            $query->where('name', 'super_admin');
         })->get();
 
         $tasks = ['Masak', 'Cuci Piring', 'Belanja', 'Turu'];

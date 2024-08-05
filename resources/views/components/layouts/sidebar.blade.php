@@ -81,7 +81,7 @@
         </li>
         <li class="menu-item {{ request()->routeIs('dailyschedule.index') ? 'active' : '' }}">
             <a href="{{ url('dailyschedules') }}" class="menu-link">
-                <i class="menu-icon tf-icons ri-calendar-2 y-line"></i>
+                <i class="menu-icon tf-icons ri-calendar-2-line"></i>
                 <div>Daily Schedules</div>
             </a>
         </li>
