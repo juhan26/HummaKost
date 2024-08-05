@@ -21,7 +21,27 @@ class FinancialController extends Controller
         } else {
             $financials = Financial::latest()->latest()->paginate(10);
         }
-        return view('pages.financials.index', compact('financials'));
+
+        $totalIncome = Financial::where('user_id', Auth::user()->id)
+            ->where('types', 'Income')
+            ->where('status', 'Accepted')
+            ->sum('nominal');
+
+        $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d');
+        $currentDate = date('Y-m-d');
+        $startDateTimestamp = strtotime($startDate);
+        $currentDateTimestamp = strtotime($currentDate);
+        $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24) + 1;
+        $dailyPayment = 10000;
+        $totalPaymentExpected = $daysDifference * $dailyPayment;
+
+        if ($totalIncome < $totalPaymentExpected) {
+            $outstandingPayment = $totalPaymentExpected - $totalIncome;
+        } else {
+            $outstandingPayment = 0;
+        }
+
+        return view('pages.financials.index', compact('financials', 'outstandingPayment', 'totalIncome'));
     }
 
     /**
@@ -44,13 +64,13 @@ class FinancialController extends Controller
             if ($lastFinancial) {
                 Financial::create([
                     'user_id' => $request->user_id,
-                    'amount' => 0,
+                    'amount' => $lastFinancial->amount,
                     'types' => $request->types,
                     'nominal' => $request->nominal,
                     'payment_proof' => $payment_proof_path,
                     'financial_date' => $request->financial_date,
                     'has_paid_until' => $lastFinancial->has_paid_until,
-                    'total_income' => $lastFinancial->total_income,
+                    // 'total_income' => $lastFinancial->total_income,
                 ]);
             } else {
                 $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d'); //28
@@ -72,7 +92,7 @@ class FinancialController extends Controller
                     'payment_proof' => $payment_proof_path,
                     'financial_date' => $request->financial_date,
                     'has_paid_until' => $income_date,
-                    'total_income' => 0,
+                    // 'total_income' => 0,
                 ]);
             }
         } else {
@@ -101,12 +121,12 @@ class FinancialController extends Controller
             ]);
         } else {
             $newAmount = Financial::latest('id')->first()->amount + $financial->nominal;
-            $newTotalIncome = Financial::where('user_id', Auth::user()->id)->latest('id')->first()->total_income + $financial->nominal;
+            // $newTotalIncome = Financial::where('user_id', Auth::user()->id)->latest('id')->first()->total_income + $financial->nominal;
             $financial->update([
                 'amount' => $newAmount,
                 'has_paid_until' => $lastHasPaidUntil->addDays($paidDays)->format('Y-m-d'),
                 'status' => 'Accepted',
-                'total_income' => $newTotalIncome
+                // 'total_income' => $newTotalIncome
             ]);
         }
 
