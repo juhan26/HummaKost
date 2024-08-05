@@ -69,19 +69,19 @@
         </li>
         <li class="menu-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
             <a href="{{ url('users') }}" class="menu-link">
-                <i class="menu-icon tf-icons ri-home-3-line"></i>
+                <i class="menu-icon tf-icons ri-group-line"></i>
                 <div>Users</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('financial.index') ? 'active' : '' }}">
             <a href="{{ url('financials') }}" class="menu-link">
-                <i class="menu-icon tf-icons ri-home-3-line"></i>
+                <i class="menu-icon tf-icons ri-wallet-2-line"></i>
                 <div>Financials</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('dailyschedule.index') ? 'active' : '' }}">
             <a href="{{ url('dailyschedules') }}" class="menu-link">
-                <i class="menu-icon tf-icons ri-home-3-line"></i>
+                <i class="menu-icon tf-icons ri-calendar-2-line"></i>
                 <div>Daily Schedules</div>
             </a>
         </li>
