@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -43,9 +44,14 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $imagePath = $request->photo->store('photos', 'public');
 
-        $validated = $request->validated();
-        User::create($validated)->assignRole('member');
+        User::create([
+            'photo' => $imagePath,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' =>  bcrypt($request->password), // Hash the password before storing it
+        ])->assignRole('member');
         return redirect()->route('user.index')->with('success', 'User Added Success');
     }
 
@@ -80,6 +86,10 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         try {
+
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);
+            }
             $user->delete();
             return redirect()->route('user.index')->with('success', 'User Deleted Success');
         } catch (\Exception $e) {
