@@ -62,9 +62,7 @@
         {{-- Store Modal --}}
         <h1>Financial Data</h1>
 
-
         <div class="table-responsive">
-
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -84,7 +82,10 @@
                     @forelse ($financials as $index => $financial)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $financial->payment_proof }}</td>
+                            <td>
+                                <img style="width: 200px" src="{{ asset('storage/' . $financial->payment_proof) }}"
+                                    alt="Error">
+                            </td>
                             <td>{{ $financial->users->name }}</td>
                             <td>{{ $financial->amount }}</td>
                             <td>{{ $financial->types }}</td>

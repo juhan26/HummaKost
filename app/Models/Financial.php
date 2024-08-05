@@ -18,7 +18,7 @@ class Financial extends Model
         'status',
         'financial_date',
         'has_paid_until',
-        'total_income',
+        // 'total_income',
     ];
 
     public function users()
