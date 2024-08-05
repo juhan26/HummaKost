@@ -22,9 +22,45 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="row g-6">
+                            @if (session('success'))
+                                <div class="col-12">
+                                    <div class="alert alert-solid-success alert-dismissible d-flex align-items-center shadow-sm"
+                                        role="alert">
+                                        <span class="alert-icon rounded">
+                                            <i class="ri-checkbox-circle-line ri-22px"></i>
+                                        </span>
+                                        <strong> {{ session('success') }}</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close" aria-hidden="true"></button>
+                                    </div>
+                                </div>
+                            @endif
+                            @if (session('error'))
+                                <div class="col-12">
+                                    <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
+                                        role="alert">
+                                        <span class="alert-icon rounded">
+                                            <i class="ri-checkbox-circle-line ri-22px"></i>
+                                        </span>
+                                        <strong> {{ session('error') }}</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close" aria-hidden="true"></button>
+                                    </div>
+                                </div>
+                            @endif
                             @if ($errors->any())
                                 @foreach ($errors->all() as $error)
-                                    <p>{{ $error }}</p>
+                                    <div class="col-12">
+                                        <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
+                                            role="alert">
+                                            <span class="alert-icon rounded">
+                                                <i class="ri-checkbox-circle-line ri-22px"></i>
+                                            </span>
+                                            <strong> {{ $error }}</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close" aria-hidden="true"></button>
+                                        </div>
+                                    </div>
                                 @endforeach
                             @endif
                             @yield('content')
@@ -39,4 +75,5 @@
     </div>
     @include('components.layouts.script')
 </body>
+
 </html>
