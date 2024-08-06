@@ -46,14 +46,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    public function financials()
-    {
-        return $this->hasMany(Financial::class);
-    }
-
-    public function daily_schedules()
-    {
-        return $this->hasMany(DailySchedule::class);
-    }
 }

@@ -83,20 +83,16 @@
             <a href="{{ url('users') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div>Users</div>
+                
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('financial.index') ? 'active' : '' }}">
-            <a href="{{ url('financials') }}" class="menu-link">
-                <i class="menu-icon tf-icons ri-wallet-2-line"></i>
-                <div>Financials</div>
+        <li class="menu-item {{ request()->routeIs('furnitures.index') ? 'active' : '' }}">
+            <a href="{{ url('furnitures') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-hotel-bed-line"></i>
+                <div>Furnitures</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('dailyschedule.index') ? 'active' : '' }}">
-            <a href="{{ url('dailyschedules') }}" class="menu-link">
-                <i class="menu-icon tf-icons ri-calendar-2-line"></i>
-                <div>Daily Schedules</div>
-            </a>
-        </li>
+
 
 
         <!-- Apps & Pages -->
