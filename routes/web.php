@@ -4,9 +4,12 @@ use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('landing.index');
 });
+
+Route::resource('/home', LandingController::class);
+
 Route::get('/login', function () {
     return view('auth.login')->name('login');
 });
