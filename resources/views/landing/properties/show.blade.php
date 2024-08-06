@@ -12,6 +12,11 @@
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 
+    {{-- leafletjs --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->
     <!-- <link rel="shortcut icon" type="image/jpg" href="./img/favicon-16x16.png" /> -->
@@ -50,7 +55,7 @@
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="#">home</a>
+                            href="{{ route('home.index') }}">home</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
@@ -134,7 +139,7 @@
         <ul class="flex flex-col capitalize px-6 mb-6">
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#">home</a>
+                    href="{{ route('home.index') }}">home</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -164,42 +169,84 @@
     <!-- header area end -->
 
 
-
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
+    <section class="section-padding bg-primary-50/70">
+        <div class="container mx-auto my-5">
+            <div class="flex flex-wrap gap-6">
+                <div class="w-full md:w-2/3 bg-white shadow-lg rounded-lg overflow-hidden">
                     @if ($property->image)
-                        <img src="{{ asset('storage/' . $property->image) }}" class="card-img-top" alt="{{ $property->name }}">
+                        <img src="{{ asset('storage/' . $property->image) }}" class="w-full h-60 object-cover" alt="{{ $property->name }}">
                     @else
-                        <img src="{{ asset('assets/img/image_not_available.png') }}" class="card-img-top" alt="{{ $property->name }}">
+                        <img src="{{ asset('assets/img/image_not_available.png') }}" class="w-full h-60 object-cover" alt="{{ $property->name }}">
                     @endif
-                    <div class="card-body">
-                        <h3 class="card-title">{{ $property->name }}</h3>
-                        <p class="card-text">{{ $property->description }}</p>
-                        <p class="card-text"><strong>Address:</strong> {{ $property->address }}</p>
-                        <p class="card-text"><strong>Capacity:</strong> <span class="badge bg-success">{{ $property->capacity }}</span></p>
-                        <p class="card-text"><strong>Price:</strong> ${{ $property->price }}</p>
-                        {{-- <a href="{{ route('') }}" class="btn btn-primary">Back to List</a> --}}
+                    <div class="p-6 bg-white shadow-md rounded-lg">
+                        <h3 class="text-2xl font-bold text-gray-900">{{ $property->name }}</h3>
+                        <p class="text-gray-700 mt-2">{{ $property->description }}</p>
+                        <div class="mt-4">
+                            <p class="text-gray-700"><strong class="text-gray-900">Address:</strong> {{ $property->address }}</p>
+                            <p class="text-gray-700 mt-2">
+                                <strong class="text-gray-900">Capacity:</strong>
+                                <span class="bg-green-200 text-green-800 px-2 py-1 rounded-full">{{ $property->capacity }}</span>
+                            </p>
+                            <p class="text-gray-700 mt-2"><strong class="text-gray-900">Price:</strong> ${{ number_format($property->price, 2) }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        Additional Details
-                    </div>
-                    <div class="card-body">
-                        {{-- <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Owner:</strong> {{ $property->owner->name }}</li>
-                            <li class="list-group-item"><strong>Contact:</strong> {{ $property->owner->contact }}</li>
-                            <li class="list-group-item"><strong>Email:</strong> {{ $property->owner->email }}</li>
-                        </ul> --}}
+                <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.0178408331612!2d112.6072341752953!3d-7.893201792129538!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7881004f40cd03%3A0x39bbcdf0b563b7d4!2sKontrakan%20Las%20Vegas!5e0!3m2!1sid!2sid!4v1722925022734!5m2!1sid!2sid"
+                            style="border:0; width:100%; height:100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+    
+    <style>
+        .map-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+    
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+    
+    <script>
+        // Inisialisasi peta
+        var map = L.map('map').setView([-7.8932018, 112.6072342], 17); // Koordinat yang benar
+    
+        // Tambahkan tile layer (peta dasar)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    
+        // Tambahkan marker
+        L.marker([-7.8932018, 112.6072342]).addTo(map) // Koordinat yang benar
+            .bindPopup('<b>{{ $property->name }}</b><br>{{ $property->address }}') // Nama dan alamat property
+            .openPopup();
+    
+        // Menambahkan kontrol rute
+        L.Routing.control({
+            waypoints: [
+                L.latLng(-7.8932018, 112.6072342), // Koordinat asal
+                L.latLng(-7.900063, 112.6043067)  // Koordinat tujuan
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
+    </script>
+    
+
 
 
 
