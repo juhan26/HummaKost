@@ -12,9 +12,6 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb breadcrumb-style1">
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route('dashboard') }}" class="text-decoration-underline">Dashboard</a>
-                                    </li>
-                                    <li class="breadcrumb-item">
                                         <a href="{{ route('properties.index') }}"
                                             class="text-decoration-underline">Properties</a>
                                     </li>
@@ -74,6 +71,15 @@
                 </div>
                 <div class="card-body">
                     {{-- content maps --}}
+
+                     <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.0178408331612!2d112.6072341752953!3d-7.893201792129538!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7881004f40cd03%3A0x39bbcdf0b563b7d4!2sKontrakan%20Las%20Vegas!5e0!3m2!1sid!2sid!4v1722925022734!5m2!1sid!2sid"
+                            style="border:0; width:100%; height:100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
 
                 </div>
             </div>
