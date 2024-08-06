@@ -32,7 +32,7 @@ class FurnitureController extends Controller
     public function store(StoreFurnitureRequest $request)
     {
         Furniture::create($request->all());
-        return redirect()->route('furniture.index')->with('success', "Successful Created Furniture");
+        return redirect()->route('furnitures.index')->with('success', "Successful Created Furniture");
     }
 
     /**
@@ -57,7 +57,7 @@ class FurnitureController extends Controller
     public function update(Request $request, Furniture $furniture)
     {
         $furniture->update($request->all());
-        return redirect()->route('furniture.index')->with('success', "Successful Updated Furniture");
+        return redirect()->route('furnitures.index')->with('success', "Successful Updated Furniture");
     }
 
     /**
@@ -66,6 +66,6 @@ class FurnitureController extends Controller
     public function destroy(Furniture $furniture)
     {
         $furniture->delete();
-        return redirect()->route('furniture.index')->with('success', "Successful Deleted Furniture");
+        return redirect()->route('furnitures.index')->with('success', "Successful Deleted Furniture");
     }
 }
