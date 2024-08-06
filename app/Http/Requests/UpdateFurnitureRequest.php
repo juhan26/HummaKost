@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateFurnitureRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ class UpdateFurnitureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:furnitures,id',
+            'name' => ['required', 'string', 'max:255', Rule::unique('furnitures', 'furniture')->ignore($this->route('furniture'))],
             'description' => 'nullable|string',
         ];
     }

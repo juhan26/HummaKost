@@ -22,7 +22,7 @@ class StoreFurnitureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:furnitures,id',
+            'name' => 'required|string|max:255|unique:furnitures,name',
             'description' => 'nullable|string',
         ];
     }

@@ -9,6 +9,8 @@ class Furniture extends Model
 {
     use HasFactory;
 
+    protected $table = "furnitures";
+
     protected $fillable = [
         'name',
         'description'
