@@ -10,4 +10,8 @@ class Property extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    public function leases()
+    {
+        return $this->hasOne(Lease::class);
+    }
 }
