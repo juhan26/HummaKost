@@ -47,13 +47,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function financials()
+    public function leases()
     {
-        return $this->hasMany(Financial::class);
-    }
-
-    public function daily_schedules()
-    {
-        return $this->hasMany(DailySchedule::class);
+        return $this->hasOne(Lease::class);
     }
 }
