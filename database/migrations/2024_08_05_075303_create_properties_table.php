@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('gender_target',['male','female']);
             $table->decimal('langtitude', 10, 8);
             $table->decimal('longtitude', 11, 8);
+            $table->enum('status',['available','full']);
             $table->timestamps();
         });
     }

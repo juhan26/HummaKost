@@ -24,6 +24,8 @@ class StorePropertyRequest extends FormRequest
         return [
             'name'=>['required', 'unique:properties,name'],
             'image'=>['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
+            'langtitude'=>['required', 'numeric'],
+            'longtitude'=>['required', 'numeric'],
         ];
     }
 }
