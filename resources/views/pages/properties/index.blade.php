@@ -37,23 +37,34 @@
                     {{-- properties --}}
                     <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
                         @foreach ($properties as $property)
-                        <div class="col">
-                            <div class="card h-100">
-                                <img class="card-img-top" src="{{ asset('storage/'. $property->image) }}" alt="Card image cap" />
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $property->name }}</h5>
-                                    <h5 class="card-title">Rental Price: Rp.{{number_format($property->rental_price)}}</h5>
-                                    <h5 class="card-title">Address: {{ $property->address }}</h5>
-                                    <h5 class="card-title">Capacyty: {{ $property->capacity }}</h5>
-                                    <h5 class="card-title">Gender: {{ $property->gender_target }}</h5>
-                                    <h5 class="card-title">Langtitude: {{ $property->langtitude }}</h5>
-                                    <h5 class="card-title">Longtitude: {{ $property->longtitude }}</h5>
-                                    <p class="card-text">Description: {{ $property->description }}</p>
-                                    lead-in to
-                                        additional content. This content is a little bit longer.</p>
+                            <div class="col">
+                                <div class="card h-100">
+                                    @if ($property->image)
+                                        <img class="card-img-top" src="{{ asset('storage/' . $property->image) }}"
+                                            alt="Card image cap" />
+                                    @else
+                                        <img class="card-img-top" src="{{ asset('assets/img/image_not_available.png') }}"
+                                            alt="Card image cap" />
+                                    @endif
+                                    <div class="card-body">
+                                        <div class="row justify-content-between">
+                                            <div class="col-12 col-lg-12 mb-6">
+                                                <h3 class="card-title m-0 p-0">{{ $property->name }}</h3>
+                                                <p class="card-text">{{ $property->description }}</p>
+                                            </div>
+                                            <div class="col-12 col-lg-12 d-flex">
+                                                <p class="card-text w-75">Address: <br>{{ $property->address }}</p>
+                                                <p class="card-text w-25">Capacity: <br><span class="badge bg-success w-100">{{ $property->capacity }}</span></p>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
+                                            <a href="{{ route('properties.show', [$property->id]) }}"
+                                                class="btn btn-primary w-100">Detail</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -63,8 +74,8 @@
     </div>
     {{-- create modal --}}
     <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog " >
-            <div class="modal-content" >
+        <div class="modal-dialog ">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add Properties</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -113,17 +124,17 @@
                             </div>
                             <div class="col-12 col-lg-6">
                                 <label for="" class="form-label">langtitude</label>
-                                <input type="number" name="langtitude" class="form-control">
+                                <input type="text" name="langtitude" class="form-control">
                             </div>
                             <div class="col-12 col-lg-6">
                                 <label for="" class="form-label">longtitude</label>
-                                <input type="number" name="longtitude" class="form-control">
+                                <input type="text" name="longtitude" class="form-control">
                             </div>
 
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
                     </form>
                 </div>
             </div>

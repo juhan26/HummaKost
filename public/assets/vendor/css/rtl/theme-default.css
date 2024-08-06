@@ -12,7 +12,7 @@ body {
     color: #5c61e6 !important;
 }
 .bg-primary {
-    background-color: red !important;
+    background-color: #666cff !important;
 }
 a.bg-primary:hover,
 a.bg-primary:focus {
