@@ -10,6 +10,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/user/update/{user}',[UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
-    Route::resource('leases', [LeaseController::class]);
+    Route::resource('leases', LeaseController::class);
 });
 
