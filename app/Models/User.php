@@ -46,4 +46,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function leases()
+    {
+        return $this->hasOne(Lease::class);
+    }
+  
 }
