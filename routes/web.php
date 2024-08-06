@@ -8,7 +8,6 @@ Route::get('/home', function () {
     return view('landing.index');
 });
 
-Route::resource('/home', LandingController::class);
 
 Route::get('/login', function () {
     return view('auth.login')->name('login');
