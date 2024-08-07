@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLeaseRequest;
+use App\Http\Requests\UpdateLeaseRequest;
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\User;
@@ -31,9 +33,20 @@ class LeaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreLeaseRequest $request)
     {
-        
+        Lease::create([
+            'user_id' => $request->user_id,
+            'property_id' => $request->property_id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+            'description' => $request->description,
+            'total_iuran' => $request->total_iuran,
+        ]);
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
     }
 
     /**
@@ -55,9 +68,10 @@ class LeaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Lease $lease)
+    public function update(UpdateLeaseRequest $request, Lease $lease)
     {
-        //
+        $lease->update($request->all());
+        return redirect()->route('leases.index')->with('success', 'Lease successfully updated.');
     }
 
     /**
