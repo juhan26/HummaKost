@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('property_furniture', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('property_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('property_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('furniture_id');
-            $table->foreign('furniture_id')->references('id')->on('furnitures')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('furniture_id')->references('id')->on('furnitures')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
