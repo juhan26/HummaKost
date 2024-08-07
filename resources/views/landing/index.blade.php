@@ -1032,61 +1032,76 @@
     <!-- popular category area end -->
 
     <!-- intructor section start -->
-    <section id="member"class="section-padding instructor-section bg-secondary-50">
+    <section id="member" class="section-padding instructor-section bg-secondary-50">
         <div class="container px-4 2xl:px-0">
-            @foreach ($leases as $lease)
-                <div class="flex items-center mb-4">
+            <form method="GET">
+                <div class="flex items-center justify-between mb-4">
                     <h2
                         class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                         <span class="text-primary-500 after-svg instructor">Member</span>
                     </h2>
-                    <div class="ml-6">
+                    <div class="ml-6 w-64"> <!-- Adjust width as needed -->
                         <label for="property" class="sr-only">Select Property:</label>
                         <select id="property" name="property_id"
-                            class="text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-lg font-semibold font-display border border-primary-500 rounded-md py-2 px-4 block">
+                            class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-lg font-semibold font-display border border-primary-500 rounded-md py-2 px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            onchange="this.form.submit()">
+                            <option value="">Select Property</option>
                             @foreach ($properties as $property)
                                 <option value="{{ $property->id }}"
-                                    {{ $lease->property_id == $property->id ? 'selected' : '' }}>
-                                    <h2
-                                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                                        {{ $property->name }}
-
+                                    {{ $selectedPropertyId == $property->id ? 'selected' : '' }}>
+                                    {{ $property->name }}
                                 </option>
                             @endforeach
                         </select>
-                    </div>
-                </div>
-                <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by
-                    accident,
-                </p>
-        </div>
-        <div class="slider-container mx-auto px-4 2xl:px-0">
-            <div class="swiper instructorSwipper relative">
-                <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
+                        <!-- Custom Arrow -->
+                        <svg class="absolute top-1/2 right-4 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
 
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img
-                                        src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
-                                        alt="{{ $lease->users->name }}" class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">{{ $lease->users->name }}</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
+                        </svg>
                     </div>
-                    @endforeach
                 </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-pagination"></div>
+            </form>
+
+
+
+
+            <div class="flex items-center mb-4">
+                <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by
+                    accident.</p>
             </div>
+            <div class="slider-container mx-auto px-4 2xl:px-0">
+                <div class="swiper instructorSwipper relative">
+                    <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
+                        @foreach ($users as $user)
+                            <div class="swiper-slide">
+                                <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
+                                    <div class="mb-4 overflow-hidden rounded-lg">
+                                        <a href="#"><img
+                                                src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                alt="{{ $user->name }}" class="w-full rounded-lg"></a>
+                                    </div>
+                                    <div>
+                                        <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
+                                            <a href="#">{{ $user->name }}</a>
+                                        </h2>
+                                        <h4 class="mb-0 text-base font-display text-gray-500 text-center">
+                                            <a href="#">UI-UX Design Expert</a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
         </div>
     </section>
+
     <!-- intructor section end -->
 
     <!-- achievment section start -->
@@ -1557,6 +1572,9 @@
     <script src="/assets/plugins/js/counter.js"></script>
     <script src="/assets/plugins/js/aos.js"></script>
     <script src="/assets/js/main2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 </body>
 
 </html>
