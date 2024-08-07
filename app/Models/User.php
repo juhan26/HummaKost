@@ -21,6 +21,7 @@ class User extends Authenticatable
         'photo',
         'name',
         'email',
+        'phone_number',
         'password',
     ];
 
@@ -51,5 +52,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(Lease::class);
     }
-  
+
 }

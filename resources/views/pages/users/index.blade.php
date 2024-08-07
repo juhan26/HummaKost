@@ -29,6 +29,10 @@
                                 <input type="email" class="form-control" name="email" id="email" required>
                             </div>
                             <div class="mb-3">
+                                <label for="phone_number" class="form-label">Phone Number:</label>
+                                <input type="number" class="form-control" name="phone_number" id="phone_number" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="password" class="form-label">Password:</label>
                                 <input type="password" class="form-control" name="password" id="password" required>
                             </div>
@@ -52,6 +56,7 @@
                     <th>Photo</th>
                     <th>Nama</th>
                     <th>Email</th>
+                    <th>Phone Number</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -66,6 +71,7 @@
                         </td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->phone_number }}</td>
                         <td>
                             {{-- Edit Modal --}}
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal"

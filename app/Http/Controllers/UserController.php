@@ -50,6 +50,7 @@ class UserController extends Controller
             'photo' => $imagePath,
             'name' => $request->name,
             'email' => $request->email,
+            'phone_number' => $request->phone_number,
             'password' =>  bcrypt($request->password), // Hash the password before storing it
         ])->assignRole('member');
         return redirect()->route('user.index')->with('success', 'User Added Success');
@@ -86,7 +87,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         try {
-
             if ($user->photo) {
                 Storage::disk('public')->delete($user->photo);
             }
