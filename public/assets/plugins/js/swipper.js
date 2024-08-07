@@ -1927,9 +1927,9 @@
             slideToClickedSlide: !1,
             preloadImages: !0,
             updateOnImagesReady: !0,
-            loop: !1,
-            loopAdditionalSlides: 0,
-            loopedSlides: null,
+            // loop: !1,
+            // loopAdditionalSlides: 0,
+            // loopedSlides: null,
             loopFillGroupWithBlank: !1,
             loopPreventsSlide: !0,
             allowSlidePrev: !0,
@@ -2760,7 +2760,7 @@
                             a.clickedIndex !== a.activeIndex &&
                             a.slideToClickedSlide();
                 },
-            },
+            }, // 
             translate: {
                 getTranslate: function (e) {
                     void 0 === e && (e = this.isHorizontal() ? "x" : "y");

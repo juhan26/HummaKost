@@ -172,7 +172,7 @@
     <section class="section-padding bg-primary-50/70">
         <div class="container mx-auto my-5">
             <div class="flex flex-wrap gap-6">
-                <div class="w-full md:w-2/3 bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="w-full md:w-2/3 bg-white shadow-lg rounded-lg overflow-hidden"  style="width: 15rem; height: 8rem;">
                     @if ($property->image)
                         <img src="{{ asset('storage/' . $property->image) }}" class="w-full h-60 object-cover" alt="{{ $property->name }}">
                     @else
@@ -187,7 +187,7 @@
                                 <strong class="text-gray-900">Capacity:</strong>
                                 <span class="bg-green-200 text-green-800 px-2 py-1 rounded-full">{{ $property->capacity }}</span>
                             </p>
-                            <p class="text-gray-700 mt-2"><strong class="text-gray-900">Price:</strong> ${{ number_format($property->price, 2) }}</p>
+                            <p class="text-gray-700 mt-2"><strong class="text-gray-900">Price:</strong> {{ 'Rp. ' . number_format($property->rental_price, 0)  }}/bulan</p>
                         </div>
                     </div>
                 </div>
