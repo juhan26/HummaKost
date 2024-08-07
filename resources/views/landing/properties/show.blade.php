@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+
 
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->
@@ -168,29 +170,35 @@
     <div class="overlay" id="overlay"></div>
     <!-- header area end -->
 
-
-    <section class="section-padding bg-primary-50/70">
-        <div class="container mx-auto my-5">
+    <section class="section-padding bg-primary-50/70" style="padding:50px !important;">
+        <div class="container mx-auto my-5 p-10">
             <div class="flex flex-wrap gap-6">
-                <div class="w-full md:w-2/3 bg-white shadow-lg rounded-lg overflow-hidden">
-                    @if ($property->image)
-                        <img src="{{ asset('storage/' . $property->image) }}" class="w-full h-60 object-cover" alt="{{ $property->name }}">
-                    @else
-                        <img src="{{ asset('assets/img/image_not_available.png') }}" class="w-full h-60 object-cover" alt="{{ $property->name }}">
-                    @endif
-                    <div class="p-6 bg-white shadow-md rounded-lg">
-                        <h3 class="text-2xl font-bold text-gray-900">{{ $property->name }}</h3>
-                        <p class="text-gray-700 mt-2">{{ $property->description }}</p>
-                        <div class="mt-4">
-                            <p class="text-gray-700"><strong class="text-gray-900">Address:</strong> {{ $property->address }}</p>
-                            <p class="text-gray-700 mt-2">
-                                <strong class="text-gray-900">Capacity:</strong>
-                                <span class="bg-green-200 text-green-800 px-2 py-1 rounded-full">{{ $property->capacity }}</span>
-                            </p>
-                            <p class="text-gray-700 mt-2"><strong class="text-gray-900">Price:</strong> ${{ number_format($property->price, 2) }}</p>
+                <div class="flex flex-col lg:flex-row gap-6 my-2">
+                    <div class="lg:w-1/2 bg-white rounded-lg">
+                        @if ($property->image)
+                            <img class="w-full h-auto" src="{{ asset('storage/' . $property->image) }}" alt="Card image cap" style="width: 6000px;"/>
+                        @else
+                            <img class="w-full h-auto" src="{{ asset('assets/img/image_not_available.png') }}" alt="Card image cap" style="width: 600px;"/>
+                        @endif
+                    </div>
+                    <div class="lg:w-1/2 bg-white rounded-lg container" style="padding-left: 25px; padding-bottom: 30px; padding-top: 30px; padding-right: 25px">
+                        <h1 class="text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}
+                            @if ($property->status === 'available')
+                            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $property->status }}</span>
+                            @else
+                                <div class="inline-block bg-red-500 text-white px-2 py-1 rounded mt-6">{{ $property->status }}</div>
+                            @endif
+                        </h1>
+
+                        <h5 class="text-lg text-gray-600">{{ $property->description }} Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor, consequatur?</h5>
+                        <h2 class="font-bold text-2xl text-gray-800 my-6">{{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
+                        <div class="inline-block bg-yellow-400 text-white px-2 py-1 rounded mt-6 mr-3">
+                            Capacity: <strong>{{ $property->capacity }}</strong>
                         </div>
+
                     </div>
                 </div>
+
                 <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
                     <div class="map-container">
                         <iframe
@@ -202,7 +210,7 @@
             </div>
         </div>
     </section>
-    
+
     <style>
         .map-container {
             position: relative;
@@ -211,7 +219,7 @@
             height: 0;
             overflow: hidden;
         }
-    
+
         .map-container iframe {
             position: absolute;
             top: 0;
@@ -221,21 +229,21 @@
             border: 0;
         }
     </style>
-    
+
     <script>
         // Inisialisasi peta
         var map = L.map('map').setView([-7.8932018, 112.6072342], 17); // Koordinat yang benar
-    
+
         // Tambahkan tile layer (peta dasar)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-    
+
         // Tambahkan marker
         L.marker([-7.8932018, 112.6072342]).addTo(map) // Koordinat yang benar
             .bindPopup('<b>{{ $property->name }}</b><br>{{ $property->address }}') // Nama dan alamat property
             .openPopup();
-    
+
         // Menambahkan kontrol rute
         L.Routing.control({
             waypoints: [
@@ -245,7 +253,7 @@
             routeWhileDragging: true
         }).addTo(map);
     </script>
-    
+
 
 
 
