@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('property_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('status', ['active', 'inactive', 'pending', 'expired']);
+            $table->enum('status', ['active', 'expired']);
             $table->text('description')->nullable();
             $table->decimal('total_iuran', 10, 2);
             $table->timestamps();
