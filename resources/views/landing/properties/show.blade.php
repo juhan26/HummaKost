@@ -16,8 +16,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-
+c
 
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->

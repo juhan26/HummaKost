@@ -11,6 +11,7 @@
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->
@@ -1045,7 +1046,7 @@
                         <select id="property" name="property_id"
                             class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-lg font-semibold font-display border border-primary-500 rounded-md py-2 px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
                             onchange="this.form.submit()">
-                            <option value="">Select Property</option>
+                            {{-- <option value="">Select Property</option> --}}
                             @foreach ($properties as $property)
                                 <option value="{{ $property->id }}"
                                     {{ $selectedPropertyId == $property->id ? 'selected' : '' }}>
@@ -1075,6 +1076,7 @@
                     <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
                         @foreach ($users as $user)
                             <div class="swiper-slide">
+
                                 <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
                                     <div class="mb-4 overflow-hidden rounded-lg">
                                         <a href="#"><img
@@ -1082,12 +1084,17 @@
                                                 alt="{{ $user->name }}" class="w-full rounded-lg"></a>
                                     </div>
                                     <div>
-                                        <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                            <a href="#">{{ $user->name }}</a>
-                                        </h2>
-                                        <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                            <a href="#">UI-UX Design Expert</a>
-                                        </h4>
+                                        @foreach ($leases as $lease)
+                                            <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
+                                                <a href="#">{{ $user->name }}</a> <span
+                                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $lease->status }}</span>
+
+                                            </h2>
+                                            <h4 class="mb-0 text-base font-display text-gray-500 text-center">
+                                                <a href="#">{{ \Carbon\Carbon::parse($lease->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($lease->end_date)->format('d M Y') }} </a>
+
+                                            </h4>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
