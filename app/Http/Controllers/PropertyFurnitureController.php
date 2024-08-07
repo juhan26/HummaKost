@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Property;
 use App\Models\PropertyFurniture;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,8 @@ class PropertyFurnitureController extends Controller
      */
     public function index()
     {
-        $propertyFurnitures = PropertyFurniture::all();
-        return view('pages.property_and_furnitures.index', compact('propertyFurnitures'));
+        $properties = Property::with('furnitures')->latest()->paginate(10);
+        return view('pages.property_and_furnitures.index', compact('properties'));
     }
 
     /**
