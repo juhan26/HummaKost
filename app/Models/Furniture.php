@@ -15,4 +15,9 @@ class Furniture extends Model
         'name',
         'description'
     ];
+
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class, 'property_furniture', 'furniture_id', 'property_id');
+    }
 }
