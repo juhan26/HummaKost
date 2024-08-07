@@ -14,4 +14,9 @@ class Property extends Model
     {
         return $this->hasOne(Lease::class);
     }
+
+    public function furnitures()
+    {
+        return $this->belongsToMany(Furniture::class, 'property_furniture', 'property_id', 'furniture_id');
+    }
 }
