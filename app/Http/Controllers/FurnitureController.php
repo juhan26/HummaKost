@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFurnitureRequest;
 use App\Http\Requests\UpdateFurnitureRequest;
 use App\Models\Furniture;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class FurnitureController extends Controller
@@ -65,7 +66,11 @@ class FurnitureController extends Controller
      */
     public function destroy(Furniture $furniture)
     {
-        $furniture->delete();
-        return redirect()->route('furnitures.index')->with('success', "Successful Deleted Furniture");
+        try {
+            $furniture->delete();
+            return redirect()->route('furnitures.index')->with('success', "Successful Deleted Furniture");
+        } catch (QueryException $e) {
+            return redirect()->route('furnitures.index')->with('errorr', "Failed to delete this furniture because it is currently use in a Property");
+        }
     }
 }

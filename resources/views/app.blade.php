@@ -35,14 +35,14 @@
                                     </div>
                                 </div>
                             @endif
-                            @if (session('error'))
+                            @if (session('errorr'))
                                 <div class="col-12">
                                     <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
                                         role="alert">
                                         <span class="alert-icon rounded">
                                             <i class="ri-checkbox-circle-line ri-22px"></i>
                                         </span>
-                                        <strong> {{ session('error') }}</strong>
+                                        <strong> {{ session('errorr') }}</strong>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close" aria-hidden="true"></button>
                                     </div>
