@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-12 mt-4 col-lg-2">
                             <button type="button" class="btn btn-primary w-100 " data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
+                                data-bs-target="#createModal">
                                 Add Properties
                             </button>
 
@@ -73,7 +73,7 @@
         {{ $properties->links() }}
     </div>
     {{-- create modal --}}
-    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade " id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
@@ -134,7 +134,7 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
                     </form>
                 </div>
             </div>
