@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-12 mt-4 col-lg-2">
                             <button type="button" class="btn btn-primary w-100 " data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
+                                data-bs-target="#createModal">
                                 Add Furniture
                             </button>
 
@@ -45,6 +45,15 @@
                                             <div class="col-12 col-lg-12 mb-6">
                                                 <h3 class="card-title m-0 p-0">{{ $furniture->name }}</h3>
                                                 <p class="card-text">{{ $furniture->description }}</p>
+                                            </div>
+                                            <div class="d-flex gap-3">
+                                                <button class="btn btn-warning">Edit</button>
+                                                <form action="{{ route('furnitures.destroy', $furniture->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
