@@ -79,6 +79,13 @@ class LeaseController extends Controller
      */
     public function destroy(Lease $lease)
     {
-        //
+        try {
+            $lease->delete();
+            return redirect()->route('leases.index')->with('success', 'Leases Deleted Success');
+        } catch (\Exception $e) {
+            if ($e->getCode() === '23000') {
+                return redirect()->route('leases.index')->with('error', 'Cannot delete this lease because he/she has related data in other tables');
+            }
+        }
     }
 }
