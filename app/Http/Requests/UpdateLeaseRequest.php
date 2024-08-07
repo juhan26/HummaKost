@@ -11,7 +11,7 @@ class UpdateLeaseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class UpdateLeaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required|exists:users,id',
+            'property_id' => 'required|exists:properties,id',
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'required|date|after:start_date',
+            'status' => 'required|in:active,inactive,pending,expired',
+            'description' => 'nullable|string',
+            'total_iuran' => 'required|numeric|min:0',
         ];
     }
 }
