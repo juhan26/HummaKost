@@ -5,5 +5,5 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/home', [LandingController::class, 'index'])->name('home.index');
-Route::get('/home/show/{id}', [LandingController::class, 'show'])->name('home.show');
+Route::get('/', [LandingController::class, 'index'])->name('home.index');
+Route::get('/properties/show/{id}', [LandingController::class, 'show'])->name('home.show');
