@@ -49,13 +49,17 @@
                                             @endif
                                             <h5 class="card-title mb-0">{{ $lease->users->name }}</h5>
                                         </div>
+                                        @if ($lease->status === 'active')
+                                            <div class="badge fs-6 bg-label-success ">{{ $lease->status }}</div>
+                                        @else
+                                            <div class="badge fs-6 bg-label-danger ">{{ $lease->status }}</div>
+                                        @endif
                                         {{-- <h5 class="card-title">{{ $lease->users->name }}</h5> --}}
                                         <p class="card-text">Property: {{ $lease->properties->name }}</p>
                                         <p class="card-text">Start Date:
                                             {{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</p>
                                         <p class="card-text">End Date:
                                             {{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</p>
-                                        <p class="card-text">Status: {{ ucfirst($lease->status) }}</p>
                                         <p class="card-text">Description: {{ $lease->description }}</p>
                                         <p class="card-text">Total Iuran: Rp.{{ number_format($lease->total_iuran, 2) }}
                                         </p>
@@ -120,8 +124,6 @@
                             <label for="status" class="form-label">Status:</label>
                             <select class="form-select" name="status" id="status" required>
                                 <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                                <option value="pending">Pending</option>
                                 <option value="expired">Expired</option>
                             </select>
                         </div>
@@ -195,10 +197,6 @@
                                 <label for="editStatus{{ $lease->id }}" class="form-label">Status:</label>
                                 <select class="form-select" name="status" id="editStatus{{ $lease->id }}" required>
                                     <option value="active" {{ $lease->status == 'active' ? 'selected' : '' }}>Active
-                                    </option>
-                                    <option value="inactive" {{ $lease->status == 'inactive' ? 'selected' : '' }}>Inactive
-                                    </option>
-                                    <option value="pending" {{ $lease->status == 'pending' ? 'selected' : '' }}>Pending
                                     </option>
                                     <option value="expired" {{ $lease->status == 'expired' ? 'selected' : '' }}>Expired
                                     </option>
