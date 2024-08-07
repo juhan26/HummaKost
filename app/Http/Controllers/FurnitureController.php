@@ -14,7 +14,7 @@ class FurnitureController extends Controller
      */
     public function index()
     {
-        $furnitures = Furniture::all();
+        $furnitures = Furniture::latest()->paginate(10);
         return view('pages.furnitures.index', compact('furnitures'));
     }
 
