@@ -348,7 +348,7 @@
                                                 </h4>
                                                 <div class="flex gap-3 mt-4">
                                                     <ul class="flex gap-2 items-center">
-                                                        <p style="color: gray;">{{ $property->description}}</p>
+                                                        <p style="color: gray;">{{ $property->description }}</p>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -356,7 +356,7 @@
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
                                                     <h4 class="text-gray-black font-semibold font-display text-2xl">
-                                                        {{  'Rp. ' . number_format($property->rental_price, 0)  }}</h4>
+                                                        {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h4>
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
                                                         <svg width="24" height="24" viewBox="0 0 24 24"
@@ -1034,27 +1034,46 @@
     <!-- intructor section start -->
     <section id="member"class="section-padding instructor-section bg-secondary-50">
         <div class="container px-4 2xl:px-0">
-            <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                <span class="text-primary-500 after-svg instructor">Member</span> Las Vegas
-            </h2>
-            <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident,
-            </p>
+            @foreach ($leases as $lease)
+                <div class="flex items-center mb-4">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                        <span class="text-primary-500 after-svg instructor">Member</span>
+                    </h2>
+                    <div class="ml-6">
+                        <label for="property" class="sr-only">Select Property:</label>
+                        <select id="property" name="property_id"
+                            class="text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-lg font-semibold font-display border border-primary-500 rounded-md py-2 px-4 block">
+                            @foreach ($properties as $property)
+                                <option value="{{ $property->id }}"
+                                    {{ $lease->property_id == $property->id ? 'selected' : '' }}>
+                                    <h2
+                                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                                        {{ $property->name }}
+
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by
+                    accident,
+                </p>
         </div>
         <div class="slider-container mx-auto px-4 2xl:px-0">
             <div class="swiper instructorSwipper relative">
                 <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                    @foreach ($users as $user)
-                        
+
                     <div class="swiper-slide">
                         <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
                             <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}" alt="{{ $user->name }}"
-                                        class="w-full rounded-lg"></a>
+                                <a href="#"><img
+                                        src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
+                                        alt="{{ $lease->users->name }}" class="w-full rounded-lg"></a>
                             </div>
                             <div>
                                 <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">{{ $user->name }}</a></h2>
+                                        href="#">{{ $lease->users->name }}</a></h2>
                                 <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
                                         href="#">UI-UX Design Expart</a></h4>
                             </div>
