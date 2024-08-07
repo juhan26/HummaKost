@@ -98,8 +98,8 @@
                             <label for="user_id" class="form-label">User:</label>
                             <select class="form-select" name="user_id" id="user_id">
                                 <option value="">Select User</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @foreach ($userStore as $user2)
+                                    <option value="{{ $user2->id }}">{{ $user2->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -190,7 +190,7 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label for="editUser{{ $lease->id }}" class="form-label">User:</label>
-                                <select class="form-select" name="user_id" id="editUser{{ $lease->id }}">
+                                <select class="form-select" value="{{ $lease->user_id }} id="editUser{{ $lease->id }}">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
                                             {{ $lease->user_id == $user->id ? 'selected' : '' }}>
