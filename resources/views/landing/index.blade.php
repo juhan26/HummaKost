@@ -320,8 +320,7 @@
                 <div class="2xl:w-3/4">
                     <div class="swiper courseSwipper relative">
                         <div class="swiper-wrapper py-4 2xl:pr-[29.3%]">
-                            @foreach ($properties as $property)
-                                <!-- course item -->
+                            @foreach ($properties->unique('id') as $property)
                                 <div class="swiper-slide">
                                     <div class="course-card">
                                         <div class="bg-gray-white rounded-xl">
@@ -339,25 +338,22 @@
                                                     </a>
                                                     <p
                                                         class="absolute top-[7px] left-2 z-20 badge text-base text-gray-black px-[13px] py-[6px] rounded-md bg-white/60 ml-2 mt-2">
-                                                        Social Media</p>
+                                                        Social Media
+                                                    </p>
                                                 </div>
                                                 <h4
                                                     class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-4 hover:text-primary-500 transition duration-300 ease-linear">
                                                     <a
                                                         href="{{ route('home.show', $property->id) }}">{{ $property->name }}</a>
                                                 </h4>
-
                                                 <div class="flex gap-3 mt-4">
                                                     <ul class="flex gap-2 items-center">
                                                         <p style="color: gray;">Kontrakan Las Vegas Lorem ipsum dolor
-                                                            sit amet consectetur.
-                                                        </p>
+                                                            sit amet consectetur.</p>
                                                     </ul>
                                                 </div>
                                             </div>
-
                                             <div class="border-b border-gray-50 h-1 w-full"></div>
-
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
                                                     <h4 class="text-gray-black font-semibold font-display text-2xl">$
@@ -378,7 +374,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- course item end -->
                             @endforeach
                         </div>
 
@@ -390,6 +385,70 @@
             </div>
         </div>
     </section>
+
+    {{-- <section class="section-padding course-section bg-primary-50/70">
+        <div class="container px-4 sm:px-6 xl:px-0">
+            <div class="xl:flex items-center">
+                <div class="xl:w-1/4">
+                    <h2 class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
+                        Our <span class="text-primary-500 after-svg popular">Properties</span>
+                    </h2>
+                </div>
+                <div class="2xl:w-3/4">
+                    <div class="swiper courseSwipper relative">
+                        <div class="swiper-wrapper py-4 2xl:pr-[29.3%]">
+                            @foreach ($properties->unique('id') as $property)
+                                <div class="swiper-slide">
+                                    <div class="course-card">
+                                        <div class="bg-gray-white rounded-xl">
+                                            <div class="course-content px-4 py-4">
+                                                <div class="overflow-hidden rounded-lg inline-block relative">
+                                                    <a href="{{ route('home.show', $property->id) }}" class="inline-block">
+                                                        @if ($property->image)
+                                                            <img src="{{ asset('storage/' . $property->image) }}" alt="" class="w-full h-full relative">
+                                                        @else
+                                                            <img src="{{ asset('assets/img/image_not_available.png') }}" alt="" class="w-full h-full relative">
+                                                        @endif
+                                                    </a>
+                                                    <p class="absolute top-[7px] left-2 z-20 badge text-base text-gray-black px-[13px] py-[6px] rounded-md bg-white/60 ml-2 mt-2">
+                                                        Social Media
+                                                    </p>
+                                                </div>
+                                                <h4 class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-4 hover:text-primary-500 transition duration-300 ease-linear">
+                                                    <a href="{{ route('home.show', $property->id) }}">{{ $property->name }}</a>
+                                                </h4>
+                                                <div class="flex gap-3 mt-4">
+                                                    <ul class="flex gap-2 items-center">
+                                                        <p style="color: gray;">Kontrakan Las Vegas Lorem ipsum dolor sit amet consectetur.</p>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="border-b border-gray-50 h-1 w-full"></div>
+                                            <div class="course-info px-4 py-4">
+                                                <div class="flex justify-between items-center">
+                                                    <h4 class="text-gray-black font-semibold font-display text-2xl">$ {{ $property->price }}</h4>
+                                                    <a href="{{ route('home.show', $property->id) }}" class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M6 18L18 6" stroke="#6D737A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                            <path d="M8.25 6H18V15.75" stroke="#6D737A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> --}}
+
     <!-- course area end -->
 
     <!-- popular category area start -->
@@ -978,7 +1037,8 @@
         <div class="container px-4 2xl:px-0">
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                <span class="text-primary-500 after-svg instructor">Member</span></h2>
+                <span class="text-primary-500 after-svg instructor">Member</span>
+            </h2>
             <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident,
             </p>
         </div>
