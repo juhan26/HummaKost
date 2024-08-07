@@ -1036,7 +1036,7 @@
         <div class="container px-4 2xl:px-0">
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                <span class="text-primary-500 after-svg instructor">Member</span>
+                <span class="text-primary-500 after-svg instructor">Member</span> Las Vegas
             </h2>
             <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident,
             </p>
@@ -1044,118 +1044,23 @@
         <div class="slider-container mx-auto px-4 2xl:px-0">
             <div class="swiper instructorSwipper relative">
                 <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg w-full">
-                                <a href="#"><img src="/assets/images/instructor-01.png" alt=""
-                                        class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
-                    </div>
+                    @foreach ($users as $user)
+                        
                     <div class="swiper-slide">
                         <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
                             <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="/assets/images/instructor-02.png" alt=""
+                                <a href="#"><img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}" alt="{{ $user->name }}"
                                         class="w-full rounded-lg"></a>
                             </div>
                             <div>
                                 <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
+                                        href="#">{{ $user->name }}</a></h2>
                                 <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
                                         href="#">UI-UX Design Expart</a></h4>
                             </div>
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="/assets/images/instructor-03.png" alt=""
-                                        class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="/assets/images/instructor-04.png" alt=""
-                                        class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="/assets/images/instructor-03.png" alt=""
-                                        class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="/assets/images/instructor-02.png" alt=""
-                                        class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="/assets/images/instructor-01.png" alt=""
-                                        class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="p-4 bg-white shadow-sm rounded-2xl  instructor-card">
-                            <div class="mb-4 overflow-hidden rounded-lg">
-                                <a href="#"><img src="/assets/images/instructor-02.png" alt=""
-                                        class="w-full rounded-lg"></a>
-                            </div>
-                            <div>
-                                <h2 class="mb-1.5 font-display text-xl text-gray-black text-center"><a
-                                        href="#">Jacob Jones</a></h2>
-                                <h4 class="mb-0 text-base font-display text-gray-500 text-center"><a
-                                        href="#">UI-UX Design Expart</a></h4>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
