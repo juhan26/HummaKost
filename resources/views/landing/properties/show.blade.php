@@ -47,7 +47,7 @@
             <div class="container flex justify-between items-center px-4 sm:px-6 2xl:px-0">
                 <!-- logo -->
                 <div>
-                    <a href="#">
+                    <a href="{{ route('home.index') }}">
                         <img src="/assets/img/images/logo.png" alt="New Logo" style="width:11rem; height:3rem;">
                     </a>
                 </div>
@@ -176,9 +176,9 @@
                 <div class="flex flex-col lg:flex-row gap-6 my-2">
                     <div class="lg:w-1/2 bg-white rounded-lg">
                         @if ($property->image)
-                            <img class="w-full h-auto" src="{{ asset('storage/' . $property->image) }}" alt="Card image cap" style="width: 6000px;"/>
+                            <img class="w-full h-auto" src="{{ asset('storage/' . $property->image) }}" alt="Card image cap" style="width: 1500px; height: 500px'"/>
                         @else
-                            <img class="w-full h-auto" src="{{ asset('assets/img/image_not_available.png') }}" alt="Card image cap" style="width: 600px;"/>
+                            <img class="w-full h-auto" src="{{ asset('assets/img/image_not_available.png') }}" alt="Card image cap" style="width: 1500px; height: 500px;"/>
                         @endif
                     </div>
                     <div class="lg:w-1/2 bg-white rounded-lg container" style="padding-left: 25px; padding-bottom: 30px; padding-top: 30px; padding-right: 25px">
@@ -190,7 +190,7 @@
                             @endif
                         </h1>
 
-                        <h5 class="text-lg text-gray-600">{{ $property->description }} Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor, consequatur?</h5>
+                        <h5 class="text-lg text-gray-600">{{ $property->description }}</h5>
                         <h2 class="font-bold text-2xl text-gray-800 my-6">{{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
                         <div class="inline-block bg-yellow-400 text-white px-2 py-1 rounded mt-6 mr-3">
                             Capacity: <strong>{{ $property->capacity }}</strong>

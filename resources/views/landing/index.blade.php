@@ -134,7 +134,7 @@
         <ul class="flex flex-col capitalize px-6 mb-6">
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#">home</a>
+                    href="{{ route('home.index') }}">home</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -338,7 +338,7 @@
                                                     </a>
                                                     <p
                                                         class="absolute top-[7px] left-2 z-20 badge text-base text-gray-black px-[13px] py-[6px] rounded-md bg-white/60 ml-2 mt-2">
-                                                        Social Media
+                                                        Kontrakan
                                                     </p>
                                                 </div>
                                                 <h4
