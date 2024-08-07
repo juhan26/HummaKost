@@ -83,21 +83,23 @@
             <a href="{{ url('users') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div>Users</div>
-
             </a>
         </li>
+
         <li class="menu-item {{ request()->routeIs('furnitures.index') ? 'active' : '' }}">
             <a href="{{ url('furnitures') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-hotel-bed-line"></i>
                 <div>Furnitures</div>
             </a>
         </li>
-        
+
         <li class="menu-item {{ request()->routeIs('leases.index') ? 'active' : '' }}">
             <a href="{{ url('leases') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-scales-3-line"></i>
                 <div>Leases</div>
-                
+            </a>
+        </li>
+
         <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
             <a href="{{ url('property_furnitures') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-sofa-line"></i>
