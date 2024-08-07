@@ -23,7 +23,7 @@ class StorePropertyFurnitureRequest extends FormRequest
     {
         return [
             'property_id' => 'required|exists:properties,id',
-            'furniture_id' => 'required|exists:furniture,id'
+            'furniture_id' => 'required|exists:furnitures,id'
         ];
     }
 }

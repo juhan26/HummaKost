@@ -66,11 +66,11 @@
                                         <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editModal{{ $lease->id }}">Edit</a>
                                         <form action="{{ route('leases.destroy', $lease->id) }}" method="POST"
-                                            class="d-inline"
-                                            onsubmit="return confirm('Are you sure you want to delete this lease?')">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            class="d-inline">
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
+                                                Delete
+                                            </button>
                                         </form>
                                     </div>
                                 </div>
@@ -145,6 +145,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Modal -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Leases</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure wan't to delete this property?
+                </div>
+                @foreach ($leases as $lease)
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                        <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </form>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal -->
 
     {{-- Edit Modals --}}
     @foreach ($leases as $lease)
