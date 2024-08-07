@@ -134,7 +134,7 @@
         <ul class="flex flex-col capitalize px-6 mb-6">
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#">home</a>
+                    href="{{ route('home.index') }}">home</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -338,7 +338,7 @@
                                                     </a>
                                                     <p
                                                         class="absolute top-[7px] left-2 z-20 badge text-base text-gray-black px-[13px] py-[6px] rounded-md bg-white/60 ml-2 mt-2">
-                                                        Social Media
+                                                        Kontrakan
                                                     </p>
                                                 </div>
                                                 <h4
@@ -348,16 +348,15 @@
                                                 </h4>
                                                 <div class="flex gap-3 mt-4">
                                                     <ul class="flex gap-2 items-center">
-                                                        <p style="color: gray;">Kontrakan Las Vegas Lorem ipsum dolor
-                                                            sit amet consectetur.</p>
+                                                        <p style="color: gray;">{{ $property->description}}</p>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="border-b border-gray-50 h-1 w-full"></div>
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
-                                                    <h4 class="text-gray-black font-semibold font-display text-2xl">$
-                                                        {{ $property->price }}</h4>
+                                                    <h4 class="text-gray-black font-semibold font-display text-2xl">
+                                                        {{  'Rp. ' . number_format($property->rental_price, 0)  }}</h4>
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
                                                         <svg width="24" height="24" viewBox="0 0 24 24"

@@ -16,7 +16,7 @@ class PropertiesSeeder extends Seeder
         Property::create([
             'name'=>'Las Vegas',
             'rental_price'=>'300000',
-            'description'=>'lorem2',
+            'description'=>'lorem2',    
             'address'=>'alamat',
             'capacity'=>'12',
             'gender_target'=>'male',
