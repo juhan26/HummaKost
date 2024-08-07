@@ -418,8 +418,8 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-2">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/default.png') }}"
-                                             alt="User Photo" class="rounded-circle avatar-img">
+                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                            alt="User Photo" class="rounded-circle avatar-img">
                                     </div>
                                 </div>
 
@@ -431,10 +431,10 @@
                                         <small class="text-muted">Super Admin</small>
                                     @elseif (Auth::user()->hasRole('member'))
                                         <small class="text-muted">Member</small>
-                                    @endif
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
 
 
                         </li>
