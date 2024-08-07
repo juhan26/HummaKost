@@ -49,97 +49,77 @@
 
         <h1 class="mb-4">Daftar Pengguna</h1>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Photo</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($users as $index => $user)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>
-                            <img style="width: 200px"
-                                src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                                alt="{{ $user->name }}">
-                        </td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->phone_number }}</td>
-                        <td>
-                            {{-- Edit Modal --}}
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#editModal{{ $user->id }}">Edit</button>
-
-                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1"
-                                aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Update User
-                                                {{ $user->name }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('user.update', $user->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="mb-3">
-                                                    <label for="editName{{ $user->id }}"
-                                                        class="form-label">Name:</label>
-                                                    <input type="text" class="form-control" name="name"
-                                                        id="editName{{ $user->id }}" value="{{ $user->name }}"
-                                                        required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editEmail{{ $user->id }}"
-                                                        class="form-label">Email:</label>
-                                                    <input type="email" class="form-control" name="email"
-                                                        id="editEmail{{ $user->id }}" value="{{ $user->email }}"
-                                                        required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editPassword{{ $user->id }}"
-                                                        class="form-label">Password:</label>
-                                                    <input type="password" class="form-control" name="password"
-                                                        id="editPassword{{ $user->id }}">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- Edit Modal --}}
-
-                            {{-- Delete User --}}
+        <div class="row">
+            @forelse ($users as $user)
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
+                            class="card-img-top" alt="{{ $user->name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $user->name }}</h5>
+                            <p class="card-text">
+                                <strong>Email:</strong> {{ $user->email }}<br>
+                                <strong>Phone Number:</strong> {{ $user->phone_number }}
+                            </p>
+                            <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#editModal{{ $user->id }}">Edit</a>
                             <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline"
                                 onsubmit="return confirm('Are you sure you want to delete this user?')">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
-                            {{-- Delete User --}}
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="text-center">Data is Empty</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Edit Modal --}}
+                <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1"
+                    aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Update User
+                                    {{ $user->name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('user.update', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="mb-3">
+                                        <label for="editName{{ $user->id }}" class="form-label">Name:</label>
+                                        <input type="text" class="form-control" name="name"
+                                            id="editName{{ $user->id }}" value="{{ $user->name }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editEmail{{ $user->id }}" class="form-label">Email:</label>
+                                        <input type="email" class="form-control" name="email"
+                                            id="editEmail{{ $user->id }}" value="{{ $user->email }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editPassword{{ $user->id }}" class="form-label">Password:</label>
+                                        <input type="password" class="form-control" name="password"
+                                            id="editPassword{{ $user->id }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Edit Modal --}}
+
+            @empty
+                <p class="text-center">Data is Empty</p>
+            @endforelse
+        </div>
+
         {{ $users->links() }}
     </div>
 @endsection
