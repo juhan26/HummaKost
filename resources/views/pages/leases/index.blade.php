@@ -96,7 +96,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="user_id" class="form-label">User:</label>
-                            <select class="form-select" name="user_id" id="user_id" required>
+                            <select class="form-select" name="user_id" id="user_id">
                                 <option value="">Select User</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Property:</label>
-                            <select class="form-select" name="property_id" id="property_id" required>
+                            <select class="form-select" name="property_id" id="property_id">
                                 <option value="">Select Property</option>
                                 @foreach ($properties as $property)
                                     <option value="{{ $property->id }}">{{ $property->name }}</option>
@@ -114,15 +114,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Start Date:</label>
-                            <input type="date" class="form-control" name="start_date" id="start_date" required>
+                            <input type="date" class="form-control" name="start_date" id="start_date">
                         </div>
                         <div class="mb-3">
                             <label for="end_date" class="form-label">End Date:</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date" required>
+                            <input type="date" class="form-control" name="end_date" id="end_date">
                         </div>
                         <div class="mb-3">
                             <label for="status" class="form-label">Status:</label>
-                            <select class="form-select" name="status" id="status" required>
+                            <select class="form-select" name="status" id="status">
                                 <option value="active">Active</option>
                                 <option value="expired">Expired</option>
                             </select>
@@ -162,7 +162,7 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label for="editUser{{ $lease->id }}" class="form-label">User:</label>
-                                <select class="form-select" name="user_id" id="editUser{{ $lease->id }}" required>
+                                <select class="form-select" name="user_id" id="editUser{{ $lease->id }}">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
                                             {{ $lease->user_id == $user->id ? 'selected' : '' }}>
@@ -185,17 +185,17 @@
                                 <label for="editStartDate{{ $lease->id }}" class="form-label">Start Date:</label>
                                 <input type="date" class="form-control" name="start_date"
                                     id="editStartDate{{ $lease->id }}"
-                                    value="{{ \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d') }}" required>
+                                    value="{{ \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="editEndDate{{ $lease->id }}" class="form-label">End Date:</label>
                                 <input type="date" class="form-control" name="end_date"
                                     id="editEndDate{{ $lease->id }}"
-                                    value="{{ \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d') }}" required>
+                                    value="{{ \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="editStatus{{ $lease->id }}" class="form-label">Status:</label>
-                                <select class="form-select" name="status" id="editStatus{{ $lease->id }}" required>
+                                <select class="form-select" name="status" id="editStatus{{ $lease->id }}">
                                     <option value="active" {{ $lease->status == 'active' ? 'selected' : '' }}>Active
                                     </option>
                                     <option value="expired" {{ $lease->status == 'expired' ? 'selected' : '' }}>Expired

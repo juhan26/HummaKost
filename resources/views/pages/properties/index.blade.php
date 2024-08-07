@@ -54,7 +54,8 @@
                                             </div>
                                             <div class="col-12 col-lg-12 d-flex">
                                                 <p class="card-text w-75">Address: <br>{{ $property->address }}</p>
-                                                <p class="card-text w-25">Capacity: <br><span class="badge bg-success w-100">{{ $property->capacity }}</span></p>
+                                                <p class="card-text w-25">Capacity: <br><span
+                                                        class="badge bg-success w-100">{{ $property->capacity }}</span></p>
 
                                             </div>
                                         </div>

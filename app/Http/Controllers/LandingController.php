@@ -12,7 +12,7 @@ class LandingController extends Controller
     public function index()
     {
         $leases = Lease::all();
-        $properties = Property::all();
+        $properties = Property::latest()->paginate(6);
         $furnitures = Furniture::all();
         // dd($properties);
         return view('landing.index', compact('furnitures', 'leases', 'properties'));
@@ -23,5 +23,4 @@ class LandingController extends Controller
         $property = Property::findOrFail($id);
         return view('landing.properties.show', compact('property'));
     }
-
 }
