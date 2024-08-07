@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- properties --}}
+                    {{-- furnitures --}}
                     <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
                         @foreach ($furnitures as $furniture)
                             <div class="col">
@@ -47,7 +47,53 @@
                                                 <p class="card-text">{{ $furniture->description }}</p>
                                             </div>
                                             <div class="d-flex gap-3">
-                                                <button class="btn btn-warning">Edit</button>
+                                                <button type="button" data-bs-target="#updateModal" data-bs-toggle="modal"
+                                                    class="btn btn-warning">Edit</button>
+
+                                                <div class="modal fade" id="updateModal" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog ">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit
+                                                                    Furniture {{ $furniture->name }}</h1>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form
+                                                                    action="{{ route('furnitures.update', $furniture->id) }}"
+                                                                    method="post" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="row">
+
+                                                                        <div class="mb-3">
+                                                                            <label for="photo"
+                                                                                class="form-label">Furniture Name:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="name" id="photo"
+                                                                                value="{{ $furniture->name }}">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="name"
+                                                                                class="form-label">Description:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="description" id="name"
+                                                                                value="{{ $furniture->description }}">
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" name="submit"
+                                                                    class="btn btn-primary">Save changes</button>
+                                                            </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                                 <form action="{{ route('furnitures.destroy', $furniture->id) }}"
                                                     method="POST">
                                                     @csrf
