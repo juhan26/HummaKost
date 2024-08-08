@@ -123,15 +123,20 @@
                                 <label for="" class="form-label">Address</label>
                                 <input type="text" name="address" class="form-control">
                             </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">langtitude</label>
-                                <input type="text" name="langtitude" class="form-control">
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">longtitude</label>
-                                <input type="text" name="longtitude" class="form-control">
-                            </div>
+                            <div class="col-12 col-lg-12 mt-3">
+                                <div class="d-flex justify-content-around">
+                                    <small class="form-label">Latitude</small>
+                                    <small class="form-label">Longtitude</small>
+                                </div>
+                                <div class="d-flex mb-3 gap-3">
 
+                                    <input type="text" placeholder="click the map" name="langtitude" id="latitude" class="form-control"
+                                        readonly>
+                                    <input type="text" placeholder="click the map" name="longtitude" id="longitude" class="form-control"
+                                        readonly>
+                                </div>
+                                <div id="map" style="width: 100%; height: 400px"></div>
+                            </div>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -141,6 +146,36 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var lat = -7.896591;
+        var lng = 112.6089657;
+        var zoomLevel = 16;
+
+        var map = L.map('map').setView([lat, lng], zoomLevel);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker = null;
+
+        function onMapClick(e) {
+            var clickedLat = e.latlng.lat;
+            var clickedLng = e.latlng.lng;
+
+            if (!marker) {
+                marker = L.marker([clickedLat, clickedLng]).addTo(map);
+            } else {
+                marker.setLatLng([clickedLat, clickedLng]);
+            }
+
+            document.getElementById('latitude').value = clickedLat;
+            document.getElementById('longitude').value = clickedLng;
+
+        }
+        map.on('click', onMapClick)
+    </script>
 @endsection
 {{--
 <div class="container">
