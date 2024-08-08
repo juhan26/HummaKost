@@ -32,6 +32,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+        <style>
+            *{
+               scroll-behavior: smooth;
+            } 
+        </style>
 </head>
 
 <body>
@@ -55,7 +60,7 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#member">member</a>
+                            href="#loadMember">member</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
@@ -114,7 +119,7 @@
         <div class="flex justify-between items-center p-6 mb-8">
             <div>
                 <a href="#">
-                    <img src="/assets/img/images/logo.png" alt="">
+                    <img src="/assets/img/images/logo.png" alt="" style="width: 14rem ; height: 4rem;">
                 </a>
             </div>
             <div>
@@ -139,7 +144,7 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#member">member</a>
+                    href="#loadMember">member</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -356,7 +361,7 @@
                                             <div class="border-b border-gray-50 h-1 w-full"></div>
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
-                                                    <h4 class="text-gray-black font-semibold font-display text-2xl">
+                                                    <h4 class="text-gray-black font-semibold font-display text-2xl" id="loadMember">
                                                         {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h4>
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
@@ -379,7 +384,7 @@
 
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination"></div>
+                        <div class="swiper-pagination" ></div>
                     </div>
                 </div>
             </div>
@@ -1035,18 +1040,16 @@
     <!-- intructor section start -->
     <section id="member" class="section-padding instructor-section bg-secondary-50">
         <div class="container px-4 2xl:px-0">
-            <form method="GET">
+            <form id="propertyForm" method="GET" action="#loadMember">
                 <div class="flex items-center justify-between mb-4">
-                    <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                         <span class="text-primary-500 after-svg instructor">Member</span>
                     </h2>
-                    <div class="ml-6 w-64"> <!-- Adjust width as needed -->
+                    <div class="ml-6 w-64 relative"> <!-- Adjust width as needed -->
                         <label for="property" class="sr-only">Select Property:</label>
                         <select id="property" name="property_id"
                             class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-lg font-semibold font-display border border-primary-500 rounded-md py-2 px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
-                            onchange="this.form.submit()">
-                            {{-- <option value="">Select Property</option> --}}
+                            onchange="document.getElementById('memberRedirect').value = '#member'; this.form.submit();">
                             @foreach ($properties as $property)
                                 <option value="{{ $property->id }}"
                                     {{ $selectedPropertyId == $property->id ? 'selected' : '' }}>
@@ -1058,25 +1061,20 @@
                         <svg class="absolute top-1/2 right-4 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
-
                         </svg>
+                        <input type="hidden" id="memberRedirect" name="redirect" value="">
                     </div>
                 </div>
             </form>
-
-
-
-
+    
             <div class="flex items-center mb-4">
-                <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by
-                    accident.</p>
+                <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident.</p>
             </div>
             <div class="slider-container mx-auto px-4 2xl:px-0">
                 <div class="swiper instructorSwipper relative">
                     <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
                         @foreach ($users as $user)
                             <div class="swiper-slide">
-
                                 <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
                                     <div class="mb-4 overflow-hidden rounded-lg">
                                         <a href="#"><img
@@ -1088,11 +1086,9 @@
                                             <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
                                                 <a href="#">{{ $user->name }}</a> <span
                                                     class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $lease->status }}</span>
-
                                             </h2>
                                             <h4 class="mb-0 text-base font-display text-gray-500 text-center">
                                                 <a href="#">{{ \Carbon\Carbon::parse($lease->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($lease->end_date)->format('d M Y') }} </a>
-
                                             </h4>
                                         @endforeach
                                     </div>
@@ -1105,9 +1101,18 @@
                     <div class="swiper-pagination"></div>
                 </div>
             </div>
-
         </div>
     </section>
+    
+    <script>
+        // Scroll to #member section if the URL contains #member fragment
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash === '#member') {
+                document.getElementById('member').scrollIntoView();
+            }
+        });
+    </script>
+    
 
     <!-- intructor section end -->
 

@@ -29,7 +29,7 @@ class LandingController extends Controller
         // Muat relasi 'users' dengan leases
         $leases = $leasesQuery->with('users')->get();
 
-        // Ambil pengguna berdasarkan property_id yang dipilih dari leases
+        // Ambil pengguna berdasarkan property_id yang dipilih dari le  ases
         $userIds = $leases->pluck('users.id')->unique();
         $users = User::whereIn('id', $userIds)->role('member')->latest()->get();
 
