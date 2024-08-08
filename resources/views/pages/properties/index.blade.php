@@ -43,7 +43,7 @@
                                         <img class="card-img-top" src="{{ asset('storage/' . $property->image) }}"
                                             alt="Card image cap" />
                                     @else
-                                        <img class="card-img-top" src="{{ asset('assets/img/image_not_available.png') }}"
+                                        <img class="card-img-top" src="{{ asset('/assets/img/image_not_available.png') }}"
                                             alt="Card image cap" />
                                     @endif
                                     <div class="card-body">
