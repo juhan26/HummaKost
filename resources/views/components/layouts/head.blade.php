@@ -26,8 +26,8 @@
         j.async = true;
         j.src =
             '../../../../www.googletagmanager.com/gtm5445.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-5J3LMKC');
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5J3LMKC');
 </script>
 
 <!-- Favicon -->
@@ -63,3 +63,8 @@
 <!-- Scripts -->
 <script src="../../assets/vendor/js/template-customizer.js"></script>
 <script src="../../assets/js/config.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
