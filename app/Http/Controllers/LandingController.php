@@ -15,11 +15,12 @@ class LandingController extends Controller
     public function index(Request $request)
     {
         // Ambil property_id yang dipilih dari query string
-        $selectedPropertyId = $request->query('property_id');
-
-        // Ambil semua properti dengan pagination
         $properties = Property::latest()->paginate(6);
 
+        $selectedPropertyId = $request->input('property_id', $properties->first()->id ?? null);
+
+        // Ambil semua properti dengan pagination
+        
         // Query untuk leases berdasarkan property_id yang dipilih
         $leasesQuery = Lease::query();
         if ($selectedPropertyId) {
@@ -28,7 +29,7 @@ class LandingController extends Controller
         // Muat relasi 'users' dengan leases
         $leases = $leasesQuery->with('users')->get();
 
-        // Ambil pengguna berdasarkan property_id yang dipilih dari leases
+        // Ambil pengguna berdasarkan property_id yang dipilih dari le  ases
         $userIds = $leases->pluck('users.id')->unique();
         $users = User::whereIn('id', $userIds)->role('member')->latest()->get();
 
