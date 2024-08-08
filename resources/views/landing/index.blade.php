@@ -1576,6 +1576,38 @@
             glare: true,
             "max-glare": 0.5,
         });
+
+        function submitFormAndScroll() {
+        var form = document.getElementById('propertyForm');
+        var selectedPropertyId = document.getElementById('property').value;
+
+        // Append query parameters to the URL
+        var url = new URL(window.location.href);
+        url.searchParams.set('property_id', selectedPropertyId);
+        url.searchParams.set('redirect', '#member');
+
+        // Scroll to the desired position
+        window.scrollTo({
+            top: 700,
+            behavior: 'smooth'
+        });
+
+        // Submit the form with the updated URL
+        window.location.href = url.toString();
+    }
+
+    // Check if the page was reloaded
+    if (performance.navigation.type === 1) {
+        // Redirect to the root path
+        window.location.href = '/';
+    }
+
+    // Scroll to #member section if the URL contains #member fragment
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.hash === '#member') {
+            document.getElementById('member').scrollIntoView();
+        }
+    });
     </script>
 
     <script src="/assets/plugins/js/jquery.js"></script>
