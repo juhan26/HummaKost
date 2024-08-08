@@ -18,8 +18,9 @@ class LeaseController extends Controller
     {
         $leases = Lease::latest()->paginate(6);
         $users = User::all();
+        $userStore = User::whereDoesntHave('leases')->get();
         $properties = Property::all();
-        return view('pages.leases.index', compact('leases', 'users', 'properties'));
+        return view('pages.leases.index', compact('leases', 'users','userStore', 'properties'));
     }
 
     /**
@@ -35,18 +36,21 @@ class LeaseController extends Controller
      */
     public function store(StoreLeaseRequest $request)
     {
-        Lease::create([
-            'user_id' => $request->user_id,
-            'property_id' => $request->property_id,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $request->status,
-            'description' => $request->description,
-            'total_iuran' => $request->total_iuran,
-        ]);
-
-        // Redirect dengan pesan sukses
-        return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
+        $lease = Lease::where('user_id', $request->user_id)->first();
+        if($lease){
+            return redirect()->route('leases.index')->with('error', 'User already has an existing lease.');
+        }else{
+            Lease::create([
+                'user_id' => $request->user_id,
+                'property_id' => $request->property_id,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'status' => $request->status,
+                'description' => $request->description,
+                'total_iuran' => $request->total_iuran,
+            ]);
+            return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
+        }
     }
 
     /**
