@@ -56,7 +56,11 @@
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="#">home</a>
+                            href="{{ route('home.index') }}">home</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="#search_people">properties</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
@@ -64,11 +68,11 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#workprocess">course</a>
+                            href="#descc">about</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#portfolio">blog</a>
+                            href="#gambars">feedback</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
@@ -116,13 +120,13 @@
 
     <!-- Mobile Menu Area Start -->
     <div class="nav-menu" id="nav-menu">
-        <div class="flex justify-between items-center p-6 mb-8">
+        <div class="flex justify-center items-center p-6 mb-8">
             <div>
                 <a href="#">
-                    <img src="/assets/img/images/logo.png" alt="" style="width: 14rem ; height: 4rem;">
+                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 14rem; height: 4rem;" class="container">
                 </a>
             </div>
-            <div>
+            <div class="absolute right-6">
                 <button
                     class="hamburger-btn-close bg-[#F7F7F9] text-primary-900 hover:bg-primary-500 w-[44px] h-[44px] rounded-full flex items-center justify-center hover:text-white"
                     id="hamburger-btn-close">
@@ -144,27 +148,32 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                href="#search_people">properties</a>
+            </li>
+            <li class="mb-2">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
                     href="#loadMember">member</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#workprocess">course</a>
+                href="#descc">about</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#portfolio">blog</a>
+                href="#gambars">feedback</a>
             </li>
             <li class="">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#blog">contact</a>
+                href="#blog">contact</a>
             </li>
         </ul>
         <div class="px-6 mb-8">
-            <a href="#" class="btn-primary">
+            {{-- <a href="#" class="btn-primary">
                 <span>Sign up for Free</span>
-            </a>
+            </a> --}}
         </div>
     </div>
+    
     <!-- Mobile Menu Area End -->
     <div class="overlay" id="overlay"></div>
     <!-- header area end -->
@@ -250,7 +259,7 @@
                             <form action="" data-aos="fade-down" data-aos-duration="1000">
                                 <div class="flex justify-between items-center ">
                                     <div class="relative w-full xl:max-w-[648px]">
-                                        <input type="text"
+                                        <input type="text" id="search_people"
                                             class="px-6 py-6 block w-full shadow-[-4px_-4px_44px_rgba(0,0,0,0.08)] rounded focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out"
                                             placeholder="Cari orang di kontrakan ini?">
                                         <span class="absolute top-6 right-6">
@@ -271,12 +280,12 @@
                     </div>
                     <!-- left -->
                     <!-- right -->
-                    <div class="mt-5 2xl:mt-[156px] relative">
+                    <div class="mt-5 2xl:mt-[156px] relative flex justify-center items-center">
                         <div
-                            class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center">
+                            class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
                                 class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" data-tilt
-                                style="margin-top: 7rem; margin-left: 9rem; width: 30rem; height: 20rem; transform: rotate(4deg);"
+                                style="margin-top: 7rem; width: 30rem; height: 20rem;"
                                 data-aos="fade-left" data-aos-duration="1000">
                         </div>
                         <div
@@ -294,7 +303,7 @@
                             </span>
                             <span class="text-xl text-gray-600">5.0 Rating</span>
                         </div>
-
+                    
                         <span
                             class="2xl:absolute 2xl:top-[55px] 2xl:right-[-90px] z-10 animate-pulse hidden 2xl:inline-block">
                             <svg width="133" height="123" viewBox="0 0 133 123" fill="none"
@@ -303,7 +312,7 @@
                                     stroke="#A5A5A5" stroke-width="4" stroke-linecap="round"></path>
                             </svg>
                         </span>
-                    </div>
+                    </div>                    
                     <!-- right -->
                 </div>
             </div>
@@ -314,7 +323,7 @@
     <!-- banner area end -->
 
     <!-- course area start -->
-    <section class="section-padding course-section bg-primary-50/70">
+    <section class="section-padding course-section bg-primary-50/70" id="properties">
         <div class="container px-4 sm:px-6 xl:px-0">
             <div class="xl:flex items-center">
                 <div class="xl:w-1/4">
@@ -1068,7 +1077,7 @@
             </form>
     
             <div class="flex items-center mb-4">
-                <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident.</p>
+                <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident.</p>
             </div>
             <div class="slider-container mx-auto px-4 2xl:px-0">
                 <div class="swiper instructorSwipper relative">
@@ -1139,7 +1148,7 @@
                     <div class="xl:w-1/2 w-full relative flex justify-center">
                         <div
                             class="inline-flex justify-center xl:absolute xl:bottom-[-96px] xl:left-1/2 xl:-translate-x-1/2 transform">
-                            <img src="/assets/images/achievement-person.png" alt="">
+                            <img src="/assets/images/achievement-person.png" alt="" id="gambars">
                             <span class="absolute -left-[12%] top-[65%] z-50 animate-bounce">
                                 <svg width="78" height="78" viewBox="0 0 78 78" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -1576,6 +1585,38 @@
             glare: true,
             "max-glare": 0.5,
         });
+
+        function submitFormAndScroll() {
+        var form = document.getElementById('propertyForm');
+        var selectedPropertyId = document.getElementById('property').value;
+
+        // Append query parameters to the URL
+        var url = new URL(window.location.href);
+        url.searchParams.set('property_id', selectedPropertyId);
+        url.searchParams.set('redirect', '#member');
+
+        // Scroll to the desired position
+        window.scrollTo({
+            top: 700,
+            behavior: 'smooth'
+        });
+
+        // Submit the form with the updated URL
+        window.location.href = url.toString();
+    }
+
+    // Check if the page was reloaded
+    if (performance.navigation.type === 1) {
+        // Redirect to the root path
+        window.location.href = '/';
+    }
+
+    // Scroll to #member section if the URL contains #member fragment
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.hash === '#member') {
+            document.getElementById('member').scrollIntoView();
+        }
+    });
     </script>
 
     <script src="/assets/plugins/js/jquery.js"></script>
