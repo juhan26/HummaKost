@@ -42,7 +42,7 @@
                             </form>
                         </div>
                     </div>
-                </div> git                
+                </div>
                 <div class="card-body">
                     {{-- Leases --}}
                     <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
@@ -53,14 +53,26 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3 ms-8">
                                             <div>
                                                 <h5 class="card-title mb-0">{{ $lease->users->name }}
-                                                    <div class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
+                                                    <div
+                                                        class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
                                                         {{ $lease->status }}</div>
                                                 </h5>
-                                                <p class="card-text mt-2" style="font-size: 1rem; font-weight: bold;">Property: <span class="text-muted text-primary">{{ $lease->properties->name }}</span></p>
-                                                <p class="card-text" style="font-size: 0.9rem;">Start Date: <span class="text-muted">{{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</span></p>
-                                                <p class="card-text" style="font-size: 0.9rem;">End Date: <span class="text-muted">{{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</span></p>
-                                                <p class="card-text" style="font-size: 0.9rem;">Description: <span class="text-muted">{{ $lease->description }}</span></p>
-                                                <p class="card-text" style="font-size: 1rem; font-weight: bold;">Total Iuran: <span class="text-danger">Rp.{{ number_format($lease->total_iuran) }}</span></p>
+                                                <p class="card-text mt-2" style="font-size: 1rem; font-weight: bold;">
+                                                    Property: <span
+                                                        class="text-muted text-primary">{{ $lease->properties->name }}</span>
+                                                </p>
+                                                <p class="card-text" style="font-size: 0.9rem;">Start Date: <span
+                                                        class="text-muted">{{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</span>
+                                                </p>
+                                                <p class="card-text" style="font-size: 0.9rem;">End Date: <span
+                                                        class="text-muted">{{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</span>
+                                                </p>
+                                                <p class="card-text" style="font-size: 0.9rem;">Description: <span
+                                                        class="text-muted">{{ $lease->description }}</span></p>
+                                                <p class="card-text" style="font-size: 1rem; font-weight: bold;">Total
+                                                    Iuran: <span
+                                                        class="text-danger">Rp.{{ number_format($lease->total_iuran) }}</span>
+                                                </p>
                                             </div>
                                             <img src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
                                                 alt="{{ $lease->users->name }}" class="rounded-4 shadow-lg m-8 ms-3"
@@ -72,7 +84,7 @@
                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModal{{ $lease->id }}">Delete</button>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                             {{-- Delete Modal --}}
@@ -119,59 +131,75 @@
                                                 <div class="mb-3">
                                                     <label for="editUser{{ $lease->id }}"
                                                         class="form-label">User:</label>
-                                                    <select class="form-select" name="user_id"
-                                                        id="editUser{{ $lease->id }}">
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}"
-                                                                {{ $lease->user_id == $user->id ? 'selected' : '' }}>
-                                                                {{ $user->name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" name="user_id" class="form-control"
+                                                        value="{{ old('user_id', $lease->users->name) }}" readonly>
+                                                    <input type="hidden" name="user_id" value="{{ $lease->user_id }}">
                                                 </div>
+
+
                                                 <div class="mb-3">
                                                     <label for="editProperty{{ $lease->id }}"
                                                         class="form-label">Property:</label>
-                                                    <select class="form-select" name="property_id"
-                                                        id="editProperty{{ $lease->id }}">
-                                                        @foreach ($properties as $property)
-                                                            <option value="{{ $property->id }}"
-                                                                {{ $lease->property_id == $property->id ? 'selected' : '' }}>
-                                                                {{ $property->name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" class="form-control" name="property_id"
+                                                        id="editProperty{{ $lease->id }}"
+                                                        value="{{ $properties->firstWhere('id', $lease->property_id)->name ?? 'Property not found' }}"
+                                                        readonly>
+                                                    <input type="hidden" name="property_id"
+                                                        value="{{ $lease->property_id }}">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editStartDate{{ $lease->id }}"
                                                         class="form-label">Start Date:</label>
                                                     <input type="date" class="form-control" name="start_date"
                                                         id="editStartDate{{ $lease->id }}"
-                                                        value="{{ \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d') }}">
+                                                        value="{{ old('start_date', \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d')) }}">
+                                                    @error('start_date')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editEndDate{{ $lease->id }}" class="form-label">End
                                                         Date:</label>
                                                     <input type="date" class="form-control" name="end_date"
                                                         id="editEndDate{{ $lease->id }}"
-                                                        value="{{ \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d') }}">
+                                                        value="{{ old('end_date', \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d')) }}">
+                                                    @error('end_date')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
-                                                <div class="mb-3">
+                                                {{-- <div class="mb-3">
                                                     <label for="editStatus{{ $lease->id }}"
                                                         class="form-label">Status:</label>
                                                     <select class="form-select" name="status"
                                                         id="editStatus{{ $lease->id }}">
                                                         <option value="active"
-                                                            {{ $lease->status == 'active' ? 'selected' : '' }}>Active
-                                                        </option>
+                                                            {{ old('status', $lease->status) == 'active' ? 'selected' : '' }}>
+                                                            Active</option>
                                                         <option value="expired"
-                                                            {{ $lease->status == 'expired' ? 'selected' : '' }}>Expired
-                                                        </option>
+                                                            {{ old('status', $lease->status) == 'expired' ? 'selected' : '' }}>
+                                                            Expired</option>
                                                     </select>
-                                                </div>
+                                                    @error('status')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div> --}}
                                                 <div class="mb-3">
                                                     <label for="editDescription{{ $lease->id }}"
                                                         class="form-label">Description:</label>
-                                                    <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ $lease->description }}</textarea>
+                                                    <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ old('description', $lease->description) }}</textarea>
+                                                    @error('description')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
+                                                {{-- <div class="mb-3">
+                                                    <label for="editUser{{ $lease->id }}"
+                                                        class="form-label">User:</label>
+                                                    <input class="form-control" name="user_id"
+                                                        id="editUser{{ $lease->id }}">{{ old('user_id', $lease->users->name) }}</input>
+                                                    @error('description')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div> --}}
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
@@ -209,36 +237,62 @@
                             <label for="createUser" class="form-label">User:</label>
                             <select class="form-select" name="user_id" id="createUser">
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>  
+                                    <option value="{{ $user->id }}"
+                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('user_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="createProperty" class="form-label">Property:</label>
                             <select class="form-select" name="property_id" id="createProperty">
                                 @foreach ($properties as $property)
-                                    <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                    <option value="{{ $property->id }}"
+                                        {{ old('property_id') == $property->id ? 'selected' : '' }}>
+                                        {{ $property->name }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('property_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="createStartDate" class="form-label">Start Date:</label>
-                            <input type="date" class="form-control" name="start_date" id="createStartDate">
+                            <input type="date" class="form-control" name="start_date" id="createStartDate"
+                                value="{{ old('start_date') }}">
+                            @error('start_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="createEndDate" class="form-label">End Date:</label>
-                            <input type="date" class="form-control" name="end_date" id="createEndDate">
+                            <input type="date" class="form-control" name="end_date" id="createEndDate"
+                                value="{{ old('end_date') }}">
+                            @error('end_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             {{-- <label for="createStatus" class="form-label">Status:</label>
                             <select class="form-select" name="status" id="createStatus">
-                                <option value="active">Active</option>
-                                <option value="expired">Expired</option>
-                            </select> --}}
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                            </select>
+                            @error('status')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror --}}
                         </div>
                         <div class="mb-3">
                             <label for="createDescription" class="form-label">Description:</label>
-                            <textarea class="form-control" name="description" id="createDescription"></textarea>
+                            <textarea class="form-control" name="description" id="createDescription">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
