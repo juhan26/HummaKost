@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <meta name="description" content="Kontrakan Las Vegas" />
 
-    <title>Kontrakan Las Vegas</title>
+    <title>HummaKost</title>
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
@@ -47,7 +47,7 @@
                 <!-- logo -->
                 <div>
                     <a href="#">
-                        <img src="/assets/img/images/logo.png" alt="New Logo" style="width:11rem; height:3rem;">
+                        <img src="/assets/images/logo.png" alt="New Logo" style="width:4rem; height:4rem;">
                     </a>
                 </div>
                 <!-- logo -->
@@ -248,14 +248,13 @@
                             </h2>
                             <h1 class="capitalize mb-4 lg:mb-6 font-display font-semibold md:text-3xl text-2xl 2xl:text-[56px] 2xl:leading-[72px] text-primary-900"
                                 data-aos="fade-down" data-aos-duration="1000">
-                                Kontrakan <span class="text-primary-500 after-svg banner_5000">Las Vegas</span>
-                                Kontrakan
-                                ter- <span class="text-primary-500 after-svg banner_300">Keren</span> Acakadulss
-                                & Ter-Ancur
+                                <span class="text-primary-500 after-svg banner_5000">HummaKost</span>
+                                Kontrakan 
+                                ter- <span class="text-primary-500 after-svg banner_300">Nyaman</span> Harga
+                                <span class="text-primary-500 after-svg banner_300">Terjangkau</span> Segera Miliki!
                             </h1>
                             <p class="text-gray-500 font-normal font-display lg:text-[20px] md:text-base text-sm lg:leading-7 mb-8 pt-4 xl:pt-0"
-                                data-aos="fade-down" data-aos-duration="1000"> Disini orangnya ganteng
-                                ganteng, keren-keren, pinter-pinter, asik-asik, pokonya asoy lahh</p>
+                                data-aos="fade-down" data-aos-duration="1000"> Lebih dari sekadar Tempat Tinggal, ini Rumah anda.</p>
                             <form action="" data-aos="fade-down" data-aos-duration="1000">
                                 <div class="flex justify-between items-center ">
                                     <div class="relative w-full xl:max-w-[648px]">
