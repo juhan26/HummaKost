@@ -15,24 +15,44 @@ class LeaseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $leases = Lease::latest()->paginate(6);
+    public function index(Request $request)
+{
+    // Get the selected property filter if available
+    $propertyFilter = $request->input('property_filter');
 
-        $users = User::where(function ($query) {
-            $query->whereHas('roles', function ($query) {
-                $query->where('name', 'member');
-            })->orWhereHas('roles', function ($query) {
-                $query->where('name', 'admin');
-            });
-        })->whereDoesntHave('leases')
-            ->latest()
-            ->paginate(10);
+    // Fetch leases, optionally filtered by the selected property
+    $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
+            return $query->where('property_id', $propertyFilter);
+        })
+        ->latest()
+        ->paginate(6);
+ 
+    // Fetch users associated with the selected property
+    $users = User::when($propertyFilter, function ($query, $propertyFilter) {
+        return $query->whereHas('leases', function ($query) use ($propertyFilter) {
+            $query->where('property_id', $propertyFilter);
+        });
+    })
+    ->orWhereDoesntHave('leases') // Include users without any leases
+    ->where(function ($query) {
+        $query->whereHas('roles', function ($query) {
+            $query->where('name', 'member');
+        })->orWhereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        });
+    })
+    ->latest()
+    ->get();
 
-        $properties = Property::all();
 
-        return view('pages.leases.index', compact('leases', 'users', 'properties'));
-    }
+        
+
+    // Fetch all properties for the dropdown
+    $properties = Property::all();
+
+    return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
+}
+
 
     /**
      * Show the form for creating a new resource.
