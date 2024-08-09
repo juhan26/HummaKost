@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <meta name="description" content="Kontrakan Las Vegas" />
 
-    <title>Kontrakan Las Vegas</title>
+    <title>HummaKost</title>
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
@@ -32,11 +32,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-        <style>
-            *{
-               scroll-behavior: smooth;
-            } 
-        </style>
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,7 +47,7 @@
                 <!-- logo -->
                 <div>
                     <a href="#">
-                        <img src="/assets/img/images/logo.png" alt="New Logo" style="width:11rem; height:3rem;">
+                        <img src="/assets/images/logo.png" alt="New Logo" style="width:4rem; height:4rem;">
                     </a>
                 </div>
                 <!-- logo -->
@@ -56,7 +56,11 @@
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="#">home</a>
+                            href="{{ route('home.index') }}">home</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="#search_people">properties</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
@@ -64,11 +68,11 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#workprocess">course</a>
+                            href="#descc">about</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#portfolio">blog</a>
+                            href="#gambars">feedback</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
@@ -97,7 +101,8 @@
                                     fill="currentColor" />
                             </svg> --}}
                         </span>
-                        <a href="{{ route('login') }}" class="hidden xl:inline-block btn-primary"><span>Login</span></a>
+                        <a href="{{  Auth::user() ? route('dashboard') : route('login') }}"
+                            class="hidden xl:inline-block btn-primary"><span>{{ Auth::user() ? 'Dashboard' : 'Login' }}</span></a>
                     </a>
                     {{-- <a href="#" class="hidden xl:inline-block btn-primary">
                         <span>Sign up for Free</span>
@@ -116,13 +121,14 @@
 
     <!-- Mobile Menu Area Start -->
     <div class="nav-menu" id="nav-menu">
-        <div class="flex justify-between items-center p-6 mb-8">
+        <div class="flex justify-center items-center p-6 mb-8">
             <div>
                 <a href="#">
-                    <img src="/assets/img/images/logo.png" alt="" style="width: 14rem ; height: 4rem;">
+                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 14rem; height: 4rem;"
+                        class="container">
                 </a>
             </div>
-            <div>
+            <div class="absolute right-6">
                 <button
                     class="hamburger-btn-close bg-[#F7F7F9] text-primary-900 hover:bg-primary-500 w-[44px] h-[44px] rounded-full flex items-center justify-center hover:text-white"
                     id="hamburger-btn-close">
@@ -144,15 +150,19 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                    href="#search_people">properties</a>
+            </li>
+            <li class="mb-2">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
                     href="#loadMember">member</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#workprocess">course</a>
+                    href="#descc">about</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#portfolio">blog</a>
+                    href="#gambars">feedback</a>
             </li>
             <li class="">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -160,11 +170,12 @@
             </li>
         </ul>
         <div class="px-6 mb-8">
-            <a href="#" class="btn-primary">
+            {{-- <a href="#" class="btn-primary">
                 <span>Sign up for Free</span>
-            </a>
+            </a> --}}
         </div>
     </div>
+
     <!-- Mobile Menu Area End -->
     <div class="overlay" id="overlay"></div>
     <!-- header area end -->
@@ -239,18 +250,17 @@
                             </h2>
                             <h1 class="capitalize mb-4 lg:mb-6 font-display font-semibold md:text-3xl text-2xl 2xl:text-[56px] 2xl:leading-[72px] text-primary-900"
                                 data-aos="fade-down" data-aos-duration="1000">
-                                Kontrakan <span class="text-primary-500 after-svg banner_5000">Las Vegas</span>
-                                Kontrakan
-                                ter- <span class="text-primary-500 after-svg banner_300">Keren</span> Acakadulss
-                                & Ter-Ancur
+                                <span class="text-primary-500 after-svg banner_5000">HummaKost</span>
+                                Kontrakan 
+                                ter- <span class="text-primary-500 after-svg banner_300">Nyaman</span> Harga
+                                <span class="text-primary-500 after-svg banner_300">Terjangkau</span> Segera Miliki!
                             </h1>
                             <p class="text-gray-500 font-normal font-display lg:text-[20px] md:text-base text-sm lg:leading-7 mb-8 pt-4 xl:pt-0"
-                                data-aos="fade-down" data-aos-duration="1000"> Disini orangnya ganteng
-                                ganteng, keren-keren, pinter-pinter, asik-asik, pokonya asoy lahh</p>
+                                data-aos="fade-down" data-aos-duration="1000"> Lebih dari sekadar Tempat Tinggal, ini Rumah anda.</p>
                             <form action="" data-aos="fade-down" data-aos-duration="1000">
                                 <div class="flex justify-between items-center ">
                                     <div class="relative w-full xl:max-w-[648px]">
-                                        <input type="text"
+                                        <input type="text" id="search_people"
                                             class="px-6 py-6 block w-full shadow-[-4px_-4px_44px_rgba(0,0,0,0.08)] rounded focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out"
                                             placeholder="Cari orang di kontrakan ini?">
                                         <span class="absolute top-6 right-6">
@@ -271,13 +281,13 @@
                     </div>
                     <!-- left -->
                     <!-- right -->
-                    <div class="mt-5 2xl:mt-[156px] relative">
+                    <div class="mt-5 2xl:mt-[156px] relative flex justify-center items-center">
                         <div
-                            class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center">
+                            class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
                                 class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" data-tilt
-                                style="margin-top: 7rem; margin-left: 9rem; width: 30rem; height: 20rem; transform: rotate(4deg);"
-                                data-aos="fade-left" data-aos-duration="1000">
+                                style="margin-top: 7rem; width: 30rem; height: 20rem;" data-aos="fade-left"
+                                data-aos-duration="1000">
                         </div>
                         <div
                             class="bg-white xl:px-5 xl:w-[197px] md:px-3 px-2 xl:py-[18px] md:py-2.5 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[197px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4">
@@ -314,7 +324,7 @@
     <!-- banner area end -->
 
     <!-- course area start -->
-    <section class="section-padding course-section bg-primary-50/70">
+    <section class="section-padding course-section bg-primary-50/70" id="properties">
         <div class="container px-4 sm:px-6 xl:px-0">
             <div class="xl:flex items-center">
                 <div class="xl:w-1/4">
@@ -361,7 +371,8 @@
                                             <div class="border-b border-gray-50 h-1 w-full"></div>
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
-                                                    <h4 class="text-gray-black font-semibold font-display text-2xl" id="loadMember">
+                                                    <h4 class="text-gray-black font-semibold font-display text-2xl"
+                                                        id="loadMember">
                                                         {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h4>
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
@@ -384,7 +395,7 @@
 
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination" ></div>
+                        <div class="swiper-pagination"></div>
                     </div>
                 </div>
             </div>
@@ -1042,7 +1053,8 @@
         <div class="container px-4 2xl:px-0">
             <form id="propertyForm" method="GET" action="#loadMember">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                         <span class="text-primary-500 after-svg instructor">Member</span>
                     </h2>
                     <div class="ml-6 w-64 relative"> <!-- Adjust width as needed -->
@@ -1066,9 +1078,10 @@
                     </div>
                 </div>
             </form>
-    
+
             <div class="flex items-center mb-4">
-                <p class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident.</p>
+                <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years,
+                    sometimes by accident.</p>
             </div>
             <div class="slider-container mx-auto px-4 2xl:px-0">
                 <div class="swiper instructorSwipper relative">
@@ -1088,7 +1101,9 @@
                                                     class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $lease->status }}</span>
                                             </h2>
                                             <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                                <a href="#">{{ \Carbon\Carbon::parse($lease->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($lease->end_date)->format('d M Y') }} </a>
+                                                <a href="#">{{ \Carbon\Carbon::parse($lease->start_date)->format('d M Y') }}
+                                                    - {{ \Carbon\Carbon::parse($lease->end_date)->format('d M Y') }}
+                                                </a>
                                             </h4>
                                         @endforeach
                                     </div>
@@ -1103,7 +1118,7 @@
             </div>
         </div>
     </section>
-    
+
     <script>
         // Scroll to #member section if the URL contains #member fragment
         document.addEventListener('DOMContentLoaded', function() {
@@ -1112,7 +1127,7 @@
             }
         });
     </script>
-    
+
 
     <!-- intructor section end -->
 
@@ -1139,7 +1154,7 @@
                     <div class="xl:w-1/2 w-full relative flex justify-center">
                         <div
                             class="inline-flex justify-center xl:absolute xl:bottom-[-96px] xl:left-1/2 xl:-translate-x-1/2 transform">
-                            <img src="/assets/images/achievement-person.png" alt="">
+                            <img src="/assets/images/achievement-person.png" alt="" id="gambars">
                             <span class="absolute -left-[12%] top-[65%] z-50 animate-bounce">
                                 <svg width="78" height="78" viewBox="0 0 78 78" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -1575,6 +1590,38 @@
             speed: 400,
             glare: true,
             "max-glare": 0.5,
+        });
+
+        function submitFormAndScroll() {
+            var form = document.getElementById('propertyForm');
+            var selectedPropertyId = document.getElementById('property').value;
+
+            // Append query parameters to the URL
+            var url = new URL(window.location.href);
+            url.searchParams.set('property_id', selectedPropertyId);
+            url.searchParams.set('redirect', '#member');
+
+            // Scroll to the desired position
+            window.scrollTo({
+                top: 700,
+                behavior: 'smooth'
+            });
+
+            // Submit the form with the updated URL
+            window.location.href = url.toString();
+        }
+
+        // Check if the page was reloaded
+        if (performance.navigation.type === 1) {
+            // Redirect to the root path
+            window.location.href = '/';
+        }
+
+        // Scroll to #member section if the URL contains #member fragment
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash === '#member') {
+                document.getElementById('member').scrollIntoView();
+            }
         });
     </script>
 

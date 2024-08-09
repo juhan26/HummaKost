@@ -23,10 +23,12 @@
                             </form>
                         </div>
                         <div class="col-12 mt-4 col-lg-2">
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#createModal">
-                                Add Lease
-                            </button>
+                            @hasrole('super_admin')
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Add Lease
+                                </button>
+                            @endhasrole
                         </div>
                     </div>
                 </div>
@@ -68,10 +70,32 @@
                                         <form action="{{ route('leases.destroy', $lease->id) }}" method="POST"
                                             class="d-inline">
                                             <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">
+                                                data-bs-target="#deleteModal{{ $lease->id }}">
                                                 Delete
                                             </button>
                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Delete Leases</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure wan't to delete this property?
+                                        </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                                                <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                                </form>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,19 +121,29 @@
                         <div class="mb-3">
                             <label for="user_id" class="form-label">User:</label>
                             <select class="form-select" name="user_id" id="user_id">
-                                <option value="">Select User</option>
-                                @foreach ($userStore as $user2)
-                                    <option value="{{ $user2->id }}">{{ $user2->name }}</option>
-                                @endforeach
+                                @forelse ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @empty
+                                    <option selected>TIdak Ada User</option>
+                                @endforelse
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Property:</label>
                             <select class="form-select" name="property_id" id="property_id">
                                 <option value="">Select Property</option>
-                                @foreach ($properties as $property)
-                                    <option value="{{ $property->id }}">{{ $property->name }}</option>
-                                @endforeach
+                                @forelse ($properties as $property)
+                                    @php
+                                        $property_id = $property->id;
+
+                                        $user_total = \App\Models\Lease::where('property_id', $property->id)->count();
+                                    @endphp
+                                    <option value="{{ $property->id }}">
+                                        {{ $property->capacity == $user_total ? $property->name . ' - Penuh' : $property->name . ' - Tersedia' }}
+                                    </option>
+                                @empty
+                                    <option value="">Belum Ada Kontrakan</option>
+                                @endforelse
                             </select>
                         </div>
                         <div class="mb-3">
@@ -121,21 +155,10 @@
                             <input type="date" class="form-control" name="end_date" id="end_date">
                         </div>
                         <div class="mb-3">
-                            <label for="status" class="form-label">Status:</label>
-                            <select class="form-select" name="status" id="status">
-                                <option value="active">Active</option>
-                                <option value="expired">Expired</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <label for="description" class="form-label">Description:</label>
                             <textarea class="form-control" name="description" id="description"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="total_iuran" class="form-label">Total Iuran:</label>
-                            <input type="number" class="form-control" name="total_iuran" id="total_iuran"
-                                step="0.01" required>
-                        </div>
+                        {{-- Remove total_iuran input --}}
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Add Lease</button>
@@ -146,32 +169,10 @@
         </div>
     </div>
 
+
     <!-- Delete Modal -->
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Leases</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure wan't to delete this property?
-                </div>
-                @foreach ($leases as $lease)
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 
-                        <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-primary">Delete</button>
-                        </form>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
     <!-- Delete Modal -->
 
     {{-- Edit Modals --}}
@@ -190,7 +191,8 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label for="editUser{{ $lease->id }}" class="form-label">User:</label>
-                                <select class="form-select" value="{{ $lease->user_id }} id="editUser{{ $lease->id }}">
+                                <select class="form-select" name="user_id"
+                                    value="{{ $lease->user_id }} id="editUser{{ $lease->id }}">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
                                             {{ $lease->user_id == $user->id ? 'selected' : '' }}>
@@ -200,8 +202,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="editProperty{{ $lease->id }}" class="form-label">Property:</label>
-                                <select class="form-select" name="property_id" id="editProperty{{ $lease->id }}"
-                                    required>
+                                <select class="form-select" name="property_id" id="editProperty{{ $lease->id }}"">
                                     @foreach ($properties as $property)
                                         <option value="{{ $property->id }}"
                                             {{ $lease->property_id == $property->id ? 'selected' : '' }}>
@@ -233,12 +234,6 @@
                             <div class="mb-3">
                                 <label for="editDescription{{ $lease->id }}" class="form-label">Description:</label>
                                 <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ $lease->description }}</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editTotalIuran{{ $lease->id }}" class="form-label">Total Iuran:</label>
-                                <input type="number" class="form-control" name="total_iuran"
-                                    id="editTotalIuran{{ $lease->id }}" step="0.01"
-                                    value="{{ $lease->total_iuran }}" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

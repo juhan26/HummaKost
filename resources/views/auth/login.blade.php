@@ -118,7 +118,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <label for="email">Email or Username</label>
+                                <label for="email">Email</label>
                             </div>
                             <div class="mb-5">
                                 <div class="form-password-toggle">

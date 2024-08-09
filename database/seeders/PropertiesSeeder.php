@@ -16,12 +16,12 @@ class PropertiesSeeder extends Seeder
         Property::create([
             'name' => 'Las Vegas',
             'rental_price' => '300000',
-            'description' => 'lorem2',
-            'address' => 'alamat',
+            'description' => 'Kosan Programmer.',
+            'address' => 'Jl. Giok No.13, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152',
             'capacity' => '12',
             'gender_target' => 'male',
-            'langtitude' => '-7.8931564',
-            'longtitude' => '112.6096738',
+            'langtitude' => '-7.8930955',
+            'longtitude' => '112.6097331',
         ]);
     }
 }

@@ -6,14 +6,13 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <h3 class="card-title">
-                                Properties
-                            </h3>
+                            <h3 class="card-title">Properties</h3>
                             <small>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni totam, eaque voluptas
                                 veritatis nisi consequuntur.</small>
                         </div>
                     </div>
                     <div class="row d-flex align-items-center mt-4">
+
                         <div class="col-12 col-lg-8 mt-4">
                             <form action="" method="GET" class="d-flex w-100 ">
                                 @csrf
@@ -35,7 +34,7 @@
                                         }
                                     });
 
-                                    
+
                                     key.addEventListener('input', function() {
                                         if (key.value.trim() !== '') {
                                             close.style.display = 'block';
@@ -59,9 +58,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- properties --}}
                     <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
-                        @foreach ($properties as $property)
+                        @forelse ($properties as $property)
                             <div class="col">
                                 <div class="card h-100">
                                     @if ($property->image)
@@ -81,7 +79,6 @@
                                                 <p class="card-text w-75">Address: <br>{{ $property->address }}</p>
                                                 <p class="card-text w-25">Capacity: <br><span
                                                         class="badge bg-success w-100">{{ $property->capacity }}</span></p>
-
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12">
@@ -91,16 +88,17 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforelse
                     </div>
                 </div>
             </div>
         </div>
         {{ $properties->links() }}
     </div>
-    {{-- create modal --}}
-    <div class="modal fade " id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog ">
+
+    {{-- Create Modal --}}
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add Properties</h1>
@@ -109,49 +107,45 @@
                 <div class="modal-body">
                     <form action="{{ route('properties.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        @method('POST')
                         <div class="row">
-
                             <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Name</label>
+                                <label for="name" class="form-label">Name</label>
                                 <input type="text" name="name" class="form-control">
                             </div>
                             <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Capacity</label>
+                                <label for="capacity" class="form-label">Capacity</label>
                                 <input type="number" name="capacity" class="form-control">
-
                             </div>
                             <div class="col-12 col-lg-12">
-                                <label for="" class="form-label">Photo</label>
+                                <label for="image" class="form-label">Photo</label>
                                 <input type="file" name="image" class="form-control">
-
                             </div>
                             <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Rental Price</label>
+                                <label for="rental_price" class="form-label">Rental Price</label>
                                 <input type="number" name="rental_price" class="form-control">
-
                             </div>
                             <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Gender Target</label>
-                                <select name="gender_target" id="" class="form-select">
+                                <label for="gender_target" class="form-label">Gender Target</label>
+                                <select name="gender_target" id="gender_target" class="form-select">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
-
                             </div>
                             <div class="col-12 col-lg-12">
-                                <label for="" class="form-label">Description</label>
+                                <label for="description" class="form-label">Description</label>
                                 <input type="text" name="description" class="form-control">
-
                             </div>
                             <div class="col-12 col-lg-12">
-                                <label for="" class="form-label">Address</label>
+                                <label for="address" class="form-label">Address</label>
                                 <input type="text" name="address" class="form-control">
                             </div>
                             <div class="col-12 col-lg-12 mt-3">
-                                <div class="d-flex justify-content-around">
-                                    <small class="form-label">Latitude</small>
-                                    <small class="form-label">Longtitude</small>
+                                <label class="form-label">Maps Coordinate: (Use Search Location/Input Latitude and
+                                    Longitude/Click The Map)</label>
+                                <div class="d-flex gap-3 mb-3">
+                                    <input type="text" id="location-search" class="form-control"
+                                        placeholder="Enter location...">
+                                    <button type="button" id="search-button" class="btn btn-primary">Search</button>
                                 </div>
                                 <div class="d-flex mb-3 gap-3">
 
@@ -173,9 +167,9 @@
     </div>
 
     <script>
-        var lat = -7.896591;
-        var lng = 112.6089657;
-        var zoomLevel = 16;
+        var lat = -7.8965894;
+        var lng = 112.6090665;
+        var zoomLevel = 15.39;
 
         var map = L.map('map').setView([lat, lng], zoomLevel);
 
@@ -197,120 +191,61 @@
 
             document.getElementById('latitude').value = clickedLat;
             document.getElementById('longitude').value = clickedLng;
-
         }
-        map.on('click', onMapClick)
+
+        map.on('click', onMapClick);
+
+        document.getElementById('search-button').addEventListener('click', function() {
+            var location = encodeURIComponent(document.getElementById('location-search').value);
+            if (location) {
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            var lat = data[0].lat;
+                            var lng = data[0].lon;
+                            map.setView([lat, lng], 16);
+
+                            if (marker) {
+                                marker.setLatLng([lat, lng]);
+                            } else {
+                                marker = L.marker([lat, lng]).addTo(map);
+                            }
+
+                            document.getElementById('latitude').value = lat;
+                            document.getElementById('longitude').value = lng;
+                        } else {
+                            alert('Location not found.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+
+        document.getElementById('search-coordinates-button').addEventListener('click', function() {
+            var lat = document.getElementById('latitude').value;
+            var lng = document.getElementById('longitude').value;
+            var apiKey = '8bc19529d2bf4e1c93b380dfd6acb17b'; // Ganti dengan API key Anda
+            var url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results.length > 0) {
+                        map.setView([lat, lng], 13);
+
+                        if (marker) {
+                            marker.setLatLng([lat, lng]);
+                        } else {
+                            marker = L.marker([lat, lng]).addTo(map);
+                        }
+
+                        marker.bindPopup(data.results[0].formatted).openPopup();
+                    } else {
+                        alert('Location not found.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
     </script>
 @endsection
-{{--
-<div class="container">
-
-    @hasrole('member|admin')
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Add
-            Financial</button>
-
-        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel">Add Add
-                            Financial</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('financial.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="user_id" class="col-form-label">Name:</label>
-                                <input type="hidden" class="form-control" name="user_id" id="user_id"
-                                    value="{{ Auth::user()->id }}">
-                                <input type="text" class="form-control" disabled value="{{ Auth::user()->name }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="types" class="col-form-label">Type:</label>
-                                <select class="form-select" aria-label="Default select example" name="types"
-                                    id="types">
-                                    <option selected>Open this select menu</option>
-                                    <option value="Income">Income</option>
-                                    <option value="Expense">Expense</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="nominal" class="col-form-label">Nominal:</label>
-                                <input type="number" class="form-control" name="nominal" id="nominal">
-                            </div>
-                            <div class="form-group">
-                                <label for="payment_proof" class="col-form-label">Payment Proof:</label>
-                                <input type="file" class="form-control" name="payment_proof" id="payment_proof">
-                            </div>
-                            <div class="form-group">
-                                <label for="financial_date" class="col-form-label">Financial Date:</label>
-                                <input type="date" class="form-control" name="financial_date" id="financial_date">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Send message</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endhasrole
-    <h1>Financial Data</h1>
-
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Payment Proof</th>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Types</th>
-                    <th>Nominal</th>
-                    <th>Status</th>
-                    <th>Financial Date</th>
-                    <th>Has Paid Until</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($financials as $index => $financial)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>
-                            <img style="width: 200px" src="{{ asset('storage/' . $financial->payment_proof) }}"
-                                alt="Error">
-                        </td>
-                        <td>{{ $financial->users->name }}</td>
-                        <td>{{ $financial->amount }}</td>
-                        <td>{{ $financial->types }}</td>
-                        <td>{{ $financial->nominal }}</td>
-                        <td>{{ $financial->status }}</td>
-                        <td>{{ $financial->financial_date }}</td>
-                        <td>{{ $financial->has_paid_until }}</td>
-                        <td>
-                            @if ($financial->status === 'Pending')
-                                <form action="{{ route('financial.accept', $financial->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="btn btn-success">Accept</button>
-                                </form>
-                            @endif
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td>
-                            Data is Empty
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-    {{ $financials->links() }}
-</div>
-
---}}
