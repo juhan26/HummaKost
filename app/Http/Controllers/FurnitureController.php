@@ -103,6 +103,9 @@ class FurnitureController extends Controller
     public function destroy(Furniture $furniture)
     {
         try {
+            if ($furniture->photo) {
+                Storage::delete('public/' . $furniture->photo);
+            }
             $furniture->delete();
             return redirect()->route('furnitures.index')->with('success', "Successful Deleted Furniture");
         } catch (QueryException $e) {
