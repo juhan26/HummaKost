@@ -19,6 +19,8 @@
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+
 
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
@@ -195,7 +197,6 @@
                                 <div class="inline-block bg-red-500 text-white px-2 py-1 rounded mt-6">
                                     {{ $property->status }}</div>
                             @endif
-
                         </h1>
 
                         <h5 class="text-lg text-gray-600">{{ $property->description }}</h5>
@@ -204,18 +205,39 @@
                         <div class="inline-block bg-yellow-400 text-white px-2 py-1 rounded mt-6 mr-3">
                             Capacity: <strong>{{ $property->capacity }}</strong>
                         </div>
+
+                        <!-- Menampilkan Semua Pengguna -->
+                        <!-- Menampilkan Semua Pengguna -->
+                        <div class="mt-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Anggota</h3>
+                            <div class="flex overflow-x-auto gap-4 py-15">
+                                @forelse ($leases as $lease)
+                                    <div class="bg-white rounded-lg p-4 min-w-48">
+                                        <img class="w-20 h-20 rounded-full mx-auto"
+                                            src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
+                                            alt="{{ $lease->users->name }}">
+                                        <h4 class="text-lg font-semibold text-gray-800 mt-2 text-center">
+                                            {{ $lease->users->name }}</h4>
+                                        <p class="text-gray-600 text-center">{{ $lease->users->status }}</p>
+                                    </div>
+                                @empty
+                                    <div class="text-center text-black">Belum ada anggota</div>
+                                @endforelse
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
                 <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
-
-                    <div class="map-container">
-                        <div style="width: 100%;height: 100vh" id="map"></div>
+                    <div class="map-container" style="z-index: 0;">
+                        <div style="width: 100%;height: 100vh;" id="map"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <style>
         .map-container {
@@ -506,7 +528,7 @@
         }).addTo(map);
     </script>
 
-
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="/assets/plugins/js/jquery.js"></script>
     <script src="/assets/plugins/js/swipper.js"></script>
     <script src="/assets/plugins/js/waypoint.js"></script>
