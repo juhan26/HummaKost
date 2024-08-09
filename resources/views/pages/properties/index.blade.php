@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-12 mt-4 col-lg-2">
                             <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#createModal">Add Properties</button>
+                                data-bs-target="#createModal" >Add Properties</button>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                                         class="form-control">
                                     <input type="text" placeholder="Longtitude" name="longtitude" id="longitude"
                                         class="form-control">
-                                    <button type="button" id="search-coordinates-button" class="btn btn-primary">Search
+                                    <button type="button" id="search-coordinates-button" class="btn btn-primary" style="font-size: 11px">Search
                                         Coordinate</button>
                                 </div>
                                 <div id="map" style="width: 100%; height: 400px"></div>
