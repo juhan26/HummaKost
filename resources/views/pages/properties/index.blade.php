@@ -12,19 +12,48 @@
                         </div>
                     </div>
                     <div class="row d-flex align-items-center mt-4">
-                        <div class="col-12 col-lg-10 mt-4">
-                            <form action="" method="GET" class="d-flex w-100">
+
+                        <div class="col-12 col-lg-8 mt-4">
+                            <form action="" method="GET" class="d-flex w-100 ">
                                 @csrf
                                 <div class="d-flex align-items-center border rounded w-100 px-3">
-                                    <input type="text" name="search" class="form-control border-none"
+                                    <input type="text" name="search" id="searchInput" class="form-control border-none"
                                         value="{{ request()->input('search') }}" placeholder="Search...">
-                                    <a class="btn-close cursor-pointer" href="{{ route('properties.index') }}"></a>
+                                    <a href="{{ route('properties.index') }}" style="display: none" id="clearSearch"
+                                        class="btn-close"></a>
                                 </div>
-                            </form>
+                                <script>
+                                    const key = document.getElementById('searchInput');
+                                    const close = document.getElementById('clearSearch');
+
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+
+                                    
+                                    key.addEventListener('input', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+                                </script>
                         </div>
-                        <div class="col-12 mt-4 col-lg-2">
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#createModal" >Add Properties</button>
+                        <div class="col-12 mt-4 col-lg-4">
+                            <div class="d-flex align-items-center w-100 px-3 justify-content-between">
+                                <button class="btn btn-secondary w-25" type="submit"><i
+                                        class="mdi ri-search-line"></i></button>
+                                </form>
+                                <button type="button" class="btn btn-primary w-50 " data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Add Properties
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -118,13 +147,12 @@
                                         placeholder="Enter location...">
                                     <button type="button" id="search-button" class="btn btn-primary">Search</button>
                                 </div>
-                                <div class="d-flex mb-3 gap-3 col-12 col-lg-12">
-                                    <input type="text" placeholder="Langtitude" name="langtitude" id="latitude"
-                                        class="form-control">
-                                    <input type="text" placeholder="Longtitude" name="longtitude" id="longitude"
-                                        class="form-control">
-                                    <button type="button" id="search-coordinates-button" class="btn btn-primary" style="font-size: 11px">Search
-                                        Coordinate</button>
+                                <div class="d-flex mb-3 gap-3">
+
+                                    <input type="text" placeholder="click the map" name="langtitude" id="latitude"
+                                        class="form-control" readonly>
+                                    <input type="text" placeholder="click the map" name="longtitude" id="longitude"
+                                        class="form-control" readonly>
                                 </div>
                                 <div id="map" style="width: 100%; height: 400px"></div>
                             </div>
