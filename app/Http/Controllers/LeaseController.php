@@ -16,42 +16,45 @@ class LeaseController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    // Get the selected property filter if available
-    $propertyFilter = $request->input('property_filter');
+    {
+        // Get the selected property filter if available
+        $propertyFilter = $request->input('property_filter');
 
-    // Fetch leases, optionally filtered by the selected property
-    $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
+        // Fetch leases, optionally filtered by the selected property
+        $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
             return $query->where('property_id', $propertyFilter);
         })
-        ->latest()
-        ->paginate(6);
- 
-    // Fetch users associated with the selected property
-    $users = User::when($propertyFilter, function ($query, $propertyFilter) {
-        return $query->whereHas('leases', function ($query) use ($propertyFilter) {
-            $query->where('property_id', $propertyFilter);
-        });
-    })
-    ->orWhereDoesntHave('leases') // Include users without any leases
-    ->where(function ($query) {
-        $query->whereHas('roles', function ($query) {
-            $query->where('name', 'member');
-        })->orWhereHas('roles', function ($query) {
-            $query->where('name', 'admin');
-        });
-    })
-    ->latest()
-    ->get();
+            ->orWhereRelation('users','name','LIKE',"%$request->search%")//('nama_tabel','nama_kolom_pada_tabel_relasi','LIKE',"%$request->searchName%")
+            ->orWhereRelation('properties','name','LIKE',"%$request->search%")
+            ->orWhereRaw('CAST(start_date as CHAR) LIKE?',['%'.$request->search.'%'])//('CAST(nama_kolom as CHAR) LIKE?',['%' . $request->searchName . '%'])
+            ->latest()
+            ->paginate(6);
+
+        // Fetch users associated with the selected property
+        $users = User::when($propertyFilter, function ($query, $propertyFilter) {
+            return $query->whereHas('leases', function ($query) use ($propertyFilter) {
+                $query->where('property_id', $propertyFilter);
+            });
+        })
+            ->orWhereDoesntHave('leases') // Include users without any leases
+            ->where(function ($query) {
+                $query->whereHas('roles', function ($query) {
+                    $query->where('name', 'member');
+                })->orWhereHas('roles', function ($query) {
+                    $query->where('name', 'admin');
+                });
+            })
+            ->latest()
+            ->get();
 
 
-        
 
-    // Fetch all properties for the dropdown
-    $properties = Property::all();
 
-    return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
-}
+        // Fetch all properties for the dropdown
+        $properties = Property::all();
+
+        return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
+    }
 
 
     /**

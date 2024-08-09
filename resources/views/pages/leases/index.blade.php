@@ -21,13 +21,34 @@
                     </div>
                     <div class="row d-flex align-items-center mt-4">
                         <div class="col-12 col-lg-8">
-                            <form action="{{ route('leases.index') }}" method="GET" class="d-flex w-100">
+                            <form action="" method="GET" class="d-flex w-100 ">
                                 @csrf
                                 <div class="d-flex align-items-center border rounded w-100 px-3">
-                                    <input type="text" name="search" class="form-control border-none"
+                                    <input type="text" name="search" id="searchInput" class="form-control border-none"
                                         value="{{ request()->input('search') }}" placeholder="Search...">
-                                    <a class="btn-close cursor-pointer" href="{{ route('leases.index') }}"></a>
+                                    <a href="{{ route('leases.index') }}" style="display: none" id="clearSearch"
+                                        class="btn-close"></a>
                                 </div>
+                                <script>
+                                    const key = document.getElementById('searchInput');
+                                    const close = document.getElementById('clearSearch');
+
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+
+                                    key.addEventListener('input', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+                                </script>
                             </form>
                         </div>
                         <div class="col-12 col-lg-4 mt-4 mt-lg-0">
@@ -42,7 +63,7 @@
                             </form>
                         </div>
                     </div>
-                </div> git                
+                </div>
                 <div class="card-body">
                     {{-- Leases --}}
                     <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
@@ -72,7 +93,7 @@
                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModal{{ $lease->id }}">Delete</button>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                             {{-- Delete Modal --}}
@@ -209,7 +230,7 @@
                             <label for="createUser" class="form-label">User:</label>
                             <select class="form-select" name="user_id" id="createUser">
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>  
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
