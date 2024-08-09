@@ -84,6 +84,7 @@
     </div>
 
     {{-- Create Modal --}}
+    {{-- Create Modal --}}
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -131,11 +132,7 @@
                             <label for="description" class="form-label">Description:</label>
                             <textarea class="form-control" name="description" id="description"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="total_iuran" class="form-label">Total Iuran:</label>
-                            <input type="number" class="form-control" name="total_iuran" id="total_iuran"
-                                step="0.01" required>
-                        </div>
+                        {{-- Remove total_iuran input --}}
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Add Lease</button>
@@ -145,6 +142,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Delete Modal -->
 
@@ -190,7 +188,8 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label for="editUser{{ $lease->id }}" class="form-label">User:</label>
-                                <select class="form-select" value="{{ $lease->user_id }} id="editUser{{ $lease->id }}">
+                                <select class="form-select" name="user_id"
+                                    value="{{ $lease->user_id }} id="editUser{{ $lease->id }}">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
                                             {{ $lease->user_id == $user->id ? 'selected' : '' }}>
@@ -200,8 +199,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="editProperty{{ $lease->id }}" class="form-label">Property:</label>
-                                <select class="form-select" name="property_id" id="editProperty{{ $lease->id }}"
-                                    required>
+                                <select class="form-select" name="property_id" id="editProperty{{ $lease->id }}"">
                                     @foreach ($properties as $property)
                                         <option value="{{ $property->id }}"
                                             {{ $lease->property_id == $property->id ? 'selected' : '' }}>
@@ -233,12 +231,6 @@
                             <div class="mb-3">
                                 <label for="editDescription{{ $lease->id }}" class="form-label">Description:</label>
                                 <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ $lease->description }}</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editTotalIuran{{ $lease->id }}" class="form-label">Total Iuran:</label>
-                                <input type="number" class="form-control" name="total_iuran"
-                                    id="editTotalIuran{{ $lease->id }}" step="0.01"
-                                    value="{{ $lease->total_iuran }}" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

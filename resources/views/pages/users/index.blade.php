@@ -77,15 +77,13 @@
                                                     <label for="editName{{ $user->id }}"
                                                         class="form-label">Name:</label>
                                                     <input type="text" class="form-control" name="name"
-                                                        id="editName{{ $user->id }}" value="{{ $user->name }}"
-                                                        required>
+                                                        id="editName{{ $user->id }}" value="{{ $user->name }}">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editEmail{{ $user->id }}"
                                                         class="form-label">Email:</label>
                                                     <input type="email" class="form-control" name="email"
-                                                        id="editEmail{{ $user->id }}" value="{{ $user->email }}"
-                                                        required>
+                                                        id="editEmail{{ $user->id }}" value="{{ $user->email }}">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editPassword{{ $user->id }}"
@@ -133,19 +131,19 @@
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Name:</label>
-                            <input type="text" class="form-control" name="name" id="name" required>
+                            <input type="text" class="form-control" name="name" id="name">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email:</label>
-                            <input type="email" class="form-control" name="email" id="email" required>
+                            <input type="email" class="form-control" name="email" id="email">
                         </div>
                         <div class="mb-3">
                             <label for="phone_number" class="form-label">Phone Number:</label>
-                            <input type="text" class="form-control" name="phone_number" id="phone_number" required>
+                            <input type="text" class="form-control" name="phone_number" id="phone_number">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password:</label>
-                            <input type="password" class="form-control" name="password" id="password" required>
+                            <input type="password" class="form-control" name="password" id="password">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
