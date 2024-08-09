@@ -37,7 +37,7 @@
                 <div class="card-body">
                     {{-- furnitures --}}
                     <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
-                        @foreach ($furnitures as $furniture)
+                        @forelse ($furnitures as $furniture)
                             <div class="col">
                                 <div class="card h-100">
                                     <div class="card-body">
@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforelse
                     </div>
                 </div>
             </div>
