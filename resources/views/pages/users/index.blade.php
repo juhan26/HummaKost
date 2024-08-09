@@ -12,22 +12,46 @@
                         </div>
                     </div>
                     <div class="row d-flex align-items-center mt-4">
-                        <div class="col-12 col-lg-10 mt-4">
-                            <!-- Search Form -->
-                            <form action="{{ route('user.index') }}" method="GET" class="d-flex w-100">
+                        <div class="col-12 col-lg-8 mt-4">
+                            <form action="" method="GET" class="d-flex w-100 ">
                                 @csrf
                                 <div class="d-flex align-items-center border rounded w-100 px-3">
-                                    <input type="text" name="search" class="form-control border-none"
+                                    <input type="text" name="search" id="searchInput" class="form-control border-none"
                                         value="{{ request()->input('search') }}" placeholder="Search...">
-                                    <a class="btn-close cursor-pointer" href="{{ route('user.index') }}"></a>
+                                    <a href="{{ route('user.index') }}" style="display: none" id="clearSearch"
+                                        class="btn-close"></a>
                                 </div>
-                            </form>
+                                <script>
+                                    const key = document.getElementById('searchInput');
+                                    const close = document.getElementById('clearSearch');
+
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+
+                                    key.addEventListener('input', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+                                </script>
                         </div>
-                        <div class="col-12 mt-4 col-lg-2">
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#createModal">
-                                Add User
-                            </button>
+                        <div class="col-12 mt-4 col-lg-4">
+                            <div class="d-flex align-items-center w-100 px-3 justify-content-between">
+                                <button class="btn btn-secondary w-25" type="submit"><i
+                                        class="mdi ri-search-line"></i></button>
+                                </form>
+                                <button type="button" class="btn btn-primary w-50 " data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Add user
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
