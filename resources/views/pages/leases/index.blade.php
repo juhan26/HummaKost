@@ -23,10 +23,12 @@
                             </form>
                         </div>
                         <div class="col-12 mt-4 col-lg-2">
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#createModal">
-                                Add Lease
-                            </button>
+                            @hasrole('super_admin')
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Add Lease
+                                </button>
+                            @endhasrole
                         </div>
                     </div>
                 </div>
@@ -84,7 +86,6 @@
     </div>
 
     {{-- Create Modal --}}
-    {{-- Create Modal --}}
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -98,19 +99,29 @@
                         <div class="mb-3">
                             <label for="user_id" class="form-label">User:</label>
                             <select class="form-select" name="user_id" id="user_id">
-                                <option value="">Select User</option>
-                                @foreach ($userStore as $user2)
-                                    <option value="{{ $user2->id }}">{{ $user2->name }}</option>
-                                @endforeach
+                                @forelse ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @empty
+                                    <option selected>TIdak Ada User</option>
+                                @endforelse
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Property:</label>
                             <select class="form-select" name="property_id" id="property_id">
                                 <option value="">Select Property</option>
-                                @foreach ($properties as $property)
-                                    <option value="{{ $property->id }}">{{ $property->name }}</option>
-                                @endforeach
+                                @forelse ($properties as $property)
+                                    @php
+                                        $property_id = $property->id;
+
+                                        $user_total = \App\Models\Lease::where('property_id', $property->id)->count();
+                                    @endphp
+                                    <option value="{{ $property->id }}">
+                                        {{ $property->capacity == $user_total ? $property->name . ' - Penuh' : $property->name . ' - Tersedia' }}
+                                    </option>
+                                @empty
+                                    <option value="">Belum Ada Kontrakan</option>
+                                @endforelse
                             </select>
                         </div>
                         <div class="mb-3">
@@ -120,13 +131,6 @@
                         <div class="mb-3">
                             <label for="end_date" class="form-label">End Date:</label>
                             <input type="date" class="form-control" name="end_date" id="end_date">
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status:</label>
-                            <select class="form-select" name="status" id="status">
-                                <option value="active">Active</option>
-                                <option value="expired">Expired</option>
-                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description:</label>
