@@ -36,7 +36,7 @@
                 <div class="card-body">
                     {{-- properties --}}
                     <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
-                        @foreach ($properties as $property)
+                        @forelse ($properties as $property)
                             <div class="col">
                                 <div class="card h-100">
                                     <div class="card-body">
@@ -127,7 +127,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforelse
                     </div>
                 </div>
             </div>

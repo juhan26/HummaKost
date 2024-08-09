@@ -49,7 +49,7 @@
                                 </div>
                             @endif
                             @if ($errors->any())
-                                @foreach ($errors->all() as $error)
+                                @forelse ($errors->all() as $error)
                                     <div class="col-12">
                                         <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
                                             role="alert">
@@ -61,7 +61,7 @@
                                                 aria-label="Close" aria-hidden="true"></button>
                                         </div>
                                     </div>
-                                @endforeach
+                                @endforelse
                             @endif
                             @yield('content')
                         </div>
@@ -77,4 +77,3 @@
 </body>
 
 </html>
-    
