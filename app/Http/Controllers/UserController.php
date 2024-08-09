@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,8 +14,9 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request);
         if (Auth::user()->hasRole('super_admin')) {
             $users = User::where('id', '!=' , Auth::user()->id)->latest()->paginate(10);
         } else if (Auth::user()->hasRole('admin')) {
@@ -22,10 +24,22 @@ class UserController extends Controller
                 $query->where('name', 'member');
             })->orWhereHas('roles', function ($query) {
                 $query->where('name', 'admin');
-            })->where('id', '!=', Auth::user()->id)->latest()->paginate(10);
-        } else if (Auth::user()->hasRole('member')) {
+            })->latest()->paginate(10);
+        } else if (Auth::User()->hasRole('member')) {
             $users = User::role('member')->latest()->paginate(10);
         }
+
+        // dd($request->search);
+        if ($request->search) {
+            $users = User::where('name', 'LIKE', "%$request->input('search')%")
+                ->orWhere('email', 'LIKE', "%{$request->input('search')}%")
+                ->paginate(10);
+
+                // dd($pengguna);
+        } else {
+            $users = User::latest()->paginate(10);
+        }
+
 
         return view('pages.users.index', compact('users'));
     }
