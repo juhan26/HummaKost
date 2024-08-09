@@ -23,7 +23,7 @@ class StoreFurnitureRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:furnitures,name',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:255',
         ];
     }
 }
