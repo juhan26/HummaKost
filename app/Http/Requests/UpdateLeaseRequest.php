@@ -28,7 +28,6 @@ class UpdateLeaseRequest extends FormRequest
             'end_date' => 'required|date|after:start_date',
             'status' => 'required|in:active,inactive,pending,expired',
             'description' => 'nullable|string',
-            'total_iuran' => 'required|numeric|min:0',
         ];
     }
 }
