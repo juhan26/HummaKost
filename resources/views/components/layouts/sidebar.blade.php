@@ -73,7 +73,7 @@
         <li class="menu-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
             <a href="{{ url('users') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
-                <div>Members</div>
+                <div>Users</div>
             </a>
         </li>
         <li class="menu-header mt-5">

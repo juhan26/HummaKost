@@ -77,25 +77,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Delete Leases</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             Are you sure wan't to delete this property?
                                         </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancel</button>
 
-                                                <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-primary">Delete</button>
-                                                </form>
-                                            </div>
+                                            <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-primary">Delete</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -133,13 +136,8 @@
                             <select class="form-select" name="property_id" id="property_id">
                                 <option value="">Select Property</option>
                                 @forelse ($properties as $property)
-                                    @php
-                                        $property_id = $property->id;
-
-                                        $user_total = \App\Models\Lease::where('property_id', $property->id)->count();
-                                    @endphp
                                     <option value="{{ $property->id }}">
-                                        {{ $property->capacity == $user_total ? $property->name . ' - Penuh' : $property->name . ' - Tersedia' }}
+                                        {{ $property->status == 'full' ? $property->name . ' - Penuh' : $property->name . ' - Tersedia' }}
                                     </option>
                                 @empty
                                     <option value="">Belum Ada Kontrakan</option>
