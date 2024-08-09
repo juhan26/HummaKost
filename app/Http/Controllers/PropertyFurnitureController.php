@@ -13,11 +13,19 @@ class PropertyFurnitureController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $properties = Property::with('furnitures')->latest()->paginate(10);
         $furnitures = Furniture::all();
-        
+
+        if ($request->search) {
+            $properties = Property::where('name', 'LIKE', "%{$request->input('search')}%")
+            ->paginate(10);
+
+        } else {
+            $properties = Property::latest()->paginate(10);
+        }
+
         return view('pages.property_and_furnitures.index', compact('properties', 'furnitures'));
     }
 
