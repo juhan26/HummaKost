@@ -129,7 +129,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Description:</label>
-                            <input type="text" class="form-control" name="description" id="name" required>
+                            <input type="text" class="form-control" name="description" id="name">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

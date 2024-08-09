@@ -134,7 +134,7 @@
                         <div class="mb-3">
                             <label for="total_iuran" class="form-label">Total Iuran:</label>
                             <input type="number" class="form-control" name="total_iuran" id="total_iuran"
-                                step="0.01" required>
+                                step="0.01">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -190,7 +190,8 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label for="editUser{{ $lease->id }}" class="form-label">User:</label>
-                                <select class="form-select" value="{{ $lease->user_id }} id="editUser{{ $lease->id }}">
+                                <select class="form-select"
+                                    value="{{ $lease->user_id }} id="editUser{{ $lease->id }}">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
                                             {{ $lease->user_id == $user->id ? 'selected' : '' }}>
@@ -200,8 +201,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="editProperty{{ $lease->id }}" class="form-label">Property:</label>
-                                <select class="form-select" name="property_id" id="editProperty{{ $lease->id }}"
-                                    required>
+                                <select class="form-select" name="property_id" id="editProperty{{ $lease->id }}"">
                                     @foreach ($properties as $property)
                                         <option value="{{ $property->id }}"
                                             {{ $lease->property_id == $property->id ? 'selected' : '' }}>
@@ -238,7 +238,7 @@
                                 <label for="editTotalIuran{{ $lease->id }}" class="form-label">Total Iuran:</label>
                                 <input type="number" class="form-control" name="total_iuran"
                                     id="editTotalIuran{{ $lease->id }}" step="0.01"
-                                    value="{{ $lease->total_iuran }}" required>
+                                    value="{{ $lease->total_iuran }}">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
