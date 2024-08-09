@@ -43,7 +43,10 @@ class LandingController extends Controller
 
     public function show($id)
     {
+        $leases = Lease::with('users')->get();
+
+        $users = User::all();
         $property = Property::findOrFail($id);
-        return view('landing.properties.show', compact('property'));
+        return view('landing.properties.show', compact('property', 'users', 'leases'));
     }
 }
