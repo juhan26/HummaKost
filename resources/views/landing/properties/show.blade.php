@@ -13,12 +13,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 
     {{-- leafletjs --}}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-
-
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->
     <!-- <link rel="shortcut icon" type="image/jpg" href="./img/favicon-16x16.png" /> -->
@@ -176,22 +178,29 @@
                 <div class="flex flex-col lg:flex-row gap-6 my-2">
                     <div class="lg:w-1/2 bg-white rounded-lg">
                         @if ($property->image)
-                            <img class="w-full h-auto" src="{{ asset('storage/' . $property->image) }}" alt="Card image cap" style="width: 1500px; height: 500px'"/>
+                            <img class="w-full h-auto" src="{{ asset('storage/' . $property->image) }}"
+                                alt="Card image cap" style="width: 1500px; height: 500px'" />
                         @else
-                            <img class="w-full h-auto" src="{{ asset('assets/img/image_not_available.png') }}" alt="Card image cap" style="width: 1500px; height: 500px;"/>
+                            <img class="w-full h-auto" src="{{ asset('assets/img/image_not_available.png') }}"
+                                alt="Card image cap" style="width: 1500px; height: 500px;" />
                         @endif
                     </div>
-                    <div class="lg:w-1/2 bg-white rounded-lg container" style="padding-left: 25px; padding-bottom: 30px; padding-top: 30px; padding-right: 25px">
+                    <div class="lg:w-1/2 bg-white rounded-lg container"
+                        style="padding-left: 25px; padding-bottom: 30px; padding-top: 30px; padding-right: 25px">
                         <h1 class="text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}
                             @if ($property->status === 'available')
-                            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $property->status }}</span>
+                                <span
+                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $property->status }}</span>
                             @else
-                                <div class="inline-block bg-red-500 text-white px-2 py-1 rounded mt-6">{{ $property->status }}</div>
+                                <div class="inline-block bg-red-500 text-white px-2 py-1 rounded mt-6">
+                                    {{ $property->status }}</div>
                             @endif
+
                         </h1>
     
                         <h5 class="text-lg text-gray-600">{{ $property->description }}</h5>
-                        <h2 class="font-bold text-2xl text-gray-800 my-6">{{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
+                        <h2 class="font-bold text-2xl text-gray-800 my-6">
+                            {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
                         <div class="inline-block bg-yellow-400 text-white px-2 py-1 rounded mt-6 mr-3">
                             Capacity: <strong>{{ $property->capacity }}</strong>
                         </div>
@@ -199,13 +208,39 @@
                 </div>
     
                 <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
-                    <div class="map-container" style="height: 400px; position: relative; z-index: 1;">
-                        <div id="map" style="width: 100%; height: 100%;"></div>
+                
+                    <div class="map-container">
+                        {{-- <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.0178408331612!2d112.6072341752953!3d-7.893201792129538!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7881004f40cd03%3A0x39bbcdf0b563b7d4!2sKontrakan%20Las%20Vegas!5e0!3m2!1sid!2sid!4v1722925022734!5m2!1sid!2sid"
+                            style="border:0; width:100%; height:100%;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe> --}}
+                        <div style="width: 100%;height: 100vh" id="map"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <style>
+        .map-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
     
     <script>
         var lat = -7.896591;
@@ -243,10 +278,6 @@
         }).addTo(map);
     </script>
     
-
-
-
-
 
 
 
@@ -444,7 +475,42 @@
             glare: true,
             "max-glare": 0.5,
         });
+
+        var lat = -7.896591;
+        var lng = 112.6089657;
+        var zoomLevel = 16;
+
+        var map = L.map('map').setView([lat, lng], zoomLevel);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var waypoints = [{
+                latLng: L.latLng(<?php echo json_encode($property->langtitude); ?>, <?php echo json_encode($property->longtitude); ?>),
+                title: <?php echo json_encode($property->name); ?>,
+                address: <?php echo json_encode($property->address); ?>,
+            },
+            {
+                latLng: L.latLng(-7.900063, 112.6068816),
+                title: "Hummasoft / Hummatech (PT Humma Teknologi Indonesia)",
+                address: "Perum Permata Regency 1, Blk. 10 No.28, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152"
+            }
+        ];
+
+        var routingControl = L.Routing.control({
+            waypoints: waypoints.map(function(wp) {
+                return wp.latLng;
+            }),
+            routeWhileDragging: true,
+            createMarker: function(i, wp, nWps) {
+                var popupContent = waypoints[i].title + "<br><br><b>Address:</b>" + waypoints[i].address;
+                var marker = L.marker(wp.latLng).bindPopup(popupContent);
+                return marker;
+            }
+        }).addTo(map);
     </script>
+
 
     <script src="/assets/plugins/js/jquery.js"></script>
     <script src="/assets/plugins/js/swipper.js"></script>
