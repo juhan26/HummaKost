@@ -8,6 +8,7 @@ use App\Models\Lease;
 use App\Models\Property;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeaseController extends Controller
 {
@@ -17,10 +18,30 @@ class LeaseController extends Controller
     public function index()
     {
         $leases = Lease::latest()->paginate(6);
-        $users = User::all();
-        $userStore = User::whereDoesntHave('leases')->get();
+
+        $users = User::where(function ($query) {
+            $query->whereHas('roles', function ($query) {
+                $query->where('name', 'member');
+            })->orWhereHas('roles', function ($query) {
+                $query->where('name', 'admin');
+            });
+        })->whereDoesntHave('leases')
+            ->latest()
+            ->paginate(10);
+
+        // $userStore = User::whereDoesntHave('leases')->get();
         $properties = Property::all();
-        return view('pages.leases.index', compact('leases', 'users', 'userStore', 'properties'));
+
+        // $capacityStatus = [];
+        // foreach ($properties as $property) {
+        //     if (Lease::where('property_id', $property->id)->count() == Property::where('id', $property->id)->first()->capacity) {
+        //         array_push($capacityStatus, "Penuh");
+        //     }
+        // }
+
+        // dd($capacityStatus);
+
+        return view('pages.leases.index', compact('leases', 'users', 'properties'));
     }
 
     /**
@@ -68,17 +89,23 @@ class LeaseController extends Controller
         $totalIuran = $totalMonths * $property->rental_price;
 
         // Buat lease baru
-        Lease::create([
-            'user_id' => $request->user_id,
-            'property_id' => $request->property_id,
-            'start_date' => $startDate->format('Y-m-d'),
-            'end_date' => $endDate->format('Y-m-d'),
-            'status' => $request->status,
-            'description' => $request->description,
-            'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
-        ]);
 
-        return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
+        $capacity = Property::find($request->property_id)->capacity;
+
+        if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() < $capacity) {
+            Lease::create([
+                'user_id' => $request->user_id,
+                'property_id' => $request->property_id,
+                'start_date' => $startDate->format('Y-m-d'),
+                'end_date' => $endDate->format('Y-m-d'),
+                'description' => $request->description,
+                'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
+            ]);
+
+            return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
+        } else {
+            return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
+        }
     }
 
     /**

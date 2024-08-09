@@ -16,17 +16,16 @@ class UserController extends Controller
     public function index()
     {
         if (Auth::user()->hasRole('super_admin')) {
-            $users = User::latest()->paginate(10);
+            $users = User::where('id', '!=' , Auth::user()->id)->latest()->paginate(10);
         } else if (Auth::user()->hasRole('admin')) {
             $users = User::whereHas('roles', function ($query) {
                 $query->where('name', 'member');
             })->orWhereHas('roles', function ($query) {
                 $query->where('name', 'admin');
-            })->latest()->paginate(10);
+            })->where('id', '!=', Auth::user()->id)->latest()->paginate(10);
         } else if (Auth::user()->hasRole('member')) {
             $users = User::role('member')->latest()->paginate(10);
         }
-
 
         return view('pages.users.index', compact('users'));
     }
@@ -50,7 +49,7 @@ class UserController extends Controller
             'photo' => $imagePath,
             'name' => $request->name,
             'email' => $request->email,
-            'phone_number   ' => $request->phone_number,
+            'phone_number' => $request->phone_number,
             'password' =>  bcrypt($request->password), // Hash the password before storing it
         ])->assignRole('member');
         return redirect()->route('user.index')->with('success', 'User Added Success');
