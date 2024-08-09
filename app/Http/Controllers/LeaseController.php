@@ -24,7 +24,10 @@ class LeaseController extends Controller
         $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
             return $query->where('property_id', $propertyFilter);
         })
-            ->latest()
+            ->orWhereRelation('users','name','LIKE',"%$request->search%")//('nama_tabel','nama_kolom_pada_tabel_relasi','LIKE',"%$request->searchName%")
+            ->orWhereRelation('properties','name','LIKE',"%$request->search%")
+            ->orWhereRaw('CAST(start_date as CHAR) LIKE?',['%'.$request->search.'%'])//('CAST(nama_kolom as CHAR) LIKE?',['%' . $request->searchName . '%'])
+           ->latest()
             ->paginate(6);
 
         // Fetch users associated with the selected property
