@@ -187,6 +187,8 @@
                                 alt="Card image cap" style="width: 1500px; height: 500px;" />
                         @endif
                     </div>
+
+
                     <div class="lg:w-1/2 bg-white rounded-lg container"
                         style="padding-left: 25px; padding-bottom: 30px; padding-top: 30px; padding-right: 25px">
                         <h1 class="text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}
@@ -210,29 +212,37 @@
                         <!-- Menampilkan Semua Pengguna -->
                         <div class="mt-6">
                             <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Anggota</h3>
-                            <div class="flex overflow-x-auto gap-4 py-15">
-                                @forelse ($leases as $lease)
-                                    <div class="bg-white rounded-lg p-4 min-w-48">
-                                        <img class="w-20 h-20 rounded-full mx-auto"
-                                            src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
-                                            alt="{{ $lease->users->name }}">
-                                        <h4 class="text-lg font-semibold text-gray-800 mt-2 text-center">
-                                            {{ $lease->users->name }}</h4>
-                                        <p class="text-gray-600 text-center">{{ $lease->users->status }}</p>
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="flex overflow-x-auto gap-4 py-15">
+                                            @forelse ($leases as $lease)
+                                                <div class="bg-white rounded-lg p-4 min-w-48 flex-shrink-0">
+                                                    <img class="w-20 h-20 rounded-full mx-auto"
+                                                        src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
+                                                        alt="{{ $lease->users->name }}">
+                                                    <h4 class="text-lg font-semibold text-gray-800 mt-2 text-center">
+                                                        {{ $lease->users->name }}</h4>
+                                                    <p class="text-gray-600 text-center">{{ $lease->users->status }}
+                                                    </p>
+                                                </div>
+                                            @empty
+                                                <div class="swiper-slide text-center text-black">Belum ada anggota
+                                                </div>
+                                            @endforelse
+                                        </div>
                                     </div>
-                                @empty
-                                    <div class="text-center text-black">Belum ada anggota</div>
-                                @endforelse
+
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
-                <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
-                    <div class="map-container" style="z-index: 0;">
-                        <div style="width: 100%;height: 100vh;" id="map"></div>
-                    </div>
+            </div>
+            <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="map-container" style="z-index: 0;">
+                    <div style="width: 100%;height: 100vh;" id="map"></div>
                 </div>
             </div>
         </div>

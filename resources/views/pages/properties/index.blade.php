@@ -82,9 +82,20 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12">
-                                            <a href="{{ route('properties.show', [$property->id]) }}"
-                                                class="btn btn-primary w-100">Detail</a>
-                                        </div>
+                                            <div class="d-flex gap-3 mt-3">
+                                                <a href="{{ route('properties.show', [$property->id]) }}"
+                                                    class="btn btn-primary w-20">Detail</a>
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#updateModal">
+                                                    Edit
+                                                </button>
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">
+                                                    Delete
+                                                </button>
+                                                
+                                            </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,6 +108,109 @@
         </div>
         {{ $properties->links() }}
     </div>
+
+    {{-- Update Modal --}}
+    <div class="modal fade " id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Property {{ $property->name }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('properties.update', $property->id) }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="row">
+
+                            <div class="col-12 col-lg-6">
+                                <label for="" class="form-label">Name</label>
+                                <input type="text" name="name" class="form-control" value="{{ $property->name }}">
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="" class="form-label">Capacity</label>
+                                <input type="number" name="capacity" class="form-control"
+                                    value="{{ $property->capacity }}">
+
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <label for="" class="form-label">Photo</label>
+                                <input type="file" name="image" class="form-control">
+
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="" class="form-label">Rental Price</label>
+                                <input type="number" name="rental_price" class="form-control"
+                                    value="{{ $property->rental_price }}">
+
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="" class="form-label">Gender Target</label>
+                                <select name="gender_target" id="" class="form-select"
+                                    value="{{ $property->gender_target }}">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <label for="" class="form-label">Description</label>
+                                <input type="text" name="description" class="form-control"
+                                    value="{{ $property->description }}">
+
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <label for="" class="form-label">Address</label>
+                                <input type="text" name="address" class="form-control"
+                                    value="{{ $property->address }}">
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="" class="form-label">langtitude</label>
+                                <input type="text" name="langtitude" class="form-control"
+                                    value="{{ $property->langtitude }}">
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="" class="form-label">longtitude</label>
+                                <input type="text" name="longtitude" class="form-control"
+                                    value="{{ $property->longtitude }}">
+                            </div>
+
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- Update Modal --}}
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete {{ $property->name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure wan't to delete this property?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                    <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal -->
 
     {{-- Create Modal --}}
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
