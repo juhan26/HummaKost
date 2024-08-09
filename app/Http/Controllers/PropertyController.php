@@ -13,9 +13,16 @@ class PropertyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $properties = Property::latest()->paginate(10);
+        if ($request->input('search')) {
+            $properties = Property::where('name', 'LIKE', "%{$request->input('search')}%")
+                ->orWhere('description', 'LIKE', "%($request->input('search'))%")
+                ->paginate(10);
+        } else {
+            $properties = Property::latest()->paginate(10);
+        }
+
         return view('pages.properties.index', compact('properties'));
     }
 

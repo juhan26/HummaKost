@@ -24,7 +24,7 @@ class UpdateFurnitureRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('furnitures', 'furniture')->ignore($this->route('furniture'))],
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:255',
         ];
     }
 }
