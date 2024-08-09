@@ -23,7 +23,8 @@ class UpdateFurnitureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('furnitures', 'furniture')->ignore($this->route('furniture'))],
+            'photo' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
+            'name' => ['required', 'string', 'max:255', Rule::unique('furnitures', 'name')->ignore($this->route('furniture'))],
             'description' => 'nullable|string|max:255',
         ];
     }

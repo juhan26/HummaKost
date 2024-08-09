@@ -7,15 +7,20 @@ use App\Http\Requests\UpdateFurnitureRequest;
 use App\Models\Furniture;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FurnitureController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $furnitures = Furniture::latest()->paginate(10);
+        if ($request->search) {
+            $furnitures = Furniture::where('name', 'LIKE', "%" . $request->search . "%")->paginate(6);
+        } else {
+            $furnitures = Furniture::latest()->paginate(6);
+        }
         return view('pages.furnitures.index', compact('furnitures'));
     }
 
@@ -32,8 +37,21 @@ class FurnitureController extends Controller
      */
     public function store(StoreFurnitureRequest $request)
     {
-        Furniture::create($request->all());
-        return redirect()->route('furnitures.index')->with('success', "Successful Created Furniture");
+
+        if ($request->photo) {
+            $photoPath = $request->photo->store('furniture_photos', 'public');
+            Furniture::create([
+                'photo' => $photoPath,
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+        } else {
+            Furniture::create([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+        }
+        return redirect()->route('furnitures.index')->with('success', "Berhasil Menambah Furniture Baru");
     }
 
     /**
@@ -55,10 +73,28 @@ class FurnitureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Furniture $furniture)
+    public function update(UpdateFurnitureRequest $request, Furniture $furniture)
     {
-        $furniture->update($request->all());
-        return redirect()->route('furnitures.index')->with('success', "Successful Updated Furniture");
+        if ($request->photo) {
+
+            if ($furniture->photo) {
+                Storage::delete('public/' . $furniture->photo);
+            }
+
+            $newPhoto = $request->photo->store('furniture_photos', 'public');
+
+            $furniture->update([
+                'photo' => $newPhoto,
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+        } else {
+            $furniture->update([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+        }
+        return redirect()->route('furnitures.index')->with('success', "Berhasil Mengubah Furniture");
     }
 
     /**

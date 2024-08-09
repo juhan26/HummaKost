@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         @empty
-                        <div class="">Kosong</div>
+                            <div class="">Kosong</div>
                         @endforelse
                     </div>
                 </div>
@@ -112,48 +112,52 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control">
+                                <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                             </div>
                             <div class="col-12 col-lg-6">
                                 <label for="capacity" class="form-label">Capacity</label>
-                                <input type="number" name="capacity" class="form-control">
+                                <input type="number" name="capacity" class="form-control" value="{{ old('capacity') }}">
                             </div>
                             <div class="col-12 col-lg-12">
                                 <label for="image" class="form-label">Photo</label>
-                                <input type="file" name="image" class="form-control">
+                                <input type="file" name="image" class="form-control" value="{{ old('photo') }}">
                             </div>
                             <div class="col-12 col-lg-6">
                                 <label for="rental_price" class="form-label">Rental Price</label>
-                                <input type="number" name="rental_price" class="form-control">
+                                <input type="number" name="rental_price" class="form-control"
+                                    value="{{ old('rental_price') }}">
                             </div>
                             <div class="col-12 col-lg-6">
                                 <label for="gender_target" class="form-label">Gender Target</label>
-                                <select name="gender_target" id="gender_target" class="form-select">
+                                <select name="gender_target" id="gender_target" class="form-select"
+                                    value="{{ old('gender_target') }}">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <label for="description" class="form-label">Description</label>
-                                <input type="text" name="description" class="form-control">
+                                <input type="text" name="description" class="form-control"
+                                    value="{{ old('description') }}">
                             </div>
                             <div class="col-12 col-lg-12">
                                 <label for="address" class="form-label">Address</label>
-                                <input type="text" name="address" class="form-control">
+                                <input type="text" name="address" class="form-control" value="{{ old('address') }}">
                             </div>
                             <div class="col-12 col-lg-12 mt-3">
                                 <label class="form-label">Maps Coordinate: (Use Search Location/Input Latitude and
                                     Longitude/Click The Map)</label>
                                 <div class="d-flex gap-3 mb-3">
                                     <input type="text" id="location-search" class="form-control"
-                                        placeholder="Enter location...">
+                                        placeholder="Enter location..." value="value="{{ old('location_search') }}"">
                                     <button type="button" id="search-button" class="btn btn-primary">Search</button>
                                 </div>
                                 <div class="d-flex mb-3 gap-3">
 
-                                    <input type="text" placeholder="click the map" name="langtitude" id="latitude"
-                                        class="form-control" readonly>
-                                    <input type="text" placeholder="click the map" name="longtitude" id="longitude"
+                                    <input type="text" placeholder="click the map" name="langtitude"
+                                        value="{{ old('langtitude') }}" id="latitude" class="form-control" readonly>
+                                    <input type="text" placeholder="click the map"
+                                        name="longtitude"value="{{ old('longtitude') }}" id="longitude"
                                         class="form-control" readonly>
                                 </div>
                                 <div id="map" style="width: 100%; height: 400px"></div>

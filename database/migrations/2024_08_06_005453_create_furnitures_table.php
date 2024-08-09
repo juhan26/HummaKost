@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('furnitures', function (Blueprint $table) {
             $table->id();
+            $table->string('photo')->nullable();
             $table->string('name')->unique();
             $table->text('description')->nullable();
             $table->timestamps();
