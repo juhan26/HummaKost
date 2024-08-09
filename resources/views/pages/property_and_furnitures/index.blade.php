@@ -127,6 +127,8 @@
                                     </div>
                                 </div>
                             </div>
+                        @empty
+                            <div class="">Tidak Ada Kontrakan</div>
                         @endforelse
                     </div>
                 </div>

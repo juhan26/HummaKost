@@ -105,6 +105,8 @@
                                     </div>
                                 </div>
                             </div>
+                        @empty
+                            <div class="">Belum Ada Furniture</div>
                         @endforelse
                     </div>
                 </div>

@@ -88,6 +88,8 @@
                                     </div>
                                 </div>
                             </div>
+                        @empty
+                        <div class="">Kosong</div>
                         @endforelse
                     </div>
                 </div>

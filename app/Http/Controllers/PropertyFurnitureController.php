@@ -17,6 +17,7 @@ class PropertyFurnitureController extends Controller
     {
         $properties = Property::with('furnitures')->latest()->paginate(10);
         $furnitures = Furniture::all();
+        
         return view('pages.property_and_furnitures.index', compact('properties', 'furnitures'));
     }
 

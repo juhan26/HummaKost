@@ -29,17 +29,7 @@ class LeaseController extends Controller
             ->latest()
             ->paginate(10);
 
-        // $userStore = User::whereDoesntHave('leases')->get();
         $properties = Property::all();
-
-        // $capacityStatus = [];
-        // foreach ($properties as $property) {
-        //     if (Lease::where('property_id', $property->id)->count() == Property::where('id', $property->id)->first()->capacity) {
-        //         array_push($capacityStatus, "Penuh");
-        //     }
-        // }
-
-        // dd($capacityStatus);
 
         return view('pages.leases.index', compact('leases', 'users', 'properties'));
     }
@@ -93,6 +83,14 @@ class LeaseController extends Controller
         $capacity = Property::find($request->property_id)->capacity;
 
         if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() < $capacity) {
+
+            if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() == ($capacity - 1)) {
+                $property = Property::find($request->property_id);
+                $property->update(['status' => 'full']);
+            } else {
+                $property = Property::find($request->property_id);
+                $property->update(['status' => 'available']);
+            }
             Lease::create([
                 'user_id' => $request->user_id,
                 'property_id' => $request->property_id,
@@ -101,6 +99,7 @@ class LeaseController extends Controller
                 'description' => $request->description,
                 'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
             ]);
+
 
             return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
         } else {
@@ -172,6 +171,8 @@ class LeaseController extends Controller
     public function destroy(Lease $lease)
     {
         try {
+            $property = Property::find($lease->property_id);
+            $property->update(['status' => 'available']);
             $lease->delete();
             return redirect()->route('leases.index')->with('success', 'Leases Deleted Success');
         } catch (\Exception $e) {
