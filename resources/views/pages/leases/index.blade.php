@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                             {{-- Edit Modal --}}
-                            <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
+                            <div class="modal fade" id="editModal{{ $lease->id}}" tabindex="-1"
                                 aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -131,13 +131,17 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="mb-3">
-                                                    <label for="editUser{{ $lease->id }}"
-                                                        class="form-label">Penyewa:</label>
-                                                    <input type="text" name="user_id" class="form-control"
-                                                        value="{{ old('user_id', $lease->users->name) }}" readonly>
-                                                    <input type="hidden" name="user_id" value="{{ $lease->user }}">
-                                                </div>
+                                                    <label for="editUser{{ $lease->id }}" class="form-label">Penyewa:</label>
 
+                                                    {{-- Ambil user_id lama jika ada --}}
+                                                    @php
+                                                        $oldUserId = old('user_id', $lease->user_id);
+                                                        $userName = optional(\App\Models\User::find($oldUserId))->name;
+                                                    @endphp
+
+                                                    <input type="text" name="user_id" class="form-control" value="{{ $userName }}" readonly>
+                                                    <input type="hidden" name="user_id" value="{{ $lease->user_id }}">
+                                                </div>
 
                                                 <div class="mb-3">
                                                     <label for="editProperty{{ $lease->id }}"
@@ -160,7 +164,8 @@
                                                     @enderror
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="editEndDate{{ $lease->id }}" class="form-label">Tanggal
+                                                    <label for="editEndDate{{ $lease->id }}"
+                                                        class="form-label">Tanggal
                                                         Selesai:</label>
                                                     <input type="date" class="form-control" name="end_date"
                                                         id="editEndDate{{ $lease->id }}"
@@ -205,7 +210,8 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Kembali</button>
-                                                    <button type="submit" class="btn btn-primary">Edit Data Kontrak</button>
+                                                    <button type="submit" class="btn btn-primary">Edit Data
+                                                        Kontrak</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -238,12 +244,14 @@
                         <div class="mb-3">
                             <label for="createUser" class="form-label">User:</label>
                             <select class="form-select" name="user_id" id="createUser">
-                                @foreach ($users as $user)
+                                @forelse ($users as $user)
                                     <option value="{{ $user->id }}"
                                         {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }}
                                     </option>
-                                @endforeach
+                                @empty
+                                    <option value="">Calon Penyewa Tidak Ditemukan</option>
+                                @endforelse
                             </select>
                             @error('user_id')
                                 <div class="text-danger">{{ $message }}</div>
@@ -252,12 +260,14 @@
                         <div class="mb-3">
                             <label for="createProperty" class="form-label">Property:</label>
                             <select class="form-select" name="property_id" id="createProperty">
-                                @foreach ($properties as $property)
+                                @forelse ($properties as $property)
                                     <option value="{{ $property->id }}"
                                         {{ old('property_id') == $property->id ? 'selected' : '' }}>
                                         {{ $property->name }}
                                     </option>
-                                @endforeach
+                                @empty
+                                    <option value="">Kontrakan Tidak Ditemukan</option>
+                                @endforelse
                             </select>
                             @error('property_id')
                                 <div class="text-danger">{{ $message }}</div>
