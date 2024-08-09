@@ -13,9 +13,16 @@ class FurnitureController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $furnitures = Furniture::latest()->paginate(10);
+        if ($request->search) {
+            $furnitures = Furniture::where('name', 'LIKE', "%{$request->input('search')}%")
+            ->orWhere('description', 'LIKE', "%($request->input('search'))%")
+            ->paginate(10);
+
+        } else {
+            $furnitures = Furniture::latest()->paginate(10);
+        }
         return view('pages.furnitures.index', compact('furnitures'));
     }
 
