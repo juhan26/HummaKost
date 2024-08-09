@@ -32,11 +32,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-        <style>
-            *{
-               scroll-behavior: smooth;
-            } 
-        </style>
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 
 <body>
@@ -101,7 +101,8 @@
                                     fill="currentColor" />
                             </svg> --}}
                         </span>
-                        <a href="{{ route('login') }}" class="hidden xl:inline-block btn-primary"><span>Login</span></a>
+                        <a href="{{  Auth::user() ? route('dashboard') : route('login') }}"
+                            class="hidden xl:inline-block btn-primary"><span>{{ Auth::user() ? 'Dashboard' : 'Login' }}</span></a>
                     </a>
                     {{-- <a href="#" class="hidden xl:inline-block btn-primary">
                         <span>Sign up for Free</span>
@@ -123,7 +124,8 @@
         <div class="flex justify-center items-center p-6 mb-8">
             <div>
                 <a href="#">
-                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 14rem; height: 4rem;" class="container">
+                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 14rem; height: 4rem;"
+                        class="container">
                 </a>
             </div>
             <div class="absolute right-6">
@@ -148,7 +150,7 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                href="#search_people">properties</a>
+                    href="#search_people">properties</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -156,15 +158,15 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                href="#descc">about</a>
+                    href="#descc">about</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                href="#gambars">feedback</a>
+                    href="#gambars">feedback</a>
             </li>
             <li class="">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                href="#blog">contact</a>
+                    href="#blog">contact</a>
             </li>
         </ul>
         <div class="px-6 mb-8">
@@ -173,7 +175,7 @@
             </a> --}}
         </div>
     </div>
-    
+
     <!-- Mobile Menu Area End -->
     <div class="overlay" id="overlay"></div>
     <!-- header area end -->
@@ -284,8 +286,8 @@
                             class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
                                 class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" data-tilt
-                                style="margin-top: 7rem; width: 30rem; height: 20rem;"
-                                data-aos="fade-left" data-aos-duration="1000">
+                                style="margin-top: 7rem; width: 30rem; height: 20rem;" data-aos="fade-left"
+                                data-aos-duration="1000">
                         </div>
                         <div
                             class="bg-white xl:px-5 xl:w-[197px] md:px-3 px-2 xl:py-[18px] md:py-2.5 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[197px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4">
@@ -302,7 +304,7 @@
                             </span>
                             <span class="text-xl text-gray-600">5.0 Rating</span>
                         </div>
-                    
+
                         <span
                             class="2xl:absolute 2xl:top-[55px] 2xl:right-[-90px] z-10 animate-pulse hidden 2xl:inline-block">
                             <svg width="133" height="123" viewBox="0 0 133 123" fill="none"
@@ -311,7 +313,7 @@
                                     stroke="#A5A5A5" stroke-width="4" stroke-linecap="round"></path>
                             </svg>
                         </span>
-                    </div>                    
+                    </div>
                     <!-- right -->
                 </div>
             </div>
@@ -369,7 +371,8 @@
                                             <div class="border-b border-gray-50 h-1 w-full"></div>
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
-                                                    <h4 class="text-gray-black font-semibold font-display text-2xl" id="loadMember">
+                                                    <h4 class="text-gray-black font-semibold font-display text-2xl"
+                                                        id="loadMember">
                                                         {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h4>
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
@@ -392,7 +395,7 @@
 
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination" ></div>
+                        <div class="swiper-pagination"></div>
                     </div>
                 </div>
             </div>
@@ -1050,7 +1053,8 @@
         <div class="container px-4 2xl:px-0">
             <form id="propertyForm" method="GET" action="#loadMember">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                         <span class="text-primary-500 after-svg instructor">Member</span>
                     </h2>
                     <div class="ml-6 w-64 relative"> <!-- Adjust width as needed -->
@@ -1074,9 +1078,10 @@
                     </div>
                 </div>
             </form>
-    
+
             <div class="flex items-center mb-4">
-                <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years, sometimes by accident.</p>
+                <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years,
+                    sometimes by accident.</p>
             </div>
             <div class="slider-container mx-auto px-4 2xl:px-0">
                 <div class="swiper instructorSwipper relative">
@@ -1096,7 +1101,9 @@
                                                     class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $lease->status }}</span>
                                             </h2>
                                             <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                                <a href="#">{{ \Carbon\Carbon::parse($lease->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($lease->end_date)->format('d M Y') }} </a>
+                                                <a href="#">{{ \Carbon\Carbon::parse($lease->start_date)->format('d M Y') }}
+                                                    - {{ \Carbon\Carbon::parse($lease->end_date)->format('d M Y') }}
+                                                </a>
                                             </h4>
                                         @endforeach
                                     </div>
@@ -1111,7 +1118,7 @@
             </div>
         </div>
     </section>
-    
+
     <script>
         // Scroll to #member section if the URL contains #member fragment
         document.addEventListener('DOMContentLoaded', function() {
@@ -1120,7 +1127,7 @@
             }
         });
     </script>
-    
+
 
     <!-- intructor section end -->
 
@@ -1586,36 +1593,36 @@
         });
 
         function submitFormAndScroll() {
-        var form = document.getElementById('propertyForm');
-        var selectedPropertyId = document.getElementById('property').value;
+            var form = document.getElementById('propertyForm');
+            var selectedPropertyId = document.getElementById('property').value;
 
-        // Append query parameters to the URL
-        var url = new URL(window.location.href);
-        url.searchParams.set('property_id', selectedPropertyId);
-        url.searchParams.set('redirect', '#member');
+            // Append query parameters to the URL
+            var url = new URL(window.location.href);
+            url.searchParams.set('property_id', selectedPropertyId);
+            url.searchParams.set('redirect', '#member');
 
-        // Scroll to the desired position
-        window.scrollTo({
-            top: 700,
-            behavior: 'smooth'
-        });
+            // Scroll to the desired position
+            window.scrollTo({
+                top: 700,
+                behavior: 'smooth'
+            });
 
-        // Submit the form with the updated URL
-        window.location.href = url.toString();
-    }
-
-    // Check if the page was reloaded
-    if (performance.navigation.type === 1) {
-        // Redirect to the root path
-        window.location.href = '/';
-    }
-
-    // Scroll to #member section if the URL contains #member fragment
-    document.addEventListener('DOMContentLoaded', function() {
-        if (window.location.hash === '#member') {
-            document.getElementById('member').scrollIntoView();
+            // Submit the form with the updated URL
+            window.location.href = url.toString();
         }
-    });
+
+        // Check if the page was reloaded
+        if (performance.navigation.type === 1) {
+            // Redirect to the root path
+            window.location.href = '/';
+        }
+
+        // Scroll to #member section if the URL contains #member fragment
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash === '#member') {
+                document.getElementById('member').scrollIntoView();
+            }
+        });
     </script>
 
     <script src="/assets/plugins/js/jquery.js"></script>
