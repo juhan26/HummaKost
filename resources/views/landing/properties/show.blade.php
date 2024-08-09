@@ -250,7 +250,7 @@
         var map = L.map('map').setView([lat, lng], zoomLevel);
     
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: '© HummaKost'
         }).addTo(map);
     
         var waypoints = [{
