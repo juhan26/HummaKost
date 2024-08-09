@@ -27,7 +27,7 @@ class LeaseController extends Controller
             ->orWhereRelation('users','name','LIKE',"%$request->search%")//('nama_tabel','nama_kolom_pada_tabel_relasi','LIKE',"%$request->searchName%")
             ->orWhereRelation('properties','name','LIKE',"%$request->search%")
             ->orWhereRaw('CAST(start_date as CHAR) LIKE?',['%'.$request->search.'%'])//('CAST(nama_kolom as CHAR) LIKE?',['%' . $request->searchName . '%'])
-            ->latest()
+           ->latest()
             ->paginate(6);
 
         // Fetch users associated with the selected property
@@ -179,13 +179,28 @@ class LeaseController extends Controller
             'property_id' => $request->property_id,
             'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
-            'status' => $request->status,
+            // 'status' => $request->status,
             'description' => $request->description,
             'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
         ]);
 
+        // Perbarui status property berdasarkan jumlah lease aktif
+        $capacity = $property->capacity;
+        $activeLeasesCount = Lease::where('property_id', $request->property_id)
+            ->where('status', 'active')
+            ->count();
+
+        if ($activeLeasesCount < $capacity) {
+            // Jika masih ada ruang, perbarui status property
+            $property->update(['status' => 'available']);
+        } else {
+            // Jika tidak ada ruang tersisa, set status property menjadi full
+            $property->update(['status' => 'full']);
+        }
+
         return redirect()->route('leases.index')->with('success', 'Lease successfully updated.');
     }
+
 
 
     /**

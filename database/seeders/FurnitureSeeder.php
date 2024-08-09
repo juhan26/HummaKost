@@ -14,12 +14,14 @@ class FurnitureSeeder extends Seeder
     public function run(): void
     {
         Furniture::create([
-            'name'=>'Kasur',
-            'description'=>'120x80cm',
+            'photo' => '',
+            'name' => 'Kasur',
+            'description' => '120x80cm',
         ]);
         Furniture::create([
-            'name'=>'Alat Makan',
-            'description'=>'Sendok & Garpu',
+            'photo' => '',
+            'name' => 'Alat Makan',
+            'description' => 'Sendok & Garpu',
         ]);
     }
 }
