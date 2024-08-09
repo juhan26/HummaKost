@@ -16,42 +16,42 @@ class LeaseController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    // Get the selected property filter if available
-    $propertyFilter = $request->input('property_filter');
+    {
+        // Get the selected property filter if available
+        $propertyFilter = $request->input('property_filter');
 
-    // Fetch leases, optionally filtered by the selected property
-    $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
+        // Fetch leases, optionally filtered by the selected property
+        $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
             return $query->where('property_id', $propertyFilter);
         })
-        ->latest()
-        ->paginate(6);
- 
-    // Fetch users associated with the selected property
-    $users = User::when($propertyFilter, function ($query, $propertyFilter) {
-        return $query->whereHas('leases', function ($query) use ($propertyFilter) {
-            $query->where('property_id', $propertyFilter);
-        });
-    })
-    ->orWhereDoesntHave('leases') // Include users without any leases
-    ->where(function ($query) {
-        $query->whereHas('roles', function ($query) {
-            $query->where('name', 'member');
-        })->orWhereHas('roles', function ($query) {
-            $query->where('name', 'admin');
-        });
-    })
-    ->latest()
-    ->get();
+            ->latest()
+            ->paginate(6);
+
+        // Fetch users associated with the selected property
+        $users = User::when($propertyFilter, function ($query, $propertyFilter) {
+            return $query->whereHas('leases', function ($query) use ($propertyFilter) {
+                $query->where('property_id', $propertyFilter);
+            });
+        })
+            ->orWhereDoesntHave('leases') // Include users without any leases
+            ->where(function ($query) {
+                $query->whereHas('roles', function ($query) {
+                    $query->where('name', 'member');
+                })->orWhereHas('roles', function ($query) {
+                    $query->where('name', 'admin');
+                });
+            })
+            ->latest()
+            ->get();
 
 
-        
 
-    // Fetch all properties for the dropdown
-    $properties = Property::all();
 
-    return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
-}
+        // Fetch all properties for the dropdown
+        $properties = Property::all();
+
+        return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
+    }
 
 
     /**
@@ -176,13 +176,28 @@ class LeaseController extends Controller
             'property_id' => $request->property_id,
             'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
-            'status' => $request->status,
+            // 'status' => $request->status,
             'description' => $request->description,
             'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
         ]);
 
+        // Perbarui status property berdasarkan jumlah lease aktif
+        $capacity = $property->capacity;
+        $activeLeasesCount = Lease::where('property_id', $request->property_id)
+            ->where('status', 'active')
+            ->count();
+
+        if ($activeLeasesCount < $capacity) {
+            // Jika masih ada ruang, perbarui status property
+            $property->update(['status' => 'available']);
+        } else {
+            // Jika tidak ada ruang tersisa, set status property menjadi full
+            $property->update(['status' => 'full']);
+        }
+
         return redirect()->route('leases.index')->with('success', 'Lease successfully updated.');
     }
+
 
 
     /**
