@@ -63,7 +63,7 @@
                                         <p class="card-text">End Date:
                                             {{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</p>
                                         <p class="card-text">Description: {{ $lease->description }}</p>
-                                        <p class="card-text">Total Iuran: Rp.{{ number_format($lease->total_iuran, 2) }}
+                                        <p class="card-text">Total Iuran: Rp.{{ number_format($lease->total_iuran) }}
                                         </p>
                                         <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editModal{{ $lease->id }}">Edit</a>
