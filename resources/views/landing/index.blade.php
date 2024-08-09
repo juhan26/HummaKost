@@ -253,7 +253,7 @@
                                 <span class="text-primary-500 after-svg banner_5000">HummaKost</span>
                                 Kontrakan 
                                 ter- <span class="text-primary-500 after-svg banner_300">Nyaman</span> Harga
-                                <span class="text-primary-500 after-svg banner_300">Terjangkau</span> Segera Miliki!
+                                <span class="text-primary-500 after-svg banner_300">Terjangkau,</span> Segera Miliki!
                             </h1>
                             <p class="text-gray-500 font-normal font-display lg:text-[20px] md:text-base text-sm lg:leading-7 mb-8 pt-4 xl:pt-0"
                                 data-aos="fade-down" data-aos-duration="1000"> Lebih dari sekadar Tempat Tinggal, ini Rumah anda.</p>

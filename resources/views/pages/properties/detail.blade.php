@@ -47,7 +47,7 @@
                             @else
                                 <div class="badge fs-6 bg-label-danger mt-6">{{ $property->status }}</div>
                             @endif
-                            <div class="d-flex gap-3 mt-3">
+                            {{-- <div class="d-flex gap-3 mt-3">
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#updateModal">
                                     Edit
@@ -56,7 +56,7 @@
                                     data-bs-target="#exampleModal">
                                     Delete
                                 </button>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

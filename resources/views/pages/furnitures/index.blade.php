@@ -127,11 +127,11 @@
                         @csrf
                         <div class="mb-3">
                             <label for="photo" class="form-label">Furniture Name:</label>
-                            <input type="text" class="form-control" name="name" id="photo">
+                            <input type="text" class="form-control" name="name" id="photo" value="{{ old('name') }}">
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Description:</label>
-                            <input type="text" class="form-control" name="description" id="name">
+                            <input type="text" class="form-control" name="description" id="name" value="{{ old('description') }}">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
