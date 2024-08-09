@@ -168,9 +168,9 @@
             </li>
         </ul>
         <div class="px-6 mb-8">
-            <a href="#" class="btn-primary">
+            {{-- <a href="#" class="btn-primary">
                 <span>Sign up for Free</span>
-            </a>
+            </a> --}}
         </div>
     </div>
     
@@ -280,12 +280,12 @@
                     </div>
                     <!-- left -->
                     <!-- right -->
-                    <div class="mt-5 2xl:mt-[156px] relative">
+                    <div class="mt-5 2xl:mt-[156px] relative flex justify-center items-center">
                         <div
-                            class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center">
+                            class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
                                 class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" data-tilt
-                                style="margin-top: 7rem; margin-left: 9rem; width: 30rem; height: 20rem; transform: rotate(4deg);"
+                                style="margin-top: 7rem; width: 30rem; height: 20rem;"
                                 data-aos="fade-left" data-aos-duration="1000">
                         </div>
                         <div
@@ -303,7 +303,7 @@
                             </span>
                             <span class="text-xl text-gray-600">5.0 Rating</span>
                         </div>
-
+                    
                         <span
                             class="2xl:absolute 2xl:top-[55px] 2xl:right-[-90px] z-10 animate-pulse hidden 2xl:inline-block">
                             <svg width="133" height="123" viewBox="0 0 133 123" fill="none"
@@ -312,7 +312,7 @@
                                     stroke="#A5A5A5" stroke-width="4" stroke-linecap="round"></path>
                             </svg>
                         </span>
-                    </div>
+                    </div>                    
                     <!-- right -->
                 </div>
             </div>
