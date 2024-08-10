@@ -28,17 +28,17 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/register';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Get a validator for an incoming registration request.
@@ -51,6 +51,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone_number' => ['required','numeric','min_digits:4','max_digits:20'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -65,8 +66,13 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
+            'phone_number' => $data['phone_number'],
             'email' => $data['email'],
+            'division' => $data['division'],
             'password' => Hash::make($data['password']),
-        ]);
+        ])->assignRole('member');
+
+        // return redirect()->route('register')->with('success','Selamat! Anda telah berhasil mendaftarkan akun anda, silahkan tunggu konfirmasi dari admin');
+        return redirect()->back()->with('success', 'Selamat! Anda telah berhasil mendaftarkan akun anda, silahkan tunggu konfirmasi dari admin');
     }
 }
