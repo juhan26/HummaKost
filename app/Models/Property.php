@@ -12,7 +12,7 @@ class Property extends Model
 
     public function leases()
     {
-        return $this->hasOne(Lease::class);
+        return $this->hasMany(Lease::class);
     }
 
     public function furnitures()

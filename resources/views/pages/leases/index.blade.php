@@ -42,7 +42,7 @@
                             </form>
                         </div>
                     </div>
-                </div> git                
+                </div>    
                 <div class="card-body">
                     {{-- Leases --}}
                     <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
@@ -52,7 +52,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-3 ms-8">
                                             <div>
-                                                <h5 class="card-title mb-0">{{ $lease->users->name }}
+                                                <h5 class="card-title mb-0">{{ $lease->user->name }}
                                                     <div class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
                                                         {{ $lease->status }}</div>
                                                 </h5>
@@ -62,8 +62,8 @@
                                                 <p class="card-text" style="font-size: 0.9rem;">Description: <span class="text-muted">{{ $lease->description }}</span></p>
                                                 <p class="card-text" style="font-size: 1rem; font-weight: bold;">Total Iuran: <span class="text-danger">Rp.{{ number_format($lease->total_iuran) }}</span></p>
                                             </div>
-                                            <img src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
-                                                alt="{{ $lease->users->name }}" class="rounded-4 shadow-lg m-8 ms-3"
+                                            <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                alt="{{ $lease->user->name }}" class="rounded-4 shadow-lg m-8 ms-3"
                                                 style="width: 300px; height: 300px; object-fit: cover;">
                                         </div>
                                         <div class="mt-auto d-flex justify-content-end">

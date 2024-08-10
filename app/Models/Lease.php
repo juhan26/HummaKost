@@ -10,11 +10,11 @@ class Lease extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function properties()
+    public function properties()    
     {
         return $this->belongsTo(Property::class, 'property_id');
     }

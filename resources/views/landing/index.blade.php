@@ -1086,30 +1086,34 @@
             <div class="slider-container mx-auto px-4 2xl:px-0">
                 <div class="swiper instructorSwipper relative">
                     <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                        @foreach ($users as $user)
-                            <div class="swiper-slide">
-                                <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                    <div class="mb-4 overflow-hidden rounded-lg">
-                                        <a href="#"><img
-                                                src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                alt="{{ $user->name }}" class="w-full rounded-lg"></a>
-                                    </div>
-                                    <div>
-                                        @foreach ($leases as $lease)
-                                            <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                                <a href="#">{{ $user->name }}</a> <span
-                                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $lease->status }}</span>
-                                            </h2>
-                                            <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                                <a href="#">{{ \Carbon\Carbon::parse($lease->start_date)->format('d M Y') }}
-                                                    - {{ \Carbon\Carbon::parse($lease->end_date)->format('d M Y') }}
-                                                </a>
-                                            </h4>
-                                        @endforeach
-                                    </div>
+                        @forelse ($users as $user)
+                        <div class="swiper-slide">
+                            <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
+                                <div class="mb-4 overflow-hidden rounded-lg">
+                                    <a href="#">
+                                        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
+                                            alt="{{ $user->name }}" class="rounded-lg" >
+                                    </a>
+                                </div>
+                                <div> 
+                                        <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
+                                            <a href="#">{{ $user->name }}</a> 
+                                            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                {{ $user->lease->status }}
+                                            </span>
+                                        </h2>
+                                        <h4 class="mb-0 text-base font-display text-gray-500 text-center">
+                                            <a href="#">
+                                                {{ \Carbon\Carbon::parse($user->lease->start_date)->format('d M Y') }}
+                                                - {{ \Carbon\Carbon::parse($user->lease->end_date)->format('d M Y') }}
+                                            </a>
+                                        </h4>  
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+                    @empty 
+                    <p>No users available for this user.</p>
+                    @endforelse
                     </div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>

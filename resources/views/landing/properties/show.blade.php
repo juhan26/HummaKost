@@ -216,14 +216,14 @@
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
                                         <div class="flex overflow-x-auto gap-4 py-15">
-                                            @forelse ($leases as $lease)
+                                            @forelse ($property->leases as $lease)
                                                 <div class="bg-white rounded-lg p-4 min-w-48 flex-shrink-0">
                                                     <img class="w-20 h-20 rounded-full mx-auto"
-                                                        src="{{ $lease->users->photo ? asset('storage/' . $lease->users->photo) : asset('assets/img/image_not_available.png') }}"
-                                                        alt="{{ $lease->users->name }}">
+                                                        src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                        alt="{{ $lease->user->name }}">
                                                     <h4 class="text-lg font-semibold text-gray-800 mt-2 text-center">
-                                                        {{ $lease->users->name }}</h4>
-                                                    <p class="text-gray-600 text-center">{{ $lease->users->status }}
+                                                        {{ $lease->user->name }}</h4>
+                                                    <p class="text-gray-600 text-center">{{ $lease->user->status }}
                                                     </p>
                                                 </div>
                                             @empty
@@ -232,7 +232,6 @@
                                             @endforelse
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
