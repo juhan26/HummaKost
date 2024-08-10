@@ -100,14 +100,14 @@
                                     <td>{{ $furniture->name }}</td>
                                     <td>{{ $furniture->description ? $furniture->description : 'Deskripsi Kosong' }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#updateModal{{ $furniture->id }}"
-                                            data-bs-whatever="@mdo">Edit</button>
+                                        <a type="button" class="" data-bs-toggle="modal"
+                                            data-bs-target="#updateModal{{ $furniture->id }}" data-bs-whatever="@mdo"><i
+                                            style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
 
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        <a type="button" class="" data-bs-toggle="modal"
                                             data-bs-target="#deleteModal{{ $furniture->id }}">
-                                            Delete
-                                        </button>
+                                            <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 {{-- Edit Modal --}}
