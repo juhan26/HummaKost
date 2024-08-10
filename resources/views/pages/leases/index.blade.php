@@ -21,13 +21,34 @@
                     </div>
                     <div class="row d-flex align-items-center mt-4">
                         <div class="col-12 col-lg-8">
-                            <form action="{{ route('leases.index') }}" method="GET" class="d-flex w-100">
+                            <form action="" method="GET" class="d-flex w-100 ">
                                 @csrf
                                 <div class="d-flex align-items-center border rounded w-100 px-3">
-                                    <input type="text" name="search" class="form-control border-none"
+                                    <input type="text" name="search" id="searchInput" class="form-control border-none"
                                         value="{{ request()->input('search') }}" placeholder="Search...">
-                                    <a class="btn-close cursor-pointer" href="{{ route('leases.index') }}"></a>
+                                    <a href="{{ route('leases.index') }}" style="display: none" id="clearSearch"
+                                        class="btn-close"></a>
                                 </div>
+                                <script>
+                                    const key = document.getElementById('searchInput');
+                                    const close = document.getElementById('clearSearch');
+
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+
+                                    key.addEventListener('input', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+                                </script>
                             </form>
                         </div>
                         <div class="col-12 col-lg-4 mt-4 mt-lg-0">
@@ -42,7 +63,11 @@
                             </form>
                         </div>
                     </div>
+<<<<<<< HEAD
                 </div>    
+=======
+                </div>
+>>>>>>> d208161f655833351380609fd6a057efe6eb3890
                 <div class="card-body">
                     {{-- Leases --}}
                     <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
@@ -52,15 +77,32 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-3 ms-8">
                                             <div>
+<<<<<<< HEAD
                                                 <h5 class="card-title mb-0">{{ $lease->user->name }}
                                                     <div class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
+=======
+                                                <h5 class="card-title mb-0">{{ $lease->users->name }}
+                                                    <div
+                                                        class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
+>>>>>>> d208161f655833351380609fd6a057efe6eb3890
                                                         {{ $lease->status }}</div>
                                                 </h5>
-                                                <p class="card-text mt-2" style="font-size: 1rem; font-weight: bold;">Property: <span class="text-muted text-primary">{{ $lease->properties->name }}</span></p>
-                                                <p class="card-text" style="font-size: 0.9rem;">Start Date: <span class="text-muted">{{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</span></p>
-                                                <p class="card-text" style="font-size: 0.9rem;">End Date: <span class="text-muted">{{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</span></p>
-                                                <p class="card-text" style="font-size: 0.9rem;">Description: <span class="text-muted">{{ $lease->description }}</span></p>
-                                                <p class="card-text" style="font-size: 1rem; font-weight: bold;">Total Iuran: <span class="text-danger">Rp.{{ number_format($lease->total_iuran) }}</span></p>
+                                                <p class="card-text mt-2" style="font-size: 1rem; font-weight: bold;">
+                                                    Kontrakan: <span
+                                                        class="text-muted text-primary">{{ $lease->properties->name }}</span>
+                                                </p>
+                                                <p class="card-text" style="font-size: 0.9rem;">Tanggal Mulai: <span
+                                                        class="text-muted">{{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</span>
+                                                </p>
+                                                <p class="card-text" style="font-size: 0.9rem;">Tanggal Selesai: <span
+                                                        class="text-muted">{{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</span>
+                                                </p>
+                                                <p class="card-text" style="font-size: 0.9rem;">Deskripsi: <span
+                                                        class="text-muted">{{ $lease->description }}</span></p>
+                                                <p class="card-text" style="font-size: 1rem; font-weight: bold;">Total
+                                                    Iuran: <span
+                                                        class="text-danger">Rp.{{ number_format($lease->total_iuran) }}</span>
+                                                </p>
                                             </div>
                                             <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
                                                 alt="{{ $lease->user->name }}" class="rounded-4 shadow-lg m-8 ms-3"
@@ -70,9 +112,9 @@
                                             <a href="#" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
                                                 data-bs-target="#editModal{{ $lease->id }}">Edit</a>
                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $lease->id }}">Delete</button>
+                                                data-bs-target="#deleteModal{{ $lease->id }}">Hapus</button>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                             {{-- Delete Modal --}}
@@ -81,33 +123,35 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}">Delete Lease
+                                            <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}"> Hapus Data
+                                                Kontrak
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Are you sure you want to delete this lease?
+                                            Apakah anda yakin ingin menghapus data kontrak ini?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cancel</button>
+                                                data-bs-dismiss="modal">Kembali</button>
                                             <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             {{-- Edit Modal --}}
-                            <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
+                            <div class="modal fade" id="editModal{{ $lease->id}}" tabindex="-1"
                                 aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Update Lease
+                                            <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Edit Data
+                                                Kontrak
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -117,65 +161,87 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="mb-3">
-                                                    <label for="editUser{{ $lease->id }}"
-                                                        class="form-label">User:</label>
-                                                    <select class="form-select" name="user_id"
-                                                        id="editUser{{ $lease->id }}">
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}"
-                                                                {{ $lease->user_id == $user->id ? 'selected' : '' }}>
-                                                                {{ $user->name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <label for="editUser{{ $lease->id }}" class="form-label">Penyewa:</label>
+
+                                                    {{-- Ambil user_id lama jika ada --}}
+                                                    @php
+                                                        $oldUserId = old('user_id', $lease->user_id);
+                                                        $userName = optional(\App\Models\User::find($oldUserId))->name;
+                                                    @endphp
+
+                                                    <input type="text" name="user_id" class="form-control" value="{{ $userName }}" readonly>
+                                                    <input type="hidden" name="user_id" value="{{ $lease->user_id }}">
                                                 </div>
+
                                                 <div class="mb-3">
                                                     <label for="editProperty{{ $lease->id }}"
-                                                        class="form-label">Property:</label>
-                                                    <select class="form-select" name="property_id"
-                                                        id="editProperty{{ $lease->id }}">
-                                                        @foreach ($properties as $property)
-                                                            <option value="{{ $property->id }}"
-                                                                {{ $lease->property_id == $property->id ? 'selected' : '' }}>
-                                                                {{ $property->name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                        class="form-label">Kontrakan:</label>
+                                                    <input type="text" class="form-control" name="property_id"
+                                                        id="editProperty{{ $lease->id }}"
+                                                        value="{{ $properties->firstWhere('id', $lease->property_id)->name ?? 'Property not found' }}"
+                                                        readonly>
+                                                    <input type="hidden" name="property_id"
+                                                        value="{{ $lease->property_id }}">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editStartDate{{ $lease->id }}"
-                                                        class="form-label">Start Date:</label>
+                                                        class="form-label">Tanggal Mulai:</label>
                                                     <input type="date" class="form-control" name="start_date"
                                                         id="editStartDate{{ $lease->id }}"
-                                                        value="{{ \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d') }}">
+                                                        value="{{ old('start_date', \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d')) }}">
+                                                    @error('start_date')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="editEndDate{{ $lease->id }}" class="form-label">End
-                                                        Date:</label>
+                                                    <label for="editEndDate{{ $lease->id }}"
+                                                        class="form-label">Tanggal
+                                                        Selesai:</label>
                                                     <input type="date" class="form-control" name="end_date"
                                                         id="editEndDate{{ $lease->id }}"
-                                                        value="{{ \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d') }}">
+                                                        value="{{ old('end_date', \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d')) }}">
+                                                    @error('end_date')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
-                                                <div class="mb-3">
+                                                {{-- <div class="mb-3">
                                                     <label for="editStatus{{ $lease->id }}"
                                                         class="form-label">Status:</label>
                                                     <select class="form-select" name="status"
                                                         id="editStatus{{ $lease->id }}">
                                                         <option value="active"
-                                                            {{ $lease->status == 'active' ? 'selected' : '' }}>Active
-                                                        </option>
+                                                            {{ old('status', $lease->status) == 'active' ? 'selected' : '' }}>
+                                                            Active</option>
                                                         <option value="expired"
-                                                            {{ $lease->status == 'expired' ? 'selected' : '' }}>Expired
-                                                        </option>
+                                                            {{ old('status', $lease->status) == 'expired' ? 'selected' : '' }}>
+                                                            Expired</option>
                                                     </select>
-                                                </div>
+                                                    @error('status')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div> --}}
                                                 <div class="mb-3">
                                                     <label for="editDescription{{ $lease->id }}"
-                                                        class="form-label">Description:</label>
-                                                    <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ $lease->description }}</textarea>
+                                                        class="form-label">Deskripsi:</label>
+                                                    <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ old('description', $lease->description) }}</textarea>
+                                                    @error('description')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
+                                                {{-- <div class="mb-3">
+                                                    <label for="editUser{{ $lease->id }}"
+                                                        class="form-label">User:</label>
+                                                    <input class="form-control" name="user_id"
+                                                        id="editUser{{ $lease->id }}">{{ old('user_id', $lease->users->name) }}</input>
+                                                    @error('description')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div> --}}
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Update Lease</button>
+                                                        data-bs-dismiss="modal">Kembali</button>
+                                                    <button type="submit" class="btn btn-primary">Edit Data
+                                                        Kontrak</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -208,37 +274,67 @@
                         <div class="mb-3">
                             <label for="createUser" class="form-label">User:</label>
                             <select class="form-select" name="user_id" id="createUser">
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>  
-                                @endforeach
+                                @forelse ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @empty
+                                    <option value="">Calon Penyewa Tidak Ditemukan</option>
+                                @endforelse
                             </select>
+                            @error('user_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="createProperty" class="form-label">Property:</label>
                             <select class="form-select" name="property_id" id="createProperty">
-                                @foreach ($properties as $property)
-                                    <option value="{{ $property->id }}">{{ $property->name }}</option>
-                                @endforeach
+                                @forelse ($properties as $property)
+                                    <option value="{{ $property->id }}"
+                                        {{ old('property_id') == $property->id ? 'selected' : '' }}>
+                                        {{ $property->name }}
+                                    </option>
+                                @empty
+                                    <option value="">Kontrakan Tidak Ditemukan</option>
+                                @endforelse
                             </select>
+                            @error('property_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="createStartDate" class="form-label">Start Date:</label>
-                            <input type="date" class="form-control" name="start_date" id="createStartDate">
+                            <input type="date" class="form-control" name="start_date" id="createStartDate"
+                                value="{{ old('start_date') }}">
+                            @error('start_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="createEndDate" class="form-label">End Date:</label>
-                            <input type="date" class="form-control" name="end_date" id="createEndDate">
+                            <input type="date" class="form-control" name="end_date" id="createEndDate"
+                                value="{{ old('end_date') }}">
+                            @error('end_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             {{-- <label for="createStatus" class="form-label">Status:</label>
                             <select class="form-select" name="status" id="createStatus">
-                                <option value="active">Active</option>
-                                <option value="expired">Expired</option>
-                            </select> --}}
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                            </select>
+                            @error('status')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror --}}
                         </div>
                         <div class="mb-3">
                             <label for="createDescription" class="form-label">Description:</label>
-                            <textarea class="form-control" name="description" id="createDescription"></textarea>
+                            <textarea class="form-control" name="description" id="createDescription">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

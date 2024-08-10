@@ -22,10 +22,10 @@ class StorePropertyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required', 'unique:properties,name'],
-            'image'=>['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
-            'langtitude'=>['required', 'numeric'],
-            'longtitude'=>['required', 'numeric'],
+            'name' => ['required', 'unique:properties,name'],
+            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
+            'langtitude' => ['required', 'numeric'],
+            'longtitude' => ['required', 'numeric'],
         ];
     }
 }

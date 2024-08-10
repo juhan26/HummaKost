@@ -6,10 +6,39 @@
 <head>
     @include('components.layouts.head')
 
+    <style>
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(-10px);
+            }
+
+            25% {
+                transform: translateX(10px);
+            }
+
+            50% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             {{-- sidebar --}}
             @include('components.layouts.sidebar')
@@ -21,48 +50,53 @@
                 <div class="content-wrapper">
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
+
                         <div class="row g-6">
                             @if (session('success'))
-                                <div class="col-12">
-                                    <div class="alert alert-solid-success alert-dismissible d-flex align-items-center shadow-sm"
-                                        role="alert">
-                                        <span class="alert-icon rounded">
-                                            <i class="ri-checkbox-circle-line ri-22px"></i>
-                                        </span>
-                                        <strong> {{ session('success') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="Close" aria-hidden="true"></button>
+                                <div id="toast-success" class="bs-toast toast toast-ex animate__animated my-2 fade show"
+                                    role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+                                    <div class="toast-header">
+                                        <i class="ri-checkbox-circle-fill me-2 text-success"></i>
+                                        <div class="me-auto fw-medium">Success</div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        {{ session('success') }}
                                     </div>
                                 </div>
                             @endif
                             @if (session('error'))
-                                <div class="col-12">
-                                    <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
-                                        role="alert">
-                                        <span class="alert-icon rounded">
-                                            <i class="ri-checkbox-circle-line ri-22px"></i>
-                                        </span>
-                                        <strong> {{ session('error') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="Close" aria-hidden="true"></button>
+                                <div id="toast-error" class="bs-toast toast toast-ex animate__animated my-2 fade show"
+                                    role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+                                    <div class="toast-header">
+                                        <i class="ri-error-warning-fill me-2 text-danger"></i>
+                                        <div class="me-auto fw-medium">Error</div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        {{ session('error') }}
                                     </div>
                                 </div>
                             @endif
                             @if ($errors->any())
                                 @foreach ($errors->all() as $error)
-                                    <div class="col-12">
-                                        <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
-                                            role="alert">
-                                            <span class="alert-icon rounded">
-                                                <i class="ri-checkbox-circle-line ri-22px"></i>
-                                            </span>
-                                            <strong> {{ $error }}</strong>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close" aria-hidden="true"></button>
+                                    <div class="bs-toast toast toast-ex animate__animated my-2 fade show" role="alert"
+                                        aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+                                        <div class="toast-header">
+                                            <i class="ri-error-warning-fill me-2 text-danger"></i>
+                                            <div class="me-auto fw-medium">Error</div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="toast-body">
+                                            {{ $error }}
                                         </div>
                                     </div>
                                 @endforeach
                             @endif
+
                             @yield('content')
                         </div>
                     </div>
@@ -74,6 +108,37 @@
         </div>
     </div>
     @include('components.layouts.script')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastDuration = 2300; // 3 seconds
+
+            function hideToast(id) {
+                const toast = document.getElementById(id);
+                if (toast) {
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, toastDuration);
+                }
+            }
+
+            @if (session('success'))
+                hideToast('toast-success');
+            @endif
+
+            @if (session('error'))
+                hideToast('toast-error');
+            @endif
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $index => $error)
+                    setTimeout(() => {
+                        document.querySelectorAll('.toast')[{{ $index }}].classList.remove('show');
+                    }, toastDuration);
+                @endforeach
+            @endif
+        });
+    </script>
 </body>
 
 </html>
