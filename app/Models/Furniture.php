@@ -12,7 +12,6 @@ class Furniture extends Model
     protected $table = "furnitures";
 
     protected $fillable = [
-        'photo',
         'name',
         'description'
     ];

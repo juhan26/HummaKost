@@ -248,7 +248,8 @@
                                 <span class="text-primary-500 after-svg banner_300">Terjangkau,</span> Segera Miliki!
                             </h1>
                             <p class="text-gray-500 font-normal font-display lg:text-[20px] md:text-base text-sm lg:leading-7 mb-8 pt-4 xl:pt-0"
-                                data-aos="fade-down" data-aos-duration="1000"> Lebih dari sekadar Tempat Tinggal, ini Rumah anda.</p>
+                                data-aos="fade-down" data-aos-duration="1000"> Lebih dari sekadar Tempat Tinggal, ini
+                                Rumah anda.</p>
                             <form action="" data-aos="fade-down" data-aos-duration="1000">
                                 <div class="flex justify-between items-center ">
                                     <div class="relative w-full xl:max-w-[648px]">
@@ -277,8 +278,8 @@
                         <div
                             class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
-                                class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg shadow-md" data-tilt
-                                style="margin-top: 7rem; width: 30rem; height: 20rem;" data-aos="fade-left"
+                                class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg" data-tilt
+                                style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.5));" data-aos="fade-in"
                                 data-aos-duration="1000">
                         </div>
                         <div
@@ -294,7 +295,7 @@
                                         stroke-linejoin="round" />
                                 </svg>
                             </span>
-                            <span class="text-xl text-gray-600">5.0 Rating</span>
+                            <span class="text-xl text-gray-600">Bapak Kos</span>
                         </div>
 
                         <span
@@ -1079,18 +1080,19 @@
                 <div class="swiper instructorSwipper relative">
                     <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
                         @forelse ($users as $user)
-                        <div class="swiper-slide">
-                            <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                <div class="mb-4 overflow-hidden rounded-lg">
-                                    <a href="#">
-                                        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                                            alt="{{ $user->name }}" class="rounded-lg" >
-                                    </a>
-                                </div>
-                                <div> 
+                            <div class="swiper-slide">
+                                <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
+                                    <div class="mb-4 overflow-hidden rounded-lg">
+                                        <a href="#">
+                                            <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                alt="{{ $user->name }}" class="rounded-lg">
+                                        </a>
+                                    </div>
+                                    <div>
                                         <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                            <a href="#">{{ $user->name }}</a> 
-                                            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                            <a href="#">{{ $user->name }}</a>
+                                            <span
+                                                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                                 {{ $user->lease->status }}
                                             </span>
                                         </h2>
@@ -1099,13 +1101,13 @@
                                                 {{ \Carbon\Carbon::parse($user->lease->start_date)->format('d M Y') }}
                                                 - {{ \Carbon\Carbon::parse($user->lease->end_date)->format('d M Y') }}
                                             </a>
-                                        </h4>  
+                                        </h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @empty 
-                    <p>No users available for this user.</p>
-                    @endforelse
+                        @empty
+                            <p>No users available for this user.</p>
+                        @endforelse
                     </div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
@@ -1128,79 +1130,51 @@
     <!-- intructor section end -->
 
     <!-- achievment section start -->
-    <section class="section-padding achievement-section">
+    <section class="section-padding about-section">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                About <span class="text-primary-500 after-svg achievement">Las Vegas</span></h2>
-            <p class="text-gray-500 md:text-xl text-base xl:mb-[100px] md:mb-8 mb-4">Various versions have evolved over
-                the years, sometimes by accident, Lorem, ipsum<br>dolor sit amet consectetur adipisicing elit. Ducimus
-                quibusdam id omnis, officiis ad est<br>eveniet qui beatae praesentium ratione officia labore inventore.
-                Ullam harum corrupti<br>expedita, maiores numquam dolore. Lorem ipsum dolor sit amet consectetur
-                adipisicing<br> elit. Reiciendis aperiam molestias facere! Porro animi ullam odit unde quod maiores <br>
-                tempora nisi adipisci quidem cum, atque quos, perferendis doloribus magnam facere rem <br> aperiam
-                molestiae, repudiandae reprehenderit sequi eos iusto. Placeat qui, molestiae <br> nulla atque repellat
-                molestias? Velit minus nostrum voluptatem commodi!</p>
+                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-8">
+                About <span class="text-primary-500 after-svg achievement">Us</span>
+            </h2>
+            <p class="text-primary-900 md:text-xl text-base xl:mb-[100px] md:mb-8 mb-4">
+                <i>Di </i><b class="text-primary-500"> HummaKost</b>, <i>kami percaya bahwa setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau.
+                Dengan platform kami, Anda bisa menemukan kontrakan yang sesuai dengan kebutuhan Anda, mulai dari lokasi
+                yang strategis hingga fasilitas yang lengkap.
+
+                Kami hadir untuk memudahkan proses pencarian dan penyewaan hunian, menghadirkan berbagai pilihan yang
+                beragam dan berkualitas. Dengan sistem yang mudah digunakan, Anda dapat mencari, membandingkan, dan
+                menyewa hunian impian Anda dalam waktu singkat.
+
+                Didirikan dengan semangat untuk mengubah cara orang menemukan tempat tinggal, kami terus berinovasi
+                untuk memberikan pengalaman terbaik bagi para pencari hunian. Dukungan pelanggan kami siap membantu Anda
+                di setiap langkah, memastikan Anda mendapatkan layanan yang terbaik.
+
+                Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama </i><b class="text-primary-500"> HummaKost</b>,<i> temukan rumah
+                yang sesuai dengan gaya hidup Anda, di lokasi yang Anda inginkan.</i>
+            </p>
             <div class="mb-[200px]">
                 <div class="flex flex-wrap">
                     <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
-                        <div class="flex flex-wrap gap-y-6 justify-between items-center md:mb-[62px] mb-6">
-                        </div>
+                        <!-- Other content goes here -->
                     </div>
                     <div class="xl:w-1/2 w-full relative flex justify-center">
-                        <div
-                            class="inline-flex justify-center xl:absolute xl:bottom-[-96px] xl:left-1/2 xl:-translate-x-1/2 transform">
+                        {{-- <div class="inline-flex justify-center xl:absolute xl:bottom-[-96px] xl:left-1/2 xl:-translate-x-1/2 transform">
                             <img src="/assets/images/achievement-person.png" alt="" id="gambars">
+                            <!-- SVG elements with Tailwind classes -->
                             <span class="absolute -left-[12%] top-[65%] z-50 animate-bounce">
-                                <svg width="78" height="78" viewBox="0 0 78 78" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M44.6995 48.6013L44.3147 61.8428C44.3025 62.2322 44.1713 62.6086 43.9389 62.9213C43.7066 63.234 43.384 63.4681 43.0147 63.5922C42.6453 63.7162 42.2469 63.7243 41.8728 63.6152C41.4988 63.5062 41.1671 63.2853 40.9223 62.9822L32.6225 52.6575C32.4473 52.4396 32.2269 52.2623 31.9765 52.1378C31.7262 52.0133 31.4518 51.9446 31.1723 51.9365L17.9308 51.5517C17.5414 51.5395 17.165 51.4083 16.8523 51.1759C16.5396 50.9436 16.3055 50.621 16.1814 50.2517C16.0574 49.8823 16.0493 49.4839 16.1584 49.1098C16.2674 48.7358 16.4883 48.4041 16.7914 48.1592L27.1161 39.8595C27.334 39.6843 27.5113 39.4639 27.6358 39.2135C27.7603 38.9632 27.8289 38.6888 27.837 38.4093L28.2219 25.1678C28.2341 24.7784 28.3653 24.402 28.5976 24.0893C28.83 23.7766 29.1526 23.5425 29.5219 23.4184C29.8913 23.2944 30.2897 23.2863 30.6638 23.3954C31.0378 23.5044 31.3695 23.7253 31.6143 24.0284L39.9141 34.3531C40.0893 34.571 40.3097 34.7483 40.56 34.8728C40.8104 34.9973 41.0848 35.0659 41.3643 35.074L54.6058 35.4589C54.9952 35.4711 55.3716 35.6022 55.6843 35.8346C55.997 36.067 56.2311 36.3896 56.3552 36.7589C56.4792 37.1282 56.4873 37.5267 56.3782 37.9008C56.2692 38.2748 56.0483 38.6065 55.7452 38.8513L45.4205 47.1511C45.2026 47.3263 45.0253 47.5467 44.9008 47.797C44.7763 48.0474 44.7077 48.3218 44.6995 48.6013V48.6013Z"
-                                        fill="#0075FD" />
-                                    <path d="M41.0199 9.69531L44.666 20.5511" stroke="#0075FD" stroke-width="2.25"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M48.2709 13.3L37.4151 16.946" stroke="#0075FD" stroke-width="2.25"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M56.1295 18.7146L58.5601 25.9518" stroke="#0075FD" stroke-width="2.25"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M60.9634 21.1174L53.7262 23.5481" stroke="#0075FD" stroke-width="2.25"
-                                        stroke-linecap="round" stroke-linejoin="round" />
+                                <svg width="78" height="78" viewBox="0 0 78 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- SVG paths here -->
                                 </svg>
                             </span>
-                            <span class="absolute -bottom-[10%] left-1/4 z-50 animate-pulse">
-                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="4" cy="4" r="4" fill="#20B486" />
-                                </svg>
-                            </span>
-                            <span class="absolute top-0 left-3/4 animate-pulse">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="6" cy="6" r="6" fill="#1A906B" />
-                                </svg>
-                            </span>
-                            <span class="absolute left-full top-1/4 animate-ping">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="9" cy="9" r="9" fill="#ED4459" />
-                                </svg>
-                            </span>
-                            <span class="absolute lg:-right-1/4 right-2 top-1/4 animate-spin">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M14.8781 15.3282L12.7031 21.3094C12.6498 21.453 12.5539 21.5767 12.4282 21.6642C12.3025 21.7516 12.1531 21.7984 12 21.7984C11.8469 21.7984 11.6974 21.7516 11.5718 21.6642C11.4461 21.5767 11.3501 21.453 11.2969 21.3094L9.12186 15.3282C9.08387 15.2251 9.02397 15.1314 8.94627 15.0538C8.86858 14.9761 8.77496 14.9162 8.67186 14.8782L2.69061 12.7032C2.54708 12.6499 2.42329 12.554 2.33587 12.4283C2.24845 12.3026 2.2016 12.1531 2.2016 12C2.2016 11.8469 2.24845 11.6975 2.33587 11.5718C2.42329 11.4461 2.54708 11.3502 2.69061 11.2969L8.67186 9.12192C8.77496 9.08393 8.86858 9.02403 8.94627 8.94634C9.02397 8.86864 9.08387 8.77502 9.12186 8.67192L11.2969 2.69067C11.3501 2.54714 11.4461 2.42335 11.5718 2.33593C11.6974 2.24852 11.8469 2.20166 12 2.20166C12.1531 2.20166 12.3025 2.24852 12.4282 2.33593C12.5539 2.42335 12.6498 2.54714 12.7031 2.69067L14.8781 8.67192C14.9161 8.77502 14.976 8.86864 15.0537 8.94634C15.1314 9.02403 15.225 9.08393 15.3281 9.12192L21.3094 11.2969C21.4529 11.3502 21.5767 11.4461 21.6641 11.5718C21.7515 11.6975 21.7984 11.8469 21.7984 12C21.7984 12.1531 21.7515 12.3026 21.6641 12.4283C21.5767 12.554 21.4529 12.6499 21.3094 12.7032L15.3281 14.8782C15.225 14.9162 15.1314 14.9761 15.0537 15.0538C14.976 15.1314 14.9161 15.2251 14.8781 15.3282V15.3282Z"
-                                        stroke="#FFC27A" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                        </div>
+                            <!-- Other SVGs with adjusted positioning classes -->
+                        </div> --}}
                     </div>
                 </div>
             </div>
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Member <span class="text-primary-500 after-svg feedback">Feedback</span></h2>
+                Member <span class="text-primary-500 after-svg feedback">Feedback</span>
+            </h2>
             <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by
                 accident,</p>
         </div>
@@ -1218,113 +1192,37 @@
                                 <div>
                                     <h2
                                         class="md:mb-2 font-display lg:text-2xl md:text-lg text-base text-gray-black font-semibold tracking-[0.002em]">
-                                        Jenny Wilson</h2>
+                                        Jenny Wilson
+                                    </h2>
                                     <h4 class="mb-0 md:text-base text-sm font-display text-black">UI-UX Designer</h4>
                                 </div>
                             </div>
                             <div>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">Ut pharetra ipsum nec
-                                    leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac
-                                    habitasse platea dictumst. Praesent nulla massa, hendrerit vestibulum gravida in,
-                                    feugiat auctor felis.</p>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">Ut pharetra ipsum nec
-                                    leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac
-                                    habitasse platea dictumst.</p>
+                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">
+                                    Ut pharetra ipsum nec leo blandit, sit amet tincidunt eros pharetra. Nam sed
+                                    imperdiet turpis. In hac habitasse platea dictumst. Praesent nulla massa, hendrerit
+                                    vestibulum gravida in, feugiat auctor felis.
+                                </p>
+                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">
+                                    Ut pharetra ipsum nec leo blandit, sit amet tincidunt eros pharetra. Nam sed
+                                    imperdiet turpis. In hac habitasse platea dictumst.
+                                </p>
                             </div>
+                            <!-- SVG Quote -->
                             <span class="absolute top-3 right-8">
                                 <svg width="44" height="32" viewBox="0 0 44 32" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12.2222 0.0498047H7.33333C3.28957 0.0498047 0 3.11002 0 6.87183V11.4199C0 15.1817 3.28957 18.2419 7.33333 18.2419H12.2222C13.0071 18.2419 13.7492 18.0965 14.4587 17.8829C13.4731 23.2388 8.48075 27.3379 2.44444 27.3379C1.09332 27.3379 0 28.355 0 29.6119C0 30.8689 1.09332 31.8859 2.44444 31.8859C11.8785 31.8859 19.5556 24.7442 19.5556 15.9679V6.87183C19.5556 3.11002 16.266 0.0498047 12.2222 0.0498047ZM36.6667 0.0498047H31.7778C27.734 0.0498047 24.4444 3.11002 24.4444 6.87183V11.4199C24.4444 15.1817 27.734 18.2419 31.7778 18.2419H36.6667C37.4515 18.2419 38.1936 18.0965 38.9032 17.8829C37.9176 23.2388 32.9252 27.3379 26.8889 27.3379C25.5378 27.3379 24.4444 28.355 24.4444 29.6119C24.4444 30.8689 25.5378 31.8859 26.8889 31.8859C36.323 31.8859 44 24.7442 44 15.9679V6.87183C44 3.11002 40.7104 0.0498047 36.6667 0.0498047Z"
-                                        fill="#20B486" />
-                                    <path
-                                        d="M14.9505 17.9734L15.0987 17.1681L14.3146 17.4041C13.6369 17.6081 12.9448 17.7419 12.2222 17.7419H7.33333C3.53107 17.7419 0.5 14.8721 0.5 11.4199V6.87183C0.5 3.41958 3.53107 0.549805 7.33333 0.549805H12.2222C16.0245 0.549805 19.0556 3.41958 19.0556 6.87183V15.9679C19.0556 24.4346 11.637 31.3859 2.44444 31.3859C1.33481 31.3859 0.5 30.5593 0.5 29.6119C0.5 28.6646 1.33481 27.8379 2.44444 27.8379C8.7031 27.8379 13.9179 23.5847 14.9505 17.9734ZM39.3949 17.9734L39.5431 17.1681L38.759 17.4041C38.0813 17.6081 37.3892 17.7419 36.6667 17.7419H31.7778C27.9755 17.7419 24.9444 14.8721 24.9444 11.4199V6.87183C24.9444 3.41958 27.9755 0.549805 31.7778 0.549805H36.6667C40.4689 0.549805 43.5 3.41958 43.5 6.87183V15.9679C43.5 24.4346 36.0815 31.3859 26.8889 31.3859C25.7793 31.3859 24.9444 30.5593 24.9444 29.6119C24.9444 28.6646 25.7793 27.8379 26.8889 27.8379C33.1475 27.8379 38.3623 23.5847 39.3949 17.9734Z"
-                                        stroke="black" stroke-opacity="0.1" />
+                                    <!-- SVG path -->
                                 </svg>
                             </span>
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div
-                            class="xl:p-8 md:p-6 p-4 bg-white shadow-[0px_0px_72px_rgba(0,0,0,0.08)] rounded-[30px] relative testimonial-card">
-                            <div class="flex items-center gap-2.5 lg:mb-6 mb-3">
-                                <div class="lg:w-[72px] sm:w-12 w-10 lg:h-[72px] sm:h-12 h-10 rounded-full">
-                                    <img src="/assets/images/testimonial-02.png" alt=""
-                                        class="w-full h-full rounded-full">
-                                </div>
-                                <div>
-                                    <h2
-                                        class="md:mb-2 font-display lg:text-2xl md:text-lg text-base text-gray-black font-semibold tracking-[0.002em]">
-                                        Jenny Wilson</h2>
-                                    <h4 class="mb-0 md:text-base text-sm font-display text-black">UI-UX Designer</h4>
-                                </div>
-                            </div>
-                            <div>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">Ut pharetra ipsum nec
-                                    leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac
-                                    habitasse platea dictumst. Praesent nulla massa, hendrerit vestibulum gravida in,
-                                    feugiat auctor felis.</p>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">Ut pharetra ipsum nec
-                                    leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac
-                                    habitasse platea dictumst.</p>
-                            </div>
-                            <span class="absolute top-3 right-8">
-                                <svg width="44" height="32" viewBox="0 0 44 32" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12.2222 0.0498047H7.33333C3.28957 0.0498047 0 3.11002 0 6.87183V11.4199C0 15.1817 3.28957 18.2419 7.33333 18.2419H12.2222C13.0071 18.2419 13.7492 18.0965 14.4587 17.8829C13.4731 23.2388 8.48075 27.3379 2.44444 27.3379C1.09332 27.3379 0 28.355 0 29.6119C0 30.8689 1.09332 31.8859 2.44444 31.8859C11.8785 31.8859 19.5556 24.7442 19.5556 15.9679V6.87183C19.5556 3.11002 16.266 0.0498047 12.2222 0.0498047ZM36.6667 0.0498047H31.7778C27.734 0.0498047 24.4444 3.11002 24.4444 6.87183V11.4199C24.4444 15.1817 27.734 18.2419 31.7778 18.2419H36.6667C37.4515 18.2419 38.1936 18.0965 38.9032 17.8829C37.9176 23.2388 32.9252 27.3379 26.8889 27.3379C25.5378 27.3379 24.4444 28.355 24.4444 29.6119C24.4444 30.8689 25.5378 31.8859 26.8889 31.8859C36.323 31.8859 44 24.7442 44 15.9679V6.87183C44 3.11002 40.7104 0.0498047 36.6667 0.0498047Z"
-                                        fill="#20B486" />
-                                    <path
-                                        d="M14.9505 17.9734L15.0987 17.1681L14.3146 17.4041C13.6369 17.6081 12.9448 17.7419 12.2222 17.7419H7.33333C3.53107 17.7419 0.5 14.8721 0.5 11.4199V6.87183C0.5 3.41958 3.53107 0.549805 7.33333 0.549805H12.2222C16.0245 0.549805 19.0556 3.41958 19.0556 6.87183V15.9679C19.0556 24.4346 11.637 31.3859 2.44444 31.3859C1.33481 31.3859 0.5 30.5593 0.5 29.6119C0.5 28.6646 1.33481 27.8379 2.44444 27.8379C8.7031 27.8379 13.9179 23.5847 14.9505 17.9734ZM39.3949 17.9734L39.5431 17.1681L38.759 17.4041C38.0813 17.6081 37.3892 17.7419 36.6667 17.7419H31.7778C27.9755 17.7419 24.9444 14.8721 24.9444 11.4199V6.87183C24.9444 3.41958 27.9755 0.549805 31.7778 0.549805H36.6667C40.4689 0.549805 43.5 3.41958 43.5 6.87183V15.9679C43.5 24.4346 36.0815 31.3859 26.8889 31.3859C25.7793 31.3859 24.9444 30.5593 24.9444 29.6119C24.9444 28.6646 25.7793 27.8379 26.8889 27.8379C33.1475 27.8379 38.3623 23.5847 39.3949 17.9734Z"
-                                        stroke="black" stroke-opacity="0.1" />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div
-                            class="xl:p-8 md:p-6 p-4 bg-white shadow-[0px_0px_72px_rgba(0,0,0,0.08)] rounded-[30px] relative testimonial-card">
-                            <div class="flex items-center gap-2.5 lg:mb-6 mb-3">
-                                <div class="lg:w-[72px] sm:w-12 w-10 lg:h-[72px] sm:h-12 h-10 rounded-full">
-                                    <img src="/assets/images/testimonial-01.png" alt=""
-                                        class="w-full h-full rounded-full">
-                                </div>
-                                <div>
-                                    <h2
-                                        class="md:mb-2 font-display lg:text-2xl md:text-lg text-base text-gray-black font-semibold tracking-[0.002em]">
-                                        Jenny Wilson</h2>
-                                    <h4 class="mb-0 md:text-base text-sm font-display text-black">UI-UX Designer</h4>
-                                </div>
-                            </div>
-                            <div>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">Ut pharetra ipsum nec
-                                    leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac
-                                    habitasse platea dictumst. Praesent nulla massa, hendrerit vestibulum gravida in,
-                                    feugiat auctor felis.</p>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">Ut pharetra ipsum nec
-                                    leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac
-                                    habitasse platea dictumst.</p>
-                            </div>
-                            <span class="absolute top-3 right-8">
-                                <svg width="44" height="32" viewBox="0 0 44 32" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12.2222 0.0498047H7.33333C3.28957 0.0498047 0 3.11002 0 6.87183V11.4199C0 15.1817 3.28957 18.2419 7.33333 18.2419H12.2222C13.0071 18.2419 13.7492 18.0965 14.4587 17.8829C13.4731 23.2388 8.48075 27.3379 2.44444 27.3379C1.09332 27.3379 0 28.355 0 29.6119C0 30.8689 1.09332 31.8859 2.44444 31.8859C11.8785 31.8859 19.5556 24.7442 19.5556 15.9679V6.87183C19.5556 3.11002 16.266 0.0498047 12.2222 0.0498047ZM36.6667 0.0498047H31.7778C27.734 0.0498047 24.4444 3.11002 24.4444 6.87183V11.4199C24.4444 15.1817 27.734 18.2419 31.7778 18.2419H36.6667C37.4515 18.2419 38.1936 18.0965 38.9032 17.8829C37.9176 23.2388 32.9252 27.3379 26.8889 27.3379C25.5378 27.3379 24.4444 28.355 24.4444 29.6119C24.4444 30.8689 25.5378 31.8859 26.8889 31.8859C36.323 31.8859 44 24.7442 44 15.9679V6.87183C44 3.11002 40.7104 0.0498047 36.6667 0.0498047Z"
-                                        fill="#20B486" />
-                                    <path
-                                        d="M14.9505 17.9734L15.0987 17.1681L14.3146 17.4041C13.6369 17.6081 12.9448 17.7419 12.2222 17.7419H7.33333C3.53107 17.7419 0.5 14.8721 0.5 11.4199V6.87183C0.5 3.41958 3.53107 0.549805 7.33333 0.549805H12.2222C16.0245 0.549805 19.0556 3.41958 19.0556 6.87183V15.9679C19.0556 24.4346 11.637 31.3859 2.44444 31.3859C1.33481 31.3859 0.5 30.5593 0.5 29.6119C0.5 28.6646 1.33481 27.8379 2.44444 27.8379C8.7031 27.8379 13.9179 23.5847 14.9505 17.9734ZM39.3949 17.9734L39.5431 17.1681L38.759 17.4041C38.0813 17.6081 37.3892 17.7419 36.6667 17.7419H31.7778C27.9755 17.7419 24.9444 14.8721 24.9444 11.4199V6.87183C24.9444 3.41958 27.9755 0.549805 31.7778 0.549805H36.6667C40.4689 0.549805 43.5 3.41958 43.5 6.87183V15.9679C43.5 24.4346 36.0815 31.3859 26.8889 31.3859C25.7793 31.3859 24.9444 30.5593 24.9444 29.6119C24.9444 28.6646 25.7793 27.8379 26.8889 27.8379C33.1475 27.8379 38.3623 23.5847 39.3949 17.9734Z"
-                                        stroke="black" stroke-opacity="0.1" />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
+                    <!-- Additional slides -->
                 </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
+
     <!-- achievment section end -->
 
     <!-- cta section start -->
