@@ -19,7 +19,6 @@ class LeaseController extends Controller
     {
         // Get the selected property filter if available
         $propertyFilter = $request->input('property_filter');
-<<<<<<< HEAD
     
         // Fetch leases, optionally filtered by the selected property
         $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
@@ -51,44 +50,6 @@ class LeaseController extends Controller
         return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
     }
     
-=======
-
-        // Fetch leases, optionally filtered by the selected property
-        $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
-            return $query->where('property_id', $propertyFilter);
-        })
-            ->orWhereRelation('users','name','LIKE',"%$request->search%")//('nama_tabel','nama_kolom_pada_tabel_relasi','LIKE',"%$request->searchName%")
-            ->orWhereRelation('properties','name','LIKE',"%$request->search%")
-            ->orWhereRaw('CAST(start_date as CHAR) LIKE?',['%'.$request->search.'%'])//('CAST(nama_kolom as CHAR) LIKE?',['%' . $request->searchName . '%'])
-           ->latest()
-            ->paginate(6);
-
-        // Fetch users associated with the selected property
-        $users = User::when($propertyFilter, function ($query, $propertyFilter) {
-            return $query->whereHas('leases', function ($query) use ($propertyFilter) {
-                $query->where('property_id', $propertyFilter);
-            });
-        })
-            ->orWhereDoesntHave('leases') // Include users without any leases
-            ->where(function ($query) {
-                $query->whereHas('roles', function ($query) {
-                    $query->where('name', 'member');
-                })->orWhereHas('roles', function ($query) {
-                    $query->where('name', 'admin');
-                });
-            })
-            ->latest()
-            ->get();
-
-
-
-
-        // Fetch all properties for the dropdown
-        $properties = Property::all();
-
-        return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
-    }
->>>>>>> d208161f655833351380609fd6a057efe6eb3890
 
 
     /**
@@ -104,56 +65,64 @@ class LeaseController extends Controller
      */
     public function store(StoreLeaseRequest $request)
     {
-        // Periksa apakah pengguna sudah memiliki kontrak aktif
+        // Cek apakah user sudah memiliki lease yang aktif
         $existingLease = Lease::where('user_id', $request->user_id)
-            ->where('end_date', '>', now())
+            ->where('end_date', '>', now()) // Memeriksa lease yang aktif
             ->first();
 
         if ($existingLease) {
-            return redirect()->route('leases.index')->with('error', 'Pengguna sudah memiliki kontrak aktif.');
+            return redirect()->route('leases.index')->with('error', 'User already has an existing lease.');
         }
 
-        // Ambil properti berdasarkan property_id
+        // Ambil property berdasarkan property_id
         $property = Property::find($request->property_id);
 
         if (!$property) {
-            return redirect()->route('leases.index')->with('error', 'Properti tidak ditemukan.');
+            return redirect()->route('leases.index')->with('error', 'Property not found.');
         }
 
-        // Gunakan Carbon untuk menangani tanggal
+        // Menggunakan Carbon untuk menangani tanggal
         $startDate = \Carbon\Carbon::parse($request->start_date);
         $endDate = \Carbon\Carbon::parse($request->end_date);
 
-        // Periksa apakah end_date lebih awal dari start_date
+        // Cek apakah end_date lebih awal dari start_date
         if ($endDate->lt($startDate)) {
-            return redirect()->back()->with('error', 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.');
+            return redirect()->back()->with('error', 'End date cannot be earlier than start date.');
         }
 
-        // Hitung total iuran berdasarkan jumlah bulan
+        // Hitung jumlah bulan penuh di antara dua tanggal
         $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+
+        // Hitung total_iuran
         $totalIuran = $totalMonths * $property->rental_price;
 
-        // Simpan kontrak baru
-        Lease::create([
-            'user_id' => $request->user_id,
-            'property_id' => $request->property_id,
-            'start_date' => $startDate->format('Y-m-d'),
-            'end_date' => $endDate->format('Y-m-d'),
-            'description' => $request->description,
-            'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
-        ]);
+        // Buat lease baru
 
-        // Tangani pembaruan status properti
-        $capacity = $property->capacity;
-        $activeLeasesCount = Lease::where('property_id', $request->property_id)->where('status', 'active')->count();
+        $capacity = Property::find($request->property_id)->capacity;
 
-        if ($activeLeasesCount >= $capacity) {
-            $property->update(['status' => 'full']);
+        if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() < $capacity) {
+
+            if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() == ($capacity - 1)) {
+                $property = Property::find($request->property_id);
+                $property->update(['status' => 'full']);
+            } else {
+                $property = Property::find($request->property_id);
+                $property->update(['status' => 'available']);
+            }
+            Lease::create([
+                'user_id' => $request->user_id,
+                'property_id' => $request->property_id,
+                'start_date' => $startDate->format('Y-m-d'),
+                'end_date' => $endDate->format('Y-m-d'),
+                'description' => $request->description,
+                'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
+            ]);
+
+
+            return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
         } else {
-            $property->update(['status' => 'available']);
+            return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
         }
-
-        return redirect()->route('leases.index')->with('success', 'Kontrak berhasil ditambahkan.');
     }
 
     /**
@@ -177,59 +146,41 @@ class LeaseController extends Controller
      */
     public function update(UpdateLeaseRequest $request, Lease $lease)
     {
-        // Periksa apakah pengguna sudah memiliki kontrak aktif
-        $existingLease = Lease::where('user_id', $request->user_id)
-            ->where('end_date', '>', now())
-            ->where('id', '<>', $lease->id) // Kecualikan kontrak yang sedang diperbarui
-            ->first();
-
-        if ($existingLease) {
-            return redirect()->route('leases.index')->with('error', 'Pengguna sudah memiliki kontrak aktif.');
-        }
-
-        // Ambil properti berdasarkan property_id
+        // Ambil property berdasarkan property_id dari lease yang sedang diperbarui
         $property = Property::find($request->property_id);
 
         if (!$property) {
-            return redirect()->route('leases.index')->with('error', 'Properti tidak ditemukan.');
+            return redirect()->route('leases.index')->with('error', 'Property not found.');
         }
 
-        // Gunakan Carbon untuk menangani tanggal
+        // Menggunakan Carbon untuk menangani tanggal
         $startDate = \Carbon\Carbon::parse($request->start_date);
         $endDate = \Carbon\Carbon::parse($request->end_date);
 
-        // Periksa apakah end_date lebih awal dari start_date
+        // Cek apakah end_date lebih awal dari start_date
         if ($endDate->lt($startDate)) {
-            return redirect()->back()->with('error', 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.');
+            return redirect()->back()->with('error', 'End date cannot be earlier than start date.');
         }
 
-        // Hitung total iuran berdasarkan jumlah bulan
+        // Hitung jumlah bulan penuh di antara dua tanggal
         $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+
+        // Hitung total_iuran
         $totalIuran = $totalMonths * $property->rental_price;
 
-        // Perbarui kontrak
+        // Update lease dengan nilai yang baru
         $lease->update([
             'user_id' => $request->user_id,
             'property_id' => $request->property_id,
             'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
+            'status' => $request->status,
             'description' => $request->description,
             'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
         ]);
 
-        // Tangani pembaruan status properti
-        $capacity = Property::find($request->property_id)->capacity;
-        $activeLeasesCount = Lease::where('property_id', $request->property_id)->where('status', 'active')->count();
-
-        if ($activeLeasesCount >= $capacity) {
-            $property->update(['status' => 'full']);
-        } else {
-            $property->update(['status' => 'available']);
-        }
-
-        return redirect()->route('leases.index')->with('success', 'Kontrak berhasil diperbarui.');
+        return redirect()->route('leases.index')->with('success', 'Lease successfully updated.');
     }
-
 
 
     /**
