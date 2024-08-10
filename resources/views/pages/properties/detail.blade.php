@@ -36,7 +36,23 @@
                         <div class="col-12 col-lg-6 ">
                             <h1 class="text-secondary-emphasis">{{ $property->name }}</h1>
                             <h5 class="text-secondary">{{ $property->description }} Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Dolor, consequatur?</h5>
+                                adipisicing elit. Dolor, co nsequatur?</h5>
+                                @php
+                                    $status = false;
+                                @endphp
+                            @foreach ($property->leases as $lease)
+                                @if ($lease->user->hasRole('admin'))
+                                    <p style="color: blue;">Ketua Kontrakan: {{ $lease->user->name }}</p>
+                                    @php
+                                        $status = true
+                                    @endphp
+                                @endif
+                            @endforeach
+                            <p style="color: red;">
+                                {{ $status == false ? 'Belum Ada Ketua' : '' }}
+                            </p>
+                            
+                            
                             <h2 class="fw-bold text-secondary my-6">
                                 {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
                             <div class="badge fs-6 bg-label-warning mt-6 me-3">Capacity:
@@ -118,8 +134,7 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <label for="" class="form-label">Address</label>
-                                <input type="text" name="address" class="form-control"
-                                    value="{{ $property->address }}">
+                                <input type="text" name="address" class="form-control" value="{{ $property->address }}">
                             </div>
                             <div class="col-12 col-lg-6">
                                 <label for="" class="form-label">langtitude</label>
