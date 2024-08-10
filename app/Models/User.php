@@ -48,7 +48,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function leases()
+    public function lease()
     {
         return $this->hasOne(Lease::class);
     }

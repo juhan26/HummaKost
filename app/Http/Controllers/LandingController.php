@@ -27,10 +27,10 @@ class LandingController extends Controller
             $leasesQuery->where('property_id', $selectedPropertyId);
         }
         // Muat relasi 'users' dengan leases
-        $leases = $leasesQuery->with('users')->get();
+        $leases = $leasesQuery->with('user')->get();
 
         // Ambil pengguna berdasarkan property_id yang dipilih dari le  ases
-        $userIds = $leases->pluck('users.id')->unique();
+        $userIds = $leases->pluck('user.id')->unique();
         $users = User::whereIn('id', $userIds)->role('member')->latest()->get();
 
         $furnitures = Furniture::all();
@@ -43,10 +43,15 @@ class LandingController extends Controller
 
     public function show($id)
     {
-        $leases = Lease::with('users')->get();
-
+        // Ambil data properti berdasarkan ID dan muat lease serta pengguna yang terkait
+        $property = Property::with('leases.user')->findOrFail($id);
+        // dd($property);
+        $properties = Property::all();    
+        // Ambil semua pengguna
         $users = User::all();
-        $property = Property::findOrFail($id);
-        return view('landing.properties.show', compact('property', 'users', 'leases'));
+    
+        // Kembalikan view dengan data yang dibutuhkan
+        return view('landing.properties.show', compact('property', 'properties', 'users'));
     }
+    
 }
