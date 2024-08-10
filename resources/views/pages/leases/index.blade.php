@@ -63,7 +63,7 @@
                             </form>
                         </div>
                     </div>
-                </div>    
+                </div>
                 <div class="card-body">
                     {{-- Leases --}}
                     <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
@@ -78,6 +78,7 @@
                                                         <p>Ketua Kontrakan: {{ $lease->user->name }}</p>
                                                     @endif
                                                     <div class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
+
                                                         {{ $lease->status }}</div>
                                                 </h5>
                                                 <p class="card-text mt-2" style="font-size: 1rem; font-weight: bold;">
