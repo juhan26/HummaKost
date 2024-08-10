@@ -63,7 +63,6 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
                 <div class="card-body">
                     {{-- Leases --}}
@@ -75,6 +74,9 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3 ms-8">
                                             <div>
                                                 <h5 class="card-title mb-0">{{ $lease->user->name }}
+                                                    @if ($lease->user->hasRole('admin'))
+                                                        <p>Ketua Kontrakan: {{ $lease->user->name }}</p>
+                                                    @endif
                                                     <div class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
 
                                                         {{ $lease->status }}</div>
