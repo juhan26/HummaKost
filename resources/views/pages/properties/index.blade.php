@@ -93,7 +93,7 @@
                                                     data-bs-target="#exampleModal">
                                                     Delete
                                                 </button>
-                                                
+
                                             </div>
                                             </div>
                                     </div>
@@ -263,16 +263,17 @@
                                     Longitude/Click The Map)</label>
                                 <div class="d-flex gap-3 mb-3">
                                     <input type="text" id="location-search" class="form-control"
-                                        placeholder="Enter location..." value="value="{{ old('location_search') }}"">
+                                        placeholder="Enter location..." value="{{ old('location_search') }}"">
                                     <button type="button" id="search-button" class="btn btn-primary">Search</button>
                                 </div>
                                 <div class="d-flex mb-3 gap-3">
 
                                     <input type="text" placeholder="click the map" name="langtitude"
-                                        value="{{ old('langtitude') }}" id="latitude" class="form-control" readonly>
+                                        value="{{ old('langtitude') }}" id="latitude" class="form-control">
                                     <input type="text" placeholder="click the map"
                                         name="longtitude"value="{{ old('longtitude') }}" id="longitude"
-                                        class="form-control" readonly>
+                                        class="form-control">
+                                        <button id="search-coordinates-button" class="btn btn-primary" type="button">Cari Kordinat</button>
                                 </div>
                                 <div id="map" style="width: 100%; height: 400px"></div>
                             </div>
