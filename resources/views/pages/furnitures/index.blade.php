@@ -15,7 +15,7 @@
                             <label> Search: </label>
                             <form action="{{ route('furnitures.index') }}" method="GET">
                                 @csrf
-                                <input type="text" name="search" class="form-control form-control-sm" placeholder=""
+                                <input type="text" name="search" placeholder="name..." class="form-control form-control-sm" placeholder=""
                                     aria-controls="DataTables_Table_0" value="{{ request('search') }}">
                             </form>
                         </div>
@@ -28,42 +28,19 @@
                                     Furniture</span></span></button>
                     </div>
                 </div>
-                <div class="row row-cols-1 row-cols-md-3 g-6 mb-3" style="min-height: 720px">
+                <div class="row row-cols-1 row-cols-md-3 g-6 mb-3">
                     @forelse ($furnitures as $furniture)
-                        <div class="col-md-6 col-lg-4" style="max-height: 361px">
+                        <div class="col-md-6 col-lg-4" style="">
                             <div class="card h-100">
                                 <img style="max-height: 180px" class="card-img-top"
                                     src="{{ $furniture->photo ? asset('storage/' . $furniture->photo) : asset('/assets/img/image_not_available.png') }}"
                                     alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $furniture->name }}</h5>
-                                    <p class="card-text">
-                                        {{ $furniture->description ? $furniture->description : 'Deskripsi Kosong' }}
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="javascript:void(0)" class="btn btn-outline-primary waves-effect">Lihat
-                                            Detail</a>
-                                        <div class="dropdown">
-                                            <button
-                                                class="btn btn-text-secondary rounded-pill text-muted border-0 p-1 waves-effect waves-light"
-                                                type="button" id="performanceOverviewDropdown" data-bs-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
-                                                <i class="ri-more-2-line ri-20px"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"
-                                                aria-labelledby="performanceOverviewDropdown">
-
-                                                <button type="button" class="dropdown-item waves-effect"
-                                                    data-bs-toggle="modal" data-bs-target="#updateModal{{ $furniture->id }}"
-                                                    data-bs-whatever="@mdo">Edit</button>
-
-                                                <button type="button" class="dropdown-item waves-effect"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $furniture->id }}">
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div style="min-height: 120px; overflow: auto">
+                                        <p class="card-text">
+                                            {{ $furniture->description ? $furniture->description : 'Deskripsi Kosong' }}
+                                        </p>
                                     </div>
                                     {{-- Edit Modal --}}
                                     <div class="modal fade" id="updateModal{{ $furniture->id }}" tabindex="-1"
@@ -141,6 +118,59 @@
                                         </div>
                                     </div>
                                     <!-- Delete Modal -->
+
+                                    {{-- Detail Modal --}}
+                                    <div class="modal fade" id="detailModal{{ $furniture->id }}"
+                                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                                        {{ $furniture->name }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img style="width: 100%; max-height: 300px; object-fit: cover"
+                                                        src="{{ $furniture->photo ? asset('storage/' . $furniture->photo) : asset('/assets/img/image_not_available.png') }}"
+                                                        alt="{{ $furniture->name }}">
+                                                    <p class="mt-3">{{ $furniture->description }}</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary"
+                                                        data-bs-dismiss="modal">Tutup</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Detail Modal --}}
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between align-items-center px-5 mb-5">
+                                    <button type="button" data-bs-toggle="modal"
+                                        data-bs-target="#detailModal{{ $furniture->id }}"
+                                        class="btn btn-outline-primary waves-effect">Lihat
+                                        Detail</button>
+                                    <div class="dropdown">
+                                        <button
+                                            class="btn btn-text-secondary rounded-pill text-muted border-0 p-1 waves-effect waves-light"
+                                            type="button" id="performanceOverviewDropdown" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="ri-more-2-line ri-20px"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end"
+                                            aria-labelledby="performanceOverviewDropdown">
+
+                                            <button type="button" class="dropdown-item waves-effect"
+                                                data-bs-toggle="modal" data-bs-target="#updateModal{{ $furniture->id }}"
+                                                data-bs-whatever="@mdo">Edit</button>
+
+                                            <button type="button" class="dropdown-item waves-effect"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $furniture->id }}">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +178,7 @@
                         <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
                             <div class="head-label text-center">
                                 <h5 class="card-title mb-0">
-                                    {{ request('search') ? 'Data Tidak Ditemukan' : 'Tidak Ada Furniture' }}</h5>
+                                    {{ request('search') ? 'Furniture Tidak Ditemukan' : 'Belum Ada Furniture' }}</h5>
                             </div>
                         </div>
                     @endforelse
