@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
             'photo' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
             'name' => ['required'],
             'email' => ['required', 'unique:users,email'],
-            'phone_number' => ['required'],
+            'phone_number' => ['required','numeric','min_digits:8','max_digits:20'],
             'password' => ['required'],
         ];
     }

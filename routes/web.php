@@ -12,11 +12,14 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login')->name('login');
 });
+Route::get('/register', function () {
+    return view('auth.register')->name('register');
+});
 
-Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 });
+Auth::routes();
 
 require_once __DIR__ . '/chandra.php';
 require_once __DIR__ . '/juhan.php';
