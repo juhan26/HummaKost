@@ -31,7 +31,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.properties.create');
     }
 
     /**
@@ -39,6 +39,7 @@ class PropertyController extends Controller
      */
     public function store(StorePropertyRequest $request)
     {
+
         if ($request->image) {
             $imagePath = $request->image->store('propertyImages', 'public');
             Property::create([

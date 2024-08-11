@@ -8,11 +8,10 @@
                     <div class="head-label text-center">
                         <h5 class="card-title mb-0">List Kontrakan</h5>
                     </div>
-                    <button data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#createModal"
-                        class="btn btn-secondary create-new btn-primary waves-effect waves-light" tabindex="0"
-                        aria-controls="DataTables_Table_0" type="button"><span><i class="ri-add-line ri-16px me-sm-2"></i>
-                            <span class="d-none d-sm-inline-block">Tambah
-                                Kontrakan</span></span></button>
+                    <a href="{{ route('properties.create') }}" class="btn btn-primary waves-effect waves-light">
+                        <i class="ri-add-line ri-16px me-sm-2"></i>
+                        Tambah Kontrakan
+                    </a>
                 </div>
                 <div class="row mt-3">
                     <div class="d-flex align-items-end justify-content-between mb-3">
@@ -197,29 +196,6 @@
                             </div>
                         </div>
                         <!-- Delete Modal -->
-
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        ...
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save
-                                            changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Delete Modal --}}
                     @empty
                         <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
                             <div class="head-label text-center">
@@ -233,101 +209,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Create Modal --}}
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Kontrakan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('properties.store') }}" method="post" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="row">
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Nama Kontrakan</label>
-                                <input type="text" name="name" class="form-control" value="{{ old('name') }}">
-                            </div>
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="capacity" class="form-label">Kapasitas <small>(Yang Dapat
-                                        Ditampung)</small></label>
-                                <input type="number" name="capacity" class="form-control"
-                                    value="{{ old('capacity') }}">
-                            </div>
-                            <div class="col-12 col-lg-12 mb-3">
-                                <label for="image" class="form-label">Foto Kontrakan</label>
-                                <input type="file" name="image" class="form-control" value="{{ old('photo') }}">
-                            </div>
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="rental_price" class="form-label">Harga Sewa/1 Bulan</label>
-                                <input type="number" name="rental_price" class="form-control"
-                                    value="{{ old('rental_price') }}">
-                            </div>
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="gender_target" class="form-label">Penghuni Kontrakan </label>
-                                <select name="gender_target" id="gender_target" class="form-select"
-                                    value="{{ old('gender_target') }}">
-                                    <option value="male">Laki - Laki</option>
-                                    <option value="female">Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="form-floating col-12 col-lg-12 mb-3">
-                                <textarea class="form-control" id="description" name="description" style="height: 100px">{{ old('description') }}</textarea>
-                                <label for="description">Deskripsi <small>(Opsional)</small></label>
-                            </div>
-                            <div class="col-12 col-lg-12 mb-3">
-                                <label for="address" class="form-label">Alamat</label>
-                                <input type="text" name="address" class="form-control" value="{{ old('address') }}">
-                            </div>
-
-                            <div class="mb-5 mt-2">
-                                <p class="text-center m-0"><strong>Kordinat Maps</strong></p>
-                                <p class="text-center">Bisa menggunakan cari lokasi atau langtitude dan longtitude.</p>
-                            </div>
-
-                            <div class="col-12 col-lg-12 ">
-                                <label for="address" class="form-label">Cari Lokasi
-                                    <small>(Lokasi/Alamat)</small></label>
-                                <div class="d-flex gap-3 mb-3">
-                                    <input type="text" id="location-search" name="address" class="form-control"
-                                        value="{{ old('address') }}">
-                                    <button type="button" id="search-button" class="btn btn-primary">Cari</button>
-                                </div>
-
-                                <div class="d-flex mb-3 gap-3">
-                                    <div style="flex-direction: column" class="d-flex form-label">
-                                        <label for="langtitude" class="form-label">Langtitude</label>
-                                        <input type="text" name="langtitude" class="form-control"
-                                            value="{{ old('langtitude') }}" id="langtitude">
-                                    </div>
-                                    <div style="flex-direction: column" class="d-flex form-label">
-                                        <label for="longtitude" class="form-label">Longtitude</label>
-                                        <input type="text" name="longtitude" class="form-control"
-                                            value="{{ old('longtitude') }}" id="longtitude">
-                                    </div>
-                                    <div class="d-flex form-label align-items-end">
-                                        <button id="search-coordinates-button" class="btn btn-primary"
-                                            style="height: 48px" type="button">Cari
-                                            Kordinat</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <div id="map" style="width: 100%; height: 400px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    {{-- Create Modal --}}
 
     <script>
         var lat = -7.8965894;
