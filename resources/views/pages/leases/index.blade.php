@@ -63,7 +63,7 @@
                             </form>
                         </div>
                     </div>
-                </div>    
+                </div>
                 <div class="card-body">
                     {{-- Data Table --}}
                     <table class="table table-hover">

@@ -18,9 +18,9 @@ class PropertyController extends Controller
         if ($request->input('search')) {
             $properties = Property::where('name', 'LIKE', "%{$request->input('search')}%")
                 ->orWhere('description', 'LIKE', "%($request->input('search'))%")
-                ->paginate(10);
+                ->paginate(6);
         } else {
-            $properties = Property::latest()->paginate(10);
+            $properties = Property::latest()->paginate(6);
         }
 
         return view('pages.properties.index', compact('properties'));
@@ -31,7 +31,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.properties.create');
     }
 
     /**
@@ -39,6 +39,7 @@ class PropertyController extends Controller
      */
     public function store(StorePropertyRequest $request)
     {
+
         if ($request->image) {
             $imagePath = $request->image->store('propertyImages', 'public');
             Property::create([

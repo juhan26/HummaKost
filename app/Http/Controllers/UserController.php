@@ -16,12 +16,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
         if ($request->search) {
             $users = User::where('name', 'LIKE', "%$request->input('search')%")
                 ->orWhere('email', 'LIKE', "%{$request->input('search')}%")
                 ->paginate(10);
-        } else {
+        } else {    
             if (Auth::user()->hasRole('super_admin')) {
                 $users = User::where('id', '!=', Auth::user()->id)->latest()->paginate(10);
             } else if (Auth::user()->hasRole('admin')) {

@@ -1,288 +1,211 @@
 @extends('app')
+
 @section('content')
-    <div class="col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 col-lg-12">
-                            <h3 class="card-title">Properties</h3>
-                            <small>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni totam, eaque voluptas
-                                veritatis nisi consequuntur.</small>
-                        </div>
+    <div class="card">
+        <div class="card-datatable table-responsive pt-0">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div class="card-header d-flex align-items-center justify-content-between border-bottom">
+                    <div class="head-label text-center">
+                        <h5 class="card-title mb-0">List Kontrakan</h5>
                     </div>
-                    <div class="row d-flex align-items-center mt-4">
-
-                        <div class="col-12 col-lg-8 mt-4">
-                            <form action="" method="GET" class="d-flex w-100 ">
-                                @csrf
-                                <div class="d-flex align-items-center border rounded w-100 px-3">
-                                    <input type="text" name="search" id="searchInput" class="form-control border-none"
-                                        value="{{ request()->input('search') }}" placeholder="Search...">
-                                    <a href="{{ route('properties.index') }}" style="display: none" id="clearSearch"
-                                        class="btn-close"></a>
-                                </div>
-                                <script>
-                                    const key = document.getElementById('searchInput');
-                                    const close = document.getElementById('clearSearch');
-
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        if (key.value.trim() !== '') {
-                                            close.style.display = 'block';
-                                        } else {
-                                            close.style.display = 'none';
-                                        }
-                                    });
-
-
-                                    key.addEventListener('input', function() {
-                                        if (key.value.trim() !== '') {
-                                            close.style.display = 'block';
-                                        } else {
-                                            close.style.display = 'none';
-                                        }
-                                    });
-                                </script>
-                        </div>
-                        <div class="col-12 mt-4 col-lg-4">
-                            <div class="d-flex align-items-center w-100 px-3 justify-content-between">
-                                <button class="btn btn-secondary w-25" type="submit"><i
-                                        class="mdi ri-search-line"></i></button>
-                                </form>
-                                <button type="button" class="btn btn-primary w-50 " data-bs-toggle="modal"
-                                    data-bs-target="#createModal">
-                                    Add Properties
-                                </button>
+                    <a href="{{ route('properties.create') }}" class="btn btn-primary waves-effect waves-light">
+                        <i class="ri-add-line ri-16px me-sm-2"></i>
+                        Tambah Kontrakan
+                    </a>
+                </div>
+                <div class="row mt-3">
+                    <div class="d-flex align-items-end justify-content-between mb-3">
+                        @if ($properties->lastPage() != 1)
+                            <div class="col-sm-12 col-md-6 mt-5 mt-md-0">
+                                <strong>Hasil Halaman: {{ $properties->currentPage() }}</strong>
                             </div>
+                        @endif
+                        <div
+                            class="col-sm-12 col-md-6 d-flex {{ $properties->lastPage() != 1 ? 'justify-content-end' : 'justify-content-start' }} gap-3">
+                            @if ($properties->lastPage() != 1)
+                                <label>Pilih Halaman: <select name="page" aria-controls="DataTables_Table_0"
+                                        class="form-select form-select-sm" id="pageSelect">
+                                        @for ($i = 1; $i <= $properties->lastPage(); $i++)
+                                            <option value="{{ request()->url() }}?page={{ $i }}"
+                                                {{ $properties->currentPage() == $i ? 'selected' : '' }}>
+                                                {{ $i }}
+                                            </option>
+                                        @endfor
+                                    </select></label>
+                            @endif
+                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<form
+                                        action="{{ route('properties.index') }}" method="GET">
+                                        @csrf
+                                        <input type="text" name="search" placeholder="name..."
+                                            class="form-control form-control-sm" placeholder=""
+                                            aria-controls="DataTables_Table_0" value="{{ request('search') }}">
+                                    </form></label></div>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
-                        @forelse ($properties as $property)
-                            <div class="col">
-                                <div class="card h-100">
-                                    @if ($property->image)
-                                        <img class="card-img-top" src="{{ asset('storage/' . $property->image) }}"
-                                            alt="Card image cap" />
-                                    @else
-                                        <img class="card-img-top" src="{{ asset('/assets/img/image_not_available.png') }}"
-                                            alt="Card image cap" />
-                                    @endif
-                                    <div class="card-body">
-                                        <div class="row justify-content-between">
-                                            <div class="col-12 col-lg-12 mb-6">
-                                                <h3 class="card-title m-0 p-0">{{ $property->name }}</h3>
-                                                <p class="card-text">{{ $property->description }}</p>
-                                            </div>
-                                            <div class="col-12 col-lg-12 d-flex">
-                                                <p class="card-text w-75">Address: <br>{{ $property->address }}</p>
-                                                <p class="card-text w-25">Capacity: <br><span
-                                                        class="badge bg-success w-100">{{ $property->capacity }}</span></p>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-12">
-                                            <div class="d-flex gap-3 mt-3">
-                                                <a href="{{ route('properties.show', [$property->id]) }}"
-                                                    class="btn btn-primary w-20">Detail</a>
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#updateModal">
-                                                    Edit
-                                                </button>
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">
-                                                    Delete
-                                                </button>
+                <div class="row row-cols-1 row-cols-md-3 g-6 mb-3">
+                    @forelse ($properties as $property)
+                        <div class="col-md-6 col-lg-4" style="">
+                            <div class="card h-100">
+                                <img style="width: 100%" class="card-img-top"
+                                    src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
+                                    alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $property->name }}</h5>
+                                    <div style="min-height: 120px; overflow: auto">
+                                        <p class="card-text">
+                                            {{ $property->description ? $property->description : 'Deskripsi Kosong' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between align-items-center px-5 mb-5">
+                                    <a href="{{ route('properties.show', [$property->id]) }}"
+                                        class="btn btn-outline-primary waves-effect">Lihat Detail</a>
+                                    <div class="dropdown">
+                                        <button
+                                            class="btn btn-text-secondary rounded-pill text-muted border-0 p-1 waves-effect waves-light"
+                                            type="button" id="performanceOverviewDropdown" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="ri-more-2-line ri-20px"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end"
+                                            aria-labelledby="performanceOverviewDropdown">
 
-                                            </div>
-                                            </div>
+                                            <button type="button" class="dropdown-item waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal{{ $property->id }}"
+                                                data-bs-whatever="@mdo">Edit</button>
+
+                                            <button type="button" class="dropdown-item waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $property->id }}">
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        @empty
-                            <div class="">Kosong</div>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{ $properties->links() }}
-    </div>
-
-    {{-- Update Modal --}}
-    <div class="modal fade " id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Property {{ $property->name }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('properties.update', $property->id) }}" method="post"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ $property->name }}">
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Capacity</label>
-                                <input type="number" name="capacity" class="form-control"
-                                    value="{{ $property->capacity }}">
-
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <label for="" class="form-label">Photo</label>
-                                <input type="file" name="image" class="form-control">
-
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Rental Price</label>
-                                <input type="number" name="rental_price" class="form-control"
-                                    value="{{ $property->rental_price }}">
-
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">Gender Target</label>
-                                <select name="gender_target" id="" class="form-select"
-                                    value="{{ $property->gender_target }}">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <label for="" class="form-label">Description</label>
-                                <input type="text" name="description" class="form-control"
-                                    value="{{ $property->description }}">
-
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <label for="" class="form-label">Address</label>
-                                <input type="text" name="address" class="form-control"
-                                    value="{{ $property->address }}">
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">langtitude</label>
-                                <input type="text" name="langtitude" class="form-control"
-                                    value="{{ $property->langtitude }}">
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="" class="form-label">longtitude</label>
-                                <input type="text" name="longtitude" class="form-control"
-                                    value="{{ $property->longtitude }}">
-                            </div>
-
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    {{-- Update Modal --}}
 
-    <!-- Delete Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete {{ $property->name }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure wan't to delete this property?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        {{-- Update Modal --}}
+                        <div class="modal fade " id="updateModal{{ $property->id }}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog ">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Property
+                                            {{ $property->name }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('properties.update', $property->id) }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="row">
 
-                    <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-primary">Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Delete Modal -->
+                                                <div class="col-12 col-lg-6">
+                                                    <label for="" class="form-label">Name</label>
+                                                    <input type="text" name="name" class="form-control"
+                                                        value="{{ $property->name }}">
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <label for="" class="form-label">Capacity</label>
+                                                    <input type="number" name="capacity" class="form-control"
+                                                        value="{{ $property->capacity }}">
 
-    {{-- Create Modal --}}
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Properties</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('properties.store') }}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-12 col-lg-6">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ old('name') }}">
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="capacity" class="form-label">Capacity</label>
-                                <input type="number" name="capacity" class="form-control" value="{{ old('capacity') }}">
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <label for="image" class="form-label">Photo</label>
-                                <input type="file" name="image" class="form-control" value="{{ old('photo') }}">
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="rental_price" class="form-label">Rental Price</label>
-                                <input type="number" name="rental_price" class="form-control"
-                                    value="{{ old('rental_price') }}">
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <label for="gender_target" class="form-label">Gender Target</label>
-                                <select name="gender_target" id="gender_target" class="form-select"
-                                    value="{{ old('gender_target') }}">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <label for="description" class="form-label">Description</label>
-                                <input type="text" name="description" class="form-control"
-                                    value="{{ old('description') }}">
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" name="address" class="form-control" value="{{ old('address') }}">
-                            </div>
-                            <div class="col-12 col-lg-12 mt-3">
-                                <label class="form-label">Maps Coordinate: (Use Search Location/Input Latitude and
-                                    Longitude/Click The Map)</label>
-                                <div class="d-flex gap-3 mb-3">
-                                    <input type="text" id="location-search" class="form-control"
-                                        placeholder="Enter location..." value="{{ old('location_search') }}"">
-                                    <button type="button" id="search-button" class="btn btn-primary">Search</button>
+                                                </div>
+                                                <div class="col-12 col-lg-12">
+                                                    <label for="" class="form-label">Photo</label>
+                                                    <input type="file" name="image" class="form-control">
+
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <label for="" class="form-label">Rental Price</label>
+                                                    <input type="number" name="rental_price" class="form-control"
+                                                        value="{{ $property->rental_price }}">
+
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <label for="" class="form-label">Gender Target</label>
+                                                    <select name="gender_target" id="" class="form-select"
+                                                        value="{{ $property->gender_target }}">
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-12 col-lg-12">
+                                                    <label for="" class="form-label">Description</label>
+                                                    <input type="text" name="description" class="form-control"
+                                                        value="{{ $property->description }}">
+
+                                                </div>
+                                                <div class="col-12 col-lg-12">
+                                                    <label for="" class="form-label">Address</label>
+                                                    <input type="text" name="address" class="form-control"
+                                                        value="{{ $property->address }}">
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <label for="" class="form-label">langtitude</label>
+                                                    <input type="text" name="langtitude" class="form-control"
+                                                        value="{{ $property->langtitude }}">
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <label for="" class="form-label">longtitude</label>
+                                                    <input type="text" name="longtitude" class="form-control"
+                                                        value="{{ $property->longtitude }}">
+                                                </div>
+
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" name="submit" class="btn btn-primary">Save
+                                            changes</button>
+                                    </div>
+                                    </form>
                                 </div>
-                                <div class="d-flex mb-3 gap-3">
-
-                                    <input type="text" placeholder="click the map" name="langtitude"
-                                        value="{{ old('langtitude') }}" id="latitude" class="form-control">
-                                    <input type="text" placeholder="click the map"
-                                        name="longtitude"value="{{ old('longtitude') }}" id="longitude"
-                                        class="form-control">
-                                        <button id="search-coordinates-button" class="btn btn-primary" type="button">Cari Kordinat</button>
-                                </div>
-                                <div id="map" style="width: 100%; height: 400px"></div>
                             </div>
                         </div>
+                        {{-- Update Modal --}}
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Hapus
+                                            {{ $property->name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah anda yakin ingin menghapus kontrakan ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+
+                                        <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Delete Modal -->
+                    @empty
+                        <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
+                            <div class="head-label text-center">
+                                <h5 class="card-title mb-0">
+                                    {{ request('search') ? 'Kontrakan Tidak Ditemukan' : 'Belum Ada Kontrakan' }}</h5>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
-                    </form>
-                </div>
+                {{ $properties->links() }}
             </div>
         </div>
     </div>
@@ -310,8 +233,8 @@
                 marker.setLatLng([clickedLat, clickedLng]);
             }
 
-            document.getElementById('latitude').value = clickedLat;
-            document.getElementById('longitude').value = clickedLng;
+            document.getElementById('langtitude').value = clickedLat;
+            document.getElementById('longtitude').value = clickedLng;
         }
 
         map.on('click', onMapClick);
@@ -333,8 +256,8 @@
                                 marker = L.marker([lat, lng]).addTo(map);
                             }
 
-                            document.getElementById('latitude').value = lat;
-                            document.getElementById('longitude').value = lng;
+                            document.getElementById('langtitude').value = lat;
+                            document.getElementById('longtitude').value = lng;
                         } else {
                             alert('Location not found.');
                         }
@@ -344,8 +267,8 @@
         });
 
         document.getElementById('search-coordinates-button').addEventListener('click', function() {
-            var lat = document.getElementById('latitude').value;
-            var lng = document.getElementById('longitude').value;
+            var lat = document.getElementById('langtitude').value;
+            var lng = document.getElementById('longtitude').value;
             var apiKey = '8bc19529d2bf4e1c93b380dfd6acb17b'; // Ganti dengan API key Anda
             var url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`;
 

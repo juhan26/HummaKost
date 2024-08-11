@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('image')->nullable();
             $table->decimal('rental_price', 10, 2);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('address');
             $table->integer('capacity');
-            $table->enum('gender_target',['male','female']);
+            $table->enum('gender_target', ['male', 'female']);
             $table->decimal('langtitude', 10, 8);
             $table->decimal('longtitude', 11, 8);
-            $table->enum('status',['available','full']);
+            $table->enum('status', ['available', 'full']);
             $table->timestamps();
         });
     }
