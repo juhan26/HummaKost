@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>
-        Login Basic - Pages | Materialize - Material Design HTML Admin Template
+        Login - HummaKost
     </title>
 
     <meta name="description"
@@ -94,16 +94,16 @@
                 <div class="card p-md-7 p-1">
                     <!-- Logo -->
                     <div class="app-brand justify-content-center mt-5">
-                        <a href="index.html" class="app-brand-link gap-2">
+                        <a href="#" class="app-brand-link gap-2">
                             <span class="app-brand-text demo text-heading fw-semibold">Login</span>
                         </a>
                     </div>
                     <!-- /Logo -->
 
                     <div class="card-body mt-1">
-                        <h4 class="mb-1">Welcome to Materialize! 👋</h4>
+                        <h4 class="mb-1">Welcome to Hummakost! 👋</h4>
                         <p class="mb-5">
-                            Please sign-in to your account and start the adventure
+                            Please sign-in to your account.
                         </p>
 
                         <form class="mb-5" method="POST" action="{{ route('login') }}">
