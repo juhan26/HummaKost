@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FurnitureSeeder::class,
             PropertiesSeeder::class,
+            FeedbackSeeder::class,
            ]);
     }
 }
