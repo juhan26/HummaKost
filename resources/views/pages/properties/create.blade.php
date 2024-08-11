@@ -1,0 +1,186 @@
+@extends('app')
+
+@section('content')
+    <div class="col-md-12">
+        <div class="card mb-6">
+            <h5 class="card-header">Tambah Kontrakan Baru</h5>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+                <form action="{{ route('properties.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-12 col-lg-6 mb-3">
+                            <label for="name" class="form-label">Nama Kontrakan</label>
+                            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <label for="capacity" class="form-label">Kapasitas <small>(Yang Dapat
+                                    Ditampung)</small></label>
+                            <input type="number" name="capacity" class="form-control" value="{{ old('capacity') }}">
+                        </div>
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label for="image" class="form-label">Foto Kontrakan</label>
+                            <input type="file" name="image" class="form-control" value="{{ old('photo') }}">
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <label for="rental_price" class="form-label">Harga Sewa/Bulan</label>
+                            <input type="number" name="rental_price" class="form-control"
+                                value="{{ old('rental_price') }}">
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3">
+                            <label for="gender_target" class="form-label">Penghuni Kontrakan </label>
+                            <select name="gender_target" id="gender_target" class="form-select"
+                                value="{{ old('gender_target') }}">
+                                <option value="male">Laki - Laki</option>
+                                <option value="female">Perempuan</option>
+                            </select>
+                        </div>
+
+                        <div class="form-floating col-12 col-lg-12 mb-3">
+                            <textarea class="form-control" id="description" name="description" style="height: 100px">{{ old('description') }}</textarea>
+                            <label for="description">Deskripsi <small>(Opsional)</small></label>
+                        </div>
+
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label for="address" class="form-label">Alamat</label>
+                            <input type="text" name="address" class="form-control" value="{{ old('address') }}">
+                        </div>
+
+                        <div class="mb-5 mt-2">
+                            <p class="text-center m-0"><strong>Kordinat Maps</strong></p>
+                            <p class="text-center">Bisa menggunakan cari lokasi atau langtitude dan longtitude.</p>
+                        </div>
+
+                        <div class="col-12 col-lg-12">
+                            <label for="searchLocation" class="form-label">Cari Lokasi
+                                <small>(Lokasi/Alamat)</small></label>
+                            <div class="d-flex gap-3 mb-3 ">
+                                <input type="text" id="location-search" name="searchLocation" id="searchLocation"
+                                    class="form-control" value="{{ old('searchLocation') }}">
+                                <button type="button" id="search-button" class="btn btn-primary"><i
+                                        class="ri-search-line ri-16px me-sm-2"></i>Cari</button>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <label for="langtitude" class="form-label">Langtitude</label>
+                            <input type="text" id="langtitude" name="langtitude" id="langtitude" class="form-control"
+                                value="{{ old('langtitude') }}">
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <label for="longtitude" class="form-label">Longtitude</label>
+                            <input type="text" id="longtitude" name="longtitude" id="longtitude" class="form-control"
+                                value="{{ old('longtitude') }}">
+                        </div>
+
+                        <div class="col-12 col-lg-12 mt-3 d-flex justify-content-end">
+                            <button id="search-coordinates-button" class="btn btn-primary" style="height: 48px"
+                                type="button"><i class="ri-map-pin-add-line ri-16px me-sm-2"></i>Cari Berdasarkan
+                                Kordinat Lang/Long</button>
+                        </div>
+
+                        <div class="col-12 col-lg-12 mb-3">
+                            <small>Atau Pilih Lokasi Dengan Mengklik Map</small>
+                            <div id="map" style="width: 100%; height: 400px"></div>
+                        </div>
+
+                        <div class="col-12 col-lg-12 d-flex justify-content-between">
+                            <a href="{{ route('properties.index') }}" class="btn btn-secondary">
+                                <i class="ri-arrow-go-back-line ri-16px me-sm-2"></i>Batal
+                            </a>
+
+                            <button class="btn btn-primary create-new btn-primary waves-effect waves-light" tabindex="0"
+                                aria-controls="DataTables_Table_0" type="submit"><span><i
+                                        class="ri-add-line ri-16px me-sm-2"></i>
+                                    <span class="d-none d-sm-inline-block">Tambah
+                                    </span></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var lat = -7.8965894;
+        var lng = 112.6090665;
+        var zoomLevel = 15.39;
+
+        var map = L.map('map').setView([lat, lng], zoomLevel);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker = null;
+
+        function onMapClick(e) {
+            var clickedLat = e.latlng.lat;
+            var clickedLng = e.latlng.lng;
+
+            if (!marker) {
+                marker = L.marker([clickedLat, clickedLng]).addTo(map);
+            } else {
+                marker.setLatLng([clickedLat, clickedLng]);
+            }
+
+            document.getElementById('langtitude').value = clickedLat;
+            document.getElementById('longtitude').value = clickedLng;
+        }
+
+        map.on('click', onMapClick);
+
+        document.getElementById('search-button').addEventListener('click', function() {
+            var location = encodeURIComponent(document.getElementById('location-search').value);
+            if (location) {
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            var lat = data[0].lat;
+                            var lng = data[0].lon;
+                            map.setView([lat, lng], 16);
+
+                            if (marker) {
+                                marker.setLatLng([lat, lng]);
+                            } else {
+                                marker = L.marker([lat, lng]).addTo(map);
+                            }
+
+                            document.getElementById('langtitude').value = lat;
+                            document.getElementById('longtitude').value = lng;
+                        } else {
+                            alert('Lokasi Tidak Ditemukan.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+
+        document.getElementById('search-coordinates-button').addEventListener('click', function() {
+            var lat = document.getElementById('langtitude').value;
+            var lng = document.getElementById('longtitude').value;
+            var apiKey = '8bc19529d2bf4e1c93b380dfd6acb17b'; // Ganti dengan API key Anda
+            var url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results.length > 0) {
+                        map.setView([lat, lng], 13);
+
+                        if (marker) {
+                            marker.setLatLng([lat, lng]);
+                        } else {
+                            marker = L.marker([lat, lng]).addTo(map);
+                        }
+
+                        marker.bindPopup(data.results[0].formatted).openPopup();
+                    } else {
+                        alert('Lokasi Tidak Ditemukan.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+@endsection
