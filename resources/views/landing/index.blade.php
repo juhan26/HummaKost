@@ -47,7 +47,7 @@
                 <!-- logo -->
                 <div>
                     <a href="#">
-                        <img src="/assets/images/logo.png" alt="New Logo" style="width:4rem; height:4rem;">
+                        <img src="/assets/images/logo.png" alt="New Logo" style="width:3rem; height:3rem;">
                     </a>
                 </div>
                 <!-- logo -->
@@ -118,7 +118,7 @@
         <div class="flex justify-center items-center p-6 mb-8">
             <div>
                 <a href="#">
-                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 14rem; height: 4rem;"
+                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 7rem; height: 2rem;"
                         class="container">
                 </a>
             </div>
@@ -280,18 +280,19 @@
                         <div
                             class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
-                                class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg" data-tilt
+                                class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg"
                                 style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));"
                                 data-aos="fade-in" data-aos-duration="1000">
                         </div>
                         <div
-                            class="bg-white xl:px-5 xl:w-[197px] md:px-3 px-2 xl:py-[18px] md:py-2.5 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[197px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4">
-                            <span>
-                                <img src="/assets/img/images/kepala.png" alt="" class=""
-                                    style="object-fit: cover">
-                            </span>
-                            <span class="text-xl text-gray-600">Bapak Kos</span>
-                        </div>
+                        class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4">
+                        <span class="w-16 h-16 md:w-18 md:h-18 xl:w-20 xl:h-20 flex justify-center items-center overflow-hidden">
+                            <img src="/assets/img/images/kepala.png" alt="Bapak Kos" class="w-full h-full object-contain">
+                        </span>
+                        <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
+                    </div>
+                    
+
 
                         <span
                             class="2xl:absolute 2xl:top-[55px] 2xl:right-[-90px] z-10 animate-pulse hidden 2xl:inline-block">
@@ -326,7 +327,7 @@
                         <div class="swiper-wrapper py-4 2xl:pr-[29.3%]">
                             @foreach ($properties->unique('id') as $property)
                                 <div class="swiper-slide">
-                                    <div class="course-card">
+                                    <div class="course-card max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
                                         <div class="bg-gray-white rounded-xl">
                                             <div class="course-content px-4 py-4">
                                                 <div class="overflow-hidden rounded-lg inline-block relative">
@@ -380,7 +381,7 @@
                                 </div>
                             @endforeach
                         </div>
-
+    
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination"></div>
@@ -388,7 +389,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>    
 
     {{-- <section class="section-padding course-section bg-primary-50/70">
         <div class="container px-4 sm:px-6 xl:px-0">
@@ -1045,10 +1046,10 @@
                         class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                         <span class="text-primary-500 after-svg instructor">Member</span>
                     </h2>
-                    <div class="ml-6 w-64 relative"> <!-- Adjust width as needed -->
+                    <div class="ml-6 w-40 md:w-52 lg:w-64 relative"> <!-- Menyesuaikan lebar untuk berbagai ukuran layar -->
                         <label for="property" class="sr-only">Select Property:</label>
                         <select id="property" name="property_id"
-                            class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-lg font-semibold font-display border border-primary-500 rounded-md py-2 px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-base font-semibold font-display border border-primary-500 rounded-md py-2 px-3 md:px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
                             onchange="document.getElementById('memberRedirect').value = '#member'; this.form.submit();">
                             @foreach ($properties as $property)
                                 <option value="{{ $property->id }}"
@@ -1058,14 +1059,14 @@
                             @endforeach
                         </select>
                         <!-- Custom Arrow -->
-                        <svg class="absolute top-1/2 right-4 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
+                        <svg class="absolute top-1/2 right-3 md:right-4 transform -translate-y-1/2 w-4 md:w-5 h-4 md:h-5 text-gray-500 pointer-events-none"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                         </svg>
                         <input type="hidden" id="memberRedirect" name="redirect" value="">
                     </div>
                 </div>
-            </form>
+            </form>            
 
             <div class="flex items-center mb-4">
                 <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years,
@@ -1148,41 +1149,37 @@
                 Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama <a href="#"><i><b
                             class="text-primary-500"> HummaKost</a></i></b>, temukan rumah
                 yang sesuai dengan gaya hidup Anda, di lokasi yang Anda inginkan.
+                <br><br>
+                Sebagai bagian dari komitmen kami untuk memberikan layanan terbaik, <a href="#"><i><b
+                            class="text-primary-500"> HummaKost</a></i></b> terus berupaya meningkatkan kualitas dan
+                kemudahan dalam menemukan hunian idaman. Kami memahami bahwa setiap orang memiliki kebutuhan dan
+                preferensi yang berbeda-beda, oleh karena itu kami menghadirkan berbagai fitur yang dapat membantu Anda
+                membuat keputusan yang tepat. Mulai dari filter pencarian yang lebih canggih, hingga rekomendasi hunian
+                yang disesuaikan dengan gaya hidup Anda, semua dirancang untuk memberikan pengalaman yang lebih personal
+                dan menyenangkan. Kami percaya bahwa dengan terus berinovasi dan mendengarkan kebutuhan Anda, kami dapat
+                menjadi mitra terpercaya dalam perjalanan Anda menemukan hunian yang sempurna. Teruslah bersama kami
+                dalam mewujudkan hunian impian Anda, karena di <a href="#"><i><b class="text-primary-500">
+                            HummaKost</a></i></b>, kepuasan Anda adalah prioritas kami.
             </p>
-            <div class="mb-[200px]">
-                <div class="flex flex-wrap">
-                    <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
-                        <!-- Other content goes here -->
-                    </div>
-                    <div class="xl:w-1/2 w-full relative flex justify-center">
-                        {{-- <div class="inline-flex justify-center xl:absolute xl:bottom-[-96px] xl:left-1/2 xl:-translate-x-1/2 transform">
-                            <img src="/assets/images/achievement-person.png" alt="" id="gambars">
-                            <!-- SVG elements with Tailwind classes -->
-                            <span class="absolute -left-[12%] top-[65%] z-50 animate-bounce">
-                                <svg width="78" height="78" viewBox="0 0 78 78" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <!-- SVG paths here -->
-                                </svg>
-                            </span>
-                            <!-- Other SVGs with adjusted positioning classes -->
-                        </div> --}}
-                    </div>
-                </div>
-            </div>
+
     </section>
 
     <section class="section-padding feedback-section">
         <div class="container px-4 sm:px-6 2xl:px-0">
-            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+            <h2
+                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                 Member <span class="text-primary-500 after-svg feedback">Feedback</span>
             </h2>
-            <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by accident.</p>
+            <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by
+                accident.</p>
             <!-- Feedback Form -->
             <div class="mt-10">
                 <form action="{{ route('feedback.store') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label for="message" class="block text-gray-700">Your Feedback</label>
-                        <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg" placeholder="Write your feedback here..."></textarea>
+                        <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
+                            placeholder="Write your feedback here..."></textarea>
                     </div>
                     <div class="mb-4">
                         <label for="rating" class="block text-gray-700">Rating</label>
@@ -1194,23 +1191,23 @@
                             <option value="1">1 - Terrible</option>
                         </select>
                     </div>
-                        <button type="submit" class="py-5 underline">
-                            Submit Feedback
-                        </button>
+                    <button type="submit" class="py-5 underline">
+                        Submit Feedback
+                    </button>
                 </form>
             </div>
-                           
+
         </div>
-    
+
         <!-- Display Feedbacks -->
         <div class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg">
-            @foreach($feedbacks as $feedback)
+            @foreach ($feedbacks as $feedback)
                 <div class="feedback-item py-2 border-b border-gray-300 relative">
                     <div class="flex items-center justify-between gap-2.5 mb-2">
                         <div class="flex items-center gap-2.5">
                             <div class="w-10 h-10 rounded-full">
-                                <img src="{{ $feedback->user_id ? asset('storage/' . $feedback->user->photo) : asset('assets/img/image_not_available.png') }}" 
-                                     alt="User Profile Image" class="w-full h-full rounded-full">
+                                <img src="{{ $feedback->user_id ? asset('storage/' . $feedback->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                    alt="User Profile Image" class="w-full h-full rounded-full">
                             </div>
                             <div>
                                 <h2 class="text-base text-gray-900 font-semibold">
@@ -1221,16 +1218,21 @@
                                 </span>
                             </div>
                         </div>
-                        
+
                         <!-- Three-dot menu -->
                         <div class="relative">
-                            <button class="text-gray-500 focus:outline-none" onclick="toggleDropdown('dropdown-{{ $feedback->id }}')">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 10a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4z"></path>
+                            <button class="text-gray-500 focus:outline-none"
+                                onclick="toggleDropdown('dropdown-{{ $feedback->id }}')">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6 10a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4z">
+                                    </path>
                                 </svg>
                             </button>
                             <!-- Dropdown menu -->
-                            <div id="dropdown-{{ $feedback->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                            <div id="dropdown-{{ $feedback->id }}"
+                                class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     Report/Laporkan
                                 </a>
@@ -1242,9 +1244,12 @@
                             {{ $feedback->message }}
                         </p>
                         <div class="flex items-center mt-1">
-                            @for($i = 1; $i <= 5; $i++)
-                                <svg class="w-4 h-4 {{ $i <= $feedback->rating ? 'text-yellow-500' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.396 2.46a1 1 0 00-.364 1.118l1.287 3.975c.3.921-.755 1.688-1.538 1.118l-3.396-2.46a1 1 0 00-1.175 0l-3.396 2.46c-.782.57-1.838-.197-1.538-1.118l1.287-3.975a1 1 0 00-.364-1.118l-3.396-2.46c-.782-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"></path>
+                            @for ($i = 1; $i <= 5; $i++)
+                                <svg class="w-4 h-4 {{ $i <= $feedback->rating ? 'text-yellow-500' : 'text-gray-300' }}"
+                                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.396 2.46a1 1 0 00-.364 1.118l1.287 3.975c.3.921-.755 1.688-1.538 1.118l-3.396-2.46a1 1 0 00-1.175 0l-3.396 2.46c-.782.57-1.838-.197-1.538-1.118l1.287-3.975a1 1 0 00-.364-1.118l-3.396-2.46c-.782-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z">
+                                    </path>
                                 </svg>
                             @endfor
                             <span class="ml-2 text-sm text-gray-600">
@@ -1255,7 +1260,7 @@
                 </div>
             @endforeach
         </div>
-        
+
         <script>
             function toggleDropdown(dropdownId) {
                 var dropdown = document.getElementById(dropdownId);
@@ -1265,23 +1270,23 @@
                     dropdown.classList.add('hidden');
                 }
             }
-        
+
             // Close dropdown if clicked outside
-            document.addEventListener('click', function (event) {
+            document.addEventListener('click', function(event) {
                 var target = event.target;
                 var dropdowns = document.querySelectorAll('.relative .dropdown-menu');
-                dropdowns.forEach(function (dropdown) {
+                dropdowns.forEach(function(dropdown) {
                     if (!dropdown.parentElement.contains(target)) {
                         dropdown.classList.add('hidden');
                     }
                 });
             });
         </script>
-        
-        
-        
+
+
+
     </section>
-    
+
 
     <!-- achievment section end -->
 
