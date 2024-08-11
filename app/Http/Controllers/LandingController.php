@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use App\Models\Furniture;
 use App\Models\Lease;
 use App\Models\Property;
@@ -34,9 +35,11 @@ class LandingController extends Controller
         $users = User::whereIn('id', $userIds)->role('member')->latest()->get();
 
         $furnitures = Furniture::all();
+        $feedbacks = Feedback::with('user')->get();
+
 
         // Kirim data ke view
-        return view('landing.index', compact('furnitures', 'leases', 'properties', 'users', 'selectedPropertyId'));
+        return view('landing.index', compact('furnitures', 'leases', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
     }
 
 

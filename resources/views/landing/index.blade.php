@@ -87,13 +87,15 @@
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
                         <span class="flex justify-center items-center">
                         </span>
-                        @if ( Auth::user())
-                        <a href="{{   route('dashboard') }}" class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
-
+                        @if (Auth::user())
+                            <a href="{{ route('dashboard') }}"
+                                class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
                         @else
-                        <a href="{{   route('register') }}" class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500" style="padding:12px 16px; border-radius:8px;"><span>{{ 'Daftar' }}</span></a>
-                        <a href="{{  route('login') }}" class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
-
+                            <a href="{{ route('register') }}"
+                                class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
+                                style="padding:12px 16px; border-radius:8px;"><span>{{ 'Daftar' }}</span></a>
+                            <a href="{{ route('login') }}"
+                                class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
                         @endif
                     </a>
                     {{-- <a href="#" class="hidden xl:inline-block btn-primary">
@@ -279,21 +281,14 @@
                             class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
                                 class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg" data-tilt
-                                style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.5));" data-aos="fade-in"
-                                data-aos-duration="1000">
+                                style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));"
+                                data-aos="fade-in" data-aos-duration="1000">
                         </div>
                         <div
                             class="bg-white xl:px-5 xl:w-[197px] md:px-3 px-2 xl:py-[18px] md:py-2.5 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[197px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4">
                             <span>
-                                <svg width="44" height="45" viewBox="0 0 44 45" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <rect y="0.521973" width="44" height="44" rx="6"
-                                        fill="#E9F8F3" />
-                                    <path
-                                        d="M22.4125 28.4001L27.1375 31.4001C27.7469 31.7845 28.4969 31.2126 28.3187 30.5095L26.95 25.1282C26.913 24.9791 26.9189 24.8225 26.967 24.6765C27.0151 24.5306 27.1034 24.4012 27.2219 24.3032L31.4594 20.7688C32.0125 20.3095 31.7312 19.3813 31.0094 19.3345L25.4781 18.9782C25.3272 18.9694 25.1821 18.9169 25.0606 18.827C24.939 18.7371 24.8463 18.6137 24.7937 18.472L22.7312 13.2782C22.6767 13.1281 22.5772 12.9985 22.4464 12.9069C22.3156 12.8152 22.1597 12.7661 22 12.7661C21.8403 12.7661 21.6844 12.8152 21.5536 12.9069C21.4228 12.9985 21.3233 13.1281 21.2687 13.2782L19.2062 18.472C19.1537 18.6137 19.061 18.7371 18.9394 18.827C18.8179 18.9169 18.6728 18.9694 18.5219 18.9782L12.9906 19.3345C12.2687 19.3813 11.9875 20.3095 12.5406 20.7688L16.7781 24.3032C16.8966 24.4012 16.9849 24.5306 17.033 24.6765C17.0811 24.8225 17.087 24.9791 17.05 25.1282L15.7844 30.1157C15.5687 30.9595 16.4687 31.6438 17.1906 31.1845L21.5875 28.4001C21.7108 28.3217 21.8539 28.2801 22 28.2801C22.1461 28.2801 22.2892 28.3217 22.4125 28.4001Z"
-                                        fill="#20B486" stroke="#20B486" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
+                                <img src="/assets/img/images/kepala.png" alt="" class=""
+                                    style="object-fit: cover">
                             </span>
                             <span class="text-xl text-gray-600">Bapak Kos</span>
                         </div>
@@ -1137,7 +1132,8 @@
                 About <span class="text-primary-500 after-svg achievement">Us</span>
             </h2>
             <p class="text-primary-900 md:text-xl text-base xl:mb-[100px] md:mb-8 mb-4">
-                <i>Di </i><b class="text-primary-500"> HummaKost</b>, <i>kami percaya bahwa setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau.
+                Di <a href="#" class=""><i><b class="text-primary-500"> HummaKost</a></i></b>, kami
+                percaya bahwa setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau.
                 Dengan platform kami, Anda bisa menemukan kontrakan yang sesuai dengan kebutuhan Anda, mulai dari lokasi
                 yang strategis hingga fasilitas yang lengkap.
 
@@ -1149,8 +1145,9 @@
                 untuk memberikan pengalaman terbaik bagi para pencari hunian. Dukungan pelanggan kami siap membantu Anda
                 di setiap langkah, memastikan Anda mendapatkan layanan yang terbaik.
 
-                Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama </i><b class="text-primary-500"> HummaKost</b>,<i> temukan rumah
-                yang sesuai dengan gaya hidup Anda, di lokasi yang Anda inginkan.</i>
+                Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama <a href="#"><i><b
+                            class="text-primary-500"> HummaKost</a></i></b>, temukan rumah
+                yang sesuai dengan gaya hidup Anda, di lokasi yang Anda inginkan.
             </p>
             <div class="mb-[200px]">
                 <div class="flex flex-wrap">
@@ -1171,57 +1168,120 @@
                     </div>
                 </div>
             </div>
-            <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+    </section>
+
+    <section class="section-padding feedback-section">
+        <div class="container px-4 sm:px-6 2xl:px-0">
+            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                 Member <span class="text-primary-500 after-svg feedback">Feedback</span>
             </h2>
-            <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by
-                accident,</p>
+            <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by accident.</p>
+            <!-- Feedback Form -->
+            <div class="mt-10">
+                <form action="{{ route('feedback.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="message" class="block text-gray-700">Your Feedback</label>
+                        <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg" placeholder="Write your feedback here..."></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="rating" class="block text-gray-700">Rating</label>
+                        <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Good</option>
+                            <option value="3">3 - Average</option>
+                            <option value="2">2 - Poor</option>
+                            <option value="1">1 - Terrible</option>
+                        </select>
+                    </div>
+                        <button type="submit" class="py-5 underline">
+                            Submit Feedback
+                        </button>
+                </form>
+            </div>
+                           
         </div>
-        <div class="slider-container extra-width">
-            <div class="swiper testimonialSwipper relative">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div
-                            class="xl:p-8 md:p-6 p-4 bg-white shadow-[0px_0px_72px_rgba(0,0,0,0.08)] rounded-[30px] relative testimonial-card">
-                            <div class="flex items-center gap-2.5 lg:mb-6 mb-3">
-                                <div class="lg:w-[72px] sm:w-12 w-10 lg:h-[72px] sm:h-12 h-10 rounded-full">
-                                    <img src="/assets/images/testimonial-01.png" alt=""
-                                        class="w-full h-full rounded-full">
-                                </div>
-                                <div>
-                                    <h2
-                                        class="md:mb-2 font-display lg:text-2xl md:text-lg text-base text-gray-black font-semibold tracking-[0.002em]">
-                                        Jenny Wilson
-                                    </h2>
-                                    <h4 class="mb-0 md:text-base text-sm font-display text-black">UI-UX Designer</h4>
-                                </div>
+    
+        <!-- Display Feedbacks -->
+        <div class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg">
+            @foreach($feedbacks as $feedback)
+                <div class="feedback-item py-2 border-b border-gray-300 relative">
+                    <div class="flex items-center justify-between gap-2.5 mb-2">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-10 h-10 rounded-full">
+                                <img src="{{ $feedback->user_id ? asset('storage/' . $feedback->user->photo) : asset('assets/img/image_not_available.png') }}" 
+                                     alt="User Profile Image" class="w-full h-full rounded-full">
                             </div>
                             <div>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">
-                                    Ut pharetra ipsum nec leo blandit, sit amet tincidunt eros pharetra. Nam sed
-                                    imperdiet turpis. In hac habitasse platea dictumst. Praesent nulla massa, hendrerit
-                                    vestibulum gravida in, feugiat auctor felis.
-                                </p>
-                                <p class="mb-4 md:text-base text-sm font-display text-gray-700">
-                                    Ut pharetra ipsum nec leo blandit, sit amet tincidunt eros pharetra. Nam sed
-                                    imperdiet turpis. In hac habitasse platea dictumst.
-                                </p>
+                                <h2 class="text-base text-gray-900 font-semibold">
+                                    {{ $feedback->user_id ? $feedback->user->name : 'Anonymous' }}
+                                </h2>
+                                <span class="text-sm text-gray-600">
+                                    {{ $feedback->created_at->diffForHumans() }}
+                                </span>
                             </div>
-                            <!-- SVG Quote -->
-                            <span class="absolute top-3 right-8">
-                                <svg width="44" height="32" viewBox="0 0 44 32" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <!-- SVG path -->
+                        </div>
+                        
+                        <!-- Three-dot menu -->
+                        <div class="relative">
+                            <button class="text-gray-500 focus:outline-none" onclick="toggleDropdown('dropdown-{{ $feedback->id }}')">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 10a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4z"></path>
                                 </svg>
+                            </button>
+                            <!-- Dropdown menu -->
+                            <div id="dropdown-{{ $feedback->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Report/Laporkan
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            {{ $feedback->message }}
+                        </p>
+                        <div class="flex items-center mt-1">
+                            @for($i = 1; $i <= 5; $i++)
+                                <svg class="w-4 h-4 {{ $i <= $feedback->rating ? 'text-yellow-500' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.396 2.46a1 1 0 00-.364 1.118l1.287 3.975c.3.921-.755 1.688-1.538 1.118l-3.396-2.46a1 1 0 00-1.175 0l-3.396 2.46c-.782.57-1.838-.197-1.538-1.118l1.287-3.975a1 1 0 00-.364-1.118l-3.396-2.46c-.782-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"></path>
+                                </svg>
+                            @endfor
+                            <span class="ml-2 text-sm text-gray-600">
+                                {{ $feedback->rating }} Stars
                             </span>
                         </div>
                     </div>
-                    <!-- Additional slides -->
                 </div>
-            </div>
+            @endforeach
         </div>
+        
+        <script>
+            function toggleDropdown(dropdownId) {
+                var dropdown = document.getElementById(dropdownId);
+                if (dropdown.classList.contains('hidden')) {
+                    dropdown.classList.remove('hidden');
+                } else {
+                    dropdown.classList.add('hidden');
+                }
+            }
+        
+            // Close dropdown if clicked outside
+            document.addEventListener('click', function (event) {
+                var target = event.target;
+                var dropdowns = document.querySelectorAll('.relative .dropdown-menu');
+                dropdowns.forEach(function (dropdown) {
+                    if (!dropdown.parentElement.contains(target)) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+            });
+        </script>
+        
+        
+        
     </section>
+    
 
     <!-- achievment section end -->
 
