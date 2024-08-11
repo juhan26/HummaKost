@@ -11,7 +11,7 @@
                             <small>Manajemen dan review tujuan kontrak.</small>
                         </div>
                         <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
-                            @hasrole('super_admin')
+                            @hasrole('super_admin|admin')
                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
                                     data-bs-target="#createModal">
                                     Tambah Kontrak
@@ -49,25 +49,38 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label for="createUser" class="form-label">Month:</label>
-                                            <select class="form-select" name="month" id="createUser">
-                                                <option value="month">Januari</option>
-                                                <option value="month">Februari</option>
-                                                <option value="month">Maret</option>
-                                                <option value="month">April</option>
-                                                <option value="month">Mei</option>
-                                                <option value="month">Juni</option>
-                                                <option value="month">Juli</option>
-                                                <option value="month">Agustus</option>
-                                                <option value="month">Oktober</option>
-                                                <option value="month">September</option>
-                                                <option value="month">November</option>
-                                                <option value="month">Desember</option>
+                                            <label for="createMonth" class="form-label">Month:</label>
+                                            <select class="form-select" name="month" id="createMonth">
+                                                <option value="Januari" {{ old('month') == 'Januari' ? 'selected' : '' }}>
+                                                    Januari</option>
+                                                <option value="Februari" {{ old('month') == 'Februari' ? 'selected' : '' }}>
+                                                    Februari</option>
+                                                <option value="Maret" {{ old('month') == 'Maret' ? 'selected' : '' }}>Maret
+                                                </option>
+                                                <option value="April" {{ old('month') == 'April' ? 'selected' : '' }}>April
+                                                </option>
+                                                <option value="Mei" {{ old('month') == 'Mei' ? 'selected' : '' }}>Mei
+                                                </option>
+                                                <option value="Juni" {{ old('month') == 'Juni' ? 'selected' : '' }}>Juni
+                                                </option>
+                                                <option value="Juli" {{ old('month') == 'Juli' ? 'selected' : '' }}>Juli
+                                                </option>
+                                                <option value="Agustus" {{ old('month') == 'Agustus' ? 'selected' : '' }}>
+                                                    Agustus</option>
+                                                <option value="September"
+                                                    {{ old('month') == 'September' ? 'selected' : '' }}>September</option>
+                                                <option value="Oktober" {{ old('month') == 'Oktober' ? 'selected' : '' }}>
+                                                    Oktober</option>
+                                                <option value="November"
+                                                    {{ old('month') == 'November' ? 'selected' : '' }}>November</option>
+                                                <option value="Desember"
+                                                    {{ old('month') == 'Desember' ? 'selected' : '' }}>Desember</option>
                                             </select>
-                                            {{-- @error('month')
+                                            @error('month')
                                                 <div class="text-danger">{{ $message }}</div>
-                                            @enderror --}}
+                                            @enderror
                                         </div>
+
                                         <div class="mb-3">
                                             <label for="createDescription" class="form-label">Description:</label>
                                             <textarea class="form-control" name="description" id="createDescription">{{ old('description') }}</textarea>
@@ -131,7 +144,7 @@
                                     <td> {{ $payment->month }}</td>
                                     <td>Rp. {{ number_format($payment->nominal) }}</td>
                                     <td>{{ $payment->description ? $payment->description : 'Deskripsi Kosong' }}</td>
-                                    @hasrole('super_admin')
+                                    @hasrole('super_admin|admin')
                                         <td>
                                             <a type="button" class="" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModal{{ $payment->id }}">
