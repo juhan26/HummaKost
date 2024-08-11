@@ -49,12 +49,24 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label for="createStartDate" class="form-label">Month:</label>
-                                            <input type="date" class="form-control" name="month" id="createStartDate"
-                                                value="{{ old('month') }}">
-                                            @error('month')
+                                            <label for="createUser" class="form-label">Month:</label>
+                                            <select class="form-select" name="month" id="createUser">
+                                                <option value="month">Januari</option>
+                                                <option value="month">Februari</option>
+                                                <option value="month">Maret</option>
+                                                <option value="month">April</option>
+                                                <option value="month">Mei</option>
+                                                <option value="month">Juni</option>
+                                                <option value="month">Juli</option>
+                                                <option value="month">Agustus</option>
+                                                <option value="month">Oktober</option>
+                                                <option value="month">September</option>
+                                                <option value="month">November</option>
+                                                <option value="month">Desember</option>
+                                            </select>
+                                            {{-- @error('month')
                                                 <div class="text-danger">{{ $message }}</div>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
                                         <div class="mb-3">
                                             <label for="createDescription" class="form-label">Description:</label>
@@ -116,16 +128,16 @@
                                             alt="">
                                     </td>
                                     <td>{{ $payment->lease->user->name }}</td>
-                                    <td> {{ \Carbon\Carbon::parse($payment->month)->format('M-Y') }}</td>
+                                    <td> {{ $payment->month }}</td>
                                     <td>Rp. {{ number_format($payment->nominal) }}</td>
                                     <td>{{ $payment->description ? $payment->description : 'Deskripsi Kosong' }}</td>
-                                    @hasrole('super_admin', 'admin')
-                                    <td>
-                                        <a type="button" class="" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $payment->id }}">
-                                            <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
-                                        </a>
-                                    </td>
+                                    @hasrole('super_admin')
+                                        <td>
+                                            <a type="button" class="" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $payment->id }}">
+                                                <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
+                                            </a>
+                                        </td>
                                     @endhasrole
                                 </tr>
                                 <!-- Delete Modal -->
@@ -160,7 +172,7 @@
                             @empty
                                 <tr>
                                     <th scope="row" colspan="7" class="text-center">
-                                        {{ request('search') ? 'Furniture Tidak Ditemukan' : 'Belum Ada Furniture' }}
+                                        {{ request('search') ? 'Pembayaran Tidak Ditemukan' : 'Belum Ada Pembayaran' }}
                                     </th>
                                 </tr>
                             @endforelse
