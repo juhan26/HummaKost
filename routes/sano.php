@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\LeaseController;
+use App\Http\Controllers\PaymentPerMonthController;
 use App\Http\Controllers\UserController;
+use App\Models\PaymentPerMonth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -11,5 +13,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
     Route::resource('leases', LeaseController::class);
+
+    Route::resource('payments', PaymentPerMonthController::class);
+
 });
 

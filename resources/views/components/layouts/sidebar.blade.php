@@ -109,6 +109,18 @@
             </a>
         </li>
 
+        <li class="menu-header mt-5">
+            <span class="menu-header-text">Pembayaran</span>
+        </li>
+
+
+        <li class="menu-item {{ request()->routeIs('payments.index') ? 'active' : '' }}">
+            <a href="{{ url('payments') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-money-dollar-circle-line"></i>
+                <div>Pembayaran Perbulan</div>
+            </a>
+        </li>
+
 
 
 
