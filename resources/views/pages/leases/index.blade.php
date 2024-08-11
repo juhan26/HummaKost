@@ -21,7 +21,7 @@
                     </div>
                     <div class="row d-flex align-items-center mt-4">
                         <div class="col-12 col-lg-8">
-                            <form action="" method="GET" class="d-flex w-100 ">
+                            <form action="" method="GET" class="d-flex w-100">
                                 @csrf
                                 <div class="d-flex align-items-center border rounded w-100 px-3">
                                     <input type="text" name="search" id="searchInput" class="form-control border-none"
@@ -32,7 +32,7 @@
                                 <script>
                                     const key = document.getElementById('searchInput');
                                     const close = document.getElementById('clearSearch');
-
+        
                                     document.addEventListener('DOMContentLoaded', function() {
                                         if (key.value.trim() !== '') {
                                             close.style.display = 'block';
@@ -40,7 +40,7 @@
                                             close.style.display = 'none';
                                         }
                                     });
-
+        
                                     key.addEventListener('input', function() {
                                         if (key.value.trim() !== '') {
                                             close.style.display = 'block';
@@ -65,192 +65,144 @@
                     </div>
                 </div>    
                 <div class="card-body">
-                    {{-- Leases --}}
-                    <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
-                        @foreach ($leases as $lease)
-                            <div class="col">
-                                <div class="card h-100 shadow-sm">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center mb-3 ms-8">
-                                            <div>
-                                                <h5 class="card-title mb-0">{{ $lease->user->name }}
-                                                    @if ($lease->user->hasRole('admin'))
-                                                        <p>Ketua Kontrakan: {{ $lease->user->name }}</p>
-                                                    @endif
-                                                    <div class="ms-2 mb-4 badge fs-6 {{ $lease->status === 'active' ? 'bg-success' : 'bg-danger' }}">
-                                                        {{ $lease->status }}</div>
+                    {{-- Data Table --}}
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nama Penyewa</th>
+                                <th>Roles</th>
+                                <th>Kontrakan</th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Selesai</th>
+                                <th>Total Iuran</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($leases as $lease)
+                                <tr>
+                                    <td>
+                                        <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                            alt="{{ $lease->user->name }}" class="">
+                                    </td>
+                                    <td>{{ $lease->user->name }}</td>
+                                    <td>
+                                        @foreach ($lease->user->getRoleNames() as $role)
+                                            @if ($role == 'admin')
+                                                <span class="badge bg-warning">{{ $role }}</span> 
+                                            @elseif ($role == 'super_admin')
+                                                <span class="badge bg-danger">{{ $role }}</span> 
+                                            @else
+                                                <span class="badge bg-success">{{ $role }}</span> 
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    
+                                    <td>{{ $lease->properties->name }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</td>
+                                    <td>Rp.{{ number_format($lease->total_iuran) }}</td>
+                                    <td>
+                                        <span class="badge fs-6 {{ $lease->status === 'active' ? 'bg-label-success' : 'bg-label-danger' }}">
+                                            {{ $lease->status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ $lease->id }}">Edit</a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $lease->id }}">Hapus</button>
+                                    </td>
+                                </tr>
+        
+                                {{-- Delete Modal --}}
+                                <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
+                                    aria-labelledby="deleteModalLabel{{ $lease->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}"> Hapus Data Kontrak
                                                 </h5>
-                                                <p class="card-text mt-2" style="font-size: 1rem; font-weight: bold;">
-                                                    Kontrakan: <span
-                                                        class="text-muted text-primary">{{ $lease->properties->name }}</span>
-                                                </p>
-                                                <p class="card-text" style="font-size: 0.9rem;">Tanggal Mulai: <span
-                                                        class="text-muted">{{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</span>
-                                                </p>
-                                                <p class="card-text" style="font-size: 0.9rem;">Tanggal Selesai: <span
-                                                        class="text-muted">{{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</span>
-                                                </p>
-                                                <p class="card-text" style="font-size: 0.9rem;">Deskripsi: <span
-                                                        class="text-muted">{{ $lease->description }}</span></p>
-                                                <p class="card-text" style="font-size: 1rem; font-weight: bold;">Total
-                                                    Iuran: <span
-                                                        class="text-danger">Rp.{{ number_format($lease->total_iuran) }}</span>
-                                                </p>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                alt="{{ $lease->user->name }}" class="rounded-4 shadow-lg m-8 ms-3"
-                                                style="width: 300px; height: 300px; object-fit: cover;">
-                                        </div>
-                                        <div class="mt-auto d-flex justify-content-end">
-                                            <a href="#" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
-                                                data-bs-target="#editModal{{ $lease->id }}">Edit</a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $lease->id }}">Hapus</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- Delete Modal --}}
-                            <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
-                                aria-labelledby="deleteModalLabel{{ $lease->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}"> Hapus Data
-                                                Kontrak
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Apakah anda yakin ingin menghapus data kontrak ini?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Kembali</button>
-                                            <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </form>
+                                            <div class="modal-body">
+                                                Apakah anda yakin ingin menghapus data kontrak ini?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                                <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            {{-- Edit Modal --}}
-                            <div class="modal fade" id="editModal{{ $lease->id}}" tabindex="-1"
-                                aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Edit Data
-                                                Kontrak
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('leases.update', $lease->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="mb-3">
-                                                    <label for="editUser{{ $lease->id }}" class="form-label">Penyewa:</label>
-
-                                                    {{-- Ambil user_id lama jika ada --}}
-                                                    @php
-                                                        $oldUserId = old('user_id', $lease->user_id);
-                                                        $userName = optional(\App\Models\User::find($oldUserId))->name;
-                                                    @endphp
-
-                                                    <input type="text" name="user_id" class="form-control" value="{{ $userName }}" readonly>
-                                                    <input type="hidden" name="user_id" value="{{ $lease->user_id }}">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="editProperty{{ $lease->id }}"
-                                                        class="form-label">Kontrakan:</label>
-                                                    <input type="text" class="form-control" name="property_id"
-                                                        id="editProperty{{ $lease->id }}"
-                                                        value="{{ $properties->firstWhere('id', $lease->property_id)->name ?? 'Property not found' }}"
-                                                        readonly>
-                                                    <input type="hidden" name="property_id"
-                                                        value="{{ $lease->property_id }}">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editStartDate{{ $lease->id }}"
-                                                        class="form-label">Tanggal Mulai:</label>
-                                                    <input type="date" class="form-control" name="start_date"
-                                                        id="editStartDate{{ $lease->id }}"
-                                                        value="{{ old('start_date', \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d')) }}">
-                                                    @error('start_date')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editEndDate{{ $lease->id }}"
-                                                        class="form-label">Tanggal
-                                                        Selesai:</label>
-                                                    <input type="date" class="form-control" name="end_date"
-                                                        id="editEndDate{{ $lease->id }}"
-                                                        value="{{ old('end_date', \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d')) }}">
-                                                    @error('end_date')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                                {{-- <div class="mb-3">
-                                                    <label for="editStatus{{ $lease->id }}"
-                                                        class="form-label">Status:</label>
-                                                    <select class="form-select" name="status"
-                                                        id="editStatus{{ $lease->id }}">
-                                                        <option value="active"
-                                                            {{ old('status', $lease->status) == 'active' ? 'selected' : '' }}>
-                                                            Active</option>
-                                                        <option value="expired"
-                                                            {{ old('status', $lease->status) == 'expired' ? 'selected' : '' }}>
-                                                            Expired</option>
-                                                    </select>
-                                                    @error('status')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div> --}}
-                                                <div class="mb-3">
-                                                    <label for="editDescription{{ $lease->id }}"
-                                                        class="form-label">Deskripsi:</label>
-                                                    <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ old('description', $lease->description) }}</textarea>
-                                                    @error('description')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                                {{-- <div class="mb-3">
-                                                    <label for="editUser{{ $lease->id }}"
-                                                        class="form-label">User:</label>
-                                                    <input class="form-control" name="user_id"
-                                                        id="editUser{{ $lease->id }}">{{ old('user_id', $lease->users->name) }}</input>
-                                                    @error('description')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div> --}}
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Kembali</button>
-                                                    <button type="submit" class="btn btn-primary">Edit Data
-                                                        Kontrak</button>
-                                                </div>
-                                            </form>
+        
+                                {{-- Edit Modal --}}
+                                <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
+                                    aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Edit Data Kontrak
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('leases.update', $lease->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="mb-3">
+                                                        <label for="editStartDate{{ $lease->id }}" class="form-label">Tanggal Mulai:</label>
+                                                        <input type="date" class="form-control" name="start_date"
+                                                            id="editStartDate{{ $lease->id }}"
+                                                            value="{{ old('start_date', \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d')) }}">
+                                                        @error('start_date')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="editEndDate{{ $lease->id }}" class="form-label">Tanggal Selesai:</label>
+                                                        <input type="date" class="form-control" name="end_date"
+                                                            id="editEndDate{{ $lease->id }}"
+                                                            value="{{ old('end_date', \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d')) }}">
+                                                        @error('end_date')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="editDescription{{ $lease->id }}" class="form-label">Deskripsi:</label>
+                                                        <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ old('description', $lease->description) }}</textarea>
+                                                        @error('description')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                                        <button type="submit" class="btn btn-primary">Edit Data Kontrak</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-
+                            @endforeach
+                        </tbody>
+                    </table>
+        
                     {{-- Pagination --}}
                     <div class="d-flex justify-content-center">
                         {{ $leases->links() }}
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>
 
     {{-- Create Lease Modal --}}
