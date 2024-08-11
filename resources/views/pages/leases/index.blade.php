@@ -32,7 +32,7 @@
                                 <script>
                                     const key = document.getElementById('searchInput');
                                     const close = document.getElementById('clearSearch');
-        
+
                                     document.addEventListener('DOMContentLoaded', function() {
                                         if (key.value.trim() !== '') {
                                             close.style.display = 'block';
@@ -40,7 +40,7 @@
                                             close.style.display = 'none';
                                         }
                                     });
-        
+
                                     key.addEventListener('input', function() {
                                         if (key.value.trim() !== '') {
                                             close.style.display = 'block';
@@ -91,21 +91,22 @@
                                     <td>
                                         @foreach ($lease->user->getRoleNames() as $role)
                                             @if ($role == 'admin')
-                                                <span class="badge bg-warning">{{ $role }}</span> 
+                                                <span class="badge bg-warning">{{ $role }}</span>
                                             @elseif ($role == 'super_admin')
-                                                <span class="badge bg-danger">{{ $role }}</span> 
+                                                <span class="badge bg-danger">{{ $role }}</span>
                                             @else
-                                                <span class="badge bg-success">{{ $role }}</span> 
+                                                <span class="badge bg-success">{{ $role }}</span>
                                             @endif
                                         @endforeach
                                     </td>
-                                    
+
                                     <td>{{ $lease->properties->name }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($lease->start_date)->format('d/m/Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($lease->end_date)->format('d/m/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($lease->start_date)->format('M,Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($lease->end_date)->format('M,Y') }}</td>
                                     <td>Rp.{{ number_format($lease->total_iuran) }}</td>
                                     <td>
-                                        <span class="badge fs-6 {{ $lease->status === 'active' ? 'bg-label-success' : 'bg-label-danger' }}">
+                                        <span
+                                            class="badge fs-6 {{ $lease->status === 'active' ? 'bg-label-success' : 'bg-label-danger' }}">
                                             {{ $lease->status }}
                                         </span>
                                     </td>
@@ -116,14 +117,15 @@
                                             data-bs-target="#deleteModal{{ $lease->id }}">Hapus</button>
                                     </td>
                                 </tr>
-        
+
                                 {{-- Delete Modal --}}
                                 <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
                                     aria-labelledby="deleteModalLabel{{ $lease->id }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}"> Hapus Data Kontrak
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}"> Hapus
+                                                    Data Kontrak
                                                 </h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
@@ -132,7 +134,8 @@
                                                 Apakah anda yakin ingin menghapus data kontrak ini?
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Kembali</button>
                                                 <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -142,14 +145,15 @@
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 {{-- Edit Modal --}}
                                 <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
                                     aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Edit Data Kontrak
+                                                <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Edit Data
+                                                    Kontrak
                                                 </h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
@@ -159,7 +163,8 @@
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="mb-3">
-                                                        <label for="editStartDate{{ $lease->id }}" class="form-label">Tanggal Mulai:</label>
+                                                        <label for="editStartDate{{ $lease->id }}"
+                                                            class="form-label">Tanggal Mulai:</label>
                                                         <input type="date" class="form-control" name="start_date"
                                                             id="editStartDate{{ $lease->id }}"
                                                             value="{{ old('start_date', \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d')) }}">
@@ -168,7 +173,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="editEndDate{{ $lease->id }}" class="form-label">Tanggal Selesai:</label>
+                                                        <label for="editEndDate{{ $lease->id }}"
+                                                            class="form-label">Tanggal Selesai:</label>
                                                         <input type="date" class="form-control" name="end_date"
                                                             id="editEndDate{{ $lease->id }}"
                                                             value="{{ old('end_date', \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d')) }}">
@@ -177,15 +183,18 @@
                                                         @enderror
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="editDescription{{ $lease->id }}" class="form-label">Deskripsi:</label>
+                                                        <label for="editDescription{{ $lease->id }}"
+                                                            class="form-label">Deskripsi:</label>
                                                         <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ old('description', $lease->description) }}</textarea>
                                                         @error('description')
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                                                        <button type="submit" class="btn btn-primary">Edit Data Kontrak</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Kembali</button>
+                                                        <button type="submit" class="btn btn-primary">Edit Data
+                                                            Kontrak</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -195,14 +204,14 @@
                             @endforeach
                         </tbody>
                     </table>
-        
+
                     {{-- Pagination --}}
                     <div class="d-flex justify-content-center">
                         {{ $leases->links() }}
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 
     {{-- Create Lease Modal --}}
