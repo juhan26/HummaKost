@@ -3,46 +3,51 @@
 @section('content')
     <div class="col-md-12">
         <div class="card mb-6">
-            <h5 class="card-header">Tambah Kontrakan Baru</h5>
+            <h5 class="card-header">Edit Kontrakan</h5>
             <div class="card-body demo-vertical-spacing demo-only-element">
-                <form action="{{ route('properties.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('properties.update', $property->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-12 col-lg-6 mb-3">
                             <label for="name" class="form-label">Nama Kontrakan</label>
-                            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                            <input type="text" name="name" class="form-control" value="{{ $property->name }}">
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
                             <label for="capacity" class="form-label">Kapasitas <small>(Yang Dapat
                                     Ditampung)</small></label>
-                            <input type="number" name="capacity" class="form-control" value="{{ old('capacity') }}">
+                            <input type="number" name="capacity" class="form-control" value="{{ $property->capacity }}">
                         </div>
                         <div class="col-12 col-lg-12 mb-3">
-                            <label for="image" class="form-label">Foto Kontrakan</label>
+                            <img style="width: 250px;"
+                                src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
+                                alt="{{ $property->name }}">
+                            <br>
+                            <label for="image" class="form-label">Ubah Foto Kontrakan</label>
                             <input type="file" name="image" class="form-control" value="{{ old('image') }}">
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
                             <label for="rental_price" class="form-label">Harga Sewa/Bulan</label>
                             <input type="number" name="rental_price" class="form-control"
-                                value="{{ old('rental_price') }}">
+                                value="{{ $property->rental_price }}">
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
                             <label for="gender_target" class="form-label">Penghuni Kontrakan </label>
                             <select name="gender_target" id="gender_target" class="form-select"
-                                value="{{ old('gender_target') }}">
+                                value="{{ $property->gender_target }}">
                                 <option value="male">Laki - Laki</option>
                                 <option value="female">Perempuan</option>
                             </select>
                         </div>
 
                         <div class="form-floating col-12 col-lg-12 mb-3">
-                            <textarea class="form-control" id="description" name="description" style="height: 100px">{{ old('description') }}</textarea>
+                            <textarea class="form-control" id="description" name="description" style="height: 100px">{{ $property->description }}</textarea>
                             <label for="description">Deskripsi <small>(Opsional)</small></label>
                         </div>
 
                         <div class="col-12 col-lg-12 mb-3">
                             <label for="address" class="form-label">Alamat</label>
-                            <input type="text" name="address" class="form-control" value="{{ old('address') }}">
+                            <input type="text" name="address" class="form-control" value="{{ $property->address }}">
                         </div>
 
                         <div class="mb-5 mt-2">
@@ -64,13 +69,13 @@
                         <div class="col-12 col-lg-6">
                             <label for="langtitude" class="form-label">Langtitude</label>
                             <input type="text" id="langtitude" name="langtitude" id="langtitude" class="form-control"
-                                value="{{ old('langtitude') }}">
+                                value="{{ $property->langtitude }}">
                         </div>
 
                         <div class="col-12 col-lg-6">
                             <label for="longtitude" class="form-label">Longtitude</label>
                             <input type="text" id="longtitude" name="longtitude" id="longtitude" class="form-control"
-                                value="{{ old('longtitude') }}">
+                                value="{{ $property->longtitude }}">
                         </div>
 
                         <div class="col-12 col-lg-12 mt-3 d-flex justify-content-end">
@@ -86,13 +91,13 @@
 
                         <div class="col-12 col-lg-12 d-flex justify-content-between">
                             <a href="{{ route('properties.index') }}" class="btn btn-secondary">
-                                <i class="ri-arrow-go-back-line ri-16px me-sm-2"></i>Batal
+                                <i class="ri-arrow-go-back-line ri-16px me-sm-2"></i>Batal Perubahan
                             </a>
 
                             <button class="btn btn-primary create-new btn-primary waves-effect waves-light" tabindex="0"
                                 aria-controls="DataTables_Table_0" type="submit"><span><i
                                         class="ri-add-line ri-16px me-sm-2"></i>
-                                    <span class="d-none d-sm-inline-block">Tambah
+                                    <span class="d-none d-sm-inline-block">Simpan
                                     </span></span></button>
                         </div>
                     </div>
@@ -102,8 +107,8 @@
     </div>
 
     <script>
-        var lat = -7.8965894;
-        var lng = 112.6090665;
+        var lat = {{ $property->langtitude ?? -7.8965894 }};
+        var lng = {{ $property->longtitude ?? 112.6090665 }};
         var zoomLevel = 15.39;
 
         var map = L.map('map').setView([lat, lng], zoomLevel);
@@ -112,16 +117,10 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        var marker = null; // Tidak ada marker saat halaman pertama kali dimuat
+        var marker = L.marker([lat, lng]).addTo(map);
 
         function updateMarkerAndPopup(lat, lng) {
-            if (!marker) {
-                // Jika marker belum ada, tambahkan marker ke peta
-                marker = L.marker([lat, lng]).addTo(map);
-            } else {
-                // Jika marker sudah ada, pindahkan marker ke lokasi baru
-                marker.setLatLng([lat, lng]);
-            }
+            marker.setLatLng([lat, lng]);
 
             var apiKey = '8bc19529d2bf4e1c93b380dfd6acb17b';
             var url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`;
@@ -142,14 +141,13 @@
                 .catch(error => console.error('Error:', error));
         }
 
+        updateMarkerAndPopup(lat, lng);
+
         function onMapClick(e) {
             var clickedLat = e.latlng.lat;
             var clickedLng = e.latlng.lng;
 
             updateMarkerAndPopup(clickedLat, clickedLng);
-
-            document.getElementById('langtitude').value = clickedLat;
-            document.getElementById('longtitude').value = clickedLng;
         }
 
         map.on('click', onMapClick);
@@ -166,9 +164,6 @@
                             map.setView([lat, lng], 16);
 
                             updateMarkerAndPopup(lat, lng);
-
-                            document.getElementById('langtitude').value = lat;
-                            document.getElementById('longtitude').value = lng;
                         } else {
                             alert('Lokasi Tidak Ditemukan.');
                         }
@@ -180,21 +175,8 @@
         document.getElementById('search-coordinates-button').addEventListener('click', function() {
             var lat = document.getElementById('langtitude').value;
             var lng = document.getElementById('longtitude').value;
-            var apiKey = '8bc19529d2bf4e1c93b380dfd6acb17b';
-            var url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`;
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.results.length > 0) {
-                        map.setView([lat, lng], 13);
-
-                        updateMarkerAndPopup(lat, lng);
-                    } else {
-                        alert('Lokasi Tidak Ditemukan.');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+            updateMarkerAndPopup(lat, lng);
         });
     </script>
 @endsection
