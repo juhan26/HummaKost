@@ -1203,7 +1203,58 @@
         </div>
     
         <!-- Display Feedbacks -->
-        
+        <div class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg">
+            @foreach($feedbacks as $feedback)
+                <div class="feedback-item py-2 border-b border-gray-300 relative">
+                    <div class="flex items-center justify-between gap-2.5 mb-2">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-10 h-10 rounded-full">
+                                <img src="{{ $feedback->user_id ? asset('storage/' . $feedback->user->photo) : asset('assets/img/image_not_available.png') }}" 
+                                     alt="User Profile Image" class="w-full h-full rounded-full">
+                            </div>
+                            <div>
+                                <h2 class="text-base text-gray-900 font-semibold">
+                                    {{ $feedback->user_id ? $feedback->user->name : 'Anonymous' }}
+                                </h2>
+                                <span class="text-sm text-gray-600">
+                                    {{ $feedback->created_at->diffForHumans() }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Three-dot menu -->
+                        <div class="relative">
+                            <button class="text-gray-500 focus:outline-none" onclick="toggleDropdown('dropdown-{{ $feedback->id }}')">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 10a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4zm4 0a2 2 0 110-4 2 2 0 010 4z"></path>
+                                </svg>
+                            </button>
+                            <!-- Dropdown menu -->
+                            <div id="dropdown-{{ $feedback->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Report/Laporkan
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            {{ $feedback->message }}
+                        </p>
+                        <div class="flex items-center mt-1">
+                            @for($i = 1; $i <= 5; $i++)
+                                <svg class="w-4 h-4 {{ $i <= $feedback->rating ? 'text-yellow-500' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.396 2.46a1 1 0 00-.364 1.118l1.287 3.975c.3.921-.755 1.688-1.538 1.118l-3.396-2.46a1 1 0 00-1.175 0l-3.396 2.46c-.782.57-1.838-.197-1.538-1.118l1.287-3.975a1 1 0 00-.364-1.118l-3.396-2.46c-.782-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"></path>
+                                </svg>
+                            @endfor
+                            <span class="ml-2 text-sm text-gray-600">
+                                {{ $feedback->rating }} Stars
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
         
         <script>
             function toggleDropdown(dropdownId) {
