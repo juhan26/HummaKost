@@ -82,6 +82,12 @@ class PaymentPerMonthController extends Controller
     public function destroy(PaymentPerMonth $payment)
     {
         try {
+            $lease = Lease::find($payment->lease_id);
+            $nominal = $lease->properties->rental_price;
+            $updatePrice = $lease->total_iuran + $nominal;
+            $lease->update([
+                'total_iuran' => $updatePrice
+            ]);
             $payment->delete();
             return redirect()->route('payments.index')->with('success', "Successful Deleted Payment");
         } catch (QueryException $e) {

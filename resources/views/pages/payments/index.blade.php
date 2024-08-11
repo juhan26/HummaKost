@@ -11,7 +11,7 @@
                             <small>Manajemen dan review tujuan kontrak.</small>
                         </div>
                         <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
-                            @hasrole('super_admin')
+                            @hasrole('super_admin|admin')
                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
                                     data-bs-target="#createModal">
                                     Tambah Kontrak
@@ -49,13 +49,38 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label for="createStartDate" class="form-label">Month:</label>
-                                            <input type="date" class="form-control" name="month" id="createStartDate"
-                                                value="{{ old('month') }}">
+                                            <label for="createMonth" class="form-label">Month:</label>
+                                            <select class="form-select" name="month" id="createMonth">
+                                                <option value="Januari" {{ old('month') == 'Januari' ? 'selected' : '' }}>
+                                                    Januari</option>
+                                                <option value="Februari" {{ old('month') == 'Februari' ? 'selected' : '' }}>
+                                                    Februari</option>
+                                                <option value="Maret" {{ old('month') == 'Maret' ? 'selected' : '' }}>Maret
+                                                </option>
+                                                <option value="April" {{ old('month') == 'April' ? 'selected' : '' }}>April
+                                                </option>
+                                                <option value="Mei" {{ old('month') == 'Mei' ? 'selected' : '' }}>Mei
+                                                </option>
+                                                <option value="Juni" {{ old('month') == 'Juni' ? 'selected' : '' }}>Juni
+                                                </option>
+                                                <option value="Juli" {{ old('month') == 'Juli' ? 'selected' : '' }}>Juli
+                                                </option>
+                                                <option value="Agustus" {{ old('month') == 'Agustus' ? 'selected' : '' }}>
+                                                    Agustus</option>
+                                                <option value="September"
+                                                    {{ old('month') == 'September' ? 'selected' : '' }}>September</option>
+                                                <option value="Oktober" {{ old('month') == 'Oktober' ? 'selected' : '' }}>
+                                                    Oktober</option>
+                                                <option value="November"
+                                                    {{ old('month') == 'November' ? 'selected' : '' }}>November</option>
+                                                <option value="Desember"
+                                                    {{ old('month') == 'Desember' ? 'selected' : '' }}>Desember</option>
+                                            </select>
                                             @error('month')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+
                                         <div class="mb-3">
                                             <label for="createDescription" class="form-label">Description:</label>
                                             <textarea class="form-control" name="description" id="createDescription">{{ old('description') }}</textarea>
@@ -116,16 +141,16 @@
                                             alt="">
                                     </td>
                                     <td>{{ $payment->lease->user->name }}</td>
-                                    <td> {{ \Carbon\Carbon::parse($payment->month)->format('M-Y') }}</td>
+                                    <td> {{ $payment->month }}</td>
                                     <td>Rp. {{ number_format($payment->nominal) }}</td>
                                     <td>{{ $payment->description ? $payment->description : 'Deskripsi Kosong' }}</td>
-                                    @hasrole('super_admin', 'admin')
-                                    <td>
-                                        <a type="button" class="" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $payment->id }}">
-                                            <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
-                                        </a>
-                                    </td>
+                                    @hasrole('super_admin|admin')
+                                        <td>
+                                            <a type="button" class="" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $payment->id }}">
+                                                <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
+                                            </a>
+                                        </td>
                                     @endhasrole
                                 </tr>
                                 <!-- Delete Modal -->
@@ -160,7 +185,7 @@
                             @empty
                                 <tr>
                                     <th scope="row" colspan="7" class="text-center">
-                                        {{ request('search') ? 'Furniture Tidak Ditemukan' : 'Belum Ada Furniture' }}
+                                        {{ request('search') ? 'Pembayaran Tidak Ditemukan' : 'Belum Ada Pembayaran' }}
                                     </th>
                                 </tr>
                             @endforelse
