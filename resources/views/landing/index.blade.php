@@ -319,7 +319,7 @@
                 <div class="xl:w-1/4">
                     <h2
                         class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
-                        Our <span class="text-primary-500 after-svg popular">Properties</span>
+                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in" data-aos-duration="1000">Properties</span >
                     </h2>
                 </div>
                 <div class="2xl:w-3/4">
