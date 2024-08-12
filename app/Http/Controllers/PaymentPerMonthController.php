@@ -15,12 +15,24 @@ class PaymentPerMonthController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $payments = PaymentPerMonth::latest()->paginate(5);
+        $query = PaymentPerMonth::with('lease.user');
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->whereHas('lease.user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            })
+                ->orWhere('month', 'LIKE', '%' . $search . '%');
+        }
+
+        $payments = $query->latest()->paginate(5);
         $leases = Lease::all();
+
         return view('pages.payments.index', compact('payments', 'leases'));
     }
+
 
     /**
      * Show the form for creating a new resource.

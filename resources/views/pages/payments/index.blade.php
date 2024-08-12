@@ -19,6 +19,18 @@
                             @endhasrole
                         </div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col-12 col-md-6">
+                            <form action="" method="GET">
+                                <div class="input-group">
+                                    <input type="search" class="form-control" name="search"
+                                        placeholder="Cari Pembayaran..." value="{{ request('search') }}">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                     {{-- Modal Store --}}
                     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
                         aria-hidden="true">
@@ -99,7 +111,7 @@
                         </div>
                     </div>
                     {{-- Modal Store --}}
-                    <table class="datatables-basic table table-bordered dataTable no-footer dtr-column mb-3"
+                    <table class="datatables-basic table table-bordered dataTable no-footer dtr-column mt-3 mb-3"
                         id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1043px;">
                         <thead>
                             <tr>
