@@ -17,7 +17,7 @@ class PaymentPerMonthController extends Controller
      */
     public function index()
     {
-        $payments = PaymentPerMonth::all();
+        $payments = PaymentPerMonth::latest()->paginate(5);
         $leases = Lease::all();
         return view('pages.payments.index', compact('payments', 'leases'));
     }
