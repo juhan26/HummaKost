@@ -23,7 +23,7 @@ class StorePaymentRequest extends FormRequest
     {
         return [
             'lease_id' => ['required', 'exists:leases,id'],
-            'month' => ['required', 'string', 'max:255'],
+            // 'month' => ['required', 'string', 'max:255'],
             // 'nominal' => ['required', 'numeric', 'max:255'],
             'description' => ['nullable', 'string', 'max:255'],
         ];

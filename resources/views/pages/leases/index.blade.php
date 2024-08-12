@@ -162,7 +162,7 @@
                                                 <form action="{{ route('leases.update', $lease->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <div class="mb-3">
+                                                    {{-- <div class="mb-3">
                                                         <label for="editStartDate{{ $lease->id }}"
                                                             class="form-label">Tanggal Mulai:</label>
                                                         <input type="date" class="form-control" name="start_date"
@@ -171,7 +171,7 @@
                                                         @error('start_date')
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="mb-3">
                                                         <label for="editEndDate{{ $lease->id }}"
                                                             class="form-label">Tanggal Selesai:</label>

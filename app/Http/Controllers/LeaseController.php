@@ -147,7 +147,7 @@ class LeaseController extends Controller
     public function update(UpdateLeaseRequest $request, Lease $lease)
     {
         // Ambil property berdasarkan property_id dari lease yang sedang diperbarui
-        $property = Property::find($request->property_id);
+        $property = Property::find($lease->properties->id);
 
         if (!$property) {
             return redirect()->route('leases.index')->with('error', 'Property not found.');
@@ -170,9 +170,6 @@ class LeaseController extends Controller
 
         // Update lease dengan nilai yang baru
         $lease->update([
-            'user_id' => $request->user_id,
-            'property_id' => $request->property_id,
-            'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
             'description' => $request->description,
             'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
