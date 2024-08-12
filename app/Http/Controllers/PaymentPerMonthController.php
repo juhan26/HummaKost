@@ -6,6 +6,7 @@ use App\Http\Requests\StorePaymentRequest;
 use App\Models\Lease;
 use App\Models\PaymentPerMonth;
 use App\Models\Property;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -38,9 +39,15 @@ class PaymentPerMonthController extends Controller
 
         $nominal = $lease->properties->rental_price;
 
+        $total_lease = $lease->total_iuran / $nominal;
+        $date =  Carbon::parse($lease->end_date);
+        $date->subMonths($total_lease);
+        $leasesPaymentMonth = $date->format('F');
+
+
         PaymentPerMonth::create([
             'lease_id' => $request->lease_id,
-            'month' => $request->month,
+            'month' => $leasesPaymentMonth,
             'nominal' => $nominal,
             'description' => $request->description,
         ]);

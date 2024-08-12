@@ -48,7 +48,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="mb-3">
+                                        {{-- <div class="mb-3">
                                             <label for="createMonth" class="form-label">Month:</label>
                                             <select class="form-select" name="month" id="createMonth">
                                                 <option value="Januari" {{ old('month') == 'Januari' ? 'selected' : '' }}>
@@ -79,7 +79,7 @@
                                             @error('month')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
 
                                         <div class="mb-3">
                                             <label for="createDescription" class="form-label">Description:</label>
