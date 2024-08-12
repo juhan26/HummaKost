@@ -27,4 +27,19 @@ class StoreFurnitureRequest extends FormRequest
             'description' => 'nullable|string|max:255',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'photo.file' => 'Foto harus berupa file.',
+            'photo.mimes' => 'Foto harus berformat: png, jpg, jpeg.',
+            'photo.max' => 'Ukuran file foto maksimal 2MB.',
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+            'name.unique' => 'Nama sudah digunakan, silakan pilih nama lain.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi maksimal 255 karakter.',
+        ];
+    }
 }
