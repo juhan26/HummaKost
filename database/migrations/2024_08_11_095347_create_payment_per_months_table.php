@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payment_per_months', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lease_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('lease_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('month');
             $table->decimal('nominal', 10, 2);
             $table->text('description')->nullable();
