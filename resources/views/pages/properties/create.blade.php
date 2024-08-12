@@ -45,6 +45,30 @@
                             <input type="text" name="address" class="form-control" value="{{ old('address') }}">
                         </div>
 
+                        <div class="col-12 col-lg-12 mb-3" style="max-height: 300px; overflow: auto">
+                            <label for="furniture_id[]" class="form-label">Furniture</label>
+                            @forelse ($furnitures as $furniture)
+                                <div class="input-group mb-2">
+                                    <div class="input-group-text form-check mb-0">
+                                        <input class="form-check-input m-auto" type="checkbox" value="{{ $furniture->id }}"
+                                            name="furniture_id[]" aria-label="Checkbox for following text input"
+                                            @if (is_array(old('furniture_id')) && in_array($furniture->id, old('furniture_id'))) checked @endif>
+                                    </div>
+                                    <input type="text" disabled class="form-control"
+                                        aria-label="Text input with checkbox" value="{{ $furniture->name }}">
+                                </div>
+                            @empty
+                                <div class="input-group mb-2">
+                                    <div class="input-group-text form-check mb-0">
+                                        <input class="form-check-input m-auto" type="checkbox" disabled value=""
+                                            aria-label="Checkbox for following text input">
+                                    </div>
+                                    <input type="text" disabled class="form-control"
+                                        aria-label="Text input with checkbox" value="Belum Ada Furniture">
+                                </div>
+                            @endforelse
+                        </div>
+
                         <div class="mb-5 mt-2">
                             <p class="text-center m-0"><strong>Kordinat Maps</strong></p>
                             <p class="text-center">Bisa menggunakan cari lokasi atau langtitude dan longtitude.</p>
@@ -63,14 +87,14 @@
 
                         <div class="col-12 col-lg-6">
                             <label for="langtitude" class="form-label">Langtitude</label>
-                            <input type="text" id="langtitude" name="langtitude" id="langtitude" class="form-control"
-                                value="{{ old('langtitude') }}">
+                            <input type="text" id="langtitude" name="langtitude" id="langtitude"
+                                class="form-control" value="{{ old('langtitude') }}">
                         </div>
 
                         <div class="col-12 col-lg-6">
                             <label for="longtitude" class="form-label">Longtitude</label>
-                            <input type="text" id="longtitude" name="longtitude" id="longtitude" class="form-control"
-                                value="{{ old('longtitude') }}">
+                            <input type="text" id="longtitude" name="longtitude" id="longtitude"
+                                class="form-control" value="{{ old('longtitude') }}">
                         </div>
 
                         <div class="col-12 col-lg-12 mt-3 d-flex justify-content-end">
