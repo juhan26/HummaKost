@@ -45,7 +45,7 @@ class PaymentPerMonthController extends Controller
         $leasesPaymentMonth = $date->format('F');
 
         if ($total_lease <= 0) {
-            return redirect()->route('payments.index')->with('error', 'User Sudah Lunas');
+            return redirect()->route('payments.index')->with('error', 'Pengguna Sudah Lunas');
         } else {
             PaymentPerMonth::create([
                 'lease_id' => $request->lease_id,
@@ -59,7 +59,7 @@ class PaymentPerMonthController extends Controller
                 'total_iuran' => $currentPrice
             ]);
         }
-        return redirect()->route('payments.index')->with('success', 'Payment saved successfully');
+        return redirect()->route('payments.index')->with('success', 'Pembayaran berhasil di simpan');
     }
 
     /**
@@ -99,9 +99,9 @@ class PaymentPerMonthController extends Controller
                 'total_iuran' => $updatePrice
             ]);
             $payment->delete();
-            return redirect()->route('payments.index')->with('success', "Successful Deleted Payment");
+            return redirect()->route('payments.index')->with('success', "Pembayaran berhasil di hapus");
         } catch (QueryException $e) {
-            return redirect()->route('payments.index')->with('errorr', "Failed to delete this Payment because it is currently use in a Property");
+            return redirect()->route('payments.index')->with('errorr', "Tidak dapat menghapus pembayaran ini karena data memiliki data terkait di tabel lain");
         }
     }
 }

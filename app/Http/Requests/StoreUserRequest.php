@@ -31,9 +31,20 @@ class StoreUserRequest extends FormRequest
     }
 
     public function messages(): array
-    {
-        return [
-            'email.unique' => 'email tidak boleh sama',
-        ];
-    }
+{
+    return [
+        'photo.file' => 'Foto harus berupa file.',
+        'photo.mimes' => 'Foto harus berformat: jpeg, png, jpg, pdf.',
+        'photo.max' => 'Ukuran file foto maksimal 2MB.',
+        'name.required' => 'Nama wajib diisi.',
+        'email.required' => 'Email wajib diisi.',
+        'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
+        'phone_number.required' => 'Nomor telepon wajib diisi.',
+        'phone_number.numeric' => 'Nomor telepon harus berupa angka.',
+        'phone_number.min_digits' => 'Nomor telepon minimal harus terdiri dari 8 digit.',
+        'phone_number.max_digits' => 'Nomor telepon maksimal harus terdiri dari 20 digit.',
+        'password.required' => 'Kata sandi wajib diisi.',
+    ];
+}
+
 }
