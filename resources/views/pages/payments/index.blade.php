@@ -7,14 +7,14 @@
                 <div class="card-header">
                     <div class="row d-flex align-items-center">
                         <div class="col-12 col-lg-10">
-                            <h3 class="card-title">Manajemen Kontrak</h3>
-                            <small>Manajemen dan review tujuan kontrak.</small>
+                            <h3 class="card-title">Pembayaran Perbulan</h3>
+                            <small>Manajemen dan review Pembayaran perbulan</small>
                         </div>
                         <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
                             @hasrole('super_admin|admin')
                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
                                     data-bs-target="#createModal">
-                                    Tambah Kontrak
+                                    Tambah Pembayaran
                                 </button>
                             @endhasrole
                         </div>
