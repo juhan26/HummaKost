@@ -7,14 +7,14 @@
                 <div class="card-header">
                     <div class="row d-flex align-items-center">
                         <div class="col-12 col-lg-10">
-                            <h3 class="card-title">Manajemen Kontrak</h3>
-                            <small>Manajemen dan review tujuan kontrak.</small>
+                            <h3 class="card-title">Pembayaran Perbulan</h3>
+                            <small>Manajemen dan review Pembayaran perbulan</small>
                         </div>
                         <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
                             @hasrole('super_admin|admin')
                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
                                     data-bs-target="#createModal">
-                                    Tambah Kontrak
+                                    Tambah Pembayaran
                                 </button>
                             @endhasrole
                         </div>
@@ -48,7 +48,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="mb-3">
+                                        {{-- <div class="mb-3">
                                             <label for="createMonth" class="form-label">Month:</label>
                                             <select class="form-select" name="month" id="createMonth">
                                                 <option value="Januari" {{ old('month') == 'Januari' ? 'selected' : '' }}>
@@ -79,7 +79,7 @@
                                             @error('month')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
 
                                         <div class="mb-3">
                                             <label for="createDescription" class="form-label">Description:</label>

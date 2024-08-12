@@ -144,58 +144,58 @@
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- Edit Modal --}}
-                            <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
-                                aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Edit Data
-                                                Kontrak
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('leases.update', $lease->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="mb-3">
-                                                    <label for="editStartDate{{ $lease->id }}"
-                                                        class="form-label">Tanggal Mulai:</label>
-                                                    <input type="date" class="form-control" name="start_date"
-                                                        id="editStartDate{{ $lease->id }}"
-                                                        value="{{ old('start_date', \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d')) }}">
-                                                    @error('start_date')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editEndDate{{ $lease->id }}"
-                                                        class="form-label">Tanggal Selesai:</label>
-                                                    <input type="date" class="form-control" name="end_date"
-                                                        id="editEndDate{{ $lease->id }}"
-                                                        value="{{ old('end_date', \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d')) }}">
-                                                    @error('end_date')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editDescription{{ $lease->id }}"
-                                                        class="form-label">Deskripsi:</label>
-                                                    <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ old('description', $lease->description) }}</textarea>
-                                                    @error('description')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Kembali</button>
-                                                    <button type="submit" class="btn btn-primary">Edit Data
-                                                        Kontrak</button>
-                                                </div>
-                                            </form>
+                                {{-- Edit Modal --}}
+                                <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
+                                    aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editModalLabel{{ $lease->id }}">Edit Data
+                                                    Kontrak
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('leases.update', $lease->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    {{-- <div class="mb-3">
+                                                        <label for="editStartDate{{ $lease->id }}"
+                                                            class="form-label">Tanggal Mulai:</label>
+                                                        <input type="date" class="form-control" name="start_date"
+                                                            id="editStartDate{{ $lease->id }}"
+                                                            value="{{ old('start_date', \Carbon\Carbon::parse($lease->start_date)->format('Y-m-d')) }}">
+                                                        @error('start_date')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div> --}}
+                                                    <div class="mb-3">
+                                                        <label for="editEndDate{{ $lease->id }}"
+                                                            class="form-label">Tanggal Selesai:</label>
+                                                        <input type="date" class="form-control" name="end_date"
+                                                            id="editEndDate{{ $lease->id }}"
+                                                            value="{{ old('end_date', \Carbon\Carbon::parse($lease->end_date)->format('Y-m-d')) }}">
+                                                        @error('end_date')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="editDescription{{ $lease->id }}"
+                                                            class="form-label">Deskripsi:</label>
+                                                        <textarea class="form-control" name="description" id="editDescription{{ $lease->id }}">{{ old('description', $lease->description) }}</textarea>
+                                                        @error('description')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Kembali</button>
+                                                        <button type="submit" class="btn btn-primary">Edit Data
+                                                            Kontrak</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
