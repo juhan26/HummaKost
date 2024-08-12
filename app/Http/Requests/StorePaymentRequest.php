@@ -28,4 +28,15 @@ class StorePaymentRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:255'],
         ];
     }
+
+    public function messages(): array
+{
+    return [
+        'lease_id.required' => 'ID sewa wajib diisi.',
+        'lease_id.exists' => 'ID sewa tidak ditemukan.',
+        'description.string' => 'Deskripsi harus berupa teks.',
+        'description.max' => 'Deskripsi maksimal 255 karakter.',
+    ];
+}
+
 }
