@@ -71,14 +71,14 @@ class LeaseController extends Controller
             ->first();
 
         if ($existingLease) {
-            return redirect()->route('leases.index')->with('error', 'User already has an existing lease.');
+            return redirect()->route('leases.index')->with('error', 'Pengguna sudah memiliki sewa.');
         }
 
         // Ambil property berdasarkan property_id
         $property = Property::find($request->property_id);
 
         if (!$property) {
-            return redirect()->route('leases.index')->with('error', 'Property not found.');
+            return redirect()->route('leases.index')->with('error', 'Kontrakan tidak di temukan.');
         }
 
         // Menggunakan Carbon untuk menangani tanggal
@@ -87,7 +87,7 @@ class LeaseController extends Controller
 
         // Cek apakah end_date lebih awal dari start_date
         if ($endDate->lt($startDate)) {
-            return redirect()->back()->with('error', 'End date cannot be earlier than start date.');
+            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
         }
 
         // Hitung jumlah bulan penuh di antara dua tanggal
@@ -119,7 +119,7 @@ class LeaseController extends Controller
             ]);
 
 
-            return redirect()->route('leases.index')->with('success', 'Lease successfully added.');
+            return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di tambahkan.');
         } else {
             return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
         }
@@ -150,7 +150,7 @@ class LeaseController extends Controller
         $property = Property::find($lease->properties->id);
 
         if (!$property) {
-            return redirect()->route('leases.index')->with('error', 'Property not found.');
+            return redirect()->route('leases.index')->with('error', 'Kontrakan tidak di temukan.');
         }
 
         // Menggunakan Carbon untuk menangani tanggal
@@ -159,7 +159,7 @@ class LeaseController extends Controller
 
         // Cek apakah end_date lebih awal dari start_date
         if ($endDate->lt($startDate)) {
-            return redirect()->back()->with('error', 'End date cannot be earlier than start date.');
+            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
         }
 
         // Hitung jumlah bulan penuh di antara dua tanggal
@@ -175,7 +175,7 @@ class LeaseController extends Controller
             'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
         ]);
 
-        return redirect()->route('leases.index')->with('success', 'Lease successfully updated.');
+        return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di tambahkan.');
     }
 
 
@@ -188,10 +188,10 @@ class LeaseController extends Controller
             $property = Property::find($lease->property_id);
             $property->update(['status' => 'available']);
             $lease->delete();
-            return redirect()->route('leases.index')->with('success', 'Leases Deleted Success');
+            return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di hapus');
         } catch (\Exception $e) {
             if ($e->getCode() === '23000') {
-                return redirect()->route('leases.index')->with('error', 'Cannot delete this lease because he/she has related data in other tables');
+                return redirect()->route('leases.index')->with('error', 'Tidak dapat menghapus kontrak ini karena data memiliki data terkait di tabel lain');
             }
         }
     }

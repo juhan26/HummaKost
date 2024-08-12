@@ -66,7 +66,7 @@ class PropertyController extends Controller
             ]);
         }
 
-        return redirect()->route('properties.index')->with('success', 'data berhasil disimpan');
+        return redirect()->route('properties.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -122,7 +122,7 @@ class PropertyController extends Controller
             ]);
         }
 
-        return redirect()->route('properties.index')->with('success', 'data berhasil diubah');
+        return redirect()->route('properties.index')->with('success', 'Data berhasil diubah');
     }
 
     /**
@@ -131,6 +131,6 @@ class PropertyController extends Controller
     public function destroy(Property $property)
     {
         $property->delete();
-        return redirect()->route('properties.index')->with('success', 'Success Deleted Property');
+        return redirect()->route('properties.index')->with('success', 'Data Kontrakan berhasil di hapus');
     }
 }
