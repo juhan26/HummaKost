@@ -36,19 +36,19 @@
                         <div class="col-12 col-lg-6 ">
                             <h1 class="text-secondary-emphasis">{{ $property->name }}</h1>
                             <h5 class="text-secondary">{{ $property->description }}</h5>
-                                @php
-                                    $status = false;
-                                @endphp
+                            @php
+                                $status = false;
+                            @endphp
                             @foreach ($property->leases as $lease)
                                 @if ($lease->user->hasRole('admin'))
                                     <p style="color: blue;">Ketua Kontrakan: {{ $lease->user->name }}</p>
                                     @php
-                                        $status = true
+                                        $status = true;
                                     @endphp
                                 @endif
                             @endforeach
                             <p style="color: red;">
-                                 {{ $status == false ? 'Belum Ada Ketua Kontrakan' : '' }}
+                                {{ $status == false ? 'Belum Ada Ketua Kontrakan' : '' }}
                             </p>
 
 
@@ -67,7 +67,6 @@
                                 <div class="badge fs-6 bg-label-danger mt-6">Full</div>
                             @endif
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -80,26 +79,45 @@
             <div class="card-content">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-12 col-lg-12">
+                        <div class="col-12 col-lg-12 d-flex justify-content-around">
                             <h3 class="card-title">
-                                Location
+                                Penyewa
+                            </h3>
+                            <h3 class="card-title">
+                                Lokasi
                             </h3>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- content maps --}}
-
-                    <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
-                        <div class="map-container">
-                            <div style="width: 100%;height: 100vh" id="map"></div>
+                    <div class="row">
+                        <div class="col-6 col-lg-6">
+                            @forelse ($property->leases as $lease)
+                                <div style="height: 100%; border-radius: 10px" class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
+                                    <div class="overflow-hidden rounded-lg">
+                                        <div class="col-6 col-lg-6 d-flex align-items-center"
+                                            style="flex-direction: column">
+                                            <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                alt="{{ $lease->user->name }}" class="rounded-lg">
+                                            <p>{{ $lease->user->name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                            @endforelse
+                        </div>
+                        <div class="col-6 col-lg-6">
+                            <div class="map-container">
+                                <div style="width: 100%;height: 83vh;border-radius: 10px" id="map"></div>
+                            </div>
                         </div>
                     </div>
-
-
+                    <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
+                        <div class="map-container">
+                        </div>
+                    </div>
                 </div>
             </div>
-            {{-- {{ $properties->links() }} --}}
         </div>
     </div>
 
