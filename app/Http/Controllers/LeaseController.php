@@ -187,6 +187,12 @@ class LeaseController extends Controller
         try {
             $property = Property::find($lease->property_id);
             $property->update(['status' => 'available']);
+
+            if ($lease->user->hasRole('admin')) {
+                $lease->user->removeRole('admin');
+                $lease->user->assignRole('member');
+            }
+            
             $lease->delete();
             return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di hapus');
         } catch (\Exception $e) {
