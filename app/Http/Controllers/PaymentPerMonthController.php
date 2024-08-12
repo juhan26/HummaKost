@@ -44,18 +44,21 @@ class PaymentPerMonthController extends Controller
         $date->subMonths($total_lease);
         $leasesPaymentMonth = $date->format('F');
 
+        if ($total_lease <= 0) {
+            return redirect()->route('payments.index')->with('error', 'User Sudah Lunas');
+        } else {
+            PaymentPerMonth::create([
+                'lease_id' => $request->lease_id,
+                'month' => $leasesPaymentMonth,
+                'nominal' => $nominal,
+                'description' => $request->description,
+            ]);
+            $currentPrice = $lease->total_iuran - $nominal;
 
-        PaymentPerMonth::create([
-            'lease_id' => $request->lease_id,
-            'month' => $leasesPaymentMonth,
-            'nominal' => $nominal,
-            'description' => $request->description,
-        ]);
-        $currentPrice = $lease->total_iuran - $nominal;
-
-        $lease->update([
-            'total_iuran' => $currentPrice
-        ]);
+            $lease->update([
+                'total_iuran' => $currentPrice
+            ]);
+        }
         return redirect()->route('payments.index')->with('success', 'Payment saved successfully');
     }
 
