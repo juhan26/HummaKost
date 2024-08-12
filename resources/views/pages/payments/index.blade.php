@@ -25,7 +25,6 @@
                                 <div class="input-group">
                                     <input type="search" class="form-control" name="search"
                                         placeholder="Cari Pembayaran..." value="{{ request('search') }}">
-
                                 </div>
                             </form>
                         </div>
