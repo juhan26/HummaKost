@@ -73,6 +73,37 @@
         </div>
     </div>
 
+    {{-- ANGGOTA --}}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12 col-lg-12 d-flex justify-content-around">
+                            <h3 class="card-title">
+                                Daftar Anggota
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body d-flex justify-content-center">
+                    @forelse ($property->leases as $lease)
+                        <div class="text-center" style="min-width: 12rem; flex-shrink: 0;">
+                                <img class="rounded-circle mx-auto d-block" style="width: 5rem; height: 5rem;"
+                                    src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                    alt="{{ $lease->user->name }}">
+                                <h4 class="card-title mt-3">{{ $lease->user->name }}</h4>
+                                <p class="card-text text-muted">{{ $lease->user->status }}</p>
+                        </div>
+                    @empty
+                        <div class="swiper-slide text-center text-black">Belum ada anggota</div>
+                    @endforelse
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- MAPS --}}
     <div class="col-12">
         <div class="card">
@@ -81,9 +112,6 @@
                     <div class="row">
                         <div class="col-12 col-lg-12 d-flex justify-content-around">
                             <h3 class="card-title">
-                                Penyewa
-                            </h3>
-                            <h3 class="card-title">
                                 Lokasi
                             </h3>
                         </div>
@@ -91,22 +119,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-6 col-lg-6">
-                            @forelse ($property->leases as $lease)
-                                <div style="height: 100%; border-radius: 10px" class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                    <div class="overflow-hidden rounded-lg">
-                                        <div class="col-6 col-lg-6 d-flex align-items-center"
-                                            style="flex-direction: column">
-                                            <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                alt="{{ $lease->user->name }}" class="rounded-lg">
-                                            <p>{{ $lease->user->name }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @empty
-                            @endforelse
-                        </div>
-                        <div class="col-6 col-lg-6">
+                        <div class="col-12 col-lg-12">
                             <div class="map-container">
                                 <div style="width: 100%;height: 83vh;border-radius: 10px" id="map"></div>
                             </div>
@@ -120,6 +133,8 @@
             </div>
         </div>
     </div>
+
+
 
     <script>
         var lat = -7.896591;
