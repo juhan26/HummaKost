@@ -41,16 +41,24 @@
                             @endphp
                             @foreach ($property->leases as $lease)
                                 @if ($lease->user->hasRole('admin'))
-                                    <p style="color: blue;">Ketua Kontrakan: {{ $lease->user->name }}</p>
+                                    <p style="color: blue;">Ketua Kontrakan: {{ $lease->user->name }} <a
+                                            data-bs-toggle="modal" data-bs-target="#editPropertyLeaderModal"
+                                            style="text-decoration: underline; color:purple; cursor: pointer;">Ubah
+                                            Ketua</a>
+                                    </p>
                                     @php
                                         $status = true;
                                     @endphp
                                 @endif
                             @endforeach
-                            <p style="color: red;">
-                                {{ $status == false ? 'Belum Ada Ketua Kontrakan' : '' }}
-                            </p>
 
+                            @if ($status == false)
+                                <p style="color: red;">
+                                    Belum Ada Ketua Kontrakan
+                                    <a data-bs-toggle="modal" data-bs-target="#addPropertyLeaderModal"
+                                        style="text-decoration: underline; color:blue; cursor: pointer;">Tambah Ketua</a>
+                                </p>
+                            @endif
 
                             <h2 class="fw-bold text-secondary my-6">
                                 {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
@@ -93,7 +101,8 @@
                     <div class="row">
                         <div class="col-6 col-lg-6">
                             @forelse ($property->leases as $lease)
-                                <div style="height: 100%; border-radius: 10px" class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
+                                <div style="height: 100%; border-radius: 10px"
+                                    class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
                                     <div class="overflow-hidden rounded-lg">
                                         <div class="col-6 col-lg-6 d-flex align-items-center"
                                             style="flex-direction: column">
@@ -120,6 +129,72 @@
             </div>
         </div>
     </div>
+
+    <!-- Add Property Leader Modal -->
+    <div class="modal fade" id="addPropertyLeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Ketua Kontrakan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('properties.addPropertyLeader') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label for="user_id" class="form-label">Pilih Ketua Kontrakan</label>
+                            <select name="user_id" id="user_id" class="form-select" value="{{ old('user_id') }}">
+                                @forelse ($addUserPropertyLeader as $user)
+                                    <option value="{{ $user->user->id }}">{{ $user->user->name }}</option>
+                                @empty
+                                    <option value="">Belum Ada Yang Mengontrak di Kontrakan Ini</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add Property Leader Modal -->
+
+    <!-- Change Property Leader Modal -->
+    <div class="modal fade" id="editPropertyLeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ubah Ketua Kontrakan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('properties.editPropertyLeader', $property->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label for="user_id" class="form-label">Ubah Ketua Kontrakan</label>
+                            <select name="user_id" id="user_id" class="form-select" value="{{ old('user_id') }}">
+                                @forelse ($editUserPropertyLeader as $user)
+                                    <option value="{{ $user->user->id }}">{{ $user->user->name }}</option>
+                                @empty
+                                    <option value="">Belum Ada Yang Mengontrak di Kontrakan Ini</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Change Property Leader Modal -->
 
     <script>
         var lat = -7.896591;

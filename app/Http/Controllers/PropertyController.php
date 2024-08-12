@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use App\Models\Furniture;
+use App\Models\Lease;
 use App\Models\Property;
 use App\Models\PropertyFurniture;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -68,13 +70,13 @@ class PropertyController extends Controller
                 'longtitude' => $request->longtitude,
             ]);
         }
-      
+
         if ($furnitures) {
             foreach ($furnitures as $furniture) {
                 $property->furnitures()->attach($furniture);
             }
         }
-      
+
         return redirect()->route('properties.index')->with('success', 'data berhasil disimpan');
     }
 
@@ -83,7 +85,13 @@ class PropertyController extends Controller
      */
     public function show(Property $property)
     {
-        return view('pages.properties.detail', compact('property'));
+        $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
+        $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
+            $query->whereDoesntHave('roles', function ($query) {
+                $query->where('name', 'admin');
+            });
+        })->get();
+        return view('pages.properties.detail', compact('property', 'addUserPropertyLeader', 'editUserPropertyLeader'));
     }
 
     /**
@@ -133,7 +141,7 @@ class PropertyController extends Controller
                 'longtitude' => $request->longtitude,
             ]);
         }
-      
+
         if ($furnitures) {
             foreach ($furnitures as $furniture) {
                 $property->furnitures()->sync($furniture);
@@ -141,6 +149,35 @@ class PropertyController extends Controller
         }
 
         return redirect()->route('properties.index')->with('success', 'data berhasil diubah');
+    }
+
+    public function addPropertyLeader(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $user->removeRole('member');
+        $user->assignRole('admin');
+
+        return redirect()->back()->with('success', 'Berhasil Menambah Ketua Kontrakan');
+    }
+
+    public function editPropertyLeader(Request $request, Property $property)
+    {
+
+        $lastLeader = $property->leases()->whereHas('user.roles', function ($query) {
+            $query->where('name', 'admin');
+        })->first();
+
+        if ($lastLeader) {
+            $lastLeader->user->removeRole('admin');
+            $lastLeader->user->assignRole('member');
+        }
+
+        $newLeader = User::find($request->user_id);
+        $newLeader->removeRole('member');
+        $newLeader->assignRole('admin');
+
+
+        return redirect()->back()->with('success', 'Berhasil Mengubah Ketua Kontrakan');
     }
 
     /**
