@@ -110,10 +110,14 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ $lease->id }}">Edit</a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ $lease->id }}">Hapus</button>
+                                    <a type="button" class="" data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
+                                            style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
+
+                                        <a type="button" class="" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $lease->id }}">
+                                            <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
+                                        </a>
                                 </td>
                             </tr>
 
