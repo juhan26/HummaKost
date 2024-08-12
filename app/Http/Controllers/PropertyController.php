@@ -68,14 +68,13 @@ class PropertyController extends Controller
                 'longtitude' => $request->longtitude,
             ]);
         }
-
+      
         if ($furnitures) {
             foreach ($furnitures as $furniture) {
                 $property->furnitures()->attach($furniture);
             }
         }
-
-
+      
         return redirect()->route('properties.index')->with('success', 'data berhasil disimpan');
     }
 
@@ -134,7 +133,7 @@ class PropertyController extends Controller
                 'longtitude' => $request->longtitude,
             ]);
         }
-
+      
         if ($furnitures) {
             foreach ($furnitures as $furniture) {
                 $property->furnitures()->sync($furniture);
@@ -150,6 +149,6 @@ class PropertyController extends Controller
     public function destroy(Property $property)
     {
         $property->delete();
-        return redirect()->route('properties.index')->with('success', 'Success Deleted Property');
+        return redirect()->route('properties.index')->with('success', 'Data Kontrakan berhasil di hapus');
     }
 }

@@ -26,4 +26,14 @@ class UpdatePropertyFurnitureRequest extends FormRequest
             'furniture_id' => 'required|exists:furniture,id'
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'property_id.required' => 'ID properti wajib diisi.',
+            'property_id.exists' => 'Properti tidak ditemukan.',
+            'furniture_id.required' => 'ID furnitur wajib diisi.',
+            'furniture_id.exists' => 'Furnitur tidak ditemukan.',
+        ];
+    }
 }

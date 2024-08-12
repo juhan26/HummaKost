@@ -48,7 +48,7 @@ class FeedbackController extends Controller
 
         $feedback->save();
 
-        return redirect()->back()->with('success', 'Thank you for your feedback!');
+        return redirect()->back()->with('success', 'Terimakasih atas masukannya!');
     }
 
     /**
@@ -90,6 +90,6 @@ class FeedbackController extends Controller
         $feedback->message = $request->input('feedback');
         $feedback->save();
 
-        return redirect()->back()->with('success', 'Feedback submitted successfully!');
+        return redirect()->back()->with('success', 'Masukan berhasil di kirimg!');
     }
 }

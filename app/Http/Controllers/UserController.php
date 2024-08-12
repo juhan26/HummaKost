@@ -58,7 +58,7 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'password' =>  bcrypt($request->password), // Hash the password before storing it
         ])->assignRole('member');
-        return redirect()->route('user.index')->with('success', 'User Added Success');
+        return redirect()->route('user.index')->with('success', 'Pengguna berhasil di tambahkan');
     }
 
     /**
@@ -83,7 +83,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
-        return redirect()->route('user.index')->with('success', 'User Updated Success');
+        return redirect()->route('user.index')->with('success', 'Pengguna berhasil di ubah');
     }
 
     /**
@@ -96,10 +96,10 @@ class UserController extends Controller
                 Storage::disk('public')->delete($user->photo);
             }
             $user->delete();
-            return redirect()->route('user.index')->with('success', 'User Deleted Success');
+            return redirect()->route('user.index')->with('success', 'Pengguna berhasil di hapus');
         } catch (\Exception $e) {
             if ($e->getCode() === '23000') {
-                return redirect()->route('user.index')->with('error', 'Cannot delete this user because he/she has related data in other tables');
+                return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus pengguna ini karena data memiliki data terkait di tabel lain');
             }
         }
     }

@@ -29,4 +29,19 @@ class UpdatePropertyRequest extends FormRequest
             'longtitude' => ['required', 'numeric'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama wajib diisi.',
+            'name.unique' => 'Nama sudah digunakan, silakan pilih nama lain.',
+            'image.file' => 'Gambar harus berupa file.',
+            'image.mimes' => 'Gambar harus berformat: jpeg, png, jpg, pdf.',
+            'image.max' => 'Ukuran file gambar maksimal 2MB.',
+            'langtitude.required' => 'Latitude wajib diisi.',
+            'langtitude.numeric' => 'Latitude harus berupa angka.',
+            'longtitude.required' => 'Longitude wajib diisi.',
+            'longtitude.numeric' => 'Longitude harus berupa angka.',
+        ];
+    }
 }

@@ -30,4 +30,14 @@ class UpdateLeaseRequest extends FormRequest
             'description' => 'nullable|string|max:255',
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'end_date.required' => 'Tanggal akhir wajib diisi.',
+            'end_date.date' => 'Tanggal akhir harus berupa tanggal yang valid.',
+            'end_date.after' => 'Tanggal akhir harus setelah tanggal mulai.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi maksimal 255 karakter.',
+        ];
+    }
 }

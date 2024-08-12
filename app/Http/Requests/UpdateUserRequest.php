@@ -23,9 +23,22 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required'],
-            'email'=>['required', Rule::unique('users', 'email')->ignore($this->user->id)],
-            'password'=>['required'],
+            'name' => ['required'],
+            'email' => ['required', Rule::unique('users', 'email')->ignore($this->user->id)],
+            'password' => ['required'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'photo.file' => 'Foto harus berupa file.',
+            'photo.mimes' => 'Foto harus berformat: jpeg, png, jpg, pdf.',
+            'photo.max' => 'Ukuran file foto maksimal 2MB.',
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
+            'password.required' => 'Kata sandi wajib diisi.',
         ];
     }
 }

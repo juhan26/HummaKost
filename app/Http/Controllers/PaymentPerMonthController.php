@@ -17,7 +17,7 @@ class PaymentPerMonthController extends Controller
      */
     public function index()
     {
-        $payments = PaymentPerMonth::all();
+        $payments = PaymentPerMonth::latest()->paginate(5);
         $leases = Lease::all();
         return view('pages.payments.index', compact('payments', 'leases'));
     }
@@ -44,19 +44,22 @@ class PaymentPerMonthController extends Controller
         $date->subMonths($total_lease);
         $leasesPaymentMonth = $date->format('F');
 
+        if ($total_lease <= 0) {
+            return redirect()->route('payments.index')->with('error', 'Pengguna Sudah Lunas');
+        } else {
+            PaymentPerMonth::create([
+                'lease_id' => $request->lease_id,
+                'month' => $leasesPaymentMonth,
+                'nominal' => $nominal,
+                'description' => $request->description,
+            ]);
+            $currentPrice = $lease->total_iuran - $nominal;
 
-        PaymentPerMonth::create([
-            'lease_id' => $request->lease_id,
-            'month' => $leasesPaymentMonth,
-            'nominal' => $nominal,
-            'description' => $request->description,
-        ]);
-        $currentPrice = $lease->total_iuran - $nominal;
-
-        $lease->update([
-            'total_iuran' => $currentPrice
-        ]);
-        return redirect()->route('payments.index')->with('success', 'Payment saved successfully');
+            $lease->update([
+                'total_iuran' => $currentPrice
+            ]);
+        }
+        return redirect()->route('payments.index')->with('success', 'Pembayaran berhasil di simpan');
     }
 
     /**
@@ -96,9 +99,9 @@ class PaymentPerMonthController extends Controller
                 'total_iuran' => $updatePrice
             ]);
             $payment->delete();
-            return redirect()->route('payments.index')->with('success', "Successful Deleted Payment");
+            return redirect()->route('payments.index')->with('success', "Pembayaran berhasil di hapus");
         } catch (QueryException $e) {
-            return redirect()->route('payments.index')->with('errorr', "Failed to delete this Payment because it is currently use in a Property");
+            return redirect()->route('payments.index')->with('errorr', "Tidak dapat menghapus pembayaran ini karena data memiliki data terkait di tabel lain");
         }
     }
 }

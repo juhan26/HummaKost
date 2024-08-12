@@ -319,14 +319,14 @@
                 <div class="xl:w-1/4">
                     <h2
                         class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
-                        Our <span class="text-primary-500 after-svg popular">Properties</span>
+                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in" data-aos-duration="1000">Properties</span >
                     </h2>
                 </div>
-                <div class="2xl:w-3/4">
+                <div class="2xl:w-3/4" >
                     <div class="swiper courseSwipper relative">
                         <div class="swiper-wrapper py-4 2xl:pr-[29.3%]">
                             @foreach ($properties->unique('id') as $property)
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
                                     <div class="course-card max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
                                         <div class="bg-gray-white rounded-xl">
                                             <div class="course-content px-4 py-4">
