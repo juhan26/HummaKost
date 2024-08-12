@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
+use App\Models\Furniture;
 use App\Models\Property;
+use App\Models\PropertyFurniture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +33,8 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        return view('pages.properties.create');
+        $furnitures = Furniture::all();
+        return view('pages.properties.create', compact('furnitures'));
     }
 
     /**
@@ -39,10 +42,10 @@ class PropertyController extends Controller
      */
     public function store(StorePropertyRequest $request)
     {
-
+        $furnitures = $request->furniture_id;
         if ($request->image) {
             $imagePath = $request->image->store('propertyImages', 'public');
-            Property::create([
+            $property = Property::create([
                 'name' => $request->name,
                 'image' => $imagePath,
                 'rental_price' => $request->rental_price,
@@ -54,7 +57,7 @@ class PropertyController extends Controller
                 'longtitude' => $request->longtitude,
             ]);
         } else {
-            Property::create([
+            $property = Property::create([
                 'name' => $request->name,
                 'rental_price' => $request->rental_price,
                 'description' => $request->description,
@@ -65,6 +68,13 @@ class PropertyController extends Controller
                 'longtitude' => $request->longtitude,
             ]);
         }
+
+        if ($furnitures) {
+            foreach ($furnitures as $furniture) {
+                $property->furnitures()->attach($furniture);
+            }
+        }
+
 
         return redirect()->route('properties.index')->with('success', 'data berhasil disimpan');
     }
@@ -82,7 +92,9 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-        return view('pages.properties.edit', compact('property'));
+        $furnitures = Furniture::all();
+        $selectedFurnitures = $property->furnitures->pluck('id')->toArray();
+        return view('pages.properties.edit', compact('property', 'furnitures', 'selectedFurnitures'));
     }
 
     /**
@@ -90,6 +102,7 @@ class PropertyController extends Controller
      */
     public function update(UpdatePropertyRequest $request, Property $property)
     {
+        $furnitures = $request->furniture_id;
         if ($request->image) {
 
             if ($property->image) {
@@ -120,6 +133,12 @@ class PropertyController extends Controller
                 'langtitude' => $request->langtitude,
                 'longtitude' => $request->longtitude,
             ]);
+        }
+
+        if ($furnitures) {
+            foreach ($furnitures as $furniture) {
+                $property->furnitures()->sync($furniture);
+            }
         }
 
         return redirect()->route('properties.index')->with('success', 'data berhasil diubah');
