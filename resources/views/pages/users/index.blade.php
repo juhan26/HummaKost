@@ -123,17 +123,17 @@
                                     });
                                 </script>
                         </div>
-                        <div class="col-12 mt-4 col-lg-4">
+                        <div class="col-12 col-lg-4">
                             <div class="d-flex align-items-center w-100 px-3 justify-content-between">
-                                <button class="btn btn-secondary w-25" type="submit"><i
-                                        class="mdi ri-search-line"></i></button>
+                                <button class="btn btn-secondary w-25" type="submit"><i class="mdi ri-search-line"></i></button>
                                 </form>
-                                <button type="button" class="btn btn-primary w-50 " data-bs-toggle="modal"
-                                    data-bs-target="#createModal">
-                                    Add user
-                                </button>
+                                @if ($title !== 'Ketua kontrakan') 
+                                    <button type="button" class="btn btn-primary w-50" data-bs-toggle="modal" data-bs-target="#createModal">
+                                        Add user
+                                    </button>
+                                @endif
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
                 <div class="card-body">
@@ -153,6 +153,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
+
                             <tbody class="table-border-bottom-0">
                                 @forelse ($users as $index => $user)
                                     <tr>
