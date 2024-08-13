@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lease;
+use App\Models\Property;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.dashboard.index');
+        $propertiesCount = Property::count();
+        $usersCount = User::count();
+        $leasesCount = Lease::count();
+    
+        return view('pages.dashboard.index', compact('propertiesCount', 'usersCount', 'leasesCount'));
     }
 }

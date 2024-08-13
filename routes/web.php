@@ -20,7 +20,7 @@ Route::get('/register', function () {
     return view('auth.register')->name('register');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'role:admin|super_admin')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 });
 

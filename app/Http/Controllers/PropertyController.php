@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
+use App\Models\Furniture;
+use App\Models\Lease;
 use App\Models\Property;
+use App\Models\PropertyFurniture;
+use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +36,8 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        return view('pages.properties.create');
+        $furnitures = Furniture::all();
+        return view('pages.properties.create', compact('furnitures'));
     }
 
     /**
@@ -39,10 +45,10 @@ class PropertyController extends Controller
      */
     public function store(StorePropertyRequest $request)
     {
-
+        $furnitures = $request->furniture_id;
         if ($request->image) {
             $imagePath = $request->image->store('propertyImages', 'public');
-            Property::create([
+            $property = Property::create([
                 'name' => $request->name,
                 'image' => $imagePath,
                 'rental_price' => $request->rental_price,
@@ -54,7 +60,7 @@ class PropertyController extends Controller
                 'longtitude' => $request->longtitude,
             ]);
         } else {
-            Property::create([
+            $property = Property::create([
                 'name' => $request->name,
                 'rental_price' => $request->rental_price,
                 'description' => $request->description,
@@ -66,6 +72,12 @@ class PropertyController extends Controller
             ]);
         }
 
+        if ($furnitures) {
+            foreach ($furnitures as $furniture) {
+                $property->furnitures()->attach($furniture);
+            }
+        }
+
         return redirect()->route('properties.index')->with('success', 'data berhasil disimpan');
     }
 
@@ -74,7 +86,13 @@ class PropertyController extends Controller
      */
     public function show(Property $property)
     {
-        return view('pages.properties.detail', compact('property'));
+        $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
+        $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
+            $query->whereDoesntHave('roles', function ($query) {
+                $query->where('name', 'admin');
+            });
+        })->get();
+        return view('pages.properties.detail', compact('property', 'addUserPropertyLeader', 'editUserPropertyLeader'));
     }
 
     /**
@@ -82,7 +100,9 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-        //
+        $furnitures = Furniture::all();
+        $selectedFurnitures = $property->furnitures->pluck('id')->toArray();
+        return view('pages.properties.edit', compact('property', 'furnitures', 'selectedFurnitures'));
     }
 
     /**
@@ -90,6 +110,7 @@ class PropertyController extends Controller
      */
     public function update(UpdatePropertyRequest $request, Property $property)
     {
+        $furnitures = $request->furniture_id;
         if ($request->image) {
 
             if ($property->image) {
@@ -122,7 +143,42 @@ class PropertyController extends Controller
             ]);
         }
 
+        if ($furnitures) {
+            foreach ($furnitures as $furniture) {
+                $property->furnitures()->sync($furniture);
+            }
+        }
+
         return redirect()->route('properties.index')->with('success', 'data berhasil diubah');
+    }
+
+    public function addPropertyLeader(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $user->removeRole('member');
+        $user->assignRole('admin');
+
+        return redirect()->back()->with('success', 'Berhasil Menambah Ketua Kontrakan');
+    }
+
+    public function editPropertyLeader(Request $request, Property $property)
+    {
+
+        $lastLeader = $property->leases()->whereHas('user.roles', function ($query) {
+            $query->where('name', 'admin');
+        })->first();
+
+        if ($lastLeader) {
+            $lastLeader->user->removeRole('admin');
+            $lastLeader->user->assignRole('member');
+        }
+
+        $newLeader = User::find($request->user_id);
+        $newLeader->removeRole('member');
+        $newLeader->assignRole('admin');
+
+
+        return redirect()->back()->with('success', 'Berhasil Mengubah Ketua Kontrakan');
     }
 
     /**
@@ -130,7 +186,11 @@ class PropertyController extends Controller
      */
     public function destroy(Property $property)
     {
-        $property->delete();
-        return redirect()->route('properties.index')->with('success', 'Success Deleted Property');
+        try {
+            $property->delete();
+            return redirect()->route('properties.index')->with('success', 'Data Kontrakan berhasil di hapus');
+        } catch (QueryException $e) {
+            return redirect()->route('properties.index')->with('success', 'Tidak dapat menghapus data kontrakan, karena data ini sedang digunakan dalam kontrak');
+        }
     }
 }

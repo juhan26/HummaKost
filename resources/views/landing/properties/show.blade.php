@@ -192,19 +192,31 @@
                     <div class="lg:w-1/2 bg-white rounded-lg container"
                         style="padding-left: 25px; padding-bottom: 30px; padding-top: 30px; padding-right: 25px">
                         <h1 class="text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}
-                            @if ($property->status === 'available')
+                            {{-- @if ($property->status === 'available')
                                 <span
                                     class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $property->status }}</span>
                             @else
                                 <div class="inline-block bg-red-500 text-white px-2 py-1 rounded mt-6">
                                     {{ $property->status }}</div>
-                            @endif
+                            @endif --}}
                         </h1>
 
                         <h5 class="text-lg text-gray-600">{{ $property->description }}</h5>
                         <h2 class="font-bold text-2xl text-gray-800 my-6">
                             {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
-                        <div class="inline-block bg-yellow-400 text-white px-2 py-1 rounded mt-6 mr-3">
+
+                        @if ($property->status === 'available')
+                            <div class="inline-block bg-green-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Tersedia
+                            </div>
+                        @else
+                            <div class="inline-block bg-red-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Full</div>
+                        @endif
+                        /
+                        <div class="inline-block bg-gray-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Total Orang:
+                            <strong>{{ $property->leases->count() }}</strong>
+                        </div>
+                        /
+                        <div class="inline-block bg-yellow-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">
                             Capacity: <strong>{{ $property->capacity }}</strong>
                         </div>
 

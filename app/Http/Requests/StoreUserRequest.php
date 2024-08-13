@@ -24,16 +24,30 @@ class StoreUserRequest extends FormRequest
         return [
             'photo' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
             'name' => ['required'],
+            'division' => ['nullable', 'string'],
+            'gender'   => ['required', 'string', 'in:male,female'],
             'email' => ['required', 'unique:users,email'],
-            'phone_number' => ['required','numeric','min_digits:8','max_digits:20'],
-            'password' => ['required'],
+            'phone_number' => ['required', 'numeric', 'min_digits:4', 'max_digits:20'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'email.unique' => 'email tidak boleh sama',
+            'photo.file' => 'Foto harus berupa file.',
+            'photo.mimes' => 'Foto harus berformat: jpeg, png, jpg, pdf.',
+            'photo.max' => 'Ukuran file foto maksimal 2MB.',
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
+            'phone_number.required' => 'Nomor telepon wajib diisi.',
+            'phone_number.numeric' => 'Nomor telepon harus berupa angka.',
+            'phone_number.min_digits' => 'Nomor telepon minimal harus terdiri dari 8 digit.',
+            'phone_number.max_digits' => 'Nomor telepon maksimal harus terdiri dari 20 digit.',
+            'division.string'   => 'divisi harus berupa teks.',
+            'gender.required'   => 'Jenis kelamin harus diisi.',
+            'gender.string'     => 'Jenis kelamin harus berupa teks.',
+            'gender.in'         => 'Jenis kelamin harus salah satu dari pilihan berikut: Laki-laki, Perempuan.',
         ];
     }
 }

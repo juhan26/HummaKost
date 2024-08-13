@@ -73,39 +73,51 @@
         <li class="menu-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
             <a href="{{ url('users') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
-                <div>Users</div>
+                <div>Pengguna</div>
             </a>
         </li>
         <li class="menu-header mt-5">
-            <span class="menu-header-text">Properties</span>
+            <span class="menu-header-text">Kontrakan</span>
         </li>
         <li class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }}">
             <a href="{{ url('/properties') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-2-line"></i>
-                <div>Properties</div>
+                <div>Kontrakan</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('furnitures.index') ? 'active' : '' }}">
             <a href="{{ url('furnitures') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-hotel-bed-line"></i>
-                <div>Furnitures</div>
+                <div>Perabotan</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
+        {{-- <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
             <a href="{{ url('property_furnitures') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-sofa-line"></i>
-                <div>Property And Furnitures</div>
+                <div>Kontrakan dan Perabotan</div>
             </a>
-        </li>
+        </li> --}}
         <li class="menu-header mt-5">
-            <span class="menu-header-text">Leases</span>
+            <span class="menu-header-text">Kontrak</span>
         </li>
 
 
         <li class="menu-item {{ request()->routeIs('leases.index') ? 'active' : '' }}">
             <a href="{{ url('leases') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-scales-3-line"></i>
-                <div>Leases</div>
+                <div>Kontrak</div>
+            </a>
+        </li>
+
+        <li class="menu-header mt-5">
+            <span class="menu-header-text">Pembayaran</span>
+        </li>
+
+
+        <li class="menu-item {{ request()->routeIs('payments.index') ? 'active' : '' }}">
+            <a href="{{ url('payments') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-money-dollar-circle-line"></i>
+                <div>Pembayaran Perbulan</div>
             </a>
         </li>
 

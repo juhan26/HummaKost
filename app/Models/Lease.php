@@ -14,8 +14,12 @@ class Lease extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function properties()    
+    public function properties()
     {
         return $this->belongsTo(Property::class, 'property_id');
+    }
+    public function payments()
+    {
+        return $this->hasMany(PaymentPerMonth::class);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePropertyFurnitureRequest extends FormRequest
+class StorePaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,18 +22,20 @@ class StorePropertyFurnitureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'property_id' => 'required|exists:properties,id',
-            'furniture_id' => 'required|exists:furnitures,id'
+            'lease_id' => ['required', 'exists:leases,id'],
+            // 'month' => ['required', 'string', 'max:255'],
+            // 'nominal' => ['required', 'numeric', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
         ];
     }
 
     public function messages(): array
 {
     return [
-        'property_id.required' => 'ID properti wajib diisi.',
-        'property_id.exists' => 'Properti tidak ditemukan.',
-        'furniture_id.required' => 'ID furnitur wajib diisi.',
-        'furniture_id.exists' => 'Furnitur tidak ditemukan.',
+        'lease_id.required' => 'ID sewa wajib diisi.',
+        'lease_id.exists' => 'ID sewa tidak ditemukan.',
+        'description.string' => 'Deskripsi harus berupa teks.',
+        'description.max' => 'Deskripsi maksimal 255 karakter.',
     ];
 }
 

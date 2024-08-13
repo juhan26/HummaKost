@@ -25,15 +25,14 @@ class UserController extends Controller
             $query->whereHas('roles', function ($query) use ($filter) {
                 $query->where('name', $filter);
             });
-        }
-        elseif ($request->has('search')) {
+        } elseif ($request->has('search')) {
             $search = $request->input('search');
             $query->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%");
             })->whereHas('roles', function ($query) {
                 $query->where('name', 'member')
-                ->orWhere('name', 'admin');
+                    ->orWhere('name', 'admin');
             });
             $cari = 1;
         }
@@ -42,7 +41,7 @@ class UserController extends Controller
             if (!Auth::user()->hasRole('member')) {
                 $query->whereHas('roles', function ($query) {
                     $query->where('name', 'member');
-                })->where('id','!=',Auth::user()->id);
+                })->where('id', '!=', Auth::user()->id);
             }
             //  elseif (Auth::user()->hasRole('member')) {
             //     $query->role('member');
@@ -50,10 +49,19 @@ class UserController extends Controller
         }
 
         // Get paginated users
-        $users = $query->latest()->paginate(3);
+        $users = $query->orderByRaw("
+        CASE
+            WHEN status = 'pending' THEN 1
+            WHEN status = 'rejected' THEN 2
+            WHEN status = 'accepted' THEN 3
+            ELSE 4
+        END
+    ")
+            ->latest()
+            ->paginate(10);
 
         // Return view with users data
-        return view('pages.users.index', compact('users','cari'));
+        return view('pages.users.index', compact('users', 'cari'));
     }
 
 
@@ -66,11 +74,15 @@ class UserController extends Controller
     }
     public function accept(User $user)
     {
-        //$income->status = 'Diterima';
-
-        $user->update(['status'=>'accepted']);
+        $user->update(['status' => 'accepted']);
         $user->save();
         return redirect()->route('user.index')->with('success', 'Penyewa telah di konfirmasi');
+    }
+    public function reject(User $user)
+    {
+        $user->status = 'rejected';
+        $user->save();
+        return redirect()->route('user.index')->with('success', 'Penyewa telah berhasil ditolak');
     }
 
     /**
@@ -78,16 +90,31 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $imagePath = $request->photo->store('photos', 'public');
+        // dd($request->photo);
+        if ($request->photo) {
 
-        User::create([
-            'photo' => $imagePath,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'password' =>  bcrypt($request->password), // Hash the password before storing it
-        ])->assignRole('member');
-        return redirect()->route('user.index')->with('success', 'User Added Success');
+            $imagePath = $request->photo->store('photos', 'public');
+            User::create([
+                'photo' => $imagePath,
+                'gender' => $request->gender,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'division' => $request->division,
+                'status' => 'accepted',
+                'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
+            ])->assignRole('member');
+        } else
+            User::create([
+                'gender' => $request->gender,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'division' => $request->division,
+                'status' => 'accepted',
+                'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
+            ])->assignRole('member');
+        return redirect()->route('user.index')->with('success', 'Pengguna berhasil di tambahkan');
     }
 
     /**
@@ -112,7 +139,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
-        return redirect()->route('user.index')->with('success', 'User Updated Success');
+        return redirect()->route('user.index')->with('success', 'Pengguna berhasil di ubah');
     }
 
     /**
@@ -125,10 +152,10 @@ class UserController extends Controller
                 Storage::disk('public')->delete($user->photo);
             }
             $user->delete();
-            return redirect()->route('user.index')->with('success', 'User Deleted Success');
+            return redirect()->route('user.index')->with('success', 'Pengguna berhasil di hapus');
         } catch (\Exception $e) {
             if ($e->getCode() === '23000') {
-                return redirect()->route('user.index')->with('error', 'Cannot delete this user because he/she has related data in other tables');
+                return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus pengguna ini karena data memiliki data terkait di tabel lain');
             }
         }
     }

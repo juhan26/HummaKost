@@ -163,8 +163,13 @@
                                                     title='<img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"  class="card-img-top img-fluid" alt="{{ $user->name }}">'
                                                     class="avatar pull-up" data-popup="tooltip-custom"
                                                     data-bs-placement="top" id="tt">
-                                                    <img class="rounded-circle" src="../../assets/img/avatars/5.png"
-                                                        alt="Avatar">
+                                                    @if ($user->gender === 'male')
+                                                        <img class="rounded-circle" src="../../assets/img/avatars/5.png"
+                                                            alt="Avatar">
+                                                    @else
+                                                        <img class="rounded-circle" src="../../assets/img/avatars/10.png"
+                                                            alt="Avatar">
+                                                    @endif
                                                 </li>
                                             </ul>
                                             <script>
@@ -210,8 +215,14 @@
                                             @endif
                                         </td>
                                         <td>{{ $user->phone_number }}</td>
-                                        <td><span
-                                                class="badge rounded-pill bg-label-primary me-1">{{ $user->status }}</span>
+                                        <td>
+                                            @if ($user->status === 'pending')
+                                                <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
+                                            @elseif ($user->status === 'accepted')
+                                                <span class="badge rounded-pill bg-label-primary me-1">Diterima</span>
+                                            @else
+                                                <span class="badge rounded-pill bg-label-danger me-1">Ditolak</span>
+                                            @endif
                                         </td>
                                         @php
                                             $adminAccess = 0;
@@ -232,8 +243,8 @@
                                                         <button type="submit" class="col-12 btn btn-success"
                                                             type="button"><i class="ri-check-line"></i></button>
                                                     </form>
-                                                    <form action="{{ route('user.reject', $user->id) }}"
-                                                        method="POST" class="col-lg-6 col-sm-6 mt-1">
+                                                    <form action="{{ route('user.reject', $user->id) }}" method="POST"
+                                                        class="col-lg-6 col-sm-6 mt-1">
                                                         @csrf
                                                         <button type="submit" class="col-12 btn btn-danger"
                                                             type="button"><i class="ri-close-line"></i></button>
@@ -434,38 +445,70 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">Add User</h5>
+                    <h5 class="modal-title" id="createModalLabel">Tambah data penyewa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
                         @csrf
-                        <div class="mb-3">
-                            <label for="photo" class="form-label">Profile Photo:</label>
-                            <input type="file" class="form-control" name="photo" id="photo">
+                        <div class="row">
+
+                            <div class="mb-5">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" name="name" id="name"
+                                        value="{{ old('name') }}">
+                                    <label for="name" class="floatingInput" placeholder="Nama">Name:</label>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        value="{{ old('email') }}">
+                                    <label for="email" class="floatingInput" placeholder="Email">Email:</label>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" name="phone_number" id="phone_number"
+                                        value="{{ old('phone_number') }}">
+                                    <label for="phone_number" class="floatingInput" placeholder="Nomor Telepon">Phone
+                                        Number:</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-5 mt-lg-5">
+                                <div class="form-floating form-floating-outline">
+                                    <select id="selectpickerBasic" class="selectpicker w-100" data-style="btn-default"
+                                        name="gender">
+                                        <option value="male">Laki-laki</option>
+                                        <option value="female">Perempuan</option>
+                                    </select>
+                                    <label for="selectpickerBasic">Jenis Kelamin</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-5 mt-lg-5">
+                                <div class="form-floating form-floating-outline">
+                                    <select id="selectpickerBasic" class="selectpicker w-100" data-style="btn-default"
+                                        name="division">
+                                        <option value="null">Belum memilih</option>
+                                        <option value="website">Website</option>
+                                        <option value="mobile">Mobile</option>
+                                        <option value="uiux">UI/UX</option>
+                                        <option value="digmar">Digital Marketing</option>
+                                    </select>
+                                    <label for="selectpickerBasic">Divisi</label>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <label for="photo" class="form-label">Profile Photo:</label>
+                                <input type="file" class="form-control" name="photo" id="photo">
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name:</label>
-                            <input type="text" class="form-control" name="name" id="name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" class="form-control" name="email" id="email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone_number" class="form-label">Phone Number:</label>
-                            <input type="text" class="form-control" name="phone_number" id="phone_number">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password:</label>
-                            <input type="password" class="form-control" name="password" id="password">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Add User</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
