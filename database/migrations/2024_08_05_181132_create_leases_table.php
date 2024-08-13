@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('status', ['active', 'expired'])->default('active');
             $table->text('description')->nullable();
             $table->decimal('total_iuran', 10, 2);
+            $table->decimal('total_nominal', 10, 2);
             $table->timestamps();
         });
     }

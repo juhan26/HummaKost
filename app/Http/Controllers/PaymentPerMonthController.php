@@ -67,8 +67,11 @@ class PaymentPerMonthController extends Controller
             ]);
             $currentPrice = $lease->total_iuran - $nominal;
 
+            $totalNominal = $lease->total_nominal + $nominal;
+
             $lease->update([
-                'total_iuran' => $currentPrice
+                'total_iuran' => $currentPrice,
+                'total_nominal' => $totalNominal,
             ]);
         }
         return redirect()->route('payments.index')->with('success', 'Pembayaran berhasil di simpan');
