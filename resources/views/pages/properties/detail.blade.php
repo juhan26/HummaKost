@@ -128,7 +128,7 @@
                 <div class="card-body d-flex justify-content-center">
                     @forelse ($property->furnitures as $furniture)
                         <div class="text-center" style="min-width: 12rem; flex-shrink: 0;">
-                                <img class="rounded-circle mx-auto d-block" style="width: 5rem; height: 5rem;"
+                                <img class="mx-auto d-block" style="width: 5rem; height: 5rem;"
                                     src="{{ $furniture->photo ? asset('storage/' . $furniture->photo) : asset('/assets/img/image_not_available.png') }}"
                                     alt="{{ $furniture->name }}">
                                 <h4 class="card-title mt-3">{{ $furniture->name }}</h4>

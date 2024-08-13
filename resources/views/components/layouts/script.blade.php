@@ -61,5 +61,3 @@
 <script src="../../assets/js/config.js"></script>
 {{-- Jquery --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{{-- SweetAlert --}}
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
