@@ -56,21 +56,20 @@ class PaymentPerMonthController extends Controller
         $date->subMonths($total_lease);
         $leasesPaymentMonth = $date->format('F');
 
-        if ($total_lease <= 0) {
+        if ($lease->total_iuran <= $lease->total_nominal) {
             return redirect()->route('payments.index')->with('error', 'Pengguna Sudah Lunas');
         } else {
+
             PaymentPerMonth::create([
                 'lease_id' => $request->lease_id,
                 'month' => $leasesPaymentMonth,
                 'nominal' => $nominal,
                 'description' => $request->description,
             ]);
-            $currentPrice = $lease->total_iuran - $nominal;
 
             $totalNominal = $lease->total_nominal + $nominal;
 
             $lease->update([
-                'total_iuran' => $currentPrice,
                 'total_nominal' => $totalNominal,
             ]);
         }
@@ -108,10 +107,9 @@ class PaymentPerMonthController extends Controller
     {
         try {
             $lease = Lease::find($payment->lease_id);
-            $nominal = $lease->properties->rental_price;
-            $updatePrice = $lease->total_iuran + $nominal;
+            $updatePrice = $lease->total_nominal - $lease->properties->rental_price;
             $lease->update([
-                'total_iuran' => $updatePrice
+                'total_nominal' => $updatePrice
             ]);
             $payment->delete();
             return redirect()->route('payments.index')->with('success', "Pembayaran berhasil di hapus");
