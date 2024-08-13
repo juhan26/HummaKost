@@ -88,8 +88,18 @@
                         <span class="flex justify-center items-center">
                         </span>
                         @if (Auth::user())
-                            <a href="{{ route('dashboard') }}"
-                                class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
+                            @if (Auth::user()->hasRole('member'))
+                                <a href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                    class="hidden xl:inline-block btn-primary"><span>Logout</span></a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            @else
+                                <a href="{{ route('dashboard') }}"
+                                    class="hidden xl:inline-block btn-primary"><span>Dasbor</span></a>
+                            @endif
                         @else
                             <a href="{{ route('register') }}"
                                 class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
@@ -284,14 +294,16 @@
                                 style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));"
                                 data-aos="fade-in" data-aos-duration="1000" data-tilt>
                         </div>
-                        <div
-                        class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4" data-tilt>
-                        <span class="w-16 h-16 md:w-18 md:h-18 xl:w-20 xl:h-20 flex justify-center items-center overflow-hidden">
-                            <img src="/assets/img/images/kepala.png" alt="Bapak Kos" class="w-full h-full object-contain" >
-                        </span>
-                        <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
-                    </div>
-                    
+                        <div class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4"
+                            data-tilt>
+                            <span
+                                class="w-16 h-16 md:w-18 md:h-18 xl:w-20 xl:h-20 flex justify-center items-center overflow-hidden">
+                                <img src="/assets/img/images/kepala.png" alt="Bapak Kos"
+                                    class="w-full h-full object-contain">
+                            </span>
+                            <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
+                        </div>
+
 
 
                         <span
@@ -319,10 +331,11 @@
                 <div class="xl:w-1/4">
                     <h2
                         class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
-                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in" data-aos-duration="1000">Properties</span >
+                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in"
+                            data-aos-duration="1000">Properties</span>
                     </h2>
                 </div>
-                <div class="2xl:w-3/4" >
+                <div class="2xl:w-3/4">
                     <div class="swiper courseSwipper relative">
                         <div class="swiper-wrapper py-4 2xl:pr-[29.3%]">
                             @foreach ($properties->unique('id') as $property)
@@ -381,7 +394,7 @@
                                 </div>
                             @endforeach
                         </div>
-    
+
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination"></div>
@@ -389,7 +402,7 @@
                 </div>
             </div>
         </div>
-    </section>    
+    </section>
 
     {{-- <section class="section-padding course-section bg-primary-50/70">
         <div class="container px-4 sm:px-6 xl:px-0">
@@ -1046,7 +1059,8 @@
                         class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                         <span class="text-primary-500 after-svg instructor">Member</span>
                     </h2>
-                    <div class="ml-6 w-40 md:w-52 lg:w-64 relative"> <!-- Menyesuaikan lebar untuk berbagai ukuran layar -->
+                    <div class="ml-6 w-40 md:w-52 lg:w-64 relative">
+                        <!-- Menyesuaikan lebar untuk berbagai ukuran layar -->
                         <label for="property" class="sr-only">Select Property:</label>
                         <select id="property" name="property_id"
                             class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-base font-semibold font-display border border-primary-500 rounded-md py-2 px-3 md:px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -1067,7 +1081,7 @@
                     </div>
                 </div>
             </form>
-            
+
 
             <div class="flex items-center mb-4">
                 <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years,
