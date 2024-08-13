@@ -34,6 +34,21 @@ class LoginController extends Controller
      * @return void
      */
 
+        // protected function redirectTo()
+        // {
+        //     $user = Auth::user();
+
+        //     if ($user->hasRole('admin') || $user->hasRole('super_admin')) {
+        //         return redirect('/dashboard');
+        //     }
+
+        //     if ($user->hasRole('member') && $user->status === 'accepted') {
+        //         return redirect('/');
+        //     }
+
+        //     return redirect('/');
+        // }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -47,6 +62,9 @@ class LoginController extends Controller
                 $request->session()->flash('error', 'Akun Anda masih belum dikonfirmasi admin, silakan hubungi admin.');
 
                 return redirect()->route('login');
+            }
+            elseif ($user->roles->contains('name', 'member') && $user->status === 'accepted') {
+                return redirect('/');
             }
 
             return redirect()->intended('dashboard');
@@ -64,18 +82,4 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-    protected function redirectTo()
-    {
-        $user = Auth::user();
-
-        if ($user->hasRole('admin') || $user->hasRole('super_admin')) {
-            return '/dashboard';
-        }
-
-        if ($user->hasRole('member')) {
-            return '/';
-        }
-
-        return '/';
-    }
 }

@@ -94,6 +94,15 @@
                         @if ($hasNonMemberRole)
                             <a href="{{ route('dashboard') }}"
                                 class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
+                        @elseif($user && $user->roles->contains('name', 'member') && $user->status === 'accepted')
+                            <a class="btn btn-primary" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="mdi mdi-logout me-2"></i>
+                                <span class="align-middle">{{ __('Logout') }}</span>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         @else
                             <a href="{{ route('register') }}"
                                 class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
