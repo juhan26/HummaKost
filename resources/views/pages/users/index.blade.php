@@ -83,7 +83,7 @@
                                     $title = 'Hasil pencarian..';
                                 } else {
                                     $filteredUsers = $users->filter(function ($user) {
-                                        return $user->roles->contains('name', 'member');
+                                        return $user->roles->contains('name', 'tenant');
                                     });
                                     $title = $filteredUsers->isNotEmpty() ? 'Penyewa' : 'Ketua kontrakan';
                                 }
@@ -127,11 +127,13 @@
                             <div class="d-flex align-items-center w-100 px-3 justify-content-between">
                                 <button class="btn btn-secondary w-25" type="submit"><i class="mdi ri-search-line"></i></button>
                                 </form>
-                                {{-- @if ($title !== 'Ketua kontrakan')
+
+
+                                @if ($title !== 'Ketua kontrakan')
                                     <button type="button" class="btn btn-primary w-50" data-bs-toggle="modal" data-bs-target="#createModal">
                                         Add user
                                     </button>
-                                @endif --}}
+                                @endif 
                             </div>
                         </div>
                     </div>
