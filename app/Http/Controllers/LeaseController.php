@@ -114,6 +114,7 @@ class LeaseController extends Controller
                 $property = Property::find($request->property_id);
                 $property->update(['status' => 'available']);
             }
+
             Lease::create([
                 'user_id' => $request->user_id,
                 'property_id' => $request->property_id,
@@ -121,6 +122,7 @@ class LeaseController extends Controller
                 'end_date' => $endDate->format('Y-m-d'),
                 'description' => $request->description,
                 'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
+                'total_nominal' => 0,
             ]);
 
 

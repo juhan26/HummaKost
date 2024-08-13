@@ -77,79 +77,114 @@
                         </div>
                     </div>
                     {{-- Modal Store --}}
-
-                    <table class="table table-hover mt-3">
-                        <thead>
-                            <tr>
-                                <th>Foto</th>
-                                <th>Foto Penyewa</th>
-                                <th>Nama Penyewa</th>
-                                <th>Bulan</th>
-                                <th>Nominal</th>
-                                <th>Deskripsi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($payments as $index => $payment)
-                                <tr class="odd">
-                                    <th scope="row">{{ $index + 1 }}</th>
-                                    <td>
-                                        <img style="max-width: 100%"
-                                            src="{{ $payment->lease->user->photo ? asset('storage/' . $payment->lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                            alt="">
-                                    </td>
-                                    <td>{{ $payment->lease->user->name }}</td>
-                                    <td> {{ $payment->month }}</td>
-                                    <td>Rp. {{ number_format($payment->nominal) }}</td>
-                                    <td>{{ $payment->description ? $payment->description : 'Deskripsi Kosong' }}</td>
-                                    @hasrole('super_admin|admin')
-                                        <td>
-                                            <a type="button" class="" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $payment->id }}">
-                                                <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
-                                            </a>
-                                        </td>
-                                    @endhasrole
+                    <div class="table-responsive">
+                        <table class="datatables-basic table table-bordered dataTable no-footer dtr-column mt-3 mb-3"
+                            id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1043px;">
+                            <thead>
+                                <tr>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 96px;"
+                                        aria-label="Name: activate to sort column ascending">
+                                        No</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_ _0" rowspan="1"
+                                        colspan="1" style="width: 96px;"
+                                        aria-label="Name: activate to sort column ascending">
+                                        Foto User</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 98px;"
+                                        aria-label="Email: activate to sort column ascending">
+                                        Nama User</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 87px;"
+                                        aria-label="Date: activate to sort column ascending">
+                                        Bulan</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 87px;"
+                                        aria-label="Date: activate to sort column ascending">
+                                        Nominal</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 87px;"
+                                        aria-label="Date: activate to sort column ascending">
+                                        Deskripsi</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 87px;"
+                                        aria-label="Date: activate to sort column ascending">
+                                        Sisa Iuran</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 87px;"
+                                        aria-label="Date: activate to sort column ascending">
+                                        Tanggal Dan Waktu</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 123px;"
+                                        aria-label="Actions">Aksi</th>
                                 </tr>
-
-                                <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteModal{{ $payment->id }}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Hapus
-                                                    {{ $payment->lease->user->name }}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Apakah anda yakin ingin menghapus Pembayaran ini?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">batal</button>
-
-                                                <form action="{{ route('payments.destroy', $payment->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+                            </thead>
+                            <tbody>
+                                @forelse ($payments as $index => $payment)
+                                    <tr class="odd">
+                                        <th scope="row">{{ $index + 1 }}</th>
+                                        <td>
+                                            <img style="max-width: 100%"
+                                                src="{{ $payment->lease->user->photo ? asset('storage/' . $payment->lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                alt="">
+                                        </td>
+                                        <td>{{ $payment->lease->user->name }}</td>
+                                        <td> {{ $payment->month }}</td>
+                                        <td>Rp. {{ number_format($payment->nominal) }}</td>
+                                        <td>{{ $payment->description ? $payment->description : 'Deskripsi Kosong' }}</td>
+                                        <td>{{ $payment->lease->total_iuran == 0 ? 'Iuran Lunas' : 'Rp. ' . number_format($payment->lease->total_iuran) }}
+                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->format('l, d F Y H:i') }}
+                                        </td>
+                                        @hasrole('super_admin|admin')
+                                            <td>
+                                                <a type="button" class="" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $payment->id }}">
+                                                    <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
+                                                </a>
+                                            </td>
+                                        @endhasrole
+                                    </tr>
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="deleteModal{{ $payment->id }}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus
+                                                        {{ $payment->lease->user->name }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin ingin menghapus Pembayaran ini?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">batal</button>
+                                                    <form action="{{ route('payments.destroy', $payment->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- Delete Modal -->
-
-                </div>
-                @endforeach
-                </tbody>
-                </table>
-
-                <div class="d-flex justify-content-center">
-                    {{ $payments->links() }}
+                                    <!-- Delete Modal -->
+                                @empty
+                                    <tr>
+                                        <th scope="row" colspan="7" class="text-center">
+                                            {{ request('search') ? 'Pembayaran Tidak Ditemukan' : 'Belum Ada Pembayaran' }}
+                                        </th>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        {{ $payments->links() }}
+                    </div>
                 </div>
             </div>
         </div>
