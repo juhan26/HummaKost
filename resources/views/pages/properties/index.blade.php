@@ -62,7 +62,7 @@
                                     <a href="{{ route('properties.show', $property->id) }}"
                                         class="btn btn-outline-primary waves-effect">Lihat Detail</a>
                                     <div class="dropdown">
-                                        <button
+                                        <button 
                                             class="btn btn-text-secondary rounded-pill text-muted border-0 p-1 waves-effect waves-light"
                                             type="button" id="performanceOverviewDropdown" data-bs-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
