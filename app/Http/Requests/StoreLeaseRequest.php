@@ -26,7 +26,6 @@ class StoreLeaseRequest extends FormRequest
             'property_id' => 'required|exists:properties,id',
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after:start_date',
-            // 'status' => 'required|in:active,inactive,pending,expired',
             'description' => 'nullable|string|max:255',
         ];
     }

@@ -91,12 +91,12 @@
                 <div>Perabotan</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
+        {{-- <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
             <a href="{{ url('property_furnitures') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-sofa-line"></i>
                 <div>Kontrakan dan Perabotan</div>
             </a>
-        </li>
+        </li> --}}
         <li class="menu-header mt-5">
             <span class="menu-header-text">Kontrak</span>
         </li>

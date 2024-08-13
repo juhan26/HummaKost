@@ -9,6 +9,7 @@ use App\Models\Lease;
 use App\Models\Property;
 use App\Models\PropertyFurniture;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -185,7 +186,11 @@ class PropertyController extends Controller
      */
     public function destroy(Property $property)
     {
-        $property->delete();
-        return redirect()->route('properties.index')->with('success', 'Data Kontrakan berhasil di hapus');
+        try {
+            $property->delete();
+            return redirect()->route('properties.index')->with('success', 'Data Kontrakan berhasil di hapus');
+        } catch (QueryException $e) {
+            return redirect()->route('properties.index')->with('success', 'Tidak dapat menghapus data kontrakan, karena data ini sedang digunakan dalam kontrak');
+        }
     }
 }

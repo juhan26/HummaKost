@@ -88,8 +88,18 @@
                         <span class="flex justify-center items-center">
                         </span>
                         @if (Auth::user())
-                            <a href="{{ route('dashboard') }}"
-                                class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
+                            @if (Auth::user()->hasRole('member'))
+                                <a href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                    class="hidden xl:inline-block btn-primary"><span>Logout</span></a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            @else
+                                <a href="{{ route('dashboard') }}"
+                                    class="hidden xl:inline-block btn-primary"><span>Dasbor</span></a>
+                            @endif
                         @else
                             <a href="{{ route('register') }}"
                                 class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
