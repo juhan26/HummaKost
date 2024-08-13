@@ -51,26 +51,26 @@
         const dashboardChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: [' Jumlah Data'], // Label untuk sumbu X
+                labels: [' Jumlah Data'], 
                 datasets: [{
-                        label: 'Kontrakan', // Label untuk Properties
-                        data: [{{ $propertiesCount }}], // Data untuk Properties
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)', // Warna background untuk Properties
-                        borderColor: 'rgba(255, 99, 132, 1)', // Warna border untuk Properties
+                        label: 'Kontrakan', /
+                        data: [{{ $propertiesCount }}], 
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+                        borderColor: 'rgba(255, 99, 132, 1)', 
                         borderWidth: 1
                     },
                     {
-                        label: 'Pengguna', // Label untuk Users
-                        data: [{{ $usersCount }}], // Data untuk Users
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Warna background untuk Users
-                        borderColor: 'rgba(54, 162, 235, 1)', // Warna border untuk Users
+                        label: 'Pengguna', 
+                        data: [{{ $usersCount }}],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)', 
+                        borderColor: 'rgba(54, 162, 235, 1)', 
                         borderWidth: 1
                     },
                     {
-                        label: 'Kontrak', // Label untuk Leases
-                        data: [{{ $leasesCount }}], // Data untuk Leases
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Warna background untuk Leases
-                        borderColor: 'rgba(75, 192, 192, 1)', // Warna border untuk Leases
+                        label: 'Kontrak', 
+                        data: [{{ $leasesCount }}], 
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+                        borderColor: 'rgba(75, 192, 192, 1)', 
                         borderWidth: 1
                     }
                 ]
