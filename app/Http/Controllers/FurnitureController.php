@@ -17,9 +17,9 @@ class FurnitureController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $furnitures = Furniture::where('name', 'LIKE', "%" . $request->search . "%")->paginate(5);
+            $furnitures = Furniture::where('name', 'LIKE', "%" . $request->search . "%")->paginate(1);
         } else {
-            $furnitures = Furniture::latest()->paginate(5);
+            $furnitures = Furniture::latest()->paginate(1);
         }
         return view('pages.furnitures.index', compact('furnitures'));
     }

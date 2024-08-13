@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             FurnitureSeeder::class,
             PropertiesSeeder::class,
             FeedbackSeeder::class,
-           ]);
+        ]);
     }
 }

@@ -16,25 +16,54 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->search) {
-            $users = User::where('name', 'LIKE', "%$request->input('search')%")
-                ->orWhere('email', 'LIKE', "%{$request->input('search')}%")
-                ->paginate(10);
-        } else {
-            if (Auth::user()->hasRole('super_admin')) {
-                $users = User::where('id', '!=', Auth::user()->id)->latest()->paginate(10);
-            } else if (Auth::user()->hasRole('admin')) {
-                $users = User::whereHas('roles', function ($query) {
-                    $query->where('name', 'member');
-                })->orWhereHas('roles', function ($query) {
-                    $query->where('name', 'admin');
-                })->latest()->paginate(10);
-            } else if (Auth::User()->hasRole('member')) {
-                $users = User::role('member')->latest()->paginate(10);
-            }
+        $query = User::query();
+        $cari = 0;
+
+        // Apply filter if specified
+        if ($request->has('filter')) {
+            $filter = $request->input('filter');
+            $query->whereHas('roles', function ($query) use ($filter) {
+                $query->where('name', $filter);
+            });
+        } elseif ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%");
+            })->whereHas('roles', function ($query) {
+                $query->where('name', 'member')
+                    ->orWhere('name', 'admin');
+            });
+            $cari = 1;
         }
-        return view('pages.users.index', compact('users'));
+        // Apply role-based filtering
+        else {
+            if (!Auth::user()->hasRole('member')) {
+                $query->whereHas('roles', function ($query) {
+                    $query->where('name', 'member');
+                })->where('id', '!=', Auth::user()->id);
+            }
+            //  elseif (Auth::user()->hasRole('member')) {
+            //     $query->role('member');
+            // }
+        }
+
+        // Get paginated users
+        $users = $query->orderByRaw("
+        CASE
+            WHEN status = 'pending' THEN 1
+            WHEN status = 'rejected' THEN 2
+            WHEN status = 'accepted' THEN 3
+            ELSE 4
+        END
+    ")
+            ->latest()
+            ->paginate(10);
+
+        // Return view with users data
+        return view('pages.users.index', compact('users', 'cari'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -43,21 +72,48 @@ class UserController extends Controller
     {
         //
     }
+    public function accept(User $user)
+    {
+        $user->update(['status' => 'accepted']);
+        $user->save();
+        return redirect()->route('user.index')->with('success', 'Penyewa telah di konfirmasi');
+    }
+    public function reject(User $user)
+    {
+        $user->status = 'rejected';
+        $user->save();
+        return redirect()->route('user.index')->with('success', 'Penyewa telah berhasil ditolak');
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
     {
-        $imagePath = $request->photo->store('photos', 'public');
+        // dd($request->photo);
+        if ($request->photo) {
 
-        User::create([
-            'photo' => $imagePath,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'password' =>  bcrypt($request->password), // Hash the password before storing it
-        ])->assignRole('member');
+            $imagePath = $request->photo->store('photos', 'public');
+            User::create([
+                'photo' => $imagePath,
+                'gender' => $request->gender,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'division' => $request->division,
+                'status' => 'accepted',
+                'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
+            ])->assignRole('member');
+        } else
+            User::create([
+                'gender' => $request->gender,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'division' => $request->division,
+                'status' => 'accepted',
+                'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
+            ])->assignRole('member');
         return redirect()->route('user.index')->with('success', 'Pengguna berhasil di tambahkan');
     }
 

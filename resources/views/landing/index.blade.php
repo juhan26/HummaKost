@@ -87,19 +87,13 @@
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
                         <span class="flex justify-center items-center">
                         </span>
-                        @if (Auth::user())
-                            @if (Auth::user()->hasRole('member'))
-                                <a href="#"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                    class="hidden xl:inline-block btn-primary"><span>Logout</span></a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
-                            @else
-                                <a href="{{ route('dashboard') }}"
-                                    class="hidden xl:inline-block btn-primary"><span>Dasbor</span></a>
-                            @endif
+                        @php
+                            $user = Auth::user();
+                            $hasNonMemberRole = $user && $user->roles()->where('name', '!=', 'member')->exists();
+                        @endphp
+                        @if ($hasNonMemberRole)
+                            <a href="{{ route('dashboard') }}"
+                                class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
                         @else
                             <a href="{{ route('register') }}"
                                 class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
@@ -344,7 +338,7 @@
                                                 <div class="overflow-hidden rounded-lg inline-block relative">
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="inline-block">
-                                                        @if ($property->image) 
+                                                        @if ($property->image)
                                                             <img src="{{ asset('storage/' . $property->image) }}"
                                                                 alt="" class="w-full h-48 object-cover">
                                                         @else
@@ -392,6 +386,7 @@
                             @endforeach
                         </div>
 
+
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination"></div>
@@ -399,6 +394,7 @@
                 </div>
             </div>
         </div>
+    </section>
     </section>
 
     {{-- <section class="section-padding course-section bg-primary-50/70">
@@ -1078,6 +1074,7 @@
                     </div>
                 </div>
             </form>
+
 
 
             <div class="flex items-center mb-4">
