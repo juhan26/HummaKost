@@ -127,23 +127,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-6 col-lg-6">
-                            @forelse ($property->leases as $lease)
-                                <div style="height: 100%; border-radius: 10px"
-                                    class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                    <div class="overflow-hidden rounded-lg">
-                                        <div class="col-6 col-lg-6 d-flex align-items-center"
-                                            style="flex-direction: column">
-                                            <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                alt="{{ $lease->user->name }}" class="rounded-lg">
-                                            <p>{{ $lease->user->name }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @empty
-                            @endforelse
-                        </div>
-                        <div class="col-6 col-lg-6">
+                        <div class="col-12 col-lg-12">
                             <div class="map-container">
                                 <div style="width: 100%;height: 83vh;border-radius: 10px" id="map"></div>
                             </div>
@@ -158,9 +142,6 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-
-=======
     <!-- Add Property Leader Modal -->
     <div class="modal fade" id="addPropertyLeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
