@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +14,8 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login')->name('login');
 });
+Route::post('/login', [LoginController::class, 'login']);
+
 Route::get('/register', function () {
     return view('auth.register')->name('register');
 });

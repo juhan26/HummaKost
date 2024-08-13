@@ -1,54 +1,25 @@
-<meta charset="utf-8" />
-<meta name="viewport"
-    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-<title>Dashboard - Analytics | Materialize - Material Design HTML Admin Template</title>
-<meta name="description"
-    content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
-<meta name="keywords"
-    content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<!-- Canonical SEO -->
-<link rel="canonical" href="https://1.envato.market/materialize_admin">
-<script>
-    (function(w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-            'gtm.start': new Date().getTime(),
-            event: 'gtm.js'
-        });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            '../../../../www.googletagmanager.com/gtm5445.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-5J3LMKC');
+<script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../../assets/vendor/libs/popper/popper.js"></script>
+<script src="../../assets/vendor/js/bootstrap.js"></script>
+<script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>
+<script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="../../assets/vendor/libs/hammer/hammer.js"></script>
+<script src="../../assets/vendor/libs/i18n/i18n.js"></script>
+<script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+<script src="../../assets/vendor/js/menu.js"></script>
+
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+<script src="../../assets/vendor/libs/swiper/swiper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
 </script>
-<link rel="icon" type="image/x-icon"
-    href="https://demos.pixinvent.com/materialize-html-admin-template/assets/img/favicon/favicon.ico" />
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
-    rel="stylesheet">
-<link rel="stylesheet" href="../../assets/vendor/fonts/remixicon/remixicon.css" />
-<link rel="stylesheet" href="../../assets/vendor/fonts/flag-icons.css" />
-<link rel="stylesheet" href="../../assets/vendor/libs/node-waves/node-waves.css" />
-<link rel="stylesheet" href="../../assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
-<link rel="stylesheet" href="../../assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
-<link rel="stylesheet" href="../../assets/css/demo.css" />
-<link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
-<link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
-<link rel="stylesheet" href="../../assets/vendor/libs/swiper/swiper.css" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+</script>
 
-<link rel="stylesheet" href="../../assets/vendor/fonts/materialdesignicons.css" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icons.css') }}" />
-
-<!-- Page CSS -->
-<link rel="stylesheet" href="../../assets/vendor/css/pages/cards-statistics.css" />
-<link rel="stylesheet" href="../../assets/vendor/css/pages/cards-analytics.css" />
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 {{-- chart.js --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -62,4 +33,19 @@
 {{-- Jquery --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 {{-- SweetAlert --}}
+<script src="../../assets/vendor/libs/select2/select2.js"></script>
+<script src="../../assets/vendor/libs/tagify/tagify.js"></script>
+<script src="../../assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+<script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+<script src="../../assets/vendor/libs/bloodhound/bloodhound.js"></script>
+<script src="../../assets/js/forms-selects.js"></script>
+<script src="../../assets/js/forms-tagify.js"></script>
+<script src="../../assets/js/forms-typeahead.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../../assets/vendor/libs/dropzone/dropzone.js"></script>
+<script src="../../assets/js/forms-file-upload.js"></script>
+<script src="../../assets/js/main.js"></script>
+
+
+<!-- Page JS -->
+<script src="../../assets/js/dashboards-analytics.js"></script>

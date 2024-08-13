@@ -66,12 +66,12 @@
     <!-- Vendor -->
     <link rel="stylesheet" href="../../assets/vendor/libs/%40form-validation/form-validation.css" />
 
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
 
     <!-- Helpers -->
-    <script src="../../assets/vendor/js/helpers.js"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
     <script src="../../assets/vendor/js/template-customizer.js"></script>
@@ -80,6 +80,20 @@
 </head>
 
 <body>
+
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Perhatian",
+                    text: @json(session('error')),
+                    showConfirmButton:false,
+                    icon: 'info',
+                    footer: '<a href="/" class="btn btn-primary">Home</a>'
+                });
+            });
+        </script>
+    @endif
     <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5J3LMKC" height="0" width="0"
             style="display: none; visibility: hidden"></iframe></noscript>
@@ -113,12 +127,12 @@
                                     class="form-control @error('email') is-invalid @enderror" name="email"
                                     value="{{ old('email') }}" required autocomplete="email" autofocus>
 
+                                <label for="email">Email</label>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <label for="email">Email</label>
                             </div>
                             <div class="mb-5">
                                 <div class="form-password-toggle">
@@ -187,7 +201,10 @@
     <script src="../../assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
     <script src="../../assets/vendor/libs/%40form-validation/auto-focus.js"></script>
 
+
     <!-- Main JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../assets/js/main.js"></script>
 
     <!-- Page JS -->
@@ -200,7 +217,7 @@
 
 <!-- beautify ignore:end -->
 
-@section('content')
+{{-- @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -277,4 +294,4 @@
             </div>
         </div>
     </div>
-@endsection
+@endsection --}}

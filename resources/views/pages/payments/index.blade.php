@@ -59,39 +59,6 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        {{-- <div class="mb-3">
-                                            <label for="createMonth" class="form-label">Month:</label>
-                                            <select class="form-select" name="month" id="createMonth">
-                                                <option value="Januari" {{ old('month') == 'Januari' ? 'selected' : '' }}>
-                                                    Januari</option>
-                                                <option value="Februari" {{ old('month') == 'Februari' ? 'selected' : '' }}>
-                                                    Februari</option>
-                                                <option value="Maret" {{ old('month') == 'Maret' ? 'selected' : '' }}>Maret
-                                                </option>
-                                                <option value="April" {{ old('month') == 'April' ? 'selected' : '' }}>April
-                                                </option>
-                                                <option value="Mei" {{ old('month') == 'Mei' ? 'selected' : '' }}>Mei
-                                                </option>
-                                                <option value="Juni" {{ old('month') == 'Juni' ? 'selected' : '' }}>Juni
-                                                </option>
-                                                <option value="Juli" {{ old('month') == 'Juli' ? 'selected' : '' }}>Juli
-                                                </option>
-                                                <option value="Agustus" {{ old('month') == 'Agustus' ? 'selected' : '' }}>
-                                                    Agustus</option>
-                                                <option value="September"
-                                                    {{ old('month') == 'September' ? 'selected' : '' }}>September</option>
-                                                <option value="Oktober" {{ old('month') == 'Oktober' ? 'selected' : '' }}>
-                                                    Oktober</option>
-                                                <option value="November"
-                                                    {{ old('month') == 'November' ? 'selected' : '' }}>November</option>
-                                                <option value="Desember"
-                                                    {{ old('month') == 'Desember' ? 'selected' : '' }}>Desember</option>
-                                            </select>
-                                            @error('month')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div> --}}
-
                                         <div class="mb-3">
                                             <label for="createDescription" class="form-label">Description:</label>
                                             <textarea class="form-control" name="description" id="createDescription">{{ old('description') }}</textarea>
@@ -194,7 +161,6 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">batal</button>
-
                                                     <form action="{{ route('payments.destroy', $payment->id) }}"
                                                         method="POST">
                                                         @csrf
@@ -222,5 +188,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

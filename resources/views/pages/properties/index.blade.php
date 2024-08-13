@@ -45,10 +45,10 @@
                 </div>
                 <div class="row row-cols-1 row-cols-md-3 g-6 mb-3">
                     @forelse ($properties as $property)
-                        <div class="col-md-6 col-lg-4" style="">
-                            <div class="card h-100">
-                                <img style="height: 230px;object-fit: cover" class="card-img-top"
-                                    src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
+                        <div class="col-md-6 col-lg-4 mb-12" style="">
+                            <div class="card h-100 mt-8 ms-5">
+                                <img style="height: 250px;object-fit: cover" class="card-img-top mt-8"
+                                        src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
                                     alt="{{ $property->name }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $property->name }}</h5>
@@ -62,24 +62,20 @@
                                     <a href="{{ route('properties.show', $property->id) }}"
                                         class="btn btn-outline-primary waves-effect">Lihat Detail</a>
                                     <div class="dropdown">
-                                        <button
-                                            class="btn btn-text-secondary rounded-pill text-muted border-0 p-1 waves-effect waves-light"
-                                            type="button" id="performanceOverviewDropdown" data-bs-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1"
+                                            type="button" id="propertyActionsDropdown{{ $property->id }}"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="ri-more-2-line ri-20px"></i>
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-end"
-                                            aria-labelledby="performanceOverviewDropdown">
-
-                                            <a href="{{ route('properties.edit', $property->id) }}"
-                                                class="dropdown-item waves-effect">Edit</a>
-                                                
-                                            <button type="button" class="dropdown-item waves-effect" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $property->id }}">
-                                                Delete
-                                            </button>
-                                        </div>
+                                        <ul class="dropdown-menu dropdown-menu-end"
+                                            aria-labelledby="propertyActionsDropdown{{ $property->id }}">
+                                            <li><a href="{{ route('properties.edit', $property->id) }}"
+                                                    class="dropdown-item">Edit</a></li>
+                                            <li><button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $property->id }}">Delete</button></li>
+                                        </ul>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

@@ -18,7 +18,6 @@ $(function () {
             var a = n.querySelector("#multiStepsForm");
             const d = a.querySelector("#accountDetailsValidation");
             var s = a.querySelector("#personalInfoValidation"),
-                i = a.querySelector("#billingLinksValidation"),
                 o = [].slice.call(a.querySelectorAll(".btn-next")),
                 a = [].slice.call(a.querySelectorAll(".btn-prev")),
                 r = document.querySelector(".multi-steps-exp-date"),
