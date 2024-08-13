@@ -131,7 +131,7 @@
                                         <td> {{ $payment->month }}</td>
                                         <td>Rp. {{ number_format($payment->nominal) }}</td>
                                         <td>{{ $payment->description ? $payment->description : 'Deskripsi Kosong' }}</td>
-                                        <td>{{ $payment->lease->total_iuran == 0 ? 'Iuran Lunas' : 'Rp. ' . number_format($payment->lease->total_iuran) }}
+                                        <td>{{ $payment->lease->total_iuran == $payment->lease->total_nominal ? 'Lunas' : 'Rp. ' . number_format($payment->lease->total_iuran - $payment->lease->total_nominal) }}
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->format('l, d F Y H:i') }}
                                         </td>

@@ -48,11 +48,11 @@
                         <div class="col-md-6 col-lg-4 mb-12" style="">
                             <div class="card h-100 mt-8 ms-5">
                                 <img style="height: 250px;object-fit: cover" class="card-img-top mt-8"
-                                        src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
+                                    src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
                                     alt="{{ $property->name }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $property->name }}</h5>
-                                    <div style="min-height: 120px; overflow: auto">
+                                    <div style="min-height: 120px;max-height: 120px; overflow: auto">
                                         <p class="card-text">
                                             {{ $property->description ? $property->description : 'Deskripsi Kosong' }}
                                         </p>
