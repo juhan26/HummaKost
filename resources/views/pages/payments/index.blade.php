@@ -59,39 +59,6 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        {{-- <div class="mb-3">
-                                            <label for="createMonth" class="form-label">Month:</label>
-                                            <select class="form-select" name="month" id="createMonth">
-                                                <option value="Januari" {{ old('month') == 'Januari' ? 'selected' : '' }}>
-                                                    Januari</option>
-                                                <option value="Februari" {{ old('month') == 'Februari' ? 'selected' : '' }}>
-                                                    Februari</option>
-                                                <option value="Maret" {{ old('month') == 'Maret' ? 'selected' : '' }}>Maret
-                                                </option>
-                                                <option value="April" {{ old('month') == 'April' ? 'selected' : '' }}>April
-                                                </option>
-                                                <option value="Mei" {{ old('month') == 'Mei' ? 'selected' : '' }}>Mei
-                                                </option>
-                                                <option value="Juni" {{ old('month') == 'Juni' ? 'selected' : '' }}>Juni
-                                                </option>
-                                                <option value="Juli" {{ old('month') == 'Juli' ? 'selected' : '' }}>Juli
-                                                </option>
-                                                <option value="Agustus" {{ old('month') == 'Agustus' ? 'selected' : '' }}>
-                                                    Agustus</option>
-                                                <option value="September"
-                                                    {{ old('month') == 'September' ? 'selected' : '' }}>September</option>
-                                                <option value="Oktober" {{ old('month') == 'Oktober' ? 'selected' : '' }}>
-                                                    Oktober</option>
-                                                <option value="November"
-                                                    {{ old('month') == 'November' ? 'selected' : '' }}>November</option>
-                                                <option value="Desember"
-                                                    {{ old('month') == 'Desember' ? 'selected' : '' }}>Desember</option>
-                                            </select>
-                                            @error('month')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div> --}}
-
                                         <div class="mb-3">
                                             <label for="createDescription" class="form-label">Description:</label>
                                             <textarea class="form-control" name="description" id="createDescription">{{ old('description') }}</textarea>
@@ -110,36 +77,17 @@
                         </div>
                     </div>
                     {{-- Modal Store --}}
-                    <table class="datatables-basic table table-bordered dataTable no-footer dtr-column mt-3 mb-3"
-                        id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1043px;">
+
+                    <table class="table table-hover mt-3">
                         <thead>
                             <tr>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 96px;"
-                                    aria-label="Name: activate to sort column ascending">
-                                    No</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_ _0" rowspan="1"
-                                    colspan="1" style="width: 96px;"
-                                    aria-label="Name: activate to sort column ascending">
-                                    Foto User</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 98px;"
-                                    aria-label="Email: activate to sort column ascending">
-                                    Nama User</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 87px;"
-                                    aria-label="Date: activate to sort column ascending">
-                                    Bulan</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 87px;"
-                                    aria-label="Date: activate to sort column ascending">
-                                    Nominal</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 87px;"
-                                    aria-label="Date: activate to sort column ascending">
-                                    Deskripsi</th>
-                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 123px;"
-                                    aria-label="Actions">Aksi</th>
+                                <th>Foto</th>
+                                <th>Foto Penyewa</th>
+                                <th>Nama Penyewa</th>
+                                <th>Bulan</th>
+                                <th>Nominal</th>
+                                <th>Deskripsi</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -164,6 +112,7 @@
                                         </td>
                                     @endhasrole
                                 </tr>
+
                                 <!-- Delete Modal -->
                                 <div class="modal fade" id="deleteModal{{ $payment->id }}" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -193,20 +142,17 @@
                                     </div>
                                 </div>
                                 <!-- Delete Modal -->
-                            @empty
-                                <tr>
-                                    <th scope="row" colspan="7" class="text-center">
-                                        {{ request('search') ? 'Pembayaran Tidak Ditemukan' : 'Belum Ada Pembayaran' }}
-                                    </th>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-center">
-                        {{ $payments->links() }}
-                    </div>
+
+                </div>
+                @endforeach
+                </tbody>
+                </table>
+
+                <div class="d-flex justify-content-center">
+                    {{ $payments->links() }}
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
