@@ -50,6 +50,9 @@
 <link rel="stylesheet" href="../../assets/vendor/css/pages/cards-analytics.css" />
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+{{-- chart.js --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <!-- Helpers -->
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
