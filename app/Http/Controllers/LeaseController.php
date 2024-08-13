@@ -42,7 +42,7 @@ class LeaseController extends Controller
             ->orWhereDoesntHave('lease')
             ->where(function ($query) {
                 $query->whereHas('roles', function ($query) {
-                    $query->where('name', 'member');
+                    $query->where('name', 'tenant');
                 })->orWhereHas('roles', function ($query) {
                     $query->where('name', 'admin');
                 });
@@ -197,7 +197,7 @@ class LeaseController extends Controller
 
             if ($lease->user->hasRole('admin')) {
                 $lease->user->removeRole('admin');
-                $lease->user->assignRole('member');
+                $lease->user->assignRole('tenant');
             }
 
             $lease->delete();

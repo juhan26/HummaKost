@@ -20,24 +20,24 @@ class UserSeeder extends Seeder
             "phone_number" => "0897654321",
             "status" => "accepted",
             "password" => "12345678",
-            ])->assignRole('super_admin');
+        ])->assignRole('super_admin');
 
-            User::create([
-                "name" => "admin",
-                "gender" => "male",
-                "email" => "admin@gmail.com",
-                "phone_number" => "0896384719",
-                "status" => "accepted",
-                "password" => "12345678",
-                ])->assignRole('admin');
+        User::create([
+            "name" => "admin",
+            "gender" => "male",
+            "email" => "admin@gmail.com",
+            "phone_number" => "0896384719",
+            "status" => "accepted",
+            "password" => "12345678",
+        ])->assignRole('admin');
 
-                User::create([
-                    "name" => "member",
-                    "gender" => "male",
-            "email" => "member@gmail.com",
+        User::create([
+            "name" => "tenant",
+            "gender" => "male",
+            "email" => "tenant@gmail.com",
             "phone_number" => "0896381739",
             "status" => "accepted",
             "password" => "12345678",
-        ])->assignRole('member');
+        ])->assignRole('tenant');
     }
 }
