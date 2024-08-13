@@ -198,16 +198,16 @@
                                                         class="ri-global-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @elseif ($user->division === 'mobile')
-                                                <span class="fw-medium badge bg-label-primary"><i
-                                                        class="ri-global-line ri-22px me-1"></i>
+                                                <span class="fw-medium badge bg-label-danger"><i
+                                                        class="ri-smartphone-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @elseif ($user->division === 'uiux')
-                                                <span class="fw-medium badge bg-label-primary"><i
-                                                        class="ri-global-line ri-22px me-1"></i>
+                                                <span class="fw-medium badge bg-label-success"><i
+                                                        class="ri-macbook-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @elseif ($user->division === 'digmar')
-                                                <span class="fw-medium badge bg-label-primary"><i
-                                                        class="ri-global-line ri-22px me-1"></i>
+                                                <span class="fw-medium badge bg-label-warning"><i
+                                                        class="ri-store-3-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @else
                                                 <span class="fw-medium badge bg-label-secondary">
