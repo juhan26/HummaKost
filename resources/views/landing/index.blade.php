@@ -291,7 +291,7 @@
                             class="2xl:absolute 2xl:right-[-20%] 2xl:top-[-17%] 2xl:h-[444px] 2xl:w-[623px] w-full z-20 flex justify-center items-center pl-10">
                             <img src="/assets/img/images/banner_img.png" alt=""
                                 class="transform rotate-[-5deg] translate-x-[-50%] rounded-lg"
-                                style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4)); width: 43rem; "
+                                style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4)); width: 45rem; "
                                 data-aos="fade-in" data-aos-duration="1000" data-tilt>
                         </div>
                         {{-- <div class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4"
