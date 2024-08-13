@@ -79,7 +79,7 @@
         <li class="menu-header mt-5">
             <span class="menu-header-text">Kontrakan</span>
         </li>
-        <li class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }} || {{ request()->routeIs('properties.show') ? 'active' : '' }}">
             <a href="{{ url('/properties') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-2-line"></i>
                 <div>Kontrakan</div>

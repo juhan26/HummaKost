@@ -67,35 +67,41 @@
                                 </div>
                             @endif
                             @if (session('error'))
-                                <div id="toast-error" class="bs-toast toast toast-ex animate__animated my-2 fade show"
-                                    role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
-                                    <div class="toast-header">
-                                        <i class="ri-error-warning-fill me-2 text-danger"></i>
-                                        <div class="me-auto fw-medium">Error</div>
-                                        <button type="button" class="btn-close" data-bs-dismiss="toast"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="toast-body">
-                                        {{ session('error') }}
-                                    </div>
-                                </div>
+                                <script>
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: '{{ session('error') }}',
+                                        showConfirmButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        timer: 3000,
+                                        timerProgressBar: true
+                                    });
+                                </script>
                             @endif
+
                             @if ($errors->any())
-                                @foreach ($errors->all() as $error)
-                                    <div class="bs-toast toast toast-ex animate__animated my-2 fade show" role="alert"
-                                        aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
-                                        <div class="toast-header">
-                                            <i class="ri-error-warning-fill me-2 text-danger"></i>
-                                            <div class="me-auto fw-medium">Error</div>
-                                            <button type="button" class="btn-close" data-bs-dismiss="toast"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="toast-body">
-                                            {{ $error }}
-                                        </div>
-                                    </div>
-                                @endforeach
+                                <script>
+                                    let errorMessages = '';
+                                    @foreach ($errors->all() as $error)
+                                        errorMessages += '{{ $error }}<br>';
+                                    @endforeach
+
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        html: errorMessages,
+                                        confirmButtonColor: '#3085d6',
+                                        showConfirmButton: true,
+                                        timer: 3000, 
+                                        timerProgressBar: true
+                                    });
+                                </script>
                             @endif
+
+
+
+
 
                             @yield('content')
                         </div>

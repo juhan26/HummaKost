@@ -17,23 +17,29 @@ class LeaseController extends Controller
      */
     public function index(Request $request)
     {
-        // Get the selected property filter if available
         $propertyFilter = $request->input('property_filter');
+        $propertySearch = $request->input('search');
 
-        // Fetch leases, optionally filtered by the selected property
-        $leases = Lease::when($propertyFilter, function ($query, $propertyFilter) {
-            return $query->where('property_id', $propertyFilter);
-        })
-            ->latest()
-            ->paginate(6);
+        $leasesQuery = Lease::query();
 
-        // Fetch users associated with the selected property
+        if ($propertyFilter && $propertyFilter != "all") {
+            $leasesQuery->where('property_id', $propertyFilter);
+        }
+
+        if ($propertySearch) {
+            $leasesQuery->whereHas('user', function ($query) use ($propertySearch) {
+                $query->where('name', 'LIKE', "%" . $propertySearch . "%");
+            });
+        }
+
+        $leases = $leasesQuery->latest()->paginate(6);
+
         $users = User::when($propertyFilter, function ($query, $propertyFilter) {
             return $query->whereHas('lease', function ($query) use ($propertyFilter) {
                 $query->where('property_id', $propertyFilter);
             });
         })
-            ->orWhereDoesntHave('lease') // Include users without any leases
+            ->orWhereDoesntHave('lease')
             ->where(function ($query) {
                 $query->whereHas('roles', function ($query) {
                     $query->where('name', 'member');
@@ -44,7 +50,6 @@ class LeaseController extends Controller
             ->latest()
             ->get();
 
-        // Fetch all properties for the dropdown
         $properties = Property::all();
 
         return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
@@ -192,7 +197,7 @@ class LeaseController extends Controller
                 $lease->user->removeRole('admin');
                 $lease->user->assignRole('member');
             }
-            
+
             $lease->delete();
             return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di hapus');
         } catch (\Exception $e) {
