@@ -87,7 +87,11 @@
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
                         <span class="flex justify-center items-center">
                         </span>
-                        @if (Auth::user())
+                        @php
+                            $user = Auth::user();
+                            $hasNonMemberRole = $user && $user->roles()->where('name', '!=', 'member')->exists();
+                        @endphp
+                        @if ($hasNonMemberRole)
                             <a href="{{ route('dashboard') }}"
                                 class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
                         @else
@@ -291,7 +295,7 @@
                         </span>
                         <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
                     </div>
-                    
+
 
 
                         <span
@@ -381,7 +385,7 @@
                                 </div>
                             @endforeach
                         </div>
-    
+
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination"></div>
@@ -389,7 +393,7 @@
                 </div>
             </div>
         </div>
-    </section>    
+    </section>
 
     {{-- <section class="section-padding course-section bg-primary-50/70">
         <div class="container px-4 sm:px-6 xl:px-0">
@@ -1067,7 +1071,7 @@
                     </div>
                 </div>
             </form>
-            
+
 
             <div class="flex items-center mb-4">
                 <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years,

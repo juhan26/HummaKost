@@ -16,25 +16,46 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->search) {
-            $users = User::where('name', 'LIKE', "%$request->input('search')%")
-                ->orWhere('email', 'LIKE', "%{$request->input('search')}%")
-                ->paginate(10);
-        } else {    
-            if (Auth::user()->hasRole('super_admin')) {
-                $users = User::where('id', '!=', Auth::user()->id)->latest()->paginate(10);
-            } else if (Auth::user()->hasRole('admin')) {
-                $users = User::whereHas('roles', function ($query) {
-                    $query->where('name', 'member');
-                })->orWhereHas('roles', function ($query) {
-                    $query->where('name', 'admin');
-                })->latest()->paginate(10);
-            } else if (Auth::User()->hasRole('member')) {
-                $users = User::role('member')->latest()->paginate(10);
-            }
+        $query = User::query();
+        $cari = 0;
+
+        // Apply filter if specified
+        if ($request->has('filter')) {
+            $filter = $request->input('filter');
+            $query->whereHas('roles', function ($query) use ($filter) {
+                $query->where('name', $filter);
+            });
         }
-        return view('pages.users.index', compact('users'));
+        elseif ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%");
+            })->whereHas('roles', function ($query) {
+                $query->where('name', 'member')
+                ->orWhere('name', 'admin');
+            });
+            $cari = 1;
+        }
+        // Apply role-based filtering
+        else {
+            if (!Auth::user()->hasRole('member')) {
+                $query->whereHas('roles', function ($query) {
+                    $query->where('name', 'member');
+                })->where('id','!=',Auth::user()->id);
+            }
+            //  elseif (Auth::user()->hasRole('member')) {
+            //     $query->role('member');
+            // }
+        }
+
+        // Get paginated users
+        $users = $query->latest()->paginate(3);
+
+        // Return view with users data
+        return view('pages.users.index', compact('users','cari'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -42,6 +63,14 @@ class UserController extends Controller
     public function create()
     {
         //
+    }
+    public function accept(User $user)
+    {
+        //$income->status = 'Diterima';
+
+        $user->update(['status'=>'accepted']);
+        $user->save();
+        return redirect()->route('user.index')->with('success', 'Penyewa telah di konfirmasi');
     }
 
     /**

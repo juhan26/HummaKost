@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -40,6 +43,15 @@ class RegisterController extends Controller
     //     $this->middleware('auth');
     // }
 
+    protected function registered(Request $request, $user)
+    {
+        Auth::logout();
+        Session::flash('success', 'Terima kasih telah mendaftarkan akun anda, Silahkan tunggu konfirmasi dari admin');
+
+        // Redirect to the intended path or a specific path
+        return redirect()->intended($this->redirectPath());
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -51,7 +63,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone_number' => ['required','numeric','min_digits:4','max_digits:20'],
+            'phone_number' => ['required', 'numeric', 'min_digits:4', 'max_digits:20'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -64,15 +76,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
+            'gender' => $data['gender'],
             'phone_number' => $data['phone_number'],
             'email' => $data['email'],
             'division' => $data['division'],
             'password' => Hash::make($data['password']),
-        ])->assignRole('member');
+        ]);
 
-        // return redirect()->route('register')->with('success','Selamat! Anda telah berhasil mendaftarkan akun anda, silahkan tunggu konfirmasi dari admin');
-        return redirect()->back()->with('success', 'Selamat! Anda telah berhasil mendaftarkan akun anda, silahkan tunggu konfirmasi dari admin');
+        $user->assignRole('member');
+
+        // Set a flash message in the session
+        Session::flash('success', 'Registration successful!');
+
+        return $user;
     }
 }
