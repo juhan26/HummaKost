@@ -1,153 +1,158 @@
 @extends('app')
 
 @section('content')
-<div class="col-12">
-    <div class="card">
-        <div class="card-content">
-            <div class="card-header">
-                <div class="row d-flex align-items-center">
-                    <div class="col-12 col-lg-10">
-                        <h3 class="card-title">Manajemen Kontrak</h3>
-                        <small>Manajemen dan review tujuan kontrak.</small>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-12 col-lg-10">
+                            <h3 class="card-title">Manajemen Kontrak</h3>
+                            <small>Manajemen dan review tujuan kontrak.</small>
+                        </div>
+                        <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
+                            @hasrole('super_admin')
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Tambah Kontrak
+                                </button>
+                            @endhasrole
+                        </div>
                     </div>
-                    <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
-                        @hasrole('super_admin')
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#createModal">
-                                Tambah Kontrak
-                            </button>
-                        @endhasrole
-                    </div>
-                </div>
-                <div class="row d-flex align-items-center mt-4">
-                    <div class="col-12 col-lg-8">
-                        <form action="" method="GET" class="d-flex w-100">
-                            @csrf
-                            <div class="d-flex align-items-center border rounded w-100 px-3">
-                                <input type="text" name="search" id="searchInput" class="form-control border-none"
-                                    value="{{ request()->input('search') }}" placeholder="Search...">
-                                <a href="{{ route('leases.index') }}" style="display: none" id="clearSearch"
-                                    class="btn-close"></a>
-                            </div>
-                            <script>
-                                const key = document.getElementById('searchInput');
-                                const close = document.getElementById('clearSearch');
+                    <div class="row d-flex align-items-center mt-4">
+                        <div class="col-12 col-lg-8">
+                            <form action="" method="GET" class="d-flex w-100">
+                                @csrf
+                                <div class="d-flex align-items-center border rounded w-100 px-3">
+                                    <form action="{{ route('leases.index') }}" method="GET">
+                                        @csrf
+                                        <input type="text" name="search" id="searchInput"
+                                            class="form-control border-none" value="{{ request()->input('search') }}"
+                                            placeholder="Search...">
+                                    </form>
+                                    <a href="{{ route('leases.index') }}" style="display: none" id="clearSearch"
+                                        class="btn-close"></a>
+                                </div>
+                                <script>
+                                    const key = document.getElementById('searchInput');
+                                    const close = document.getElementById('clearSearch');
 
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    if (key.value.trim() !== '') {
-                                        close.style.display = 'block';
-                                    } else {
-                                        close.style.display = 'none';
-                                    }
-                                });
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
 
-                                key.addEventListener('input', function() {
-                                    if (key.value.trim() !== '') {
-                                        close.style.display = 'block';
-                                    } else {
-                                        close.style.display = 'none';
-                                    }
-                                });
-                            </script>
-                        </form>
-                    </div>
-                    <div class="col-12 col-lg-4 mt-4 mt-lg-0">
-                        <form action="{{ route('leases.index') }}" method="GET" class="d-flex w-100">
-                            <select class="form-select" name="property_filter" onchange="this.form.submit()">
-                                @foreach ($properties as $property)
-                                    <option value="{{ $property->id }}"
-                                        {{ request()->input('property_filter') == $property->id ? 'selected' : '' }}>
-                                        {{ $property->name }}</option>
-                                @endforeach
-                            </select>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                {{-- Data Table --}}
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Foto</th>
-                            <th>Nama Penyewa</th>
-                            <th>Roles</th>
-                            <th>Kontrakan</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
-                            <th>Total Iuran</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($leases as $lease)
-                            <tr>
-                                <td>
-                                    <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                        alt="{{ $lease->user->name }}" class="img-fluid">
-                                </td>
-                                <td>{{ $lease->user->name }}</td>
-                                <td>
-                                    @foreach ($lease->user->getRoleNames() as $role)
-                                        @if ($role == 'admin')
-                                            <span class="badge bg-warning">{{ $role }}</span>
-                                        @elseif ($role == 'super_admin')
-                                            <span class="badge bg-danger">{{ $role }}</span>
-                                        @else
-                                            <span class="badge bg-success">{{ $role }}</span>
-                                        @endif
+                                    key.addEventListener('input', function() {
+                                        if (key.value.trim() !== '') {
+                                            close.style.display = 'block';
+                                        } else {
+                                            close.style.display = 'none';
+                                        }
+                                    });
+                                </script>
+                            </form>
+                        </div>
+                        <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+                            <form action="{{ route('leases.index') }}" method="GET" class="d-flex w-100">
+                                <select class="form-select" name="property_filter" onchange="this.form.submit()">
+                                    <option value="all" selected>Semua</option>
+                                    @foreach ($properties as $property)
+                                        <option value="{{ $property->id }}"
+                                            {{ request()->input('property_filter') == $property->id ? 'selected' : '' }}>
+                                            {{ $property->name }}</option>
                                     @endforeach
-                                </td>
-                                <td>{{ $lease->properties->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($lease->start_date)->format('M, Y') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($lease->end_date)->format('M, Y') }}</td>
-                                <td>Rp.{{ number_format($lease->total_iuran) }}</td>
-                                <td>
-                                    <span
-                                        class="badge fs-6 {{ $lease->status === 'active' ? 'bg-label-success' : 'bg-label-danger' }}">
-                                        {{ $lease->status }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a type="button" class="" data-bs-toggle="modal"
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{-- Data Table --}}
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nama Penyewa</th>
+                                <th>Roles</th>
+                                <th>Kontrakan</th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Selesai</th>
+                                <th>Total Iuran</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($leases as $lease)
+                                <tr>
+                                    <td>
+                                        <img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                            alt="{{ $lease->user->name }}" class="img-fluid">
+                                    </td>
+                                    <td>{{ $lease->user->name }}</td>
+                                    <td>
+                                        @foreach ($lease->user->getRoleNames() as $role)
+                                            @if ($role == 'admin')
+                                                <span class="badge bg-warning">{{ $role }}</span>
+                                            @elseif ($role == 'super_admin')
+                                                <span class="badge bg-danger">{{ $role }}</span>
+                                            @else
+                                                <span class="badge bg-success">{{ $role }}</span>
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $lease->properties->name }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($lease->start_date)->translatedFormat('j F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($lease->end_date)->translatedFormat('j F Y') }}</td>
+                                    <td>Rp.{{ number_format($lease->total_iuran) }}</td>
+                                    <td>
+                                        <span
+                                            class="badge fs-6 {{ $lease->status === 'active' ? 'bg-label-success' : 'bg-label-danger' }}">
+                                            {{ $lease->status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a type="button" class="" data-bs-toggle="modal"
                                             data-bs-target="#editModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
-                                            style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
+                                                style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
 
                                         <a type="button" class="" data-bs-toggle="modal"
                                             data-bs-target="#deleteModal{{ $lease->id }}">
                                             <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
                                         </a>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
 
-                            {{-- Delete Modal --}}
-                            <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
-                                aria-labelledby="deleteModalLabel{{ $lease->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}"> Hapus
-                                                Data Kontrak
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Apakah anda yakin ingin menghapus data kontrak ini?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Kembali</button>
-                                            <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </form>
+                                {{-- Delete Modal --}}
+                                <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
+                                    aria-labelledby="deleteModalLabel{{ $lease->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $lease->id }}"> Hapus
+                                                    Data Kontrak
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah anda yakin ingin menghapus data kontrak ini?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Kembali</button>
+                                                <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                                 {{-- Edit Modal --}}
                                 <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
                                     aria-labelledby="editModalLabel{{ $lease->id }}" aria-hidden="true">
@@ -203,9 +208,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </tbody>
+                </div>
+                @endforeach
+                </tbody>
                 </table>
 
                 {{-- Pagination --}}
@@ -215,7 +220,7 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
 
     {{-- Create Lease Modal --}}
