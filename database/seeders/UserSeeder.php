@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
         ])->assignRole('super_admin');
 
         User::create([
+
             "name" => "admin",
             "gender" => "male",
             "email" => "admin@gmail.com",
@@ -32,10 +33,10 @@ class UserSeeder extends Seeder
         ])->assignRole('admin');
 
         User::create([
-            "name" => "tenant",
+            "name" => "member3",
             "gender" => "male",
-            "email" => "tenant@gmail.com",
-            "phone_number" => "0896381739",
+            "email" => "member3@gmail.com",
+            "phone_number" => "089630382184719",
             "status" => "accepted",
             "password" => "12345678",
         ])->assignRole('tenant');

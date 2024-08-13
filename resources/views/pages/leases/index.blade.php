@@ -82,6 +82,7 @@
                                 <th>Tanggal Selesai</th>
                                 <th>Total Iuran</th>
                                 <th>Status</th>
+                                <th>Total Yang Dibayar</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -107,12 +108,15 @@
                                     <td>{{ $lease->properties->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($lease->start_date)->translatedFormat('j F Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($lease->end_date)->translatedFormat('j F Y') }}</td>
-                                    <td>Rp.{{ number_format($lease->total_iuran) }}</td>
+                                    <td>{{ $lease->total_iuran == $lease->total_nominal ? 'Lunas' : "Rp. " . number_format($lease->total_iuran) }}
+                                    </td>
                                     <td>
                                         <span
                                             class="badge fs-6 {{ $lease->status === 'active' ? 'bg-label-success' : 'bg-label-danger' }}">
                                             {{ $lease->status }}
                                         </span>
+                                    </td>
+                                    <td>Rp. {{ number_format($lease->total_nominal) }}
                                     </td>
                                     <td>
                                         <a type="button" class="" data-bs-toggle="modal"
@@ -208,10 +212,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                </div>
+                @endforeach
+                </tbody>
+                </table>
 
                 {{-- Pagination --}}
                 <div class="d-flex justify-content-center">
