@@ -81,20 +81,24 @@
                             @endif
 
                             @if ($errors->any())
-                                @foreach ($errors->all() as $error)
-                                    <script>
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Error',
-                                            text: '{{ $error }}',
-                                            confirmButtonColor: '#3085d6',
-                                            showConfirmButton: true,
-                                            timer: 3000,
-                                            timerProgressBar: true
-                                        });
-                                    </script>
-                                @endforeach
+                                <script>
+                                    let errorMessages = '';
+                                    @foreach ($errors->all() as $error)
+                                        errorMessages += '{{ $error }}<br>';
+                                    @endforeach
+
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        html: errorMessages,
+                                        confirmButtonColor: '#3085d6',
+                                        showConfirmButton: true,
+                                        timer: 3000, 
+                                        timerProgressBar: true
+                                    });
+                                </script>
                             @endif
+
 
 
 
