@@ -126,7 +126,7 @@ class LeaseController extends Controller
             ]);
 
 
-            return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di tambahkan.');
+            return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
         } else {
             return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
         }
