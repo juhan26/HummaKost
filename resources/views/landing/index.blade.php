@@ -94,6 +94,15 @@
                         @if ($hasNonMemberRole)
                             <a href="{{ route('dashboard') }}"
                                 class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
+                        @elseif($user && $user->roles->contains('name', 'member') && $user->status === 'accepted')
+                            <a class="btn btn-primary" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="mdi mdi-logout me-2"></i>
+                                <span class="align-middle">{{ __('Logout') }}</span>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         @else
                             <a href="{{ route('register') }}"
                                 class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
@@ -288,13 +297,15 @@
                                 style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));"
                                 data-aos="fade-in" data-aos-duration="1000" data-tilt>
                         </div>
-                        <div
-                        class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4" data-tilt>
-                        <span class="w-16 h-16 md:w-18 md:h-18 xl:w-20 xl:h-20 flex justify-center items-center overflow-hidden">
-                            <img src="/assets/img/images/kepala.png" alt="Bapak Kos" class="w-full h-full object-contain" >
-                        </span>
-                        <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
-                    </div>
+                        <div class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4"
+                            data-tilt>
+                            <span
+                                class="w-16 h-16 md:w-18 md:h-18 xl:w-20 xl:h-20 flex justify-center items-center overflow-hidden">
+                                <img src="/assets/img/images/kepala.png" alt="Bapak Kos"
+                                    class="w-full h-full object-contain">
+                            </span>
+                            <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
+                        </div>
 
 
 
