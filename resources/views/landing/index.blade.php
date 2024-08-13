@@ -8,12 +8,12 @@
     <meta name="description" content="Kontrakan Las Vegas" />
 
     <title>HummaKost</title>
+    <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
-    <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->
     <!-- <link rel="shortcut icon" type="image/jpg" href="./img/favicon-16x16.png" /> -->
     <!-- favicon -->
@@ -284,14 +284,16 @@
                                 style="margin-top: 7rem; object-fit: cover; filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));"
                                 data-aos="fade-in" data-aos-duration="1000" data-tilt>
                         </div>
-                        <div
-                        class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4" data-tilt>
-                        <span class="w-16 h-16 md:w-18 md:h-18 xl:w-20 xl:h-20 flex justify-center items-center overflow-hidden">
-                            <img src="/assets/img/images/kepala.png" alt="Bapak Kos" class="w-full h-full object-contain" >
-                        </span>
-                        <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
-                    </div>
-                    
+                        <div class="bg-white xl:px-5 md:px-4 px-2 xl:py-[18px] md:py-2 py-1.5 rounded-lg shadow-2xl flex items-center md:gap-3 gap-2 xl:max-w-[220px] md:max-w-[160px] max-w-[140px] absolute z-50 xl:right-[-90px] right-[10px] xl:top-[73%] top-3/4"
+                            data-tilt>
+                            <span
+                                class="w-16 h-16 md:w-18 md:h-18 xl:w-20 xl:h-20 flex justify-center items-center overflow-hidden">
+                                <img src="/assets/img/images/kepala.png" alt="Bapak Kos"
+                                    class="w-full h-full object-contain">
+                            </span>
+                            <span class="text-lg md:text-xl xl:text-2xl text-gray-600">Bapak Kos</span>
+                        </div>
+
 
 
                         <span
@@ -319,26 +321,28 @@
                 <div class="xl:w-1/4">
                     <h2
                         class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
-                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in" data-aos-duration="1000">Properties</span >
+                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in"
+                            data-aos-duration="1000">Properties</span>
                     </h2>
                 </div>
-                <div class="2xl:w-3/4" >
+                <div class="2xl:w-3/4">
                     <div class="swiper courseSwipper relative">
                         <div class="swiper-wrapper py-4 2xl:pr-[29.3%]">
                             @foreach ($properties->unique('id') as $property)
                                 <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
-                                    <div class="course-card max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-                                        <div class="bg-gray-white rounded-xl">
-                                            <div class="course-content px-4 py-4">
+                                    <div
+                                        class="course-card max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg min-h-[400px] flex flex-col">
+                                        <div class="bg-gray-white rounded-xl flex flex-col h-full">
+                                            <div class="course-content flex-grow px-4 py-4">
                                                 <div class="overflow-hidden rounded-lg inline-block relative">
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="inline-block">
-                                                        @if ($property->image)
+                                                        @if ($property->image) 
                                                             <img src="{{ asset('storage/' . $property->image) }}"
-                                                                alt="" class="w-full h-full relative">
+                                                                alt="" class="w-full h-48 object-cover">
                                                         @else
                                                             <img src="{{ asset('assets/img/image_not_available.png') }}"
-                                                                alt="" class="w-full h-full relative">
+                                                                alt="" class="w-full h-48 object-cover">
                                                         @endif
                                                     </a>
                                                     <p
@@ -351,10 +355,9 @@
                                                     <a
                                                         href="{{ route('home.show', $property->id) }}">{{ $property->name }}</a>
                                                 </h4>
-                                                <div class="flex gap-3 mt-4">
-                                                    <ul class="flex gap-2 items-center">
-                                                        <p style="color: gray;">{{ $property->description }}</p>
-                                                    </ul>
+                                                <div class="flex gap-3 mt-4 overflow-auto" style="max-height: 20px">
+                                                    <p class="text-gray-600 text-ellipsis">
+                                                        {{ $property->description }}</p>
                                                 </div>
                                             </div>
                                             <div class="border-b border-gray-50 h-1 w-full"></div>
@@ -381,7 +384,7 @@
                                 </div>
                             @endforeach
                         </div>
-    
+
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination"></div>
@@ -389,7 +392,7 @@
                 </div>
             </div>
         </div>
-    </section>    
+    </section>
 
     {{-- <section class="section-padding course-section bg-primary-50/70">
         <div class="container px-4 sm:px-6 xl:px-0">
@@ -1046,7 +1049,8 @@
                         class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                         <span class="text-primary-500 after-svg instructor">Member</span>
                     </h2>
-                    <div class="ml-6 w-40 md:w-52 lg:w-64 relative"> <!-- Menyesuaikan lebar untuk berbagai ukuran layar -->
+                    <div class="ml-6 w-40 md:w-52 lg:w-64 relative">
+                        <!-- Menyesuaikan lebar untuk berbagai ukuran layar -->
                         <label for="property" class="sr-only">Select Property:</label>
                         <select id="property" name="property_id"
                             class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-base font-semibold font-display border border-primary-500 rounded-md py-2 px-3 md:px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -1067,7 +1071,7 @@
                     </div>
                 </div>
             </form>
-            
+
 
             <div class="flex items-center mb-4">
                 <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years,
