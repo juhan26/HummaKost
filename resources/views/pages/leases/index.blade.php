@@ -208,10 +208,10 @@
                                         </div>
                                     </div>
                                 </div>
-                </div>
-                @endforeach
-                </tbody>
-                </table>
+                            </div>
+                            @endforeach
+                        </tbody>
+                    </table>
 
                 {{-- Pagination --}}
                 <div class="d-flex justify-content-center">

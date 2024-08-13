@@ -64,28 +64,14 @@
                                     value="{{ request('search') }}">
                             </form></label></div>
                 </div> --}}
-                    <table class="datatables-basic table table-bordered dataTable no-footer dtr-column mb-3"
-                        id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1043px;">
+                    <table class="table table-hover mt-3 mb-3">
                         <thead>
                             <tr>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 96px;"
-                                    aria-label="Name: activate to sort column ascending">
-                                    No</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_ _0" rowspan="1"
-                                    colspan="1" style="width: 96px;"
-                                    aria-label="Name: activate to sort column ascending">
-                                    Foto Furniture</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 98px;"
-                                    aria-label="Email: activate to sort column ascending">
-                                    Nama Furnitur</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                    colspan="1" style="width: 87px;"
-                                    aria-label="Date: activate to sort column ascending">
-                                    Deskripsi</th>
-                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 123px;"
-                                    aria-label="Actions">Aksi</th>
+                                <th>No</th>
+                                <th>Foto Furniture</th>
+                                <th>Nama Furnitur</th>
+                                <th>Deskripsi</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,7 +88,7 @@
                                     <td>
                                         <a type="button" class="" data-bs-toggle="modal"
                                             data-bs-target="#updateModal{{ $furniture->id }}" data-bs-whatever="@mdo"><i
-                                            style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
+                                                style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
 
                                         <a type="button" class="" data-bs-toggle="modal"
                                             data-bs-target="#deleteModal{{ $furniture->id }}">
@@ -121,8 +107,8 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
-                                            <form action="{{ route('furnitures.update', $furniture->id) }}"
-                                                method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('furnitures.update', $furniture->id) }}" method="POST"
+                                                enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-body">
