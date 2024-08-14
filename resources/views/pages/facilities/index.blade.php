@@ -33,7 +33,7 @@
                                         @endfor
                                     </select></label>
                             @endif
-                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<form
+                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search: <form
                                         action="{{ route('facilities.index') }}" method="GET">
                                         @csrf
                                         <input type="text" name="search" placeholder="name..."
@@ -58,7 +58,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                
+
                                 <div class="modal-footer d-flex justify-content-between align-items-center px-5 mb-5">
                                     <a href="{{ route('facilities.show', $facility->id) }}"
                                         class="btn btn-outline-primary waves-effect">Lihat Detail</a>
