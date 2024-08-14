@@ -500,8 +500,6 @@
             <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                 About <span class="text-primary-500 after-svg achievement">Us</span>
             </h2>
-<<<<<<< HEAD
-    
             <div class="flex flex-wrap">
                 <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
                     <div class="flex flex-wrap gap-y-6 justify-between items-center md:mb-[62px]">
@@ -525,38 +523,6 @@
                 </div>
             </div>
         </div>
-=======
-            <p class="text-primary-900 md:text-xl text-base xl:mb-[100px] md:mb-8 mb-4">
-                Di <a href="#" class=""><i><b class="text-primary-500"> HummaKost</a></i></b>, kami
-                percaya bahwa setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau.
-                Dengan platform kami, Anda bisa menemukan kontrakan yang sesuai dengan kebutuhan Anda, mulai dari lokasi
-                yang strategis hingga fasilitas yang lengkap.
-
-                Kami hadir untuk memudahkan proses pencarian dan penyewaan hunian, menghadirkan berbagai pilihan yang
-                beragam dan berkualitas. Dengan sistem yang mudah digunakan, Anda dapat mencari, membandingkan, dan
-                menyewa hunian impian Anda dalam waktu singkat.
-
-                Didirikan dengan semangat untuk mengubah cara orang menemukan tempat tinggal, kami terus berinovasi
-                untuk tenantikan pengalaman terbaik bagi para pencari hunian. Dukungan pelanggan kami siap membantu Anda
-                di setiap langkah, memastikan Anda mendapatkan layanan yang terbaik.
-
-                Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama <a href="#"><i><b
-                            class="text-primary-500"> HummaKost</a></i></b>, temukan rumah
-                yang sesuai dengan gaya hidup Anda, di lokasi yang Anda inginkan.
-                <br><br>
-                Sebagai bagian dari komitmen kami untuk tenantikan layanan terbaik, <a href="#"><i><b
-                            class="text-primary-500"> HummaKost</a></i></b> terus berupaya meningkatkan kualitas dan
-                kemudahan dalam menemukan hunian idaman. Kami memahami bahwa setiap orang memiliki kebutuhan dan
-                preferensi yang berbeda-beda, oleh karena itu kami menghadirkan berbagai fitur yang dapat membantu Anda
-                membuat keputusan yang tepat. Mulai dari filter pencarian yang lebih canggih, hingga rekomendasi hunian
-                yang disesuaikan dengan gaya hidup Anda, semua dirancang untuk tenantikan pengalaman yang lebih personal
-                dan menyenangkan. Kami percaya bahwa dengan terus berinovasi dan mendengarkan kebutuhan Anda, kami dapat
-                menjadi mitra terpercaya dalam perjalanan Anda menemukan hunian yang sempurna. Teruslah bersama kami
-                dalam mewujudkan hunian impian Anda, karena di <a href="#"><i><b class="text-primary-500">
-                            HummaKost</a></i></b>, kepuasan Anda adalah prioritas kami.
-            </p>
-
->>>>>>> 3998bad4efff9a605d8ac465a684f79f2c140e49
     </section>
     
      
