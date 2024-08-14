@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facility;
-<<<<<<< HEAD
-use App\Models\Furniture;
-=======
->>>>>>> dd757a4a36ae7b1f44d56db864c9fd960107ad66
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\User;
