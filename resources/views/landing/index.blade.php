@@ -9,6 +9,8 @@
 
     <title>HummaKost</title>
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
@@ -43,7 +45,7 @@
     <!-- header area -->
     <header id="header-sticky">
         <div class="py-6 bg-white border-b border-gray-50">
-            <div class="container flex justify-between items-center px-4 sm:px-6 2xl:px-0">
+            <div class="container flex justify-between items-center px-2 sm:px-2 2xl:px-0">
                 <!-- logo -->
                 <div>
                     <a href="#">
@@ -82,44 +84,133 @@
                 <!-- menu end -->
 
                 <!-- right menu -->
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-10">
                     <a href=""
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
-                        <span class="flex justify-center items-center">
-                        </span>
+                        <span class="flex justify-center items-center"></span>
+
                         @php
                             $user = Auth::user();
                             $hasNonMemberRole = $user && $user->roles()->where('name', '!=', 'tenant')->exists();
                         @endphp
                         @if ($hasNonMemberRole)
-                        <a href="{{ route('dashboard') }}"
-                        class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
+                            <div class="relative">
+                                <button id="profile-btn" onclick="a(this)"
+                                    class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
+                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                        onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
+                                    {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
+                                        onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
+                                </button>
+                                <div id="profile-menu"
+                                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
+                                    <ul class="py-2 text-gray-700">
+                                        {{-- <li class="flex items-center gap-2 px-4 py-2">
+                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                            onclick="a(this)" alt="User Photo"
+                                            class="w-7 h-7 object-cover rounded-full">
+                                        <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
+                                    </li> --}}
+                                        <li>
+                                            <a href=""
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100"
+                                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         @elseif($user && $user->roles->contains('name', 'tenant') && $user->status === 'accepted')
-                            <a class="btn btn-primary" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                <i class="mdi mdi-logout me-2"></i>
-                                <span class="align-middle">{{ __('Logout') }}</span>
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                            <div class="relative">
+                                <button id="profile-btn" onclick="a(this)"
+                                    class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
+                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                        onclick="a(this)" alt="User Photo"
+                                        class="w-full h-full object-cover rounded-full">
+                                </button>
+                                <div id="profile-menu"
+                                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
+                                    <ul class="py-2 text-gray-700">
+                                        {{-- <li class="flex items-center gap-2 px-4 py-2">
+                                            <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                                onclick="a(this)" alt="User Photo"
+                                                class="w-7 h-7 object-cover rounded-full">
+                                            <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
+                                        </li> --}}
+                                        <li>
+                                            <a href=""
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
+                                        </li>
+
+
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100"
+                                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         @else
                             <a href="{{ route('register') }}"
-                                class=" hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
-                                style="padding:12px 16px; border-radius:8px;"><span>{{ 'Daftar' }}</span></a>
+                                class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
+                                style="padding:12px 16px; border-radius:8px; margin-right: 2rem"><span>{{ 'Daftar' }}</span></a>
                             <a href="{{ route('login') }}"
                                 class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
                         @endif
                     </a>
-                    {{-- <a href="#" class="hidden xl:inline-block btn-primary">
-                        <span>Sign up for Free</span>
-                    </a> --}}
+
+                    <!-- Hamburger Menu -->
                     <div class="xl:hidden inline-block hamburger-btn" id="hamburger-btn">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
                 </div>
+
+                <script>
+                    document.getElementById('profile-btn').addEventListener('click', function(event) {
+                        event.preventDefault(); // Prevent default action to avoid reloading
+                        var menu = document.getElementById('profile-menu');
+                        menu.classList.toggle('hidden');
+                    });
+
+                    // window.addEventListener('click', function(event) {
+                    //     var menu = document.getElementById('profile-menu');
+                    //     var button = document.getElementById('profile-btn');
+                    //     if (!menu.contains(event.target) && event.target !== button) {
+                    //         menu.classList.add('hidden');
+                    //     }
+                    // });
+
+                    function a() {
+                        var menu = document.getElementById('profile-menu');
+                        // var button = document.getElementById('profile-btn');
+                        if (!menu.contains(event.target) && event.target !== button) {
+                            menu.classList.add('hidden');
+                        }
+                    }
+                </script>
+
                 <!-- right menu end -->
             </div>
         </div>
@@ -497,7 +588,8 @@
 
     <section class="section-padding achievement-section">
         <div class="container px-4 sm:px-6 2xl:px-0">
-            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+            <h2
+                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                 About <span class="text-primary-500 after-svg achievement">Us</span>
             </h2>
             <div class="flex flex-wrap">
@@ -506,30 +598,37 @@
                         <div class="flex gap-6 items-center w-full counter-card">
                         </div>
                         <p class="text-primary-900 md:text-xl text-base">
-                            Di <a href="#" class="text-primary-500 font-bold">HummaKost</a>, kami percaya bahwa setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau. 
-                            Dengan platform kami, Anda dapat menemukan dan menyewa kontrakan yang sesuai dengan kebutuhan Anda dengan mudah dan cepat.
+                            Di <a href="#" class="text-primary-500 font-bold">HummaKost</a>, kami percaya bahwa
+                            setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau.
+                            Dengan platform kami, Anda dapat menemukan dan menyewa kontrakan yang sesuai dengan
+                            kebutuhan Anda dengan mudah dan cepat.
                             <br><br>
-                            Kami berkomitmen untuk menghadirkan berbagai pilihan hunian berkualitas yang dapat disesuaikan dengan preferensi Anda. 
-                            Dukungan pelanggan kami selalu siap membantu Anda, memastikan pengalaman terbaik dalam menemukan hunian idaman. 
-                            Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama <a href="#" class="text-primary-500 font-bold">HummaKost</a>, temukan rumah yang sempurna sesuai gaya hidup Anda.
-                        </p>                        
+                            Kami berkomitmen untuk menghadirkan berbagai pilihan hunian berkualitas yang dapat
+                            disesuaikan dengan preferensi Anda.
+                            Dukungan pelanggan kami selalu siap membantu Anda, memastikan pengalaman terbaik dalam
+                            menemukan hunian idaman.
+                            Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama <a
+                                href="#" class="text-primary-500 font-bold">HummaKost</a>, temukan rumah yang
+                            sempurna sesuai gaya hidup Anda.
+                        </p>
                     </div>
                 </div>
-    
+
                 <div class="xl:w-1/2 w-full relative flex justify-center items-center">
                     <div class="inline-flex justify-center">
-                        <img src="/assets/images/cta-hero.png" alt="Achievement Image" class="xl:max-w-full max-w-[300px]">
+                        <img src="/assets/images/cta-hero.png" alt="Achievement Image"
+                            class="xl:max-w-full max-w-[300px]">
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-     
-    
-    
-    
-    
+
+
+
+
+
+
 
     <section class="section-padding feedback-section">
         <div class="container px-4 sm:px-6 2xl:px-0">
