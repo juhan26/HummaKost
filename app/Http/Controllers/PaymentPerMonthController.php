@@ -50,10 +50,11 @@ class PaymentPerMonthController extends Controller
         $lease = Lease::find($request->lease_id);
 
         $nominal = $lease->properties->rental_price;
-
-        $total_lease = $lease->total_iuran / $nominal;
+        $totalNominal = $lease->total_nominal + $nominal;
+        $totalKurangi = $lease->total_iuran - $totalNominal;
+        $total_lease = $totalKurangi / $nominal;
         $date =  Carbon::parse($lease->end_date);
-        $date->subMonths($total_lease);
+        $date->subMonths($total_lease + 1);
         $leasesPaymentMonth = $date->format('F');
 
         if ($lease->total_iuran <= $lease->total_nominal) {
@@ -67,7 +68,6 @@ class PaymentPerMonthController extends Controller
                 'description' => $request->description,
             ]);
 
-            $totalNominal = $lease->total_nominal + $nominal;
 
             $lease->update([
                 'total_nominal' => $totalNominal,
