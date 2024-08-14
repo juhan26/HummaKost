@@ -79,7 +79,7 @@
                                 <tr class="odd">
                                     <th scope="row">{{ $index + 1 }}</th>
                                     <td>
-                                        <img style="max-width: 100%"
+                                        <img style="max-width: 300px"
                                             src="{{ $furniture->photo ? asset('storage/' . $furniture->photo) : asset('/assets/img/image_not_available.png') }}"
                                             alt="">
                                     </td>
