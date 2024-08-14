@@ -15,8 +15,8 @@ class Property extends Model
         return $this->hasMany(Lease::class);
     }
 
-    public function furnitures()
+    public function facilities()
     {
-        return $this->belongsToMany(Furniture::class, 'property_furniture', 'property_id', 'furniture_id');
+        return $this->belongsToMany(Facility::class, 'property_facilities', 'property_id', 'facility_id');
     }
 }
