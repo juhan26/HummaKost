@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
+use App\Models\Facility;
 use App\Models\Furniture;
 use App\Models\Lease;
 use App\Models\Property;
@@ -38,7 +39,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        $furnitures = Furniture::all();
+        $furnitures = Facility::all();
         return view('pages.properties.create', compact('furnitures'));
     }
 
@@ -112,7 +113,7 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-        $furnitures = Furniture::all();
+        $furnitures = Facility::all();
         $selectedFurnitures = $property->furnitures->pluck('id')->toArray();
         return view('pages.properties.edit', compact('property', 'furnitures', 'selectedFurnitures'));
     }

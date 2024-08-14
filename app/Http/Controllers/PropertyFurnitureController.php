@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePropertyFurnitureRequest;
+use App\Models\Facility;
 use App\Models\Furniture;
 use App\Models\Property;
 use App\Models\PropertyFurniture;
@@ -16,7 +17,7 @@ class PropertyFurnitureController extends Controller
     public function index(Request $request)
     {
         $properties = Property::with('furnitures')->latest()->paginate(10);
-        $furnitures = Furniture::all();
+        $furnitures = Facility::all();
 
         if ($request->search) {
             $properties = Property::where('name', 'LIKE', "%{$request->input('search')}%")
