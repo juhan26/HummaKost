@@ -265,7 +265,7 @@
                             <p class="text-gray-500 font-normal font-display lg:text-[20px] md:text-base text-sm lg:leading-7 mb-8 pt-4 xl:pt-0"
                                 data-aos="fade-down" data-aos-duration="1000"> Lebih dari sekadar Tempat Tinggal, ini
                                 Rumah anda.</p>
-                            <form action="" data-aos="fade-down" data-aos-duration="1000">
+                            {{-- <form action="" data-aos="fade-down" data-aos-duration="1000">
                                 <div class="flex justify-between items-center ">
                                     <div class="relative w-full xl:max-w-[648px]">
                                         <input type="text" id="search_people"
@@ -284,7 +284,7 @@
                                         </span>
                                     </div>
                                 </div>
-                            </form>
+                            </form> --}}
                         </div>
                     </div>
                     <!-- left -->
@@ -1143,44 +1143,42 @@
 
     <!-- intructor section end -->
 
-    <!-- achievment section start -->
-    <section class="section-padding about-section">
+    <section class="section-padding achievement-section">
         <div class="container px-4 sm:px-6 2xl:px-0">
-            <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-8">
+            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
                 About <span class="text-primary-500 after-svg achievement">Us</span>
             </h2>
-            <p class="text-primary-900 md:text-xl text-base xl:mb-[100px] md:mb-8 mb-4">
-                Di <a href="#" class=""><i><b class="text-primary-500"> HummaKost</a></i></b>, kami
-                percaya bahwa setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau.
-                Dengan platform kami, Anda bisa menemukan kontrakan yang sesuai dengan kebutuhan Anda, mulai dari lokasi
-                yang strategis hingga fasilitas yang lengkap.
-
-                Kami hadir untuk memudahkan proses pencarian dan penyewaan hunian, menghadirkan berbagai pilihan yang
-                beragam dan berkualitas. Dengan sistem yang mudah digunakan, Anda dapat mencari, membandingkan, dan
-                menyewa hunian impian Anda dalam waktu singkat.
-
-                Didirikan dengan semangat untuk mengubah cara orang menemukan tempat tinggal, kami terus berinovasi
-                untuk memberikan pengalaman terbaik bagi para pencari hunian. Dukungan pelanggan kami siap membantu Anda
-                di setiap langkah, memastikan Anda mendapatkan layanan yang terbaik.
-
-                Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama <a href="#"><i><b
-                            class="text-primary-500"> HummaKost</a></i></b>, temukan rumah
-                yang sesuai dengan gaya hidup Anda, di lokasi yang Anda inginkan.
-                <br><br>
-                Sebagai bagian dari komitmen kami untuk memberikan layanan terbaik, <a href="#"><i><b
-                            class="text-primary-500"> HummaKost</a></i></b> terus berupaya meningkatkan kualitas dan
-                kemudahan dalam menemukan hunian idaman. Kami memahami bahwa setiap orang memiliki kebutuhan dan
-                preferensi yang berbeda-beda, oleh karena itu kami menghadirkan berbagai fitur yang dapat membantu Anda
-                membuat keputusan yang tepat. Mulai dari filter pencarian yang lebih canggih, hingga rekomendasi hunian
-                yang disesuaikan dengan gaya hidup Anda, semua dirancang untuk memberikan pengalaman yang lebih personal
-                dan menyenangkan. Kami percaya bahwa dengan terus berinovasi dan mendengarkan kebutuhan Anda, kami dapat
-                menjadi mitra terpercaya dalam perjalanan Anda menemukan hunian yang sempurna. Teruslah bersama kami
-                dalam mewujudkan hunian impian Anda, karena di <a href="#"><i><b class="text-primary-500">
-                            HummaKost</a></i></b>, kepuasan Anda adalah prioritas kami.
-            </p>
-
+    
+            <div class="flex flex-wrap">
+                <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
+                    <div class="flex flex-wrap gap-y-6 justify-between items-center md:mb-[62px]">
+                        <div class="flex gap-6 items-center w-full counter-card">
+                        </div>
+                        <p class="text-primary-900 md:text-xl text-base">
+                            Di <a href="#" class="text-primary-500 font-bold">HummaKost</a>, kami percaya bahwa setiap orang berhak mendapatkan hunian yang nyaman dan terjangkau. 
+                            Dengan platform kami, Anda dapat menemukan dan menyewa kontrakan yang sesuai dengan kebutuhan Anda dengan mudah dan cepat.
+                            <br><br>
+                            Kami berkomitmen untuk menghadirkan berbagai pilihan hunian berkualitas yang dapat disesuaikan dengan preferensi Anda. 
+                            Dukungan pelanggan kami selalu siap membantu Anda, memastikan pengalaman terbaik dalam menemukan hunian idaman. 
+                            Terima kasih telah mempercayakan pencarian hunian Anda kepada kami. Bersama <a href="#" class="text-primary-500 font-bold">HummaKost</a>, temukan rumah yang sempurna sesuai gaya hidup Anda.
+                        </p>                        
+                    </div>
+                </div>
+    
+                <div class="xl:w-1/2 w-full relative flex justify-center items-center">
+                    <div class="inline-flex justify-center">
+                        <img src="/assets/images/cta-hero.png" alt="Achievement Image" class="xl:max-w-full max-w-[300px]">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+    
+     
+    
+    
+    
+    
 
     <section class="section-padding feedback-section">
         <div class="container px-4 sm:px-6 2xl:px-0">
