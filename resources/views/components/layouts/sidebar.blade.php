@@ -79,16 +79,17 @@
         <li class="menu-header mt-5">
             <span class="menu-header-text">Kontrakan</span>
         </li>
-        <li class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }} || {{ request()->routeIs('properties.show') ? 'active' : '' }}">
+        <li
+            class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }} || {{ request()->routeIs('properties.show') ? 'active' : '' }}">
             <a href="{{ url('/properties') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-2-line"></i>
                 <div>Kontrakan</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('furnitures.index') ? 'active' : '' }}">
-            <a href="{{ url('furnitures') }}" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('facilities.index') ? 'active' : '' }}">
+            <a href="{{ url('facilities') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-hotel-bed-line"></i>
-                <div>Perabotan</div>
+                <div>Fasilitas</div>
             </a>
         </li>
         {{-- <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
