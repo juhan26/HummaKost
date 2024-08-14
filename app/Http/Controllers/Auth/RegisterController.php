@@ -45,11 +45,12 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        // dd('po');
         Auth::logout();
         Session::flash('success', 'Terima kasih telah mendaftarkan akun anda, Silahkan tunggu konfirmasi dari admin');
 
         // Redirect to the intended path or a specific path
-        return redirect()->intended($this->redirectPath());
+        return redirect()->intended('register');
     }
 
     /**
@@ -63,7 +64,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone_number' => ['required', 'numeric', 'min_digits:4', 'max_digits:20'],
+            'phone_number' => ['required', 'string', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -85,11 +86,12 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->assignRole('member');
+        $user->assignRole('tenant');
 
         // Set a flash message in the session
         Session::flash('success', 'Registration successful!');
 
+        // dd('p');
         return $user;
     }
 }

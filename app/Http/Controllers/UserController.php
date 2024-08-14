@@ -31,16 +31,16 @@ class UserController extends Controller
                 $query->where('name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%");
             })->whereHas('roles', function ($query) {
-                $query->where('name', 'member')
+                $query->where('name', 'tenant')
                     ->orWhere('name', 'admin');
             });
             $cari = 1;
         }
         // Apply role-based filtering
         else {
-            if (!Auth::user()->hasRole('member')) {
+            if (!Auth::user()->hasRole('tenant')) {
                 $query->whereHas('roles', function ($query) {
-                    $query->where('name', 'member');
+                    $query->where('name', 'tenant');
                 })->where('id', '!=', Auth::user()->id);
             }
             //  elseif (Auth::user()->hasRole('member')) {
@@ -103,7 +103,7 @@ class UserController extends Controller
                 'division' => $request->division,
                 'status' => 'accepted',
                 'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
-            ])->assignRole('member');
+            ])->assignRole('tenant');
         } else
             User::create([
                 'gender' => $request->gender,
@@ -113,7 +113,7 @@ class UserController extends Controller
                 'division' => $request->division,
                 'status' => 'accepted',
                 'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
-            ])->assignRole('member');
+            ])->assignRole('tenant');
         return redirect()->route('user.index')->with('success', 'Pengguna berhasil di tambahkan');
     }
 

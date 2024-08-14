@@ -28,7 +28,9 @@ class PropertyController extends Controller
             $properties = Property::latest()->paginate(6);
         }
 
-        return view('pages.properties.index', compact('properties'));
+
+
+        return view('pages.properties.index', compact('properties',));
     }
 
     /**
@@ -86,13 +88,23 @@ class PropertyController extends Controller
      */
     public function show(Property $property)
     {
+        $users = User::orWhereDoesntHave('lease')
+        ->where(function ($query) {
+            $query->whereHas('roles', function ($query) {
+                $query->where('name', 'tenant');
+            })->orWhereHas('roles', function ($query) {
+                $query->where('name', 'admin');
+            });
+        })
+        ->latest()
+        ->get();;
         $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
         $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
             $query->whereDoesntHave('roles', function ($query) {
                 $query->where('name', 'admin');
             });
         })->get();
-        return view('pages.properties.detail', compact('property', 'addUserPropertyLeader', 'editUserPropertyLeader'));
+        return view('pages.properties.detail', compact('property','users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
     }
 
     /**

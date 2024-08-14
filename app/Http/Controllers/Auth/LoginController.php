@@ -57,13 +57,13 @@ class LoginController extends Controller
             $user = Auth::user();
 
             // Check if the user has the role 'member' and status 'pending'
-            if ($user->roles->contains('name', 'member') && $user->status === 'pending') {
+            if ($user->roles->contains('name', 'tenant') && $user->status === 'pending') {
                 Auth::logout();
                 $request->session()->flash('error', 'Akun Anda masih belum dikonfirmasi admin, silakan hubungi admin.');
 
                 return redirect()->route('login');
             }
-            elseif ($user->roles->contains('name', 'member') && $user->status === 'accepted') {
+            elseif ($user->roles->contains('name', 'tenant') && $user->status === 'accepted') {
                 return redirect('/');
             }
 
