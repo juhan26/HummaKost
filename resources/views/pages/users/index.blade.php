@@ -184,7 +184,7 @@
                                         <td>{{ $user->name }}</td>
                                         <td>
                                             @if ($user->gender === 'male')
-                                                <span class="badge rounded-pill bg-label-primary me-1"><i
+                                                <span class="badge rounded-pill bg-label-info me-1"><i
                                                         class="mdi ri-men-line"> Laki-Laki</i></span>
                                             @else
                                                 <span class="badge rounded-pill bg-label-danger me-1"><i
