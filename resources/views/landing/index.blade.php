@@ -92,8 +92,8 @@
                             $hasNonMemberRole = $user && $user->roles()->where('name', '!=', 'tenant')->exists();
                         @endphp
                         @if ($hasNonMemberRole)
-                            <a href="{{ route('dashboard') }}"
-                                class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
+                        <a href="{{ route('dashboard') }}"
+                        class="hidden xl:inline-block btn-primary"><span>{{ 'Dasbor' }}</span></a>
                         @elseif($user && $user->roles->contains('name', 'tenant') && $user->status === 'accepted')
                             <a class="btn btn-primary" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -403,7 +403,6 @@
                 </div>
             </div>
         </div>
-    </section>
     </section>
     <!-- intructor section start -->
     <section id="tenant" class="section-padding instructor-section bg-secondary-50">
