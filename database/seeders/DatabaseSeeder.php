@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\DormInformation;
+use App\Models\Facility;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleAndPermissionSeeder::class,
             UserSeeder::class,
-            FurnitureSeeder::class,
+            FacilitySeeder::class,
             PropertiesSeeder::class,
             FeedbackSeeder::class,
         ]);
