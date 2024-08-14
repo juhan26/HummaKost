@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    {{-- Furniture --}}
+    {{-- Facility --}}
     <div class="col-12">
         <div class="card">
             <div class="card-content">
@@ -128,22 +128,22 @@
                     <div class="row">
                         <div class="col-12 col-lg-12 d-flex justify-content-around">
                             <h3 class="card-title">
-                                Daftar Furniture
+                                Daftar Facility
                             </h3>
                         </div>
                     </div>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    @forelse ($property->furnitures as $furniture)
+                    @forelse ($property->facilities as $facility)
                         <div class="text-center" style="min-width: 12rem; flex-shrink: 0;">
                             <img class="mx-auto d-block" style="width: 5rem; height: 5rem;"
-                                src="{{ $furniture->photo ? asset('storage/' . $furniture->photo) : asset('/assets/img/image_not_available.png') }}"
-                                alt="{{ $furniture->name }}">
-                            <h4 class="card-title mt-3">{{ $furniture->name }}</h4>
-                            <p class="card-text text-muted">{{ $furniture->status }}</p>
+                                src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                alt="{{ $facility->name }}">
+                            <h4 class="card-title mt-3">{{ $facility->name }}</h4>
+                            <p class="card-text text-muted">{{ $facility->status }}</p>
                         </div>
                     @empty
-                        <div class="swiper-slide text-center text-black">Belum ada furniture</div>
+                        <div class="swiper-slide text-center text-black">Belum ada facility</div>
                     @endforelse
 
                 </div>
