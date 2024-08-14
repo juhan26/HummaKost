@@ -6,10 +6,10 @@ use App\Http\Requests\StorePropertyFurnitureRequest;
 use App\Models\Facility;
 use App\Models\Furniture;
 use App\Models\Property;
-use App\Models\PropertyFurniture;
+use App\Models\PropertyFacility;
 use Illuminate\Http\Request;
 
-class PropertyFurnitureController extends Controller
+class PropertyFacilityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,21 +17,20 @@ class PropertyFurnitureController extends Controller
     public function index(Request $request)
     {
         $properties = Property::with('furnitures')->latest()->paginate(10);
-        $furnitures = Facility::all();
+        $facilities = Facility::all();
 
         if ($request->search) {
             $properties = Property::where('name', 'LIKE', "%{$request->input('search')}%")
-            ->paginate(10);
-
+                ->paginate(10);
         } else {
             $properties = Property::latest()->paginate(10);
         }
 
-        return view('pages.property_and_furnitures.index', compact('properties', 'furnitures'));
+        return view('pages.property_and_facilities.index', compact('properties', 'facilities'));
     }
 
     /**
-     * Show the form for creating a new resource.-
+     * Show the form for creating a new resource.
      */
     public function create()
     {
@@ -41,26 +40,25 @@ class PropertyFurnitureController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePropertyFurnitureRequest $request)
+    public function store(Request $request)
     {
-        PropertyFurniture::where('property_id', $request->property_id)->delete();
-        $furniture_id = $request->furniture_id;
+        PropertyFacility::where('property_id', $request->property_id)->delete();
+        $facility_id = $request->facility_id;
 
-        foreach ($furniture_id as $furniture) {
-            PropertyFurniture::create([
+        foreach ($facility_id as $facility) {
+            PropertyFacility::create([
                 'property_id' => $request->property_id,
-                'furniture_id' => $furniture,
+                'facility_id' => $facility,
             ]);
         }
 
-        return redirect()->route('property_furnitures.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('property_facilities.index')->with('success', 'Data berhasil disimpan');
     }
-
 
     /**
      * Display the specified resource.
      */
-    public function show(PropertyFurniture $propertyFurniture)
+    public function show(PropertyFacility $propertyFacility)
     {
         //
     }
@@ -68,7 +66,7 @@ class PropertyFurnitureController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PropertyFurniture $propertyFurniture)
+    public function edit(PropertyFacility $propertyFacility)
     {
         //
     }
@@ -76,7 +74,7 @@ class PropertyFurnitureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PropertyFurniture $propertyFurniture)
+    public function update(Request $request, PropertyFacility $propertyFacility)
     {
         //
     }
@@ -84,7 +82,7 @@ class PropertyFurnitureController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PropertyFurniture $propertyFurniture)
+    public function destroy(PropertyFacility $propertyFacility)
     {
         //
     }

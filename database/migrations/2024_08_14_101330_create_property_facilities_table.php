@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_furniture', function (Blueprint $table) {
+        Schema::create('property_facilities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('furniture_id');
-            $table->foreign('furniture_id')->references('id')->on('furnitures')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('facility_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            // $table->unsignedBigInteger('facility_id');
+            // $table->foreign('facility_id')->references('id')->on('facilities')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('property_furniture');
+        Schema::dropIfExists('property_facilities');
     }
 };

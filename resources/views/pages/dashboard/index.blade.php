@@ -32,11 +32,13 @@
     <script>
         const ctx = document.getElementById('dashboardChart').getContext('2d');
         const dashboardChart = new Chart(ctx, {
-            type: 'pie', 
+            type: 'pie',
             data: {
-                labels: ['Kontrakan : {{ $propertiesCount }}', 'Pengguna : {{ $usersCount }}', 'Perabotan : {{ $furnitureCount }}'],
+                labels: ['Kontrakan : {{ $propertiesCount }}', 'Pengguna : {{ $usersCount }}',
+                    'Perabotan : {{ $facilityCount }}'
+                ],
                 datasets: [{
-                    data: [{{ $propertiesCount }}, {{ $usersCount }}, {{ $furnitureCount }}],
+                    data: [{{ $propertiesCount }}, {{ $usersCount }}, {{ $facilityCount }}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

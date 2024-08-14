@@ -77,59 +77,51 @@
                         </div>
                     </div>
                     {{-- Modal Store --}}
-                    <div class="table-responsive">
-                        <table class="table table-hover mt-3 mb-3">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Foto User</th>
-                                    <th>Nama User</th>
-                                    <th>Bulan</th>
-                                    <th>Nominal</th>
-                                    <th>Deskripsi</th>
-                                    <th>Sisa Iuran</th>
-                                    <th>Tanggal Dan Waktu</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($payments as $index => $payment)
-                                <tr>
-                                    <th scope="row">{{ $index + 1 }}</th>
-                                    <td>
-                                        <img src="{{ $payment->lease->user->photo ? asset('storage/' . $payment->lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                            alt="{{ $payment->lease->user->name }}" class="img-fluid">
-                                    </td>
-                                    <td>{{ $payment->lease->user->name }}</td>
-                                    <td>{{ $payment->month }}</td>
-                                    <td>Rp. {{ number_format($payment->nominal) }}</td>
-                                    <td>{{ $payment->description ?: 'Deskripsi Kosong' }}</td>
-                                    <td>{{ $payment->lease->total_iuran == $payment->lease->total_nominal ? 'Lunas' : 'Rp. ' . number_format($payment->lease->total_iuran - $payment->lease->total_nominal) }}
-                                    </td>
-                                    <td>{{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->format('l, d F Y H:i') }}</td>
-                                    @hasrole('super_admin|admin')
-                                    <td>
-                                        <a type="button" class="" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $payment->id }}">
-                                            <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
-                                        </a>
-                                    </td>
-                                    @endhasrole
-                                </tr>
+
+                    <div class="row mt-4">
+                        @forelse ($payments as $payment)
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <img src="{{ $payment->lease->user->photo ? asset('storage/' . $payment->lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                        class="card-img-top" alt="{{ $payment->lease->user->name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $payment->lease->user->name }}</h5>
+                                        <p class="card-text">
+                                            <strong>Bulan:</strong> {{ $payment->month }}<br>
+                                            <strong>Nominal:</strong> Rp. {{ number_format($payment->nominal) }}<br>
+                                            <strong>Deskripsi:</strong>
+                                            {{ $payment->description ?: 'Deskripsi Kosong' }}<br>
+                                            <strong>Sisa Iuran:</strong>
+                                            {{ $payment->lease->total_iuran == $payment->lease->total_nominal ? 'Lunas' : 'Rp. ' . number_format($payment->lease->total_iuran - $payment->lease->total_nominal) }}<br>
+                                            <strong>Tanggal Dan Waktu:</strong>
+                                            {{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->format('l, d F Y H:i') }}
+                                        </p>
+                                        @hasrole('super_admin|admin')
+                                            <a href="#" class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $payment->id }}">Hapus</a>
+                                        @endhasrole
+                                    </div>
+                                </div>
+
                                 <!-- Delete Modal -->
                                 <div class="modal fade" id="deleteModal{{ $payment->id }}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    aria-labelledby="deleteModalLabel{{ $payment->id }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Hapus {{ $payment->lease->user->name }}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $payment->id }}">Hapus
+                                                    {{ $payment->lease->user->name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 Apakah anda yakin ingin menghapus Pembayaran ini?
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                <form action="{{ route('payments.destroy', $payment->id) }}" method="POST">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Batal</button>
+                                                <form action="{{ route('payments.destroy', $payment->id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -139,22 +131,20 @@
                                     </div>
                                 </div>
                                 <!-- Delete Modal -->
-                                @empty
-                                <tr>
-                                    <td colspan="9" class="text-center">
-                                        {{ request('search') ? 'Pembayaran Tidak Ditemukan' : 'Belum Ada Pembayaran' }}
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>                    
+                            </div>
+                        @empty
+                            <div class="col-12">
+                                <p class="text-center">
+                                    {{ request('search') ? 'Pembayaran Tidak Ditemukan' : 'Belum Ada Pembayaran' }}</p>
+                            </div>
+                        @endforelse
+                    </div>
+
                     <div class="d-flex justify-content-center">
                         {{ $payments->links() }}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection

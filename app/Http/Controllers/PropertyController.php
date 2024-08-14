@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use App\Models\Facility;
-use App\Models\Furniture;
 use App\Models\Lease;
 use App\Models\Property;
-use App\Models\PropertyFurniture;
+use App\Models\PropertyFacility;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -39,8 +38,8 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        $furnitures = Facility::all();
-        return view('pages.properties.create', compact('furnitures'));
+        $facilities = Facility::all();
+        return view('pages.properties.create', compact('facilities'));
     }
 
     /**
@@ -48,7 +47,7 @@ class PropertyController extends Controller
      */
     public function store(StorePropertyRequest $request)
     {
-        $furnitures = $request->furniture_id;
+        $facilities = $request->facility_id;
         if ($request->image) {
             $imagePath = $request->image->store('propertyImages', 'public');
             $property = Property::create([
@@ -75,9 +74,9 @@ class PropertyController extends Controller
             ]);
         }
 
-        if ($furnitures) {
-            foreach ($furnitures as $furniture) {
-                $property->furnitures()->attach($furniture);
+        if ($facilities) {
+            foreach ($facilities as $facility) {
+                $property->facilities()->attach($facility);
             }
         }
 
@@ -90,22 +89,22 @@ class PropertyController extends Controller
     public function show(Property $property)
     {
         $users = User::orWhereDoesntHave('lease')
-        ->where(function ($query) {
-            $query->whereHas('roles', function ($query) {
-                $query->where('name', 'tenant');
-            })->orWhereHas('roles', function ($query) {
-                $query->where('name', 'admin');
-            });
-        })
-        ->latest()
-        ->get();;
+            ->where(function ($query) {
+                $query->whereHas('roles', function ($query) {
+                    $query->where('name', 'tenant');
+                })->orWhereHas('roles', function ($query) {
+                    $query->where('name', 'admin');
+                });
+            })
+            ->latest()
+            ->get();;
         $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
         $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
             $query->whereDoesntHave('roles', function ($query) {
                 $query->where('name', 'admin');
             });
         })->get();
-        return view('pages.properties.detail', compact('property','users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
+        return view('pages.properties.detail', compact('property', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
     }
 
     /**
@@ -116,6 +115,9 @@ class PropertyController extends Controller
         $furnitures = Facility::all();
         $selectedFurnitures = $property->furnitures->pluck('id')->toArray();
         return view('pages.properties.edit', compact('property', 'furnitures', 'selectedFurnitures'));
+        $facilities = Facility::all();
+        $selectedFacility = $property->facilities->pluck('id')->toArray();
+        return view('pages.properties.edit', compact('property', 'facilities', 'selectedFacility'));
     }
 
     /**
@@ -123,7 +125,7 @@ class PropertyController extends Controller
      */
     public function update(UpdatePropertyRequest $request, Property $property)
     {
-        $furnitures = $request->furniture_id;
+        $facilities = $request->facility_id;
         if ($request->image) {
 
             if ($property->image) {
@@ -156,9 +158,9 @@ class PropertyController extends Controller
             ]);
         }
 
-        if ($furnitures) {
-            foreach ($furnitures as $furniture) {
-                $property->furnitures()->sync($furniture);
+        if ($facilities) {
+            foreach ($facilities as $facility) {
+                $property->facilities()->sync($facility);
             }
         }
 
