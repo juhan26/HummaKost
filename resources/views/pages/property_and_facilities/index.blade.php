@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-12 col-lg-12">
                             <h3 class="card-title">
-                                Property And Furnitures
+                                Property And Facilities
                             </h3>
                             <small>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni totam, eaque voluptas
                                 veritatis nisi consequuntur.</small>
@@ -68,15 +68,15 @@
                                             <div class="col-12 col-lg-12 mb-6">
                                                 {{-- Tolong frontend diperbaiki UI nya --}}
                                                 <h3 class="card-title m-0 p-0">{{ $property->name }}</h3>
-                                                @forelse ($property->furnitures as $furniture)
-                                                    <p class="card-text">Furniture: {{ $furniture->name }}</p>
+                                                @forelse ($property->facilities as $facility)
+                                                    <p class="card-text">Facility: {{ $facility->name }}</p>
                                                 @empty
                                                     <p class="card-text">Empty</p>
                                                 @endforelse
 
                                                 <button type="button" class="btn btn-primary " data-bs-toggle="modal"
                                                     data-bs-target="#createModal{{ $property->id }}">
-                                                    Set Property And Furnitures
+                                                    Set Property And Facility
                                                 </button>
 
                                                 {{-- create modal --}}
@@ -86,11 +86,11 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Set
-                                                                    Property And Furnitures</h1>
+                                                                    Property And Facility</h1>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <form action="{{ route('property_furnitures.store') }}"
+                                                            <form action="{{ route('property_facilities.store') }}"
                                                                 method="post" enctype="multipart/form-data">
                                                                 <div class="modal-body">
                                                                     @csrf
@@ -110,17 +110,17 @@
 
                                                                         <div class="col-12 col-lg-6">
                                                                             <label for="" class="form-label">Select
-                                                                                Furnitures</label>
-                                                                            @forelse ($furnitures as $furniture)
+                                                                                Facility</label>
+                                                                            @forelse ($facilities as $facility)
                                                                                 <div class="form-check form-switch">
                                                                                     <input class="form-check-input"
                                                                                         type="checkbox"
-                                                                                        name="furniture_id[]"
-                                                                                        id="flexSwitchCheck{{ $furniture->id }}"
-                                                                                        value="{{ $furniture->id }}"
-                                                                                        @if ($property->furnitures->contains($furniture->id)) checked @endif>
+                                                                                        name="facility_id[]"
+                                                                                        id="flexSwitchCheck{{ $facility->id }}"
+                                                                                        value="{{ $facility->id }}"
+                                                                                        @if ($property->facilities->contains($facility->id)) checked @endif>
                                                                                     <label class="form-check-label"
-                                                                                        for="flexSwitchCheck{{ $furniture->id }}">{{ $furniture->name }}</label>
+                                                                                        for="flexSwitchCheck{{ $facility->id }}">{{ $facility->name }}</label>
                                                                                 </div>
                                                                             @empty
                                                                                 <div class="form-check form-switch">
@@ -130,7 +130,7 @@
                                                                                         disabled>
                                                                                     <label class="form-check-label"
                                                                                         for="flexSwitchCheckDisabled">No
-                                                                                        Furnitures
+                                                                                        Facility
                                                                                         Exists</label>
                                                                                 </div>
                                                                             @endforelse
