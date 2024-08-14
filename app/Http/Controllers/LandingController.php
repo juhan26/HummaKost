@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
 use App\Models\Feedback;
 use App\Models\Furniture;
 use App\Models\Lease;
@@ -34,7 +35,7 @@ class LandingController extends Controller
         $userIds = $leases->pluck('user.id')->unique();
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 
-        $furnitures = Furniture::all();
+        $furnitures = Facility::all();
         $feedbacks = Feedback::with('user')->get();
 
 
