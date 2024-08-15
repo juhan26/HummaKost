@@ -91,6 +91,15 @@
                 <div>Perabotan</div>
             </a>
         </li>
+        <li class="menu-header mt-5">
+            <span class="menu-header-text">SEKOLAH</span>
+        </li>
+        <li class="menu-item {{ request()->routeIs('school.index') ? 'active' : '' }}">
+            <a href="{{ url('school') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-school-line"></i>
+                <div>sekolah</div>
+            </a>
+        </li>
         {{-- <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
             <a href="{{ url('property_furnitures') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-sofa-line"></i>
