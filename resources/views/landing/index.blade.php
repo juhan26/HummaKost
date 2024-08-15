@@ -147,28 +147,26 @@
                                         class="w-full h-full object-cover rounded-full">
                                 </button>
                                 <div id="profile-menu"
-                                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
+                                    class="absolute right-0 mt-2 max-w-xs bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
                                     <ul class="py-2 text-gray-700">
-                                        <li class="flex  items-start gap-0 px-4 py-2"
-                                            style="border-bottom: 1px solid rgba(0,0,0,.1)">
+                                        <li
+                                            class="flex justify-center items-start gap-3 px-8 py-2 border-b border-gray-200 overflow-hidden">
                                             <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
-                                    @elseif(Auth::user()->gender === 'male')
-                                    {{ asset('assets/img/avatars/5.png') }}
-                                    @elseif(Auth::user()->gender === 'female')
-                                        {{ asset('assets/img/avatars/10.png') }} @endif"
-                                                alt="" class=" h-full object-cover rounded-full" style="width: 50px">
-                                            <div class="flex flex-col items-start gap-0 px-4 py-2">
-                                                <span>{{ Auth::user()->name }}</span>
-                                                <small>{{ Auth::user()->email }}</small>
-
+                                                    @elseif(Auth::user()->gender === 'male')
+                                                        {{ asset('assets/img/avatars/5.png') }}
+                                                    @elseif(Auth::user()->gender === 'female')
+                                                        {{ asset('assets/img/avatars/10.png') }} @endif"
+                                                alt="User Photo" class="w-12 h-12 object-cover rounded-full">
+                                            <div class="flex flex-col" style="object-fit: cover">
+                                                <span class="font-semibold">{{ Auth::user()->name }}</span>
+                                                <span class="text-gray-500"
+                                                    text-muted>{{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
                                         <li>
                                             <a href=""
-                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
                                         </li>
-
-
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
@@ -182,15 +180,14 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
-                        @else
-                            <a href="{{ route('register') }}"
-                                class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
-                                style="padding:12px 16px; border-radius:8px; margin-right: 1rem"><span>{{ 'Daftar' }}</span></a>
-                            <a href="{{ route('login') }}"
-                                class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
+                            @else
+                                <a href="{{ route('register') }}"
+                                    class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
+                                    style="padding:12px 16px; border-radius:8px; margin-right: 1rem"><span>{{ 'Daftar' }}</span></a>
+                                <a href="{{ route('login') }}"
+                                    class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
                         @endif
-                        </div>
+                    </div>
 
                     <!-- Hamburger Menu -->
                     <div class="xl:hidden inline-block hamburger-btn" id="hamburger-btn">
@@ -652,29 +649,37 @@
             <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by
                 accident.</p>
             <!-- Feedback Form -->
+
+
             <div class="mt-10">
-                <form action="{{ route('feedback.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-4">
-                        <label for="message" class="block text-gray-700">Your Feedback</label>
-                        <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
-                            placeholder="Write your feedback here..."></textarea>
-                    </div>
-                    <div class="mb-4">
-                        <label for="rating" class="block text-gray-700">Rating</label>
-                        <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
-                            <option value="5">5 - Excellent</option>
-                            <option value="4">4 - Good</option>
-                            <option value="3">3 - Average</option>
-                            <option value="2">2 - Poor</option>
-                            <option value="1">1 - Terrible</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="py-5 underline">
-                        Submit Feedback
-                    </button>
-                </form>
+                @auth
+                    <form action="{{ route('feedback.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="message" class="block text-gray-700">Your Feedback</label>
+                            <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
+                                placeholder="Write your feedback here..."></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="rating" class="block text-gray-700">Rating</label>
+                            <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Good</option>
+                                <option value="3">3 - Average</option>
+                                <option value="2">2 - Poor</option>
+                                <option value="1">1 - Terrible</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="py-2 px-4 underline text-primary-500 rounded-lg">
+                            Submit Feedback
+                        </button>
+                    </form>
+                @else
+                    <p class="text-gray-700">You must be logged in to submit feedback.</p>
+                @endauth
             </div>
+
+
 
         </div>
 
