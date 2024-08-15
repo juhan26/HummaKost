@@ -147,7 +147,7 @@
                                     <th>Nama</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Email</th>
-                                    <th>Divisi</th>
+                                    <th>Sekolah</th>
                                     <th>Nomor Telepon</th>
                                     <th>Status</th>
                                     <th></th>
@@ -193,7 +193,14 @@
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            @if ($user->division === 'website')
+                                            @if ($user->school_id)
+                                                <span class="badge rounded-pill bg-primary">
+                                                    {{ $user->school->name }}</span>
+                                            @else
+                                                <span class="badge rounded-pill bg-label-secondary">Belum Memilih
+                                                    Sekolah</span>
+                                            @endif
+                                            {{-- @if ($user->division === 'website')
                                                 <span class="fw-medium badge bg-label-primary"><i
                                                         class="ri-global-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
@@ -212,7 +219,7 @@
                                             @else
                                                 <span class="fw-medium badge bg-label-secondary">
                                                     Belum Memilih divisi</span>
-                                            @endif
+                                            @endif --}}
                                         </td>
                                         <td>{{ $user->phone_number }}</td>
                                         <td>
@@ -487,17 +494,18 @@
                             </div>
                             <div class="col-12 col-lg-6 mb-5 mt-lg-5">
                                 <div class="form-floating form-floating-outline">
-                                    <select id="selectpickerBasic" class="selectpicker w-100" data-style="btn-default"
-                                        name="division">
-                                        <option value="null">Belum memilih</option>
-                                        <option value="website">Website</option>
-                                        <option value="mobile">Mobile</option>
-                                        <option value="uiux">UI/UX</option>
-                                        <option value="digmar">Digital Marketing</option>
+                                    @foreach ($schools as $school)
+                                        <select id="selectpickerBasic" class="selectpicker w-100"
+                                            data-style="btn-default" name="school_id">
+                                            <option value="{{ $school->id }}" {{ $school->id ? 'selected' : '' }}>
+                                                {{ $school->name }}
+                                            </option>
+                                    @endforeach
                                     </select>
-                                    <label for="selectpickerBasic">Divisi</label>
+                                    <label for="selectpickerBasic">Sekolah</label>
                                 </div>
                             </div>
+
                             <div class="mb-5">
                                 <label for="photo" class="form-label">Profile Photo:</label>
                                 <input type="file" class="form-control" name="photo" id="photo">

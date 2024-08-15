@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Instance;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,7 +24,7 @@ class User extends Authenticatable
         'gender',
         'email',
         'phone_number',
-        'division',
+        'instance_id',
         'status',
         'password',
     ];
@@ -55,5 +56,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Lease::class);
     }
-
+    public function intances()
+    {
+        return $this->belongsTo(Instance::class, 'instance_id');
+    }
 }

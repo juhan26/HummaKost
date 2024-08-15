@@ -27,8 +27,8 @@ class PaymentPerMonthController extends Controller
                 ->orWhere('month', 'LIKE', '%' . $search . '%');
         }
 
-        $payments = $query->latest()->paginate(5);
-        $leases = Lease::all();
+        $payments = $query->with('lease')->latest()->paginate(5);
+        $leases = Lease::with('user')->where('status', 'active')->paginate(5);
 
         return view('pages.payments.index', compact('payments', 'leases'));
     }
@@ -79,9 +79,10 @@ class PaymentPerMonthController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PaymentPerMonth $paymentPerMonth)
+    public function show(Lease $paymentPerMonth)
     {
-        //
+        $lease = $paymentPerMonth->with('user', 'payments')->first();
+        return view('pages.payments.detail', compact('lease'));
     }
 
     /**

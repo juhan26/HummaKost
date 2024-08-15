@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -60,8 +61,9 @@ class UserController extends Controller
             ->latest()
             ->paginate(10);
 
+        $schools = School::all();
         // Return view with users data
-        return view('pages.users.index', compact('users', 'cari'));
+        return view('pages.users.index', compact('users', 'cari', 'schools'));
     }
 
 
@@ -90,7 +92,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        // dd($request->photo);
+        // dd($request->school_id);
         if ($request->photo) {
 
             $imagePath = $request->photo->store('photos', 'public');
@@ -100,7 +102,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'division' => $request->division,
+                'school_id' => $request->school_id,
                 'status' => 'accepted',
                 'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
             ])->assignRole('tenant');
@@ -110,7 +112,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'division' => $request->division,
+                'school_id' => $request->school_id,
                 'status' => 'accepted',
                 'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
             ])->assignRole('tenant');

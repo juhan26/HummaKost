@@ -34,3 +34,4 @@ require_once __DIR__ . '/chandra.php';
 require_once __DIR__ . '/juhan.php';
 require_once __DIR__ . '/ridoq.php';
 require_once __DIR__ . '/sano.php';
+require_once __DIR__ . '/mugni.php';
