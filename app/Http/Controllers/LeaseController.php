@@ -95,23 +95,26 @@ class LeaseController extends Controller
             return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
         }
 
-        // Hitung jumlah bulan penuh di antara dua tanggal
-        $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+        // Cek apakah start_date dan end_date berada di bulan yang sama
+        if ($startDate->isSameMonth($endDate)) {
+            // Hitung total_iuran menggunakan rental_price dari property
+            $totalIuran = $property->rental_price;
+        } else {
+            // Hitung jumlah bulan penuh di antara dua tanggal
+            $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
 
-        // Hitung total_iuran
-        $totalIuran = $totalMonths * $property->rental_price;
+            // Hitung total_iuran
+            $totalIuran = $totalMonths * $property->rental_price;
+        }
 
-        // Buat lease baru
-
-        $capacity = Property::find($request->property_id)->capacity;
+        // Cek kapasitas dan status property
+        $capacity = $property->capacity;
 
         if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() < $capacity) {
 
             if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() == ($capacity - 1)) {
-                $property = Property::find($request->property_id);
                 $property->update(['status' => 'full']);
             } else {
-                $property = Property::find($request->property_id);
                 $property->update(['status' => 'available']);
             }
 
@@ -125,12 +128,12 @@ class LeaseController extends Controller
                 'total_nominal' => 0,
             ]);
 
-
             return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
         } else {
             return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
         }
     }
+
 
     /**
      * Display the specified resource.
