@@ -95,8 +95,8 @@
         <li class="menu-header mt-5">
             <span class="menu-header-text">SEKOLAH</span>
         </li>
-        <li class="menu-item {{ request()->routeIs('school.index') ? 'active' : '' }}">
-            <a href="{{ url('school') }}" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('instance.index') ? 'active' : '' }}">
+            <a href="{{ url('instance') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-school-line"></i>
                 <div>sekolah</div>
             </a>

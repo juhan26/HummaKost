@@ -143,7 +143,7 @@
                             <p class="card-text text-muted">{{ $facility->status }}</p>
                         </div>
                     @empty
-                        <div class="swiper-slide text-center text-black">Belum ada facility</div>
+                        <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
                     @endforelse
 
                 </div>

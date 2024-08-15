@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InstanceController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\SchoolController;
+use Illuminate\Support\Facades\Route;
+
 
 Route::middleware(['auth', 'role:admin|super_admin'])->group(function () {
-    Route::resource('school', SchoolController::class);
+    Route::resource('instance', InstanceController::class);
 
 });
 

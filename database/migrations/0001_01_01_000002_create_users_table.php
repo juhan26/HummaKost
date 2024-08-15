@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('gender');
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
-            $table->foreignId('school_id')->nullable()->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('instance_id')->nullable()->constrained()->onDelete('restrict')->onUpdate('cascade');
             $table->string('status')->default('pending');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

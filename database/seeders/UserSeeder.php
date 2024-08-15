@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             "gender" => "male",
             "email" => "admin@gmail.com",
             "phone_number" => "0896384719",
-            "school_id" => 1,
+            "instance_id" => 1,
             "status" => "accepted",
             "password" => "12345678",
         ])->assignRole('admin');
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             "gender" => "male",
             "email" => "member3@gmail.com",
             "phone_number" => "089630382184719",
-            "school_id" => 1,
+            "instance_id" => 1,
             "status" => "accepted",
             "password" => "12345678",
         ])->assignRole('tenant');
