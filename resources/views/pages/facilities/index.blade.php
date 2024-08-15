@@ -13,41 +13,39 @@
                         Tambah Fasilitas
                     </a>
                 </div>
-                <div class="row mt-3">
-                    <div class="d-flex align-items-end justify-content-between mb-3">
-                        @if ($facilities->lastPage() != 1)
-                            <div class="col-sm-12 col-md-6 mt-5 mt-md-0">
-                                <strong>Hasil Halaman: {{ $facilities->currentPage() }}</strong>
-                            </div>
-                        @endif
-                        <div
-                            class="col-sm-12 col-md-6 d-flex {{ $facilities->lastPage() != 1 ? 'justify-content-end' : 'justify-content-start' }} gap-3">
-                            @if ($facilities->lastPage() != 1)
-                                <label>Pilih Halaman: <select name="page" aria-controls="DataTables_Table_0"
-                                        class="form-select form-select-sm" id="pageSelect">
-                                        @for ($i = 1; $i <= $facilities->lastPage(); $i++)
-                                            <option value="{{ request()->url() }}?page={{ $i }}"
-                                                {{ $facilities->currentPage() == $i ? 'selected' : '' }}>
-                                                {{ $i }}
-                                            </option>
-                                        @endfor
-                                    </select></label>
-                            @endif
-                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search: <form
-                                        action="{{ route('facilities.index') }}" method="GET">
-                                        @csrf
-                                        <input type="text" name="search" placeholder="name..."
-                                            class="form-control form-control-sm" placeholder=""
-                                            aria-controls="DataTables_Table_0" value="{{ request('search') }}">
-                                    </form></label></div>
+                <div class="d-flex align-items-end justify-content-between mb-3 card-header">
+                    @if ($facilities->lastPage() != 1)
+                        <div class="col-sm-12 col-md-6 mt-5 mt-md-0">
+                            <strong>Hasil Halaman: {{ $facilities->currentPage() }}</strong>
                         </div>
+                    @endif
+                    <div
+                        class="col-sm-12 col-md-6 d-flex {{ $facilities->lastPage() != 1 ? 'justify-content-end' : 'justify-content-start' }} gap-3">
+                        @if ($facilities->lastPage() != 1)
+                            <label>Pilih Halaman: <select name="page" aria-controls="DataTables_Table_0"
+                                    class="form-select form-select-sm" id="pageSelect">
+                                    @for ($i = 1; $i <= $facilities->lastPage(); $i++)
+                                        <option value="{{ request()->url() }}?page={{ $i }}"
+                                            {{ $facilities->currentPage() == $i ? 'selected' : '' }}>
+                                            {{ $i }}
+                                        </option>
+                                    @endfor
+                                </select></label>
+                        @endif
+                        <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search: <form
+                                    action="{{ route('facilities.index') }}" method="GET">
+                                    @csrf
+                                    <input type="text" name="search" placeholder="name..."
+                                        class="form-control form-control-sm" placeholder=""
+                                        aria-controls="DataTables_Table_0" value="{{ request('search') }}">
+                                </form></label></div>
                     </div>
                 </div>
                 <div class="row row-cols-1 row-cols-md-3 g-6 mb-3">
                     @forelse ($facilities as $facility)
-                        <div class="col-md-6 col-lg-4 mb-12" style="">
-                            <div class="card h-100 mt-8 ms-5">
-                                <img style="height: 250px;object-fit: cover" class="card-img-top mt-8"
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 ms-5">
+                                <img style="height: 225px;object-fit: cover" class="card-img-top"
                                     src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
                                     alt="{{ $facility->name }}">
                                 <div class="card-body">
