@@ -44,8 +44,8 @@
 <body>
     <!-- header area -->
     <header id="header-sticky">
-        <div class="py-6 bg-white border-b border-gray-50">
-            <div class="container flex justify-between items-center px-2 sm:px-2 2xl:px-0">
+        <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
+            <div class="container-fluid flex justify-between items-center px-2 sm:px-2 2xl:px-0">
                 <!-- logo -->
                 <div>
                     <a href="#">
@@ -84,8 +84,8 @@
                 <!-- menu end -->
 
                 <!-- right menu -->
-                <div class="flex items-center gap-10">
-                    <a href=""
+                <div class="flex items-center">
+                    <div
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
                         <span class="flex justify-center items-center"></span>
 
@@ -137,19 +137,32 @@
                             <div class="relative">
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
-                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                    <img src="
+                                    @if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
+                                    @elseif(Auth::user()->gender === 'male')
+                                    {{ asset('assets/img/avatars/5.png') }}
+                                    @elseif(Auth::user()->gender === 'female')
+                                        {{ asset('assets/img/avatars/10.png') }} @endif"
                                         onclick="a(this)" alt="User Photo"
                                         class="w-full h-full object-cover rounded-full">
                                 </button>
                                 <div id="profile-menu"
                                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
                                     <ul class="py-2 text-gray-700">
-                                        {{-- <li class="flex items-center gap-2 px-4 py-2">
-                                            <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
-                                                onclick="a(this)" alt="User Photo"
-                                                class="w-7 h-7 object-cover rounded-full">
-                                            <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
-                                        </li> --}}
+                                        <li class="flex  items-start gap-0 px-4 py-2"
+                                            style="border-bottom: 1px solid rgba(0,0,0,.1)">
+                                            <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
+                                    @elseif(Auth::user()->gender === 'male')
+                                    {{ asset('assets/img/avatars/5.png') }}
+                                    @elseif(Auth::user()->gender === 'female')
+                                        {{ asset('assets/img/avatars/10.png') }} @endif"
+                                                alt="" class=" h-full object-cover rounded-full" style="width: 50px">
+                                            <div class="flex flex-col items-start gap-0 px-4 py-2">
+                                                <span>{{ Auth::user()->name }}</span>
+                                                <small>{{ Auth::user()->email }}</small>
+
+                                            </div>
+                                        </li>
                                         <li>
                                             <a href=""
                                                 class="items-center block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
@@ -173,11 +186,11 @@
                         @else
                             <a href="{{ route('register') }}"
                                 class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
-                                style="padding:12px 16px; border-radius:8px; margin-right: 2rem"><span>{{ 'Daftar' }}</span></a>
+                                style="padding:12px 16px; border-radius:8px; margin-right: 1rem"><span>{{ 'Daftar' }}</span></a>
                             <a href="{{ route('login') }}"
                                 class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
                         @endif
-                    </a>
+                        </div>
 
                     <!-- Hamburger Menu -->
                     <div class="xl:hidden inline-block hamburger-btn" id="hamburger-btn">
