@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer d-flex justify-content-between align-items-center px-5 mb-5">
-                                        <a href="{{ route('payments.show', $lease->user->id) }}"
+                                        <a href="{{ route('payments.show', $lease->id) }}"
                                             class="btn btn-outline-primary waves-effect">Lihat Detail</a>
                                         {{-- <div class="dropdown">
                                             <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1"
