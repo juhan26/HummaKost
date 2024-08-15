@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\School;
+use App\Models\Instance;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class SchoolSeeder extends Seeder
+class InstanceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        School::create([
-            'name' => 'SMK Tadika Mesra',
-            'address' => 'Malang',
-            'description' => 'ppp',
+        Instance::create([
+            'name'=> 'SMK Al Azhar',
+            'address' => 'Banyuwangi',
+            'description' => 'SMK HEBAT',
         ]);
     }
 }

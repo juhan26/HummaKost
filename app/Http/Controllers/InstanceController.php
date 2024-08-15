@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\School;
+use App\Models\Instance;
 use Illuminate\Http\Request;
 
-class SchoolController extends Controller
+class InstanceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $instances = Instance::where('name','LIKE',"%$request->search%")->paginate(5);
+        return view('pages.instance.index', compact('instances'));
     }
 
     /**
@@ -34,7 +35,7 @@ class SchoolController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(School $school)
+    public function show(Instance $instance)
     {
         //
     }
@@ -42,7 +43,7 @@ class SchoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(School $school)
+    public function edit(Instance $instance)
     {
         //
     }
@@ -50,7 +51,7 @@ class SchoolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, School $school)
+    public function update(Request $request, Instance $instance)
     {
         //
     }
@@ -58,7 +59,7 @@ class SchoolController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(School $school)
+    public function destroy(Instance $instance)
     {
         //
     }
