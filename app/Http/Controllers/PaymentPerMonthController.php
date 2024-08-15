@@ -79,9 +79,9 @@ class PaymentPerMonthController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lease $paymentPerMonth)
+    public function show($paymentPerMonth)
     {
-        $lease = $paymentPerMonth->with('user', 'payments')->first();
+        $lease = Lease::with('user', 'payments')->find($paymentPerMonth);
         return view('pages.payments.detail', compact('lease'));
     }
 
