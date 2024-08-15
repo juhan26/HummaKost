@@ -11,6 +11,8 @@ class Instance extends Model
 
     protected $guarded = ['id'];
 
+    protected $table = 'instances';
+
     public function users(){
         return $this->hasMany(User::class);
     }
