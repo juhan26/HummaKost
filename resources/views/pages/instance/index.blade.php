@@ -198,14 +198,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="createProperty" class="form-label">Alamat Sekolah:</label>
-                            <textarea name="address" class="form-control h-[50px]" id="" value="{{ old('address') }}" cols="20" rows="10"></textarea>
+                            <textarea name="address" class="form-control h-[50px]" id="" cols="20" rows="3">{{ old('address') }}</textarea>
                             @error('address')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="createProperty" class="form-label">Deskripsi:</label>
-                            <textarea name="description" class="form-control max-w-full max-h-[50px]" id="" cols="20" rows="10">{{ old('description') }}</textarea>
+                            <textarea name="description" class="form-control max-w-full max-h-[50px]" id="" cols="20" rows="3">{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror

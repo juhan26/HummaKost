@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInstanceRequest;
+use App\Http\Requests\StoreIntanceRequest;
+use App\Http\Requests\UpdateInstanceRequest;
+use App\Http\Requests\UpdateIntanceRequest;
 use App\Models\Instance;
 use Illuminate\Http\Request;
 
@@ -27,9 +31,15 @@ class InstanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreInstanceRequest $request)
     {
-        //
+        $instance = Instance::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'description' => $request->description
+        ]);
+
+        return back()->with('success', 'data berhasil disimpan');
     }
 
     /**
@@ -51,9 +61,14 @@ class InstanceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Instance $instance)
+    public function update(UpdateInstanceRequest $request, Instance $instance)
     {
-        //
+        $instance->update([
+            'name' => $request->name,
+            'address' => $request->address,
+            'description' => $request->description,
+        ]);
+        return back()->with('success', 'data berhasil disimpan');
     }
 
     /**
@@ -61,6 +76,16 @@ class InstanceController extends Controller
      */
     public function destroy(Instance $instance)
     {
-        //
+        try {
+            $instance->delete();
+            return back()->with('success', 'Kontrak berhasil dihapus');
+        } catch (\Exception $e) {
+            // Cek kode kesalahan 23000 untuk constraint violation (misalnya, foreign key constraint)
+            if ($e->getCode() === '23000') {
+                return back()->with('error', 'Tidak dapat menghapus kontrak ini karena data memiliki keterkaitan di tabel lain');
+            }
+            // Tangani exception lain yang mungkin tidak terduga
+            return back()->with('error', 'Terjadi kesalahan saat menghapus kontrak');
+        }
     }
 }
