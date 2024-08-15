@@ -79,8 +79,42 @@
                     {{-- Modal Store --}}
 
                     <div class="row mt-4">
-                        @forelse ($payments as $payment)
-                            <div class="col-md-4 mb-4">
+                        @forelse ($leases as $lease)
+                            <div class="col-md-6 col-lg-4 mb-12" style="">
+                                <div class="card h-100 mt-8 ms-5">
+                                    <img style="height: 250px;object-fit: cover" class="card-img-top mt-8"
+                                        src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('/assets/img/image_not_available.png') }}"
+                                        alt="{{ $lease->user->name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $lease->user->name }}</h5>
+                                        <div style="min-height: 120px;max-height: 120px; overflow: auto">
+                                            <p class="card-text">
+                                                {{ $lease->description ? $lease->description : 'Deskripsi Kosong' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between align-items-center px-5 mb-5">
+                                        <a href="{{ route('payments.show', $lease->user->id) }}"
+                                            class="btn btn-outline-primary waves-effect">Lihat Detail</a>
+                                        {{-- <div class="dropdown">
+                                            <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1"
+                                                type="button" id="facilityActionsDropdown{{ $facility->id }}"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ri-more-2-line ri-20px"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end"
+                                                aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
+                                                <li><a href="{{ route('facilities.edit', $facility->id) }}"
+                                                        class="dropdown-item">Edit</a></li>
+                                                <li><button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $facility->id }}">Delete</button>
+                                                </li>
+                                            </ul>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="col-md-4 mb-4">
                                 <div class="card">
                                     <img src="{{ $payment->lease->user->photo ? asset('storage/' . $payment->lease->user->photo) : asset('assets/img/image_not_available.png') }}"
                                         class="card-img-top" alt="{{ $payment->lease->user->name }}">
@@ -131,7 +165,7 @@
                                     </div>
                                 </div>
                                 <!-- Delete Modal -->
-                            </div>
+                            </div> --}}
                         @empty
                             <div class="col-12">
                                 <p class="text-center">
@@ -141,7 +175,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center">
-                        {{ $payments->links() }}
+                        {{-- {{ $payments->links() }} --}}
                     </div>
                 </div>
             </div>

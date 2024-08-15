@@ -13,8 +13,8 @@
                         Tambah Kontrakan
                     </a>
                 </div>
-                <div class="row mt-3">
-                    <div class="d-flex align-items-end justify-content-between mb-3">
+                <div class="mt-3">
+                    <div class="card-header d-flex align-items-end justify-content-between mb-3">
                         @if ($properties->lastPage() != 1)
                             <div class="col-sm-12 col-md-6 mt-5 mt-md-0">
                                 <strong>Hasil Halaman: {{ $properties->currentPage() }}</strong>
@@ -46,8 +46,8 @@
                 <div class="row row-cols-1 row-cols-md-3 g-6 mb-3">
                     @forelse ($properties as $property)
                         <div class="col-md-6 col-lg-4 mb-12" style="">
-                            <div class="card h-100 mt-8 ms-5">
-                                <img style="height: 250px;object-fit: cover" class="card-img-top mt-8"
+                            <div class="card h-100 ms-5">
+                                <img style="height: 250px;object-fit: cover" class="card-img-top"
                                     src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
                                     alt="{{ $property->name }}">
                                 <div class="card-body">
