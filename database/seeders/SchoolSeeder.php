@@ -2,19 +2,21 @@
 
 namespace Database\Seeders;
 
+use App\Models\School;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
-class RoleAndPermissionSeeder extends Seeder
+class SchoolSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Role::create(['name' => 'super_admin']);
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'tenant']);
+        School::create([
+            'name' => 'SMK Tadika Mesra',
+            'address' => 'Malang',
+            'description' => 'ppp',
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
 use App\Models\Feedback;
 use App\Models\Furniture;
 use App\Models\Lease;
@@ -21,7 +22,7 @@ class LandingController extends Controller
         $selectedPropertyId = $request->input('property_id', $properties->first()->id ?? null);
 
         // Ambil semua properti dengan pagination
-        
+
         // Query untuk leases berdasarkan property_id yang dipilih
         $leasesQuery = Lease::query();
         if ($selectedPropertyId) {
@@ -32,9 +33,9 @@ class LandingController extends Controller
 
         // Ambil pengguna berdasarkan property_id yang dipilih dari le  ases
         $userIds = $leases->pluck('user.id')->unique();
-        $users = User::whereIn('id', $userIds)->role('member')->latest()->get();
+        $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 
-        $furnitures = Furniture::all();
+        $furnitures = Facility::all();
         $feedbacks = Feedback::with('user')->get();
 
 
@@ -49,12 +50,12 @@ class LandingController extends Controller
         // Ambil data properti berdasarkan ID dan muat lease serta pengguna yang terkait
         $property = Property::with('leases.user')->findOrFail($id);
         // dd($property);
-        $properties = Property::all();    
+        $properties = Property::all();
         // Ambil semua pengguna
         $users = User::all();
-    
+
         // Kembalikan view dengan data yang dibutuhkan
         return view('landing.properties.show', compact('property', 'properties', 'users'));
     }
-    
+
 }

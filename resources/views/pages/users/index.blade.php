@@ -10,12 +10,12 @@
                         <div class="row">
                             <div class="col-6">
                                 <label class="form-check-label custom-option-content w-100" for="tenantRadio">
-                                    <div class="card w-100" id="cardmember">
+                                    <div class="card w-100" id="cardtenant">
                                         <div class="card-content">
                                             <div class="card-body d-flex justify-content-center">
                                                 <span>Penyewa</span>
                                                 <input name="filter" class="form-check-input" id="tenantRadio"
-                                                    type="radio" value="member" onclick="this.form.submit()" checked
+                                                    type="radio" value="tenant" onclick="this.form.submit()" checked
                                                     hidden />
                                             </div>
                                         </div>
@@ -57,8 +57,8 @@
                                     card.classList.toggle('text-white')
                                 }
                             } else {
-                                const radio = document.querySelector(`input[name="filter"][value="member"]`);
-                                const card = document.querySelector(`#cardmember`);
+                                const radio = document.querySelector(`input[name="filter"][value="tenant"]`);
+                                const card = document.querySelector(`#cardtenant`);
                                 if (radio && card) {
                                     radio.checked = true;
                                     card.classList.toggle('bg-primary')
@@ -83,7 +83,7 @@
                                     $title = 'Hasil pencarian..';
                                 } else {
                                     $filteredUsers = $users->filter(function ($user) {
-                                        return $user->roles->contains('name', 'member');
+                                        return $user->roles->contains('name', 'tenant');
                                     });
                                     $title = $filteredUsers->isNotEmpty() ? 'Penyewa' : 'Ketua kontrakan';
                                 }
@@ -123,15 +123,15 @@
                                     });
                                 </script>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12 mt-4 col-lg-4">
                             <div class="d-flex align-items-center w-100 px-3 justify-content-between">
-                                <button class="btn btn-secondary w-25" type="submit"><i class="mdi ri-search-line"></i></button>
+                                <button class="btn btn-secondary w-25" type="submit"><i
+                                        class="mdi ri-search-line"></i></button>
                                 </form>
-                                {{-- @if ($title !== 'Ketua kontrakan')
-                                    <button type="button" class="btn btn-primary w-50" data-bs-toggle="modal" data-bs-target="#createModal">
-                                        Add user
-                                    </button>
-                                @endif --}}
+                                <button type="button" class="btn btn-primary w-50 " data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Add user
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -147,13 +147,12 @@
                                     <th>Nama</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Email</th>
-                                    <th>Divisi</th>
+                                    <th>Sekolah</th>
                                     <th>Nomor Telepon</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
-
                             <tbody class="table-border-bottom-0">
                                 @forelse ($users as $index => $user)
                                     <tr>
@@ -185,35 +184,42 @@
                                         <td>{{ $user->name }}</td>
                                         <td>
                                             @if ($user->gender === 'male')
-                                                <span class="badge rounded-pill bg-label-primary me-1"><i
-                                                        class="mdi ri-men-line"></i></span>
+                                                <span class="badge rounded-pill bg-label-info me-1"><i
+                                                        class="mdi ri-men-line"></i> Laki-Laki</span>
                                             @else
                                                 <span class="badge rounded-pill bg-label-danger me-1"><i
-                                                        class="mdi ri-women-line"></i></span>
+                                                        class="mdi ri-women-line"></i> Perempuan</span>
                                             @endif
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            @if ($user->division === 'website')
+                                            @if ($user->school_id)
+                                                <span class="badge rounded-pill bg-primary">
+                                                    {{ $user->school->name }}</span>
+                                            @else
+                                                <span class="badge rounded-pill bg-label-secondary">Belum Memilih
+                                                    Sekolah</span>
+                                            @endif
+                                            {{-- @if ($user->division === 'website')
                                                 <span class="fw-medium badge bg-label-primary"><i
                                                         class="ri-global-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @elseif ($user->division === 'mobile')
-                                                <span class="fw-medium badge bg-label-danger"><i
-                                                        class="ri-smartphone-line ri-22px me-1"></i>
+                                                <span class="fw-medium badge bg-label-primary"><i
+                                                        class="ri-global-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @elseif ($user->division === 'uiux')
-                                                <span class="fw-medium badge bg-label-success"><i
-                                                        class="ri-macbook-line ri-22px me-1"></i>
+                                                <span class="fw-medium badge bg-label-primary"><i
+                                                        class="ri-global-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @elseif ($user->division === 'digmar')
-                                                <span class="fw-medium badge bg-label-warning"><i
-                                                        class="ri-store-3-line ri-22px me-1"></i>
+                                                <span class="fw-medium badge bg-label-primary"><i
+                                                        class="ri-global-line ri-22px me-1"></i>
                                                     {{ $user->division }}</span>
                                             @else
                                                 <span class="fw-medium badge bg-label-secondary">
                                                     Belum Memilih divisi</span>
-                                            @endif
+                                            @endif --}}
                                         </td>
                                         <td>{{ $user->phone_number }}</td>
                                         <td>
@@ -488,17 +494,18 @@
                             </div>
                             <div class="col-12 col-lg-6 mb-5 mt-lg-5">
                                 <div class="form-floating form-floating-outline">
-                                    <select id="selectpickerBasic" class="selectpicker w-100" data-style="btn-default"
-                                        name="division">
-                                        <option value="null">Belum memilih</option>
-                                        <option value="website">Website</option>
-                                        <option value="mobile">Mobile</option>
-                                        <option value="uiux">UI/UX</option>
-                                        <option value="digmar">Digital Marketing</option>
+                                    @foreach ($schools as $school)
+                                        <select id="selectpickerBasic" class="selectpicker w-100"
+                                            data-style="btn-default" name="school_id">
+                                            <option value="{{ $school->id }}" {{ $school->id ? 'selected' : '' }}>
+                                                {{ $school->name }}
+                                            </option>
+                                    @endforeach
                                     </select>
-                                    <label for="selectpickerBasic">Divisi</label>
+                                    <label for="selectpickerBasic">Sekolah</label>
                                 </div>
                             </div>
+
                             <div class="mb-5">
                                 <label for="photo" class="form-label">Profile Photo:</label>
                                 <input type="file" class="form-control" name="photo" id="photo">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\User;
@@ -30,7 +31,8 @@ class HomeController extends Controller
         $propertiesCount = Property::count();
         $usersCount = User::count();
         $leasesCount = Lease::count();
-    
-        return view('pages.dashboard.index', compact('propertiesCount', 'usersCount', 'leasesCount'));
+        $facilityCount = Facility::count();
+
+        return view('pages.dashboard.index', compact('propertiesCount', 'usersCount', 'leasesCount', 'facilityCount'));
     }
 }

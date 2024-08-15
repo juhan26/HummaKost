@@ -51,16 +51,16 @@
                         </div>
 
                         <div class="col-12 col-lg-12 mb-3" style="max-height: 300px; overflow: auto">
-                            <label for="furniture_id[]" class="form-label">Furniture</label>
-                            @forelse ($furnitures as $furniture)
+                            <label for="facility_id[]" class="form-label">Facility</label>
+                            @forelse ($facilities as $facility)
                                 <div class="input-group mb-2">
                                     <div class="input-group-text form-check mb-0">
-                                        <input class="form-check-input m-auto" type="checkbox" value="{{ $furniture->id }}"
-                                            name="furniture_id[]" aria-label="Checkbox for following text input"
-                                            @if (in_array($furniture->id, old('furniture_id', $selectedFurnitures))) checked @endif>
+                                        <input class="form-check-input m-auto" type="checkbox" value="{{ $facility->id }}"
+                                            name="facility_id[]" aria-label="Checkbox for following text input"
+                                            @if (in_array($facility->id, old('facility_id', $selectedFacility))) checked @endif>
                                     </div>
                                     <input type="text" disabled class="form-control"
-                                        aria-label="Text input with checkbox" value="{{ $furniture->name }}">
+                                        aria-label="Text input with checkbox" value="{{ $facility->name }}">
                                 </div>
                             @empty
                                 <div class="input-group mb-2">
@@ -69,7 +69,7 @@
                                             aria-label="Checkbox for following text input">
                                     </div>
                                     <input type="text" disabled class="form-control"
-                                        aria-label="Text input with checkbox" value="Belum Ada Furniture">
+                                        aria-label="Text input with checkbox" value="Belum Ada Facility">
                                 </div>
                             @endforelse
                         </div>

@@ -52,7 +52,7 @@
                 <!-- logo -->
                 <div>
                     <a href="{{ route('home.index') }}">
-                        <img src="/assets/img/images/logo.png" alt="New Logo" style="width:11rem; height:3rem;">
+                        <img src="/assets/images/logo.png" alt="New Logo" style="width:3rem; height:3rem;">
                     </a>
                 </div>
                 <!-- logo -->

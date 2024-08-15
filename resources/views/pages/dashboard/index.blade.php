@@ -2,23 +2,14 @@
 
 @section('content')
     <div class="container mb-8">
-        <div class="row justify-content-center">
-            {{-- <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-
-                    <div class="card-body"> --}}
-                        {{-- Chart Section --}}
-
-                    {{-- </div>
-                </div>
-            </div> --}}
+        <div class="row justify-content-end">
+            {{-- Chart Section --}}
         </div>
     </div>
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
+        <div class="row justify-content-end">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -26,51 +17,55 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="mt-4">
-                            <canvas id="dashboardChart"></canvas>
+                        <div class="mt-4 d-flex justify-content-center">
+                            <div style="width: 100%;"> <!-- Adjust the width as needed -->
+                                <canvas id="dashboardChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('dashboardChart').getContext('2d');
         const dashboardChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: [' Jumlah Data'],
+                labels: ['Kontrakan : {{ $propertiesCount }}', 'Pengguna : {{ $usersCount }}',
+                    'Perabotan : {{ $facilityCount }}'
+                ],
                 datasets: [{
-                        label: 'Kontrakan', 
-                        data: [{{ $propertiesCount }}],
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)', 
-                        borderColor: 'rgba(255, 99, 132, 1)', 
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Pengguna', 
-                        data: [{{ $usersCount }}], 
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)', 
-                        borderColor: 'rgba(54, 162, 235, 1)', 
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Kontrak', 
-                        data: [{{ $leasesCount }}], 
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)', 
-                        borderColor: 'rgba(75, 192, 192, 1)', 
-                        borderWidth: 1
-                    }
-                ]
+                    data: [{{ $propertiesCount }}, {{ $usersCount }}, {{ $facilityCount }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                return `${label}: ${value}`;
+                            }
+                        }
                     }
                 }
             }

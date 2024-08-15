@@ -203,7 +203,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar">
-                                            <img src="../../assets/img/avatars/1.png" alt class="rounded-circle">
+                                            <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : "../../assets/img/avatars/1.png" }}" alt class="rounded-circle">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">

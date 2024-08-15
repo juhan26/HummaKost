@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePropertyFurnitureRequest extends FormRequest
+class UpdatePropertyFacilityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class UpdatePropertyFurnitureRequest extends FormRequest
     {
         return [
             'property_id' => 'required|exists:properties,id',
-            'furniture_id' => 'required|exists:furniture,id'
+            'facility_id' => 'required|exists:facilities,id'
         ];
     }
 
@@ -32,8 +32,8 @@ class UpdatePropertyFurnitureRequest extends FormRequest
         return [
             'property_id.required' => 'ID properti wajib diisi.',
             'property_id.exists' => 'Properti tidak ditemukan.',
-            'furniture_id.required' => 'ID furnitur wajib diisi.',
-            'furniture_id.exists' => 'Furnitur tidak ditemukan.',
+            'facility_id.required' => 'ID furnitur wajib diisi.',
+            'facility_id.exists' => 'Furnitur tidak ditemukan.',
         ];
     }
 }

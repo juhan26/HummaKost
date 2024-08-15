@@ -75,6 +75,14 @@
                                 <div class="badge fs-6 bg-label-danger mt-6">Full</div>
                             @endif
                         </div>
+                        <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
+                            @hasrole('super_admin')
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Tambah Kontrak
+                                </button>
+                            @endhasrole
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,11 +105,11 @@
                 <div class="card-body d-flex justify-content-center">
                     @forelse ($property->leases as $lease)
                         <div class="text-center" style="min-width: 12rem; flex-shrink: 0;">
-                                <img class="rounded-circle mx-auto d-block" style="width: 5rem; height: 5rem;"
-                                    src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                    alt="{{ $lease->user->name }}">
-                                <h4 class="card-title mt-3">{{ $lease->user->name }}</h4>
-                                <p class="card-text text-muted">{{ $lease->user->status }}</p>
+                            <img class="rounded-circle mx-auto d-block" style="width: 5rem; height: 5rem;"
+                                src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                alt="{{ $lease->user->name }}">
+                            <h4 class="card-title mt-3">{{ $lease->user->name }}</h4>
+                            <p class="card-text text-muted">{{ $lease->user->status }}</p>
                         </div>
                     @empty
                         <div class="swiper-slide text-center text-black">Belum ada anggota</div>
@@ -112,7 +120,7 @@
         </div>
     </div>
 
-    {{-- Furniture --}}
+    {{-- Facility --}}
     <div class="col-12">
         <div class="card">
             <div class="card-content">
@@ -120,22 +128,22 @@
                     <div class="row">
                         <div class="col-12 col-lg-12 d-flex justify-content-around">
                             <h3 class="card-title">
-                                Daftar Furniture
+                                Daftar Facility
                             </h3>
                         </div>
                     </div>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    @forelse ($property->furnitures as $furniture)
+                    @forelse ($property->facilities as $facility)
                         <div class="text-center" style="min-width: 12rem; flex-shrink: 0;">
-                                <img class="mx-auto d-block" style="width: 5rem; height: 5rem;"
-                                    src="{{ $furniture->photo ? asset('storage/' . $furniture->photo) : asset('/assets/img/image_not_available.png') }}"
-                                    alt="{{ $furniture->name }}">
-                                <h4 class="card-title mt-3">{{ $furniture->name }}</h4>
-                                <p class="card-text text-muted">{{ $furniture->status }}</p>
+                            <img class="mx-auto d-block" style="width: 5rem; height: 5rem;"
+                                src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                alt="{{ $facility->name }}">
+                            <h4 class="card-title mt-3">{{ $facility->name }}</h4>
+                            <p class="card-text text-muted">{{ $facility->status }}</p>
                         </div>
                     @empty
-                        <div class="swiper-slide text-center text-black">Belum ada furniture</div>
+                        <div class="swiper-slide text-center text-black">Belum ada facility</div>
                     @endforelse
 
                 </div>
@@ -238,7 +246,7 @@
         </div>
     </div>
     <!-- Change Property Leader Modal -->
->>>>>>> c846f9e7b563fafae79af20ad9829c3e451d0708
+    >>>>>>> c846f9e7b563fafae79af20ad9829c3e451d0708
 
     <script>
         var lat = -7.896591;
@@ -275,4 +283,84 @@
             }
         }).addTo(map);
     </script>
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Add New Lease</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('leases.store', $property->id) }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="createUser" class="form-label">User:</label>
+                            <select class="form-select" name="user_id" id="createUser">
+                                @forelse ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @empty
+                                    <option value="">Calon Penyewa Tidak Ditemukan</option>
+                                @endforelse
+                            </select>
+                            @error('user_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="createProperty" class="form-label">Property:</label>
+                            <select class="form-select" name="property_id" id="createProperty">
+                                    <option value="{{ $property->id }}"
+                                        {{ old('property_id') == $property->id ? 'selected' : '' }}>
+                                        {{ $property->name }}
+                                    </option>
+                            </select>
+                            @error('property_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="createStartDate" class="form-label">Start Date:</label>
+                            <input type="date" class="form-control" name="start_date" id="createStartDate"
+                                value="{{ old('start_date') }}">
+                            @error('start_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="createEndDate" class="form-label">End Date:</label>
+                            <input type="date" class="form-control" name="end_date" id="createEndDate"
+                                value="{{ old('end_date') }}">
+                            @error('end_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            {{-- <label for="createStatus" class="form-label">Status:</label>
+                            <select class="form-select" name="status" id="createStatus">
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                            </select>
+                            @error('status')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror --}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="createDescription" class="form-label">Description:</label>
+                            <textarea class="form-control" name="description" id="createDescription">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add Lease</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

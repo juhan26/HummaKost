@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Furniture extends Model
+class Facility extends Model
 {
     use HasFactory;
-
-    protected $table = "furnitures";
 
     protected $fillable = [
         'photo',
@@ -19,6 +17,6 @@ class Furniture extends Model
 
     public function properties()
     {
-        return $this->belongsToMany(Property::class, 'property_furniture', 'furniture_id', 'property_id');
+        return $this->belongsToMany(Property::class, 'property_facilities', 'furniture_id', 'property_id');
     }
 }
