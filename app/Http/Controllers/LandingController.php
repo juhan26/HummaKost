@@ -35,12 +35,12 @@ class LandingController extends Controller
         $userIds = $leases->pluck('user.id')->unique();
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 
-        $furnitures = Facility::all();
+        $facilities = Facility::all();
         $feedbacks = Feedback::with('user')->get();
 
 
         // Kirim data ke view
-        return view('landing.index', compact('furnitures', 'leases', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
+        return view('landing.index', compact('facilities', 'leases', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
     }
 
 

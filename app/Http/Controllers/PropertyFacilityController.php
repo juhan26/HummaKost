@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePropertyFurnitureRequest;
 use App\Models\Facility;
+use App\Models\Furniture;
 use App\Models\Property;
 use App\Models\PropertyFacility;
 use Illuminate\Http\Request;
