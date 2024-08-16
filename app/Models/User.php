@@ -56,7 +56,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Lease::class);
     }
-    public function intances()
+    public function instance()
     {
         return $this->belongsTo(Instance::class, 'instance_id');
     }

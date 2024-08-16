@@ -80,7 +80,7 @@
 
                     <div class="row mt-4">
                         @forelse ($leases as $lease)
-                            <div class="col-md-6 col-lg-4 mb-12" style="">
+                            <div class="col-md-6 col-lg-4 mb-12">
                                 <div class="card h-100 mt-8 ms-5">
                                     <img style="height: 250px;object-fit: cover" class="card-img-top mt-8"
                                         src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('/assets/img/image_not_available.png') }}"
@@ -94,78 +94,96 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer d-flex justify-content-between align-items-center px-5 mb-5">
-                                        <a href="{{ route('payments.show', $lease->user->id) }}"
-                                            class="btn btn-outline-primary waves-effect">Lihat Detail</a>
-                                        {{-- <div class="dropdown">
-                                            <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1"
-                                                type="button" id="facilityActionsDropdown{{ $facility->id }}"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-2-line ri-20px"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end"
-                                                aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
-                                                <li><a href="{{ route('facilities.edit', $facility->id) }}"
-                                                        class="dropdown-item">Edit</a></li>
-                                                <li><button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal{{ $facility->id }}">Delete</button>
-                                                </li>
-                                            </ul>
-                                        </div> --}}
+                                        <button type="button" class="btn btn-outline-primary waves-effect"
+                                            data-bs-toggle="modal" data-bs-target="#detailModal{{ $lease->id }}">
+                                            Lihat Detail
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <img src="{{ $payment->lease->user->photo ? asset('storage/' . $payment->lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                        class="card-img-top" alt="{{ $payment->lease->user->name }}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $payment->lease->user->name }}</h5>
-                                        <p class="card-text">
-                                            <strong>Bulan:</strong> {{ $payment->month }}<br>
-                                            <strong>Nominal:</strong> Rp. {{ number_format($payment->nominal) }}<br>
-                                            <strong>Deskripsi:</strong>
-                                            {{ $payment->description ?: 'Deskripsi Kosong' }}<br>
-                                            <strong>Sisa Iuran:</strong>
-                                            {{ $payment->lease->total_iuran == $payment->lease->total_nominal ? 'Lunas' : 'Rp. ' . number_format($payment->lease->total_iuran - $payment->lease->total_nominal) }}<br>
-                                            <strong>Tanggal Dan Waktu:</strong>
-                                            {{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->format('l, d F Y H:i') }}
-                                        </p>
-                                        @hasrole('super_admin|admin')
-                                            <a href="#" class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $payment->id }}">Hapus</a>
-                                        @endhasrole
-                                    </div>
-                                </div>
 
-                                <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteModal{{ $payment->id }}" tabindex="-1"
-                                    aria-labelledby="deleteModalLabel{{ $payment->id }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $payment->id }}">Hapus
-                                                    {{ $payment->lease->user->name }}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                            {{-- Detail Modal --}}
+                            <div class="modal fade" id="detailModal{{ $lease->id }}" tabindex="-1"
+                                aria-labelledby="detailModalLabel{{ $lease->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="detailModalLabel{{ $lease->id }}">Detail
+                                                Pembayaran</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row gy-3">
+                                                <div class="col-12 col-md-4">
+                                                    <div class="card bg-success-subtle text-center">
+                                                        <div class="card-body">
+                                                            <span>Total Yang Sudah Dibayar</span>
+                                                            <h5 class="text-success mt-2">
+                                                                {{ 'Rp. ' . number_format($lease->total_nominal) }}</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="card bg-danger-subtle text-center">
+                                                        <div class="card-body">
+                                                            <span>Total Iuran</span>
+                                                            <h5 class="text-danger mt-2">
+                                                                {{ 'Rp. ' . number_format($lease->total_iuran) }}</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="card bg-warning-subtle text-center">
+                                                        <div class="card-body">
+                                                            <span>Sisa Tagihan
+                                                            </span>
+                                                            <h5 class="text-warning mt-2">
+                                                                {{ $lease->total_nominal === $lease->total_iuran ? 'Lunas' : 'Rp. ' . number_format($lease->total_iuran - $lease->total_nominal) }}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="modal-body">
-                                                Apakah anda yakin ingin menghapus Pembayaran ini?
+
+                                            <div class="table-responsive text-nowrap mt-4">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Nama</th>
+                                                            <th>Nominal</th>
+                                                            <th>Pembayaran Untuk Bulan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-border-bottom-0">
+                                                        @forelse ($lease->payments as $index => $payment)
+                                                            <tr>
+                                                                <td>{{ $index + 1 }}</td>
+                                                                <td>{{ $payment->lease->user->name }}</td>
+                                                                <td>{{ 'Rp. ' . number_format($payment->nominal) }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($payment->month)->format('F Y') }}
+                                                                </td>
+                                                            </tr>
+                                                        @empty
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">Belum ada
+                                                                    pembayaran.</td>
+                                                            </tr>
+                                                        @endforelse
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Batal</button>
-                                                <form action="{{ route('payments.destroy', $payment->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Delete Modal -->
-                            </div> --}}
+                            </div>
+                            {{-- End of Detail Modal --}}
+
                         @empty
                             <div class="col-12">
                                 <p class="text-center">

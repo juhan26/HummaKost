@@ -39,6 +39,7 @@
 <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
 <script src="../../assets/vendor/libs/bloodhound/bloodhound.js"></script>
 <script src="../../assets/js/forms-selects.js"></script>
+<script src="../../assets/vendor/libs/select2/select2.js"></script>
 <script src="../../assets/js/forms-tagify.js"></script>
 <script src="../../assets/js/forms-typeahead.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

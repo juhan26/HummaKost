@@ -65,6 +65,7 @@
                                 <th>Nama Sekolah</th>
                                 <th>Alamat Sekolah</th>
                                 <th>Deskripsi</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -130,8 +131,16 @@
                                                     @method('PUT')
                                                     <div class="mb-3">
                                                         <label for="editDescription{{ $instance->id }}"
-                                                            class="form-label">name</label>
-                                                        <textarea class="form-control" name="description" id="editDescription{{ $instance->id }}">{{ old('description', $instance->description) }}</textarea>
+                                                            class="form-label">Nama Sekolah</label>
+                                                        <input type="text" class="form-control" name="name" value="{{ old('name', $instance->name) }}">
+                                                        @error('description')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="editDescription{{ $instance->id }}"
+                                                            class="form-label">Alamat Sekolah</label>
+                                                        <textarea class="form-control" name="address" id="editDescription{{ $instance->id }}">{{ old('address', $instance->address) }}</textarea>
                                                         @error('description')
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
@@ -147,8 +156,7 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Kembali</button>
-                                                        <button type="submit" class="btn btn-primary">Edit Data
-                                                            Kontrak</button>
+                                                        <button type="submit" class="btn btn-primary">Edit Data Sekolah</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -175,60 +183,34 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">Add New Lease</h5>
+                    <h5 class="modal-title" id="createModalLabel">Tambahkan sekolah baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('instance.store') }}" method="POST">
                         @csrf
-                        {{-- <div class="mb-3">
-                            <label for="createUser" class="form-label">User:</label>
-                            <select class="form-select" name="user_id" id="createUser">
-                                @forelse ($users as $user)
-                                    <option value="{{ $user->id }}"
-                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
-                                @empty
-                                    <option value="">Calon Penyewa Tidak Ditemukan</option>
-                                @endforelse
-                            </select>
-                            @error('user_id')
+                        <div class="mb-3">
+                            <label for="createUser" class="form-label">Nama Sekolah</label>
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                            @error('name')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="createProperty" class="form-label">Property:</label>
-                            <select class="form-select" name="property_id" id="createProperty">
-                                @forelse ($properties as $property)
-                                    <option value="{{ $property->id }}"
-                                        {{ old('property_id') == $property->id ? 'selected' : '' }}>
-                                        {{ $property->name }}
-                                    </option>
-                                @empty
-                                    <option value="">Kontrakan Tidak Ditemukan</option>
-                                @endforelse
-                            </select>
-                            @error('property_id')
+                            <label for="createProperty" class="form-label">Alamat Sekolah:</label>
+                            <textarea name="address" class="form-control h-[50px]" id="" cols="20" rows="3">{{ old('address') }}</textarea>
+                            @error('address')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="createStartDate" class="form-label">Start Date:</label>
-                            <input type="date" class="form-control" name="start_date" id="createStartDate"
-                                value="{{ old('start_date') }}">
-                            @error('start_date')
+                            <label for="createProperty" class="form-label">Deskripsi:</label>
+                            <textarea name="description" class="form-control max-w-full max-h-[50px]" id="" cols="20" rows="3">{{ old('description') }}</textarea>
+                            @error('description')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label for="createEndDate" class="form-label">End Date:</label>
-                            <input type="date" class="form-control" name="end_date" id="createEndDate"
-                                value="{{ old('end_date') }}">
-                            @error('end_date')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div> --}}
+
                         {{-- <div class="mb-3">
                             <label for="createStatus" class="form-label">Status:</label>
                             <select class="form-select" name="status" id="createStatus">

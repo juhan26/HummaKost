@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Instance;
 use App\Models\User;
-use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -59,11 +59,11 @@ class UserController extends Controller
         END
     ")
             ->latest()
-            ->paginate(10);
+            ->Paginate(5);
 
-        $schools = School::all();
+        $instances = Instance::orderBy('name','ASC')->get();
         // Return view with users data
-        return view('pages.users.index', compact('users', 'cari', 'schools'));
+        return view('pages.users.index', compact('users', 'cari', 'instances'));
     }
 
 
@@ -92,7 +92,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        // dd($request->school_id);
+        // dd($request->instance_id);
         if ($request->photo) {
 
             $imagePath = $request->photo->store('photos', 'public');
@@ -102,7 +102,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'school_id' => $request->school_id,
+                'instance_id' => $request->instance_id,
                 'status' => 'accepted',
                 'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
             ])->assignRole('tenant');
@@ -112,7 +112,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'school_id' => $request->school_id,
+                'instance_id' => $request->instance_id,
                 'status' => 'accepted',
                 'password' =>  bcrypt('Tenant2024'), // Hash the password before storing it
             ])->assignRole('tenant');
