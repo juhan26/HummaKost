@@ -122,13 +122,11 @@
                                         }
                                     });
                                 </script>
+                            </form>
                         </div>
                         <div class="col-12 mt-4 col-lg-4">
-                            <div class="d-flex align-items-center w-100 px-3 justify-content-between">
-                                <button class="btn btn-secondary w-25" type="submit"><i
-                                        class="mdi ri-search-line"></i></button>
-                                </form>
-                                <button type="button" class="btn btn-primary w-50 " data-bs-toggle="modal"
+                            <div class="d-flex align-items-center w-100 justify-content-end">
+                                <button type="button" class="btn btn-primary w-100 " data-bs-toggle="modal"
                                     data-bs-target="#createModal">
                                     Add user
                                 </button>
@@ -193,9 +191,9 @@
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            @if ($user->school_id)
+                                            @if ($user->instance_id)
                                                 <span class="badge rounded-pill bg-primary">
-                                                    {{ $user->school->name }}</span>
+                                                    {{ $user->instance->name }}</span>
                                             @else
                                                 <span class="badge rounded-pill bg-label-secondary">Belum Memilih
                                                     Sekolah</span>
@@ -441,7 +439,97 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    {{ $users->links() }}
+                    @if ($users->hasPages())
+                        <div class="pagination-container d-lg-flex justify-content-lg-between align-items-lg-center">
+                            {{-- Showing result text --}}
+                            <p class="text-secondary">Menampilkan <span class="text-black">{{ $users->firstItem() }}
+                                    hingga {{ $users->lastItem() }} data dari
+                                    {{ $users->total() }}</span> hasil</p>
+
+
+                            <ul class="pagination">
+                                {{-- Previous Page Link --}}
+                                @if ($users->onFirstPage())
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link">&lsaquo;</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $users->previousPageUrl() }}"
+                                            rel="prev">&lsaquo;</a>
+                                    </li>
+                                @endif
+
+                                <div class="d-sm-flex d-md-flex d-lg-none ">
+                                    <li class="page-item active" aria-disabled="true">
+                                        <span class="page-link">{{ $users->currentPage() }}</span>
+                                    </li>
+                                </div>
+                                {{-- Pagination Elements (visible only on large screens and up) --}}
+                                <div class="d-none d-lg-flex">
+                                    @php
+                                        $currentPage = $users->currentPage();
+                                        $totalPages = $users->lastPage();
+                                        $visiblePages = 1; // Maximum number of page numbers to display
+                                    @endphp
+                                    {{-- First Page --}}
+                                    @if ($currentPage > $visiblePages + 1)
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $users->url(1) }}">1</a>
+                                        </li>
+                                        @if ($currentPage > $visiblePages + 2)
+                                            <li class="page-item disabled" aria-disabled="true">
+                                                <span class="page-link">...</span>
+                                            </li>
+                                        @endif
+                                    @endif
+
+                                    {{-- Page Numbers --}}
+                                    @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                                        @if ($i == $currentPage)
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">{{ $i }}</span>
+                                            </li>
+                                        @else
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                    href="{{ $users->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endif
+                                    @endfor
+
+                                    {{-- Last Page --}}
+                                    @if ($currentPage < $totalPages - $visiblePages)
+                                        @if ($currentPage < $totalPages - $visiblePages - 1)
+                                            <li class="page-item disabled" aria-disabled="true">
+                                                <span class="page-link">...</span>
+                                            </li>
+                                        @endif
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="{{ $users->url($totalPages) }}">{{ $totalPages }}</a>
+                                        </li>
+                                    @endif
+                                </div>
+
+                                {{-- Next Page Link --}}
+                                @if ($users->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $users->nextPageUrl() }}"
+                                            rel="next">&rsaquo;</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link">&rsaquo;</span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    @endif
+
+
+
+                    {{-- {{ $users->links() }} --}}
                 </div>
             </div>
         </div>
@@ -494,15 +582,14 @@
                             </div>
                             <div class="col-12 col-lg-6 mb-5 mt-lg-5">
                                 <div class="form-floating form-floating-outline">
-                                    @foreach ($schools as $school)
-                                        <select id="selectpickerBasic" class="selectpicker w-100"
-                                            data-style="btn-default" name="school_id">
-                                            <option value="{{ $school->id }}" {{ $school->id ? 'selected' : '' }}>
-                                                {{ $school->name }}
-                                            </option>
-                                    @endforeach
-                                    </select>
-                                    <label for="selectpickerBasic">Sekolah</label>
+                                    <select id="selectpickerBasic" class="select2 w-100"
+                                        @foreach ($instances as $instance)
+                                            data-style="btn-default" name="instance_id">
+                                            <option value="{{ $instance->id }}">
+                                                {{ $instance->name }}
+                                            </option> @endforeach
+                                        </select>
+                                        <label for="selectpickerBasic">Instansi</label>
                                 </div>
                             </div>
 
