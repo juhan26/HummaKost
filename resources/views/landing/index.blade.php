@@ -626,8 +626,8 @@
 
                 <div class="xl:w-1/2 w-full relative flex justify-center items-center">
                     <div class="inline-flex justify-center">
-                        <img src="/assets/images/cta-hero.png" alt="Achievement Image"
-                            class="xl:max-w-full max-w-[300px]">
+                        <img src="/assets/images/kosjempol.png" alt="Achievement Image"
+                            class="">
                     </div>
                 </div>
             </div>
