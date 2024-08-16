@@ -14,8 +14,23 @@ class InstanceSeeder extends Seeder
     public function run(): void
     {
         Instance::create([
-            'name'=> 'SMK Al Azhar',
+            'name'=> 'SMKN Al Azhar',
             'address' => 'Banyuwangi',
+            'description' => 'SMK HEBAT',
+        ]);
+        Instance::create([
+            'name'=> 'SMKN 2 Kraksaan',
+            'address' => 'Kraksaan',
+            'description' => 'SMK HEBAT',
+        ]);
+        Instance::create([
+            'name'=> 'SMKN 1 Kraksaan',
+            'address' => 'Kraksaan',
+            'description' => 'SMK HEBAT',
+        ]);
+        Instance::create([
+            'name'=> 'SMKN 2 Mataram',
+            'address' => 'Mataram',
             'description' => 'SMK HEBAT',
         ]);
     }

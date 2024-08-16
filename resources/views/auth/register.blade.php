@@ -258,14 +258,16 @@
                                         <div class="col-sm-6 col-lg-12 col-md-12 mb-5">
                                             <div class="form-floating form-floating-outline">
                                                 <select id="multiStepsState" class="select2 form-select"
-                                                    data-allow-clear="true" name="division">
-                                                    <option value="website">Website</option>
-                                                    <option value="mobile">Mobile</option>
-                                                    <option value="uiux">UI/UX</option>
-                                                    <option value="digmar">Digital Marketing</option>
+                                                    data-allow-clear="true" name="instance_id">
+                                                    @php
+                                                         $instances = \App\Models\Instance::orderBy('name','ASC')->get();
+                                                    @endphp
+                                                    @foreach ($instances as $instance)
+                                                    <option value="{{ $instance->id }}">{{ $instance->name }}</option>
+                                                    @endforeach
                                                 </select>
-                                                <label for="multiStepsState">Divisi</label>
-                                                @error('division')
+                                                <label for="multiStepsState">Instansi</label>
+                                                @error('instance')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
