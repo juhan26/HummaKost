@@ -1,16 +1,12 @@
 {{-- Template --}}
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center "id="layout-navbar">
-    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
-        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+<nav style="background-color: white; border-radius: 0; object-fit: contain"
+    class="p-4 border shadow-sm layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center" id="layout-navbar">
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center">
+        <a class="nav-item nav-link" href="javascript:void(0)">
             <i class="ri-menu-fill ri-22px"></i>
         </a>
     </div>
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
-
-
-
-
 
         <!-- Search -->
         {{-- <div class="navbar-nav align-items-center">
@@ -28,7 +24,7 @@
 
 
             <!-- Language -->
-            <li class="nav-item dropdown-language dropdown">
+            {{-- <li class="nav-item dropdown-language dropdown">
                 <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
                     href="javascript:void(0);" data-bs-toggle="dropdown">
                     <i class='ri-translate-2 ri-22px'></i>
@@ -59,11 +55,11 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!--/ Language -->
 
             <!-- Style Switcher -->
-            <li class="nav-item dropdown-style-switcher dropdown me-1 me-xl-0">
+            {{-- <li class="nav-item dropdown-style-switcher dropdown me-1 me-xl-0">
                 <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
                     href="javascript:void(0);" data-bs-toggle="dropdown">
                     <i class='ri-22px'></i>
@@ -85,11 +81,11 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!-- / Style Switcher-->
 
             <!-- Quick links  -->
-            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-1 me-xl-0">
+            {{-- <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-1 me-xl-0">
                 <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
                     href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                     aria-expanded="false">
@@ -172,11 +168,11 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> --}}
             <!-- Quick links -->
 
             <!-- Notification -->
-            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
+            {{-- <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
                 <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
                     href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                     aria-expanded="false">
@@ -401,7 +397,7 @@
                         </div>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!--/ Notification -->
 
             <!-- User -->
@@ -499,7 +495,7 @@
     </nav>
     {{-- /Template --}}
 
-    <script>
+    {{-- <script>
         const nav = document.getElementById('layout-navbar');
 
         window.addEventListener('scroll', function() {
@@ -508,4 +504,4 @@
             nav.classList.toggle('p-4', window.scrollY > 0);
             nav.classList.toggle('shadow-sm', window.scrollY > 0);
         });
-    </script>
+    </script> --}}

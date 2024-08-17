@@ -49,7 +49,6 @@
                     </div>
                 </form>
             </div> --}}
-
             <div class="table-responsive text-nowrap px-5">
                 <table class="table">
                     <thead>
@@ -57,8 +56,8 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Nominal</th>
-                            {{-- <th>Total Iuran</th> --}}
                             <th>Pembayaran Untuk Bulan</th>
+                            <th>Tanggal Pembayaran</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -68,6 +67,8 @@
                                 <td>{{ $payment->lease->user->name }}</td>
                                 <td>{{ 'Rp. ' . number_format($payment->nominal) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($payment->month)->format('F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->translatedFormat('d F Y H:i') }}
+                                </td>
                             </tr>
                         @empty
                             <tr>
