@@ -16,19 +16,19 @@ class FeedbackSeeder extends Seeder
         Feedback::truncate();  // Optional: Clear the table first
 
         Feedback::create([
-            'user_id' => null,  // Assuming a user with ID 1 exists
+            'user_id' => 3,  // Assuming a user with ID 1 exists
             'message' => 'Great place, very comfortable!',
             'rating' => 5,
         ]);
 
         Feedback::create([
-            'user_id' => null,  // Assuming a user with ID 2 exists
+            'user_id' => 4,  // Assuming a user with ID 2 exists
             'message' => 'Good value for money.',
             'rating' => 4,
         ]);
 
         Feedback::create([
-            'user_id' => null,  // Anonymous feedback
+            'user_id' => 5,  // Anonymous feedback
             'message' => 'Could improve the cleanliness.',
             'rating' => 3,
         ]);

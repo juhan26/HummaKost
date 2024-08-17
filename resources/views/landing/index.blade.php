@@ -690,7 +690,7 @@
                     <div class="flex items-center justify-between gap-2.5 mb-2">
                         <div class="flex items-center gap-2.5">
                             <div class="w-10 h-10 rounded-full">
-                                <img src="{{ $feedback->user_id ? asset('storage/' . $feedback->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                <img src="{{ $feedback->user_id ? asset('storage/' . $feedback->user->photo) : asset('assets/img/avatars/1.png') }}"
                                     alt="User Profile Image" class="w-full h-full rounded-full">
                             </div>
                             <div>
