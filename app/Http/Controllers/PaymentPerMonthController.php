@@ -30,6 +30,20 @@ class PaymentPerMonthController extends Controller
         $payments = $query->with('lease')->latest()->paginate(5);
         $leases = Lease::with('user')->where('status', 'active')->paginate(5);
 
+        // foreach ($leases as $lease) {
+        //     $currentDate = now();
+
+        //     $currentMonthPayment = $lease->payments->filter(function ($payment) use ($currentDate) {
+        //         return $payment->created_at->month === $currentDate->month && $payment->created_at->year === $currentDate->year;
+        //     })->first();
+
+        //     $messeage = null;
+        //     if ($currentMonthPayment) {
+        //         $messeage = "User belum melakukan pembayaran untuk bulan ini.";
+        //         break;
+        //     }
+        // }
+
         return view('pages.payments.index', compact('payments', 'leases'));
     }
 
@@ -82,6 +96,17 @@ class PaymentPerMonthController extends Controller
     public function show($paymentPerMonth)
     {
         $lease = Lease::with('user', 'payments')->find($paymentPerMonth);
+        // $currentDate = now();
+
+        // $currentMonthPayment = $lease->payments->filter(function ($payment) use ($currentDate) {
+        //     return $payment->created_at->month === $currentDate->month && $payment->created_at->year === $currentDate->year;
+        // });
+
+        // $messeage = null;
+        // if ($currentMonthPayment) {
+        //     $messeage = "User belum melakukan pembayaran untuk bulan ini.";
+        // }
+
         return view('pages.payments.detail', compact('lease'));
     }
 
