@@ -1,102 +1,110 @@
 @extends('app')
 
 @section('content')
-    <div class="col-4">
-        <div class="card" style="border: 1px solid rgba(0,0,0,.05)">
-                    <form action="" method="get">
-                        @csrf
-                        <div class="row g-0">
-                            <div class="col-6">
-                                <label class="form-check-label custom-option-content w-100" for="tenantRadio">
-                                    <div class="card w-100 shadow-none" id="cardtenant">
-                                        <div class="card-content">
-                                            <div class="card-body d-flex justify-content-center">
-                                                <span>Penyewa</span>
-                                                <input name="filter" class="form-check-input" id="tenantRadio"
-                                                    type="radio" value="tenant" onclick="this.form.submit()" checked
-                                                    hidden />
-                                            </div>
-                                        </div>
+    <div class="col-5">
+        <style>
+            #switchUser {
+                border: 1px solid rgba(0, 0, 0, .05);
+                transition: ease-in .2s;
+            }
+
+            #switchUser:hover {
+                background-color: rgba(31, 180, 134, .1);
+                transition: ease-in .2s;
+                border: 1px solid rgba(31, 180, 134, .3);
+            }
+            #divSearchInput{
+                background-color:rgba(31, 180, 134, .1);
+            }
+        </style>
+        <div class="card" id="switchUser">
+            <form action="" method="get">
+                @csrf
+                <div class="row g-0">
+                    <div class="col-6">
+                        <label class="form-check-label custom-option-content w-100" for="tenantRadio">
+                            <div class="card w-100 shadow-none bg-transparent" id="cardtenant">
+                                <div class="card-content">
+                                    <div class="card-body d-flex justify-content-center">
+                                        <span>Penyewa</span>
+                                        <input name="filter" class="form-check-input" id="tenantRadio" type="radio"
+                                            value="tenant" onclick="this.form.submit()" checked hidden />
                                     </div>
-                                </label>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <label class="form-check-label custom-option-content w-100" for="adminRadio">
-                                    <div class="card w-100 shadow-none" id="cardadmin">
-                                        <div class="card-content">
-                                            <div class="card-body d-flex justify-content-center">
-                                                <span>Ketua kontrakan</span>
-                                                <input name="filter" class="form-check-input" id="adminRadio"
-                                                    type="radio" value="admin" onclick="this.form.submit()" hidden />
-                                            </div>
-                                        </div>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-check-label custom-option-content w-100" for="adminRadio">
+                            <div class="card w-100 shadow-none bg-transparent" id="cardadmin">
+                                <div class="card-content">
+                                    <div class="card-body d-flex justify-content-center">
+                                        <span>Ketua kontrakan</span>
+                                        <input name="filter" class="form-check-input" id="adminRadio" type="radio"
+                                            value="admin" onclick="this.form.submit()" hidden />
                                     </div>
-                                </label>
+                                </div>
                             </div>
-                        </div>
-                        <script>
-                            // Fungsi untuk mendapatkan parameter dari URL
-                            function getParameterByName(name) {
-                                const urlParams = new URLSearchParams(window.location.search);
-                                return urlParams.get(name);
-                            }
+                        </label>
+                    </div>
+                </div>
+                <script>
+                    // Fungsi untuk mendapatkan parameter dari URL
+                    function getParameterByName(name) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        return urlParams.get(name);
+                    }
 
-                            // Ambil nilai dari parameter 'filter'
-                            const filterValue = getParameterByName('filter');
+                    // Ambil nilai dari parameter 'filter'
+                    const filterValue = getParameterByName('filter');
 
-                            // Jika ada nilai parameter 'filter' di URL
-                            if (filterValue) {
-                                // Temukan radio button yang cocok dan set sebagai checked
-                                const radio = document.querySelector(`input[name="filter"][value="${filterValue}"]`);
-                                const card = document.querySelector(`#card${filterValue}`);
-                                if (radio && card) {
-                                    radio.checked = true;
-                                    card.classList.toggle('bg-primary')
-                                    card.classList.toggle('text-white')
-                                }
-                            } else {
-                                const radio = document.querySelector(`input[name="filter"][value="tenant"]`);
-                                const card = document.querySelector(`#cardtenant`);
-                                if (radio && card) {
-                                    radio.checked = true;
-                                    card.classList.toggle('bg-primary')
-                                    card.classList.toggle('text-white')
-                                }
-                            }
-                        </script>
+                    // Jika ada nilai parameter 'filter' di URL
+                    if (filterValue) {
+                        // Temukan radio button yang cocok dan set sebagai checked
+                        const radio = document.querySelector(`input[name="filter"][value="${filterValue}"]`);
+                        const card = document.querySelector(`#card${filterValue}`);
+                        if (radio && card) {
+                            radio.checked = true;
+                            card.classList.toggle('bg-primary')
+                            card.classList.toggle('text-white')
+                        }
+                    } else {
+                        const radio = document.querySelector(`input[name="filter"][value="tenant"]`);
+                        const card = document.querySelector(`#cardtenant`);
+                        if (radio && card) {
+                            radio.checked = true;
+                            card.classList.toggle('bg-primary')
+                            card.classList.toggle('text-white')
+                        }
+                    }
+                </script>
 
-                    </form>
+            </form>
         </div>
     </div>
     <div class="col-12">
         <div class="card">
             <div class="card-content">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 col-lg-12">
+                    <div class="row d-flex align-items-center mt-4" style="height: 60px">
+                        <div class="col-12 col-lg-7 h-100 justify-content-center align-items-center" >
                             @php
-                                if ($cari === 1) {
-                                    $title = 'Hasil pencarian..';
-                                } else {
                                     $filteredUsers = $users->filter(function ($user) {
                                         return $user->roles->contains('name', 'tenant');
                                     });
                                     $title = $filteredUsers->isNotEmpty() ? 'Penyewa' : 'Ketua kontrakan';
-                                }
                             @endphp
-                            <h3 class="card-title">{{ $title }}</h3>
-                            <small>Kelola profil dan detail pengguna secara efisien.</small>
+                        <h3 class="card-title">{{ $title }}</h3>
                         </div>
-                    </div>
-                    <div class="row d-flex align-items-center mt-4">
-                        <div class="col-12 col-lg-8 mt-4">
-                            <form action="" method="GET" class="d-flex w-100 ">
+                        <div class="col-12 col-lg-4 h-100">
+                            <form action="" method="GET" class="d-flex w-100 h-100 ">
                                 @csrf
-                                <div class="d-flex align-items-center border rounded w-100 px-3">
+                                <div class="d-flex align-items-center  w-100 px-3" id="divSearchInput" style="border-radius: 15px">
+                                    <span class="material-symbols-outlined text-secondary ms-4">search</span>
                                     <input type="text" name="search" id="searchInput" class="form-control border-none"
-                                        value="{{ request()->input('search') }}" placeholder="Search...">
+                                        value="{{ request()->input('search') }}">
                                     <a href="{{ route('user.index') }}" style="display: none" id="clearSearch"
-                                        class="btn-close"></a>
+                                        class="btn-close me-4"></a>
                                 </div>
                                 <script>
                                     const key = document.getElementById('searchInput');
@@ -120,11 +128,11 @@
                                 </script>
                             </form>
                         </div>
-                        <div class="col-12 mt-4 col-lg-4">
-                            <div class="d-flex align-items-center w-100 justify-content-end">
-                                <button type="button" class="btn btn-primary w-100 " data-bs-toggle="modal"
+                        <div class="col-12 col-lg-1 ">
+                            <div class="d-flex align-items-center w-100 justify-content-end ">
+                                <button type="button" class="btn btn-primary w-75 " style="border-radius: 15px;padding-top:.85rem;padding-bottom:.85rem;"  data-bs-toggle="modal"
                                     data-bs-target="#createModal">
-                                    Add user
+                                    <span class="material-symbols-outlined">filter_list</span>
                                 </button>
                             </div>
                         </div>
