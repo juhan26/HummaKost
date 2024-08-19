@@ -1,14 +1,14 @@
 @extends('app')
 
 @section('content')
-    <div class="container mb-4 mt-8">
+    <div class="container mb-6 mt-8">
         <div class="row">
             <!-- Cards Section -->
             <div class="col-md-3 mb-4">
                 <div class="card text-center" style="background-color: #E6F4EA;">
                     <div class="card-body">
                         <div class="icon mb-2">
-                            
+                            <img src="assets/img/images/iuran.png" alt="" style="width: 70px" >
                         </div>
                         <h5 class="card-title">Total Iuran</h5>
                         <p class="card-text">Rp. 300.000</p>
@@ -19,7 +19,7 @@
                 <div class="card text-center" style="background-color: #F3F0FF;">
                     <div class="card-body">
                         <div class="icon mb-2">
-                            <!-- Add your icon here -->
+                            <img src="assets/img/images/pengguna.png" alt="" style="width: 70px" >
                         </div>
                         <h5 class="card-title">Anggota</h5>
                         <p class="card-text">19</p>
@@ -30,7 +30,7 @@
                 <div class="card text-center" style="background-color: #FFE8E5;">
                     <div class="card-body">
                         <div class="icon mb-2">
-                            <!-- Add your icon here -->
+                            <img src="assets/img/images/perabotan.png" alt="" style="width: 70px" >
                         </div>
                         <h5 class="card-title">Perabotan</h5>
                         <p class="card-text">13</p>
@@ -41,7 +41,7 @@
                 <div class="card text-center" style="background-color: #FFF6E5;">
                     <div class="card-body">
                         <div class="icon mb-2">
-                            <!-- Add your icon here -->
+                            <img src="assets/img/images/rumah.png" alt="" style="width: 70px" >
                         </div>
                         <h5 class="card-title">Kontrakan</h5>
                         <p class="card-text">2</p>

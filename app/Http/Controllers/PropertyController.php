@@ -54,7 +54,7 @@ class PropertyController extends Controller
                 'name' => $request->name,
                 'image' => $imagePath,
                 'rental_price' => $request->rental_price,
-                'description' => $request->description,
+                'description' => $request->description, 
                 'address' => $request->address,
                 'capacity' => $request->capacity,
                 'gender_target' => $request->gender_target,

@@ -11,4 +11,5 @@ Route::middleware(['auth', 'role:admin|super_admin'])->group(function () {
 
     Route::post('/properties/addPropertyLeader',  [PropertyController::class, 'addPropertyLeader'])->name('properties.addPropertyLeader');
     Route::post('/properties/{property}/editPropertyLeader',  [PropertyController::class, 'editPropertyLeader'])->name('properties.editPropertyLeader');
+
 });
