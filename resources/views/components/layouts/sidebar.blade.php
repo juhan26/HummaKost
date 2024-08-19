@@ -1,80 +1,95 @@
 <style>
+    #layout-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        border-radius: 0;
+        object-fit: contain;
+        max-width: 100% ;
+        margin: 0 auto;
+        align-self: end;
+        z-index: 1000;
+        transition: ease-in .3s;
+    }
     @media screen and (min-width: 567px) {
 
-            #layout-navbar {
-                position: fixed;
-                top: 0;
-                left: 16.25rem;
-                width: 100%;
-                background-color: white;
-                border-radius: 0;
-                object-fit: contain;
-                max-width: calc(100% - 19.25rem);
-                margin: 0 auto;
-                align-self: end;
-                z-index: 1000;
-                transition: ease-in .3s;
-            }
+        #layout-navbar {
+            position: fixed;
+            top: 0;
+            left: 16.25rem;
+            width: 100%;
+            background-color: white;
+            border-radius: 0;
+            object-fit: contain;
+            max-width: calc(100% - 16.25rem);
+            margin: 0 auto;
+            align-self: end;
+            z-index: 1000;
+            transition: ease-in .3s;
+        }
 
-            .layout-page {
-                padding-top: 4rem;
-                position: relative;
-            }
+        .layout-page {
+            padding-top: 4rem;
+            position: relative;
+        }
 
-            .layout-menu.expanded {
-                width: 16.25rem;
-                transition: ease-in .3s;
-            }
+        .layout-menu.expanded {
+            width: 16.25rem;
+            transition: ease-in .3s;
+        }
 
-            .layout-menu.collapsed {
-                width: 4.5rem;
-                overflow: hidden;
-                transition: ease-out .3s;
-            }
+        .layout-menu.collapsed {
+            width: 4.5rem;
+            overflow: hidden;
+            transition: ease-out .3s;
+        }
 
 
-            .layout-menu.collapsed .app-brand-link .app-brand-text {
-                display: none;
-            }
+        .layout-menu.collapsed .app-brand-link .app-brand-text {
+            display: none;
+        }
 
-            .menu-item {
-                transition: ease-in .3s;
-            }
+        .menu-item {
+            transition: ease-in .3s;
+        }
 
-            .menu-item .menu-link {
-                transition: ease-in .3s;
-            }
+        .menu-item .menu-link {
+            transition: ease-in .3s;
+        }
 
-            .layout-menu.collapsed .menu-item {
-                width: 100%;
-            }
+        .layout-menu.collapsed .menu-item {
+            width: 100%;
+        }
 
-            .layout-menu.collapsed .menu-item .menu-link {
-                display: flex;
-                justify-content: start;
-                align-items: center;
-                padding: 10px;
-            }
+        .layout-menu.collapsed .menu-item .menu-link {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            padding: 10px;
+        }
 
-            .layout-menu.collapsed .menu-item .menu-icon {
-                display: block;
-            }
+        .layout-menu.collapsed .menu-item .menu-icon {
+            display: block;
+        }
 
-            .layout-menu.collapsed .menu-item div {
-                display: none;
-            }
+        .layout-menu.collapsed .menu-item div {
+            display: none;
+        }
 
-            .menu-item .menu-icon span {
-                color: #20b486;
-            }
-            .menu-item.active .menu-icon span {
-                color: #fff;
-            }
+        .menu-item .menu-icon span {
+            color: #20b486;
+        }
+
+        .menu-item.active .menu-icon span {
+            color: #fff;
+        }
     }
 </style>
 
-<aside id="layout-menu" class="layout-menu card menu-vertical menu bg-white bg-menu-theme "
-    style="border-right: 1px solid rgba(0,0,0,.1);border-radius: 0">
+<aside id="layout-menu" class="layout-menu card menu-vertical menu bg-menu-theme"
+    style="border-radius: 0;">
 
 
     <div class="app-brand demo">
@@ -100,7 +115,8 @@
             <span class="menu-header-text">Menu</span>
         </li>
         <li class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-            <a href="{{ url('dashboard') }}" class="menu-link">
+            <a href="{{ url('dashboard') }}" class="menu-link" data-bs-toggle="tooltip" data-bs-html="true"
+                title='Dashboard' data-popup="tooltip-custom" data-bs-placement="top">
                 <div class="menu-icon"><span class="material-symbols-outlined">dashboard</span></div>
                 <div>Dasbor</div>
 
@@ -223,7 +239,7 @@
                     navLink.textContent = 'dock_to_right'
                     layoutPage.style.paddingLeft = "16.25rem"
                     navbar.style.left = "16.25rem"
-                    navbar.style.maxWidth = "calc(100% - 19.25rem)";
+                    navbar.style.maxWidth = "calc(100% - 16.25rem)";
                     menuHeader.forEach((header, index) => {
                         header.textContent = originalHeadersText[index]
                     });
@@ -237,11 +253,10 @@
                     });
                     navLink.textContent = 'dock_to_left'
                     layoutPage.style.paddingLeft = "6.25rem"
-                    navbar.style.left = "6.25rem"
-                    navbar.style.maxWidth = "calc(100% - 9.25rem)";
+                    navbar.style.left = "4.5rem"
+                    navbar.style.maxWidth = "calc(100% - 4.5rem)";
                 }
             });
         });
     </script>
 </aside>
-
