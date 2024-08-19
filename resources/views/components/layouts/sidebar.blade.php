@@ -1,5 +1,88 @@
+<style>
+    /* Navbar fixed to the top */
+    #layout-navbar {
+        position: fixed;
+        /* Make navbar fixed */
+        top: 0;
+        /* Stick to the top */
+        left: 16.25rem;
+        /* Align to the left of the viewport */
+        width: 100%;
+        /* Full width of the viewport */
+        background-color: white;
+        /* Background color */
+        border-radius: 0;
+        /* No border radius */
+        object-fit: contain;
+        /* Ensure proper fitting */
+        max-width: calc(100% - 19.25rem);
+        margin: 0 auto;
+        align-self: end;
+        /* Max width is 100% */
+        z-index: 1000;
+        transition: ease-in .3s;
+        /* Ensure it's above other content */
+    }
+
+    /* Add padding to the top of the page to prevent content from being hidden behind the fixed navbar */
+    .layout-page {
+        padding-top: 4rem;
+        /* Adjust this value according to the height of the navbar */
+        position: relative;
+    }
+
+    /* Styles for the menu in its expanded state */
+    .layout-menu.expanded {
+        width: 16.25rem;
+        transition: ease-in .3s;
+    }
+
+    /* Styles for the menu in its collapsed state */
+    .layout-menu.collapsed {
+        width: 5rem;
+        overflow: hidden;
+        transition: ease-out .3s;
+    }
+
+    .layout-menu.collapsed .menu-header {
+        display: none;
+    }
+
+    .layout-menu.collapsed .app-brand-link .app-brand-text {
+        display: none;
+    }
+
+    .menu-item {
+        transition: ease-in .3s;
+    }
+
+    .menu-item .menu-link {
+        transition: ease-in .3s;
+    }
+
+    .layout-menu.collapsed .menu-item {
+        width: 100%;
+    }
+
+    .layout-menu.collapsed .menu-item .menu-link {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .layout-menu.collapsed .menu-item .menu-icon {
+        display: block;
+    }
+
+    .layout-menu.collapsed .menu-item div {
+        display: none;
+    }
+</style>
+
 <aside id="layout-menu" class="layout-menu card menu-vertical menu bg-white bg-menu-theme "
     style="border-right: 1px solid rgba(0,0,0,.1);border-radius: 0">
+
 
     <div class="app-brand demo">
         <a href="{{ route('dashboard') }}" class="app-brand-link">
@@ -11,16 +94,16 @@
             </div>
         </a>
 
-        {{-- <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
-                    d="M8.47365 11.7183C8.11707 12.0749 8.11707 12.6531 8.47365 13.0097L12.071 16.607C12.4615 16.9975 12.4615 17.6305 12.071 18.021C11.6805 18.4115 11.0475 18.4115 10.657 18.021L5.83009 13.1941C5.37164 12.7356 5.37164 11.9924 5.83009 11.5339L10.657 6.707C11.0475 6.31653 11.6805 6.31653 12.071 6.707C12.4615 7.09747 12.4615 7.73053 12.071 8.121L8.47365 11.7183Z"
-                    fill-opacity="0.9" />
+                    d="M11.4854 4.88844C11.0081 4.41121 10.2344 4.41121 9.75715 4.88844L4.51028 10.1353C4.03297 10.6126 4.03297 11.3865 4.51028 11.8638L9.75715 17.1107C10.2344 17.5879 11.0081 17.5879 11.4854 17.1107C11.9626 16.6334 11.9626 15.8597 11.4854 15.3824L7.96672 11.8638C7.48942 11.3865 7.48942 10.6126 7.96672 10.1353L11.4854 6.61667C11.9626 6.13943 11.9626 5.36568 11.4854 4.88844Z"
+                    fill="currentColor" fill-opacity="0.6" />
                 <path
-                    d="M14.3584 11.8336C14.0654 12.1266 14.0654 12.6014 14.3584 12.8944L18.071 16.607C18.4615 16.9975 18.4615 17.6305 18.071 18.021C17.6805 18.4115 17.0475 18.4115 16.657 18.021L11.6819 13.0459C11.3053 12.6693 11.3053 12.0587 11.6819 11.6821L16.657 6.707C17.0475 6.31653 17.6805 6.31653 18.071 6.707C18.4615 7.09747 18.4615 7.73053 18.071 8.121L14.3584 11.8336Z"
-                    fill-opacity="0.4" />
+                    d="M15.8683 4.88844L10.6214 10.1353C10.1441 10.6126 10.1441 11.3865 10.6214 11.8638L15.8683 17.1107C16.3455 17.5879 17.1192 17.5879 17.5965 17.1107C18.0737 16.6334 18.0737 15.8597 17.5965 15.3824L14.0778 11.8638C13.6005 11.3865 13.6005 10.6126 14.0778 10.1353L17.5965 6.61667C18.0737 6.13943 18.0737 5.36568 17.5965 4.88844C17.1192 4.41121 16.3455 4.41121 15.8683 4.88844Z"
+                    fill="currentColor" fill-opacity="0.38" />
             </svg>
-        </a> --}}
+        </a>
     </div>
 
     <div class="menu-inner-shadow"></div>
@@ -32,7 +115,7 @@
         <li class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
             <a href="{{ url('dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-3-line"></i>
-                <div>Dashboard</div>
+                <div><span class="material-symbols-outlined">home</span></div>
             </a>
         </li>
         <li class="menu-header mt-5">
@@ -143,4 +226,31 @@
             </li>
         @endhasrole --}}
     </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.layout-navbar .layout-menu-toggle');
+            const layoutPage = document.querySelector('.layout-page');
+            const navLink = document.querySelector('.navbar-nav .nav-link .material-symbols-outlined');
+            const navbar = document.querySelector('#layout-navbar');
+            const menu = document.getElementById('layout-menu');
+
+            menuToggle.addEventListener('click', function() {
+                if (menu.classList.contains('collapsed')) {
+                    menu.classList.remove('collapsed');
+                    menu.classList.add('expanded');
+                    layoutPage.style.paddingLeft = "16.25rem"
+                    navLink.textContent = 'dock_to_right'
+                    navbar.style.left = "16.25rem"
+                    navbar.style.maxWidth = "calc(100% - 19.25rem)";
+                } else {
+                    menu.classList.remove('expanded');
+                    menu.classList.add('collapsed');
+                    layoutPage.style.paddingLeft = "6.25rem"
+                    navLink.textContent = 'dock_to_left'
+                    navbar.style.left = "6.25rem"
+                    navbar.style.maxWidth = "calc(100% - 9.25rem)";
+                }
+            });
+        });
+    </script>
 </aside>
