@@ -76,7 +76,6 @@
                             <tr>
                                 <th>Foto</th>
                                 <th>Nama Penyewa</th>
-                                <th>Roles</th>
                                 <th>Kontrakan</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
@@ -94,7 +93,7 @@
                                             alt="{{ $lease->user->name }}" class="img-fluid">
                                     </td>
                                     <td>{{ $lease->user->name }}</td>
-                                    <td>
+                                    {{-- <td>
                                         @foreach ($lease->user->getRoleNames() as $role)
                                             @if ($role == 'admin')
                                                 <span class="badge bg-warning">{{ $role }}</span>
@@ -104,11 +103,11 @@
                                                 <span class="badge bg-success">{{ $role }}</span>
                                             @endif
                                         @endforeach
-                                    </td>
+                                    </td> --}}
                                     <td>{{ $lease->properties->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($lease->start_date)->translatedFormat('j F Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($lease->end_date)->translatedFormat('j F Y') }}</td>
-                                    <td>{{ $lease->total_iuran == $lease->total_nominal ? 'Lunas' : "Rp. " . number_format($lease->total_iuran) }}
+                                    <td>{{ $lease->total_iuran == $lease->total_nominal ? 'Lunas' : 'Rp. ' . number_format($lease->total_iuran) }}
                                     </td>
                                     <td>
                                         <span
