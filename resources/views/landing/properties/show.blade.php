@@ -263,21 +263,22 @@
                                         <div class="card-header">
                                             <div class="flex justify-center">
                                                 <h3 class="card-title text-xl font-bold">
-                                                    Daftar Furniture
+                                                    Daftar Fasilitas
                                                 </h3>
                                             </div>
                                         </div>
                                         <div class="card-body flex flex-wrap justify-center gap-4">
-                                            @forelse ($property->furnitures as $furniture)
+                                            @forelse ($property->facilities as $facilities)
                                                 <div class="text-center min-w-[12rem] flex-shrink-0">
                                                     <img class="mx-auto" style="width: 5rem; height: 5rem;"
-                                                        src="{{ $furniture->photo ? asset('storage/' . $furniture->photo) : asset('/assets/img/image_not_available.png') }}"
-                                                        alt="{{ $furniture->name }}">
-                                                    <h4 class="card-title mt-3 font-semibold">{{ $furniture->name }}</h4>
-                                                    <p class="card-text text-muted">{{ $furniture->status }}</p>
+                                                        src="{{ $facilities->photo ? asset('storage/' . $facilities->photo) : asset('/assets/img/image_not_available.png') }}"
+                                                        alt="{{ $facilities->name }}">
+                                                    <h4 class="card-title mt-3 font-semibold">{{ $facilities->name }}
+                                                    </h4>
+                                                    <p class="card-text text-muted">{{ $facilities->status }}</p>
                                                 </div>
                                             @empty
-                                                <div class="text-center text-black">Belum ada furniture</div>
+                                                <div class="text-center text-black">Belum ada fasilitas</div>
                                             @endforelse
                                         </div>
                                     </div>
