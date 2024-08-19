@@ -30,8 +30,13 @@
                                     <i
                                         class="ri-calendar-line ri-20px me-2"></i>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
                                 </h5>
-                                <span class="badge rounded-pill bg-light"
-                                    style="padding: 8px 20px; color: rgba(32,180,134,0.7); background-color: rgba(32,180,134,0.2);">Tersedia</span>
+                                @if ($property->status === 'available')
+                                    <span class="badge rounded-pill bg-light"
+                                        style="padding: 8px 20px; color: rgba(32,180,134,0.7); background-color: rgba(32,180,134,0.2);">Tersedia</span>
+                                @else
+                                    <span class="badge rounded-pill bg-light"
+                                        style="padding: 8px 20px; color: rgba(196,69,54,0.7); background-color: rgba(196,69,54,0.2);">Penuh</span>
+                                @endif
                             </div>
                             <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
                             <p class="card-text" style="height: 80px; overflow: hidden; text-overflow: ellipsis;">
