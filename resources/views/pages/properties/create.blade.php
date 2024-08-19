@@ -1,6 +1,50 @@
 @extends('app')
 
 @section('content')
+    <style>
+        .checkbox {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .parentCheckbox {
+            border-radius: 15px;
+            position: relative;
+            padding: 10px;
+            background-color: #FFFFFF;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .parentCheckbox:hover {
+            background-color: rgba(32, 180, 134, 0.1);
+        }
+
+        .checked-icon {
+            display: none;
+            color: white;
+            font-size: 1.5em;
+            margin-left: 5px;
+        }
+
+        .parentCheckbox.checked .checked-icon {
+            display: inline;
+        }
+
+        .parentCheckbox.checked #facility-name {
+            color: white
+        }
+
+        .parentCheckbox.checked {
+            background-color: rgba(32, 180, 134, 1);
+        }
+    </style>
+
     <div class="col-md-12">
         <div class="card mb-6">
             <h5 class="card-header">Tambah Kontrakan Baru</h5>
@@ -45,28 +89,29 @@
                             <input type="text" name="address" class="form-control" value="{{ old('address') }}">
                         </div>
 
-                        <div class="col-12 col-lg-12 mb-3" style="max-height: 300px; overflow: auto">
-                            <label for="facility_id[]" class="form-label">Facility</label>
-                            @forelse ($facilities as $facility)
-                                <div class="input-group mb-2">
-                                    <div class="input-group-text form-check mb-0">
-                                        <input class="form-check-input m-auto" type="checkbox" value="{{ $facility->id }}"
-                                            name="facility_id[]" aria-label="Checkbox for following text input"
+                        <div class="col-12 col-lg-12 mb-3 py-3" style="max-height: 300px; overflow: auto">
+                            <label for="facility_id[]" class="form-label">Fasilitas</label>
+                            <div class="row gap-3">
+                                @forelse ($facilities as $facility)
+                                    <div class="p-4 col-2 col-lg-2 text-center shadow-sm parentCheckbox">
+                                        <input type="checkbox" name="facility_id[]" id="facility_{{ $facility->id }}"
+                                            class="checkbox" value="{{ $facility->id }}"
                                             @if (is_array(old('facility_id')) && in_array($facility->id, old('facility_id'))) checked @endif>
+                                        <span style="white-space: nowrap;" id="facility-name">
+                                            {{ $facility->name }} <span class="checked-icon">✓</span>
+                                        </span>
                                     </div>
-                                    <input type="text" disabled class="form-control"
-                                        aria-label="Text input with checkbox" value="{{ $facility->name }}">
-                                </div>
-                            @empty
-                                <div class="input-group mb-2">
-                                    <div class="input-group-text form-check mb-0">
-                                        <input class="form-check-input m-auto" type="checkbox" disabled value=""
-                                            aria-label="Checkbox for following text input">
+                                @empty
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text form-check mb-0">
+                                            <input class="form-check-input m-auto" type="checkbox" disabled value=""
+                                                aria-label="Checkbox for following text input">
+                                        </div>
+                                        <input type="text" disabled class="form-control"
+                                            aria-label="Text input with checkbox" value="Belum Ada Facility">
                                     </div>
-                                    <input type="text" disabled class="form-control"
-                                        aria-label="Text input with checkbox" value="Belum Ada Facility">
-                                </div>
-                            @endforelse
+                                @endforelse
+                            </div>
                         </div>
 
                         <div class="mb-5 mt-2">
@@ -147,78 +192,69 @@
                 marker.setLatLng([lat, lng]);
             }
 
-            var apiKey = '8bc19529d2bf4e1c93b380dfd6acb17b';
+            var apiKey = '8bc19529d2bf4e1e8e90f0b275f8109f';
             var url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`;
 
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.results.length > 0) {
-                        var locationDetails = data.results[0].formatted;
-                        marker.bindPopup(locationDetails).openPopup();
-
-                        document.getElementById('langtitude').value = lat;
-                        document.getElementById('longtitude').value = lng;
-                    } else {
-                        alert('Lokasi Tidak Ditemukan.');
+                    if (data.results && data.results.length > 0) {
+                        var address = data.results[0].formatted;
+                        marker.bindPopup(address).openPopup();
                     }
-                })
-                .catch(error => console.error('Error:', error));
+                });
         }
 
-        function onMapClick(e) {
-            var clickedLat = e.latlng.lat;
-            var clickedLng = e.latlng.lng;
+        document.getElementById('map').addEventListener('click', function(e) {
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
 
-            updateMarkerAndPopup(clickedLat, clickedLng);
+            document.getElementById('langtitude').value = lat;
+            document.getElementById('longtitude').value = lng;
 
-            document.getElementById('langtitude').value = clickedLat;
-            document.getElementById('longtitude').value = clickedLng;
-        }
-
-        map.on('click', onMapClick);
+            updateMarkerAndPopup(lat, lng);
+        });
 
         document.getElementById('search-button').addEventListener('click', function() {
-            var location = encodeURIComponent(document.getElementById('location-search').value);
-            if (location) {
-                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.length > 0) {
-                            var lat = data[0].lat;
-                            var lng = data[0].lon;
-                            map.setView([lat, lng], 16);
+            var address = document.getElementById('location-search').value;
 
-                            updateMarkerAndPopup(lat, lng);
+            var geocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${address}&key=${apiKey}`;
 
-                            document.getElementById('langtitude').value = lat;
-                            document.getElementById('longtitude').value = lng;
-                        } else {
-                            alert('Lokasi Tidak Ditemukan.');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
+            fetch(geocodeUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        var lat = data.results[0].geometry.lat;
+                        var lng = data.results[0].geometry.lng;
+
+                        map.setView([lat, lng], zoomLevel);
+                        document.getElementById('langtitude').value = lat;
+                        document.getElementById('longtitude').value = lng;
+
+                        updateMarkerAndPopup(lat, lng);
+                    }
+                });
         });
 
         document.getElementById('search-coordinates-button').addEventListener('click', function() {
-            var lat = document.getElementById('langtitude').value;
-            var lng = document.getElementById('longtitude').value;
-            var apiKey = '8bc19529d2bf4e1c93b380dfd6acb17b';
-            var url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`;
+            var lat = parseFloat(document.getElementById('langtitude').value);
+            var lng = parseFloat(document.getElementById('longtitude').value);
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.results.length > 0) {
-                        map.setView([lat, lng], 13);
+            if (!isNaN(lat) && !isNaN(lng)) {
+                map.setView([lat, lng], zoomLevel);
+                updateMarkerAndPopup(lat, lng);
+            }
+        });
 
-                        updateMarkerAndPopup(lat, lng);
-                    } else {
-                        alert('Lokasi Tidak Ditemukan.');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+        document.querySelectorAll('.checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const parentDiv = checkbox.closest('.parentCheckbox');
+                if (checkbox.checked) {
+                    parentDiv.classList.add('checked');
+                } else {
+                    parentDiv.classList.remove('checked');
+                }
+            });
         });
     </script>
 @endsection
