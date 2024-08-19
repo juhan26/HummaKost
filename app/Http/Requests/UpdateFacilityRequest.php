@@ -24,7 +24,7 @@ class UpdateFacilityRequest extends FormRequest
     {
         return [
             'photo' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
-            'name' => ['required', 'string', 'max:255', Rule::unique('furnitures', 'name')->ignore($this->route('furniture'))],
+            'name' => ['required', 'string', 'max:255', Rule::unique('facilities', 'name')->ignore($this->facility->id)],
             'description' => 'nullable|string|max:255',
         ];
     }
