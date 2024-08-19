@@ -1,6 +1,20 @@
 @extends('app')
 
 @section('content')
+    <div class="col-12 col-lg-12" style="min-height: 200px">
+        <div class="d-flex align-items-center justify-content-between" style="padding-top: 20px;">
+            <h3 class="m-0"><strong>List Kontrakan</strong></h3>
+            <div class="d-flex" style="gap: 30px;position: relative">
+                <input type="text"
+                    style="border: 0;background-color: rgba(32,180,134,0.1);border-radius: 15px;height: 60px; width: 584px;outline:none;padding: 0 50px 0 50px">
+                <button type="button" class="btn"
+                    style="width: 160px; border-radius: 15px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
+                        class="ri-add-line ri-20px"></i>Tambah</button>
+                <i class="ri-search-line ri-20px"
+                    style="position: absolute;top: 50%;transform: translateY(-50%);left: 2%"></i>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <div class="card-datatable table-responsive pt-0">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
