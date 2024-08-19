@@ -64,6 +64,11 @@
 <script src="../../assets/vendor/js/template-customizer.js"></script>
 <script src="../../assets/js/config.js"></script>
 
+
+
+<link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
+
+
 <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 <link rel="stylesheet" href="../../assets/vendor/libs/select2/select2.css" />
 <link rel="stylesheet" href="../../assets/vendor/libs/tagify/tagify.css" />
