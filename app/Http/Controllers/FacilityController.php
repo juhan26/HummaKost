@@ -35,26 +35,29 @@ class FacilityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreFacilityRequest $request)
+    {
+        if ($request->photo) {
+            $photoPath = $request->photo->store('facility_photos', 'public');
+            Facility::create([
+                'photo' => $photoPath,
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+        } else {
+            Facility::create([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+        }
+        return redirect()->route('facilities.index')->with('success', "Berhasil Menambah Fasilitas");
+    }
+    public function upload(Request $request)
     {
         $photo = $request->file('photo');
         $imageName = time() . rand(1, 100) . '.' . $photo->extension();
         $photo->move(public_path('images'), $imageName);
         return response()->json(['success' => $imageName]);
-        // if ($request->photo) {
-        //     $photoPath = $request->photo->store('facility_photos', 'public');
-        //     Facility::create([
-        //         'photo' => $photoPath,
-        //         'name' => $request->name,
-        //         'description' => $request->description,
-        //     ]);
-        // } else {
-        //     Facility::create([
-        //         'name' => $request->name,
-        //         'description' => $request->description,
-        //     ]);
-        // }
-        return redirect()->route('facilities.index')->with('success', "Berhasil Menambah Fasilitas");
     }
 
     /**

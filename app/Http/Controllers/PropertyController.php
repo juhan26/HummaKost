@@ -54,7 +54,7 @@ class PropertyController extends Controller
                 'name' => $request->name,
                 'image' => $imagePath,
                 'rental_price' => $request->rental_price,
-                'description' => $request->description, 
+                'description' => $request->description,
                 'address' => $request->address,
                 'capacity' => $request->capacity,
                 'gender_target' => $request->gender_target,
@@ -112,9 +112,6 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-        $furnitures = Facility::all();
-        $selectedFurnitures = $property->furnitures->pluck('id')->toArray();
-        return view('pages.properties.edit', compact('property', 'furnitures', 'selectedFurnitures'));
         $facilities = Facility::all();
         $selectedFacility = $property->facilities->pluck('id')->toArray();
         return view('pages.properties.edit', compact('property', 'facilities', 'selectedFacility'));
