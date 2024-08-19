@@ -22,7 +22,8 @@
                 <div class="col">
                     <div class="card shadow-sm" style="border-radius: 20px; overflow: hidden;">
                         <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
-                            alt="{{ $property->name }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+                            alt="{{ $property->name }}" class="card-img-top"
+                            style="min-height: 250px;max-height: 350px; object-fit: cover;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="m-0" style="color: rgba(32,180,134,1)">
