@@ -13,6 +13,7 @@
                     style="width: 160px; padding: 15px 0 ;border-radius: 10px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
                         class="ri-add-line ri-20px"></i>Tambah</a>
                 {{-- <i class="ri-search-line ri-20px"
+
                 {{-- style="position: absolute; top: 25%;transform: translateY(-50%); left: 10px;"></i>  --}}
             </div>
         </div>
