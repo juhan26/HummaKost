@@ -25,10 +25,10 @@
             <div class="card shadow-sm position-relative" style="border-radius: 20px; overflow: hidden;">
                 <!-- Edit and Delete Icons -->
                 <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;" id="card-actions-{{ $property->id }}">
-                    <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-outline-primary btn-sm">
+                    <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">
                         <i class="ri-edit-line"></i>
                     </a>
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $property->id }}">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $property->id }}">
                         <i class="ri-delete-bin-line"></i>
                     </button>
                 </div>
