@@ -1,16 +1,14 @@
 @extends('app')
 
 @section('content')
-    <div class="col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-body">
+    <div class="col-4">
+        <div class="card" style="border: 1px solid rgba(0,0,0,.05)">
                     <form action="" method="get">
                         @csrf
-                        <div class="row">
+                        <div class="row g-0">
                             <div class="col-6">
                                 <label class="form-check-label custom-option-content w-100" for="tenantRadio">
-                                    <div class="card w-100" id="cardtenant">
+                                    <div class="card w-100 shadow-none" id="cardtenant">
                                         <div class="card-content">
                                             <div class="card-body d-flex justify-content-center">
                                                 <span>Penyewa</span>
@@ -24,7 +22,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="form-check-label custom-option-content w-100" for="adminRadio">
-                                    <div class="card w-100" id="cardadmin">
+                                    <div class="card w-100 shadow-none" id="cardadmin">
                                         <div class="card-content">
                                             <div class="card-body d-flex justify-content-center">
                                                 <span>Ketua kontrakan</span>
@@ -68,8 +66,6 @@
                         </script>
 
                     </form>
-                </div>
-            </div>
         </div>
     </div>
     <div class="col-12">
