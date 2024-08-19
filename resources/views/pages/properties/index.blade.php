@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="col-12 col-lg-12" style="min-height: 200px">
-        <div class="d-flex align-items-center justify-content-between" style="padding-top: 20px;">
+        <div class="d-flex align-items-center justify-content-between" style="padding: 50px 0 30px 0;">
             <h3 class="m-0"><strong>List Kontrakan</strong></h3>
             <div class="d-flex" style="gap: 30px;position: relative">
                 <input type="text"
@@ -12,6 +12,29 @@
                         class="ri-add-line ri-20px"></i>Tambah</button>
                 <i class="ri-search-line ri-20px"
                     style="position: absolute;top: 50%;transform: translateY(-50%);left: 2%"></i>
+            </div>
+        </div>
+
+        <div class="shadow-sm" style="width: 550px; height: 600px; border-radius: 30px; overflow: hidden;">
+            <img src="{{ asset('/images/172403214214.jpg') }}" alt="" style="width: 100%;height: 350px;">
+            <div class="d-flex justify-content-between px-4 pt-4 pb-2 align-items-center" style="">
+                <h5 class="m-0" style="color: rgba(32,180,134,1)"><i class="ri-calendar-line ri-30px me-2"></i>27 Mei
+                    2020</h5>
+                <span class="badge rounded-pill bg-subtle"
+                    style="background-color: rgba(32,180,134,0.2);padding: 8px 23px 8px 23px;color: rgba(32,180,134,0.7) ">Tersedia</span>
+            </div>
+
+            <div class="px-4">
+                <h4 class="m-0"><strong>Las Vegas</strong></h4>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis hic veniam, deleniti obcaecati
+                    praesentium a, ratione iste consectetur vero totam repellendus earum fuga quisquam voluptatibus, minima
+                    non dolorum.</p>
+            </div>
+
+            <div class="d-flex justify-content-between px-4">
+                <h4 class="" style="color: rgba(32,180,134,1)">Rp. 300.000 / bln</h4>
+                <button class="btn text-white"
+                    style="background-color: rgba(32,180,134,1);width: 100px;height: 40px;border-radius:15px;">Detail</button>
             </div>
         </div>
     </div>
