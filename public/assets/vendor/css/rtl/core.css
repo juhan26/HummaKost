@@ -29559,7 +29559,6 @@ html:not([dir="rtl"])
 .layout-navbar.navbar-detached {
     transition: padding 0.2s ease, background-color 0.18s ease;
     padding: 0;
-    width: calc(100% - 1.5rem * 2);
     border-bottom-right-radius: 0.625rem;
     border-bottom-left-radius: 0.625rem;
 }
