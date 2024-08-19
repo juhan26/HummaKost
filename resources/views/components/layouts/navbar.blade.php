@@ -101,33 +101,3 @@
     </nav>
 {{-- /Template --}}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.querySelector('.layout-menu-toggle');
-        const layoutPage = document.querySelector('.layout-page');
-        const navLink = document.querySelector('.layout-menu-toggle .material-symbols-outlined');
-        const menu = document.getElementById('layout-navbar');
-
-        menuToggle.addEventListener('click', function() {
-            if (menu.classList.contains('collapsed')) {
-                menu.classList.remove('collapsed');
-                menu.classList.add('expanded');
-                layoutPage.style.paddingLeft = "6.25rem"; // Disesuaikan dengan nilai padding sesuai status menu
-                navLink.textContent = 'dock_to_right'; // Mengubah teks ikon sesuai status menu
-            } else {
-                menu.classList.remove('expanded');
-                menu.classList.add('collapsed');
-                layoutPage.style.paddingLeft = "16.25rem"; // Disesuaikan dengan nilai padding sesuai status menu
-                navLink.textContent = 'dock_to_left'; // Mengubah teks ikon sesuai status menu
-            }
-        });
-
-        // Script untuk mengubah kelas navbar saat scroll
-        window.addEventListener('scroll', function() {
-            menu.classList.toggle('bg-white', window.scrollY > 0);
-            menu.classList.toggle('border', window.scrollY > 0);
-            menu.classList.toggle('p-4', window.scrollY > 0);
-            menu.classList.toggle('shadow-sm', window.scrollY > 0);
-        });
-    });
-</script>
