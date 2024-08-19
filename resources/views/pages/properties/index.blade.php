@@ -16,46 +16,38 @@
                 {{-- style="position: absolute; top: 25%;transform: translateY(-50%); left: 10px;"></i>  --}}
         </div>
     </div>
-
-<div class="container">
-    <div class="row">
-        @foreach($properties as $property)
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm position-relative" style="border-radius: 20px; overflow: hidden;">
-                <!-- Edit and Delete Icons -->
-                <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;" id="card-actions-{{ $property->id }}">
-                    <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">
-                        <i class="ri-edit-line"></i>
-                    </a>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $property->id }}">
-                        <i class="ri-delete-bin-line"></i>
-                    </button>
-                </div>
-
-                <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
-                    alt="{{ $property->name }}" class="card-img-top" style="height: 250px; object-fit: cover;">
-
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="m-0" style="color: rgba(32,180,134,1)">
-                            <i class="ri-calendar-line ri-20px me-2"></i>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
-                        </h5>
-                        <span class="badge rounded-pill bg-light"
-                            style="padding: 8px 20px; color: rgba(32,180,134,0.7); background-color: rgba(32,180,134,0.2);">Tersedia</span>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3">
+            @forelse ($properties as $property)
+                <div class="col">
+                    <div class="card shadow-sm" style="border-radius: 20px; overflow: hidden;">
+                        <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
+                            alt="{{ $property->name }}" class="card-img-top"
+                            style="min-height: 250px;max-height: 350px; object-fit: cover;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="m-0" style="color: rgba(32,180,134,1)">
+                                    <i
+                                        class="ri-calendar-line ri-20px me-2"></i>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
+                                </h5>
+                                @if ($property->status === 'available')
+                                    <span class="badge rounded-pill bg-light"
+                                        style="padding: 8px 20px; color: rgba(32,180,134,0.7); background-color: rgba(32,180,134,0.2);">Tersedia</span>
+                                @else
+                                    <span class="badge rounded-pill bg-light"
+                                        style="padding: 8px 20px; color: rgba(196,69,54,0.7); background-color: rgba(196,69,54,0.2);">Penuh</span>
+                                @endif
+                            </div>
+                            <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
+                            <p class="card-text" style="height: 80px; overflow: hidden; text-overflow: ellipsis;">
+                                {{ $property->description ? $property->description : 'Deskripsi Kosong' }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="m-0" style="color: rgba(32,180,134,1)">Rp.
+                                    {{ number_format($property->rental_price, 0, ',', '.') }} / bln</h5>
+                                <a href="{{ route('properties.show', $property->id) }}" class="btn text-white"
+                                    style="background-color: rgba(32,180,134,1); width: 100px; height: 40px; border-radius: 10px;">Detail</a>
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
-                    <p class="card-text" style="height: 80px; overflow: hidden; text-overflow: ellipsis;">
-                        {{ $property->description ? $property->description : 'Deskripsi Kosong' }}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="m-0" style="color: rgba(32,180,134,1)">Rp.
-                            {{ number_format($property->rental_price, 0, ',', '.') }} / bln</h5>
-                        <a href="{{ route('properties.show', $property->id) }}" class="btn text-white"
-                            style="background-color: rgba(32,180,134,1); width: 100px; height: 40px; border-radius: 10px;">Detail</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Delete Modal -->
         <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
             <div class="modal-dialog">
