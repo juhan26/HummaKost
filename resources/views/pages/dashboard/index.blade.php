@@ -51,31 +51,29 @@
         </div>
 
         <div class="row">
-
             <div class="col-md-6">
-                <div class="row  h-100">
-
+                <div class="row h-100">
                     <div class="col-12 mb-lg-6 mb-md-6">
-        
                         <div class="card h-100">
                             <div class="card-header">
                                 <div class="card-title">Tenggat Pembayaran</div>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-center">
+                                    <!-- Content for Tenggat Pembayaran -->
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="col-12 ">
-        
+                    <div class="col-12">
                         <div class="card h-100">
                             <div class="card-header">
                                 <div class="card-title">Tenggat Pembayaran</div>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-center">
+                                    <!-- Content for Tenggat Pembayaran -->
                                 </div>
                             </div>
                         </div>
@@ -91,7 +89,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-center">
-                            <canvas id="dashboardChart"></canvas>
+                            <canvas id="dashboardChart" style="max-width: 350px; max-height: 450px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -130,7 +128,7 @@
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'top',
+                            position: 'bottom',
                         },
                         tooltip: {
                             callbacks: {
