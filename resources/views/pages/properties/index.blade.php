@@ -1,22 +1,21 @@
 @extends('app')
 
 @section('content')
-    <div class="container" style="min-height: 200px">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4"
-            style="padding: 50px 0 30px 0;">
-            <h3 class="m-0 mb-3 mb-md-0"><strong>List Kontrakan</strong></h3>
-            <div class="d-flex flex-column flex-md-row align-items-center" style="gap: 15px; position: relative; width: 70%;">
-                <input type="text" class="form-control"
-                    style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none; "
-                    value="{{ request('search') }}" placeholder="Cari...">
-                <a href="{{ route('properties.create') }}" class="btn"
-                    style="width: 160px; padding: 15px 0 ;border-radius: 10px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
-                        class="ri-add-line ri-20px"></i>Tambah</a>
-                {{-- <i class="ri-search-line ri-20px"
-                    {{-- style="position: absolute; top: 25%;transform: translateY(-50%); left: 10px;"></i>  --}}
-            </div>
+<div class="container" style="min-height: 200px">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4"
+        style="padding: 50px 0 30px 0;">
+        <h3 class="m-0 mb-3 mb-md-0"><strong>List Kontrakan</strong></h3>
+        <div class="d-flex flex-column flex-md-row align-items-center" style="gap: 15px; position: relative; width: 70%;">
+            <input type="text" class="form-control"
+                style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none; "
+                value="{{ request('search') }}" placeholder="Cari...">
+            <a href="{{ route('properties.create') }}" class="btn"
+                style="width: 160px; padding: 15px 0 ;border-radius: 10px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
+                    class="ri-add-line ri-20px"></i>Tambah</a>
+            {{-- <i class="ri-search-line ri-20px"
+                {{-- style="position: absolute; top: 25%;transform: translateY(-50%); left: 10px;"></i>  --}}
         </div>
-
+    </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3">
             @forelse ($properties as $property)
                 <div class="col">
@@ -49,19 +48,29 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            @empty
-                <div class="col-12">
-                    <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
-                        <div class="head-label text-center">
-                            <h5 class="card-title mb-0">
-                                {{ request('search') ? 'Kontrakan Tidak Ditemukan' : 'Belum Ada Kontrakan' }}</h5>
-                        </div>
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ $property->id }}">Hapus Properti</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus properti ini?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
                     </div>
                 </div>
-            @endforelse
+            </div>
         </div>
-
-        {{ $properties->links() }}
+        @endforeach
     </div>
+</div>
 @endsection
