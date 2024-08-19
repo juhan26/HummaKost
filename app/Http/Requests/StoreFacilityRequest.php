@@ -23,7 +23,7 @@ class StoreFacilityRequest extends FormRequest
     {
         return [
             'photo' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
-            'name' => 'required|string|max:255|unique:furnitures,name',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
         ];
     }
