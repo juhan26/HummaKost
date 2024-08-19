@@ -32,8 +32,11 @@
 <script src="../../assets/js/config.js"></script>
 {{-- Jquery --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{{-- ApexChart --}}
+<script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
 {{-- SweetAlert --}}
-<script src="../../assets/vendor/libs/select2/select2.js"></script>
 <script src="../../assets/vendor/libs/tagify/tagify.js"></script>
 <script src="../../assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
 <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
@@ -50,3 +53,4 @@
 
 <!-- Page JS -->
 <script src="../../assets/js/dashboards-analytics.js"></script>
+<script src="../../assets/js/charts-apex.js"></script>

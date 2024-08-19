@@ -42,5 +42,25 @@ class UserSeeder extends Seeder
             "status" => "accepted",
             "password" => "12345678",
         ])->assignRole('tenant');
+
+        User::create([
+            "name" => "juhan",
+            "gender" => "male",
+            "email" => "juhan@gmail.com",
+            "phone_number" => "087678908712",
+            "instance_id" => 1,
+            "status" => "accepted",
+            "password" => "12345678",
+        ])->assignRole('tenant');
+
+        User::create([
+            "name" => "jovita",
+            "gender" => "male",
+            "email" => "jovita@gmail.com",
+            "phone_number" => "0876789082",
+            "instance_id" => 1,
+            "status" => "accepted",
+            "password" => "12345678",
+        ])->assignRole('tenant');
     }
 }
