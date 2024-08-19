@@ -32,14 +32,11 @@ class UpdateInstanceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nama.required' => 'nama sekolah tidak boleh kosong',
-            'nama.unique' => 'nama sekolah sudah terdaftar',
-            'address.required' => 'alamat tidak boleh kosong',
-            'address.min' => 'karakter tidak boleh kurang dari 20',
-            'address.max' => 'karakter tidak boleh lebih dari 255 karakter',
-            'description.required' => 'deskripsi tidak boleh kosong',
-            'description.min' => 'karakter tidak boleh kurang dari 10',
-            'description.max' => 'karakter tidak boleh lebih dari 1000 karakter',
+        'name.required' => 'Nama sekolah tidak boleh kosong',
+        'name.unique' => 'Nama sekolah sudah terdaftar',
+        'address.required' => 'Alamat tidak boleh kosong',
+        'address.max' => 'Alamat tidak boleh lebih dari 255 karakter',
+        'description.max' => 'Deskripsi tidak boleh lebih dari 1000 karakter',
 
         ];
     }
