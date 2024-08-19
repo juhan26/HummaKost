@@ -43,13 +43,13 @@
             {{-- sidebar --}}
             @include('components.layouts.sidebar')
             <!-- Layout container -->
-            <div class="layout-page">
+            <div class="layout-page" style="transition: ease-in .3s;">
                 <!-- Navbar -->
-                @include('components.layouts.navbar')
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
-                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="container-xxl flex-grow-1 container-p-y" style="max-width: 100%;position:relative;">
+                        @include('components.layouts.navbar')
 
                         <div class="row g-6">
                             @if (session('success'))
@@ -93,7 +93,7 @@
                                         html: errorMessages,
                                         confirmButtonColor: '#3085d6',
                                         showConfirmButton: true,
-                                        timer: 3000, 
+                                        timer: 3000,
                                         timerProgressBar: true
                                     });
                                 </script>
