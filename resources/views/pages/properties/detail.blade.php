@@ -50,7 +50,7 @@
 
 
             @if ($property->status === 'available')
-                    <span class="label bg-label-primary" style="padding: 8px 20px; border-radius: 15px;"><strong>Tersedia</strong></span>
+                    <span class="label bg-label-primary" style="padding: 8px 20px; border-radius: 15px;"><strong>Tersedia </strong></span>
               @else
             <span class="label bg-label-danger" style="padding: 8px 20px; border-radius: 15px;"><strong>Full</strong></span>
             @endif
