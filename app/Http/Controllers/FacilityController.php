@@ -53,14 +53,14 @@ class FacilityController extends Controller
         return redirect()->route('facilities.index')->with('success', "Berhasil Menambah Fasilitas");
     }
 
-    public function upload(Request $request)
-    {
-        $photo = $request->file('photo');
-        $imageName = time() . rand(1, 100) . '.' . $photo->extension();
-        $photoPath = $photo->store('facilityPhotos', 'public');
-        // $photo->move(public_path('images'), $imageName);
-        return response()->json(['success' => $imageName]);
-    }
+    // public function upload(Request $request)
+    // {
+    //     $photo = $request->file('photo');
+    //     $imageName = time() . rand(1, 100) . '.' . $photo->extension();
+    //     $photoPath = $photo->store('facilityPhotos', 'public');
+    //     // $photo->move(public_path('images'), $imageName);
+    //     return response()->json(['success' => $imageName]);
+    // }
 
     /**
      * Display the specified resource.

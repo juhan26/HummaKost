@@ -62,19 +62,57 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
+
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#imageDetail{{ $facility->id }}"><i
+                                            class="ri-image-line me-2 ri-20px"></i>Gambar Detail</button>
+                                </li>
+
                                 <li>
                                     <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#updateModal{{ $facility->id }}"><i
-                                            class="ri-edit-line ri-20px"></i>Edit</button>
+                                            class="ri-edit-line me-2 ri-20px"></i>Edit</button>
                                 </li>
 
-                                <li><button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal{{ $facility->id }}"><i
-                                            class="ri-delete-bin-line ri-20px"></i> Delete</button></li>
+                                            class="ri-delete-bin-line me-2 ri-20px"></i>Hapus</button>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
                 </div>
+
+                <!-- Image Detail Image -->
+                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1"
+                    aria-labelledby="imageDetailModalLabel aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar
+                                    {{ $facility->id }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('facility_images.store') }}" class="dropzone" id="imageDropZone"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" value="{{ $facility->id }}" name="facility_id">
+
+                                    <button type="submit" id="submit-all" class="btn btn-primary"
+                                        style="position: absolute; bottom: 0; right: 0; margin: 10px">Tambah
+                                        Gambar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image Detail Image -->
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
@@ -82,7 +120,8 @@
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit {{ $facility->id }}
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit
+                                    {{ $facility->id }}
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -151,7 +190,8 @@
                 <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
                     <div class="head-label text-center">
                         <h5 class="card-title mb-0">
-                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}</h5>
+                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}
+                        </h5>
                     </div>
                 </div>
             @endforelse
@@ -197,6 +237,52 @@
     <!-- Store Modal -->
 
     <script>
+        Dropzone.autoDiscover = false;
+
+        const myDropzone = new Dropzone("#imageDropZone", {
+            url: "{{ route('facility_images.store') }}", // URL untuk mengirimkan gambar
+            paramName: "images", // Nama parameter yang digunakan untuk mengirimkan gambar
+            maxFilesize: 5, // Batas maksimal ukuran file (MB)
+            acceptedFiles: ".jpeg,.jpg,.png", // Tipe file yang diperbolehkan
+            autoProcessQueue: false, // Mencegah pengiriman otomatis
+            addRemoveLinks: true, // Tampilkan tombol hapus
+            dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
+            parallelUploads: 10, // Jumlah file yang diproses sekaligus
+            init: function() {
+                const submitButton = document.querySelector("#submit-all");
+                const dropzoneInstance = this;
+
+                submitButton.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (dropzoneInstance.getQueuedFiles().length > 0) {
+                        dropzoneInstance.processQueue();
+                    } else {
+                        dropzoneInstance.submitForm();
+                    }
+                });
+
+                this.on("sending", function(file, xhr, formData) {
+                    formData.append("_token", "{{ csrf_token() }}");
+                    formData.append("facility_id", document.querySelector('input[name="facility_id"]')
+                        .value);
+                });
+
+                this.on("success", function(file, response) {
+                    console.log('Upload berhasil:', response);
+                });
+
+                this.on("queuecomplete", function() {
+                    dropzoneInstance.submitForm();
+                });
+            },
+            submitForm: function() {
+                document.querySelector("#imageDropZone").submit();
+            }
+        });
+
+
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             console.log(file);

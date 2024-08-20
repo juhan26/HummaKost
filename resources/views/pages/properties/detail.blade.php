@@ -50,13 +50,23 @@
 
 
             @if ($property->status === 'available')
-                    <span class="label bg-label-primary" style="padding: 8px 20px; border-radius: 15px;"><strong>Tersedia </strong></span>
+                    <span class="label bg-label-primary me-2" style="padding: 8px 20px; border-radius: 15px;"><strong>Tersedia </strong></span>
               @else
-            <span class="label bg-label-danger" style="padding: 8px 20px; border-radius: 15px;"><strong>Full</strong></span>
+            <span class="label bg-label-danger me-2" style="padding: 8px 20px; border-radius: 15px;"><strong>Full</strong></span>
             @endif
 
-            <span class="label bg-label-info" style="padding: 8px 20px; border-radius: 15px;">Total Orang: <strong>{{ $property->leases->count() }}</strong></span>
-            <span class="label bg-label-warning" style="padding: 8px 20px; border-radius: 15px;">Kapasitas: <strong>{{ $property->capacity }}</strong></span>
+            <span class="label me-2" style="padding: 8px 20px; border-radius: 15px; color: purple; background-color:rgb(248, 216, 248) ;">Total Orang: <strong>{{ $property->leases->count() }}</strong></span>
+            <span class="label bg-label-warning me-2" style="padding: 8px 20px; border-radius: 15px;">Kapasitas: <strong>{{ $property->capacity }}</strong></span>
+
+            @if ($property->gender_target === 'male')  
+                    <span class="label rounded-pill bg-label-info" style="padding: 8px 20px; border-radius: 15px;">
+                        <i class="mdi ri-men-line"></i> Laki-Laki
+                    </span>
+                @else
+                    <span class="label rounded-pill bg-label-danger" style="padding: 8px 20px; border-radius: 15px;">
+                        <i class="mdi ri-women-line"></i> Perempuan
+                    </span>
+                @endif
 
             @php
                 $status = false;
