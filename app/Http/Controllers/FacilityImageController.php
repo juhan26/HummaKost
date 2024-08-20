@@ -28,11 +28,13 @@ class FacilityImageController extends Controller
      */
     public function store(Request $request)
     {
-        $photo = $request->file('photo');
-        $imageName = time() . rand(1, 100) . '.' . $photo->extension();
+        $photo = $request->images;
         $photoPath = $photo->store('facility_detail_photos', 'public');
-        // $photo->move(public_path('images'), $imageName);
-        return response()->json(['success' => $imageName]);
+
+        FacilityImage::create([
+            'facility_id'=>$request->facility_id,
+            'image'=> $photoPath,
+        ]);
     }
 
     /**
