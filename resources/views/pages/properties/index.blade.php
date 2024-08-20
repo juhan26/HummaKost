@@ -34,13 +34,13 @@
                         </div>
 
                         <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
-                            alt="{{ $property->name }}" class="card-img-top"
-                            style="height: 250px; object-fit: cover;">
+                            alt="{{ $property->name }}" class="card-img-top" style="height: 250px; object-fit: cover;">
 
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="m-0" style="color: rgba(32,180,134,1)">
-                                    <i class="ri-calendar-line ri-20px me-2"></i>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
+                                    <i
+                                        class="ri-calendar-line ri-20px me-2"></i>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
                                 </h5>
                                 <span class="label bg-label-primary"
                                     style="padding: 8px 20px; border-radius: 15px;">Tersedia</span>
@@ -69,7 +69,8 @@
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="propertyDetailModalLabel{{ $property->id }}">
                                     Detail Kontrakan "{{ $property->name }}"</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row g-4">
@@ -78,22 +79,24 @@
                                             <img class="img-fluid rounded" src="{{ asset('storage/' . $property->image) }}"
                                                 alt="Gambar {{ $property->name }}" />
                                         @else
-                                            <img class="img-fluid rounded" src="{{ asset('assets/img/image_not_available.png') }}"
+                                            <img class="img-fluid rounded"
+                                                src="{{ asset('assets/img/image_not_available.png') }}"
                                                 alt="Gambar tidak tersedia" />
                                         @endif
                                     </div>
                                     <div class="col-12">
                                         <h3 class="text-black">{{ $property->name }}</h3>
                                         <p>{{ $property->description }}</p>
-                                
-                                       
-                                
+
+
+
                                         <h4 class="fw-bold text-primary my-3">
-                                            {{ 'Rp. ' . number_format($property->rental_price, 0) . '/ bln'}}
+                                            {{ 'Rp. ' . number_format($property->rental_price, 0) . '/ bln' }}
                                         </h4>
-                                
+
                                         <div class="d-flex align-items-center my-2 mb-8">
-                                            <span class="badge me-2 {{ $property->status === 'available' ? 'bg-label-primary' : 'bg-label-danger' }}">
+                                            <span
+                                                class="badge me-2 {{ $property->status === 'available' ? 'bg-label-primary' : 'bg-label-danger' }}">
                                                 {{ $property->status === 'available' ? 'Tersedia' : 'Full' }}
                                             </span>
                                             <span class="badge bg-label-secondary me-2">Total Orang:
@@ -104,9 +107,9 @@
                                             </span>
                                         </div>
 
-                                         {{-- Menampilkan status Ketua Kontrakan --}}
-                                         {{-- @php $status = false; @endphp
-                                
+                                        {{-- Menampilkan status Ketua Kontrakan --}}
+                                        {{-- @php $status = false; @endphp
+
                                          @foreach ($property->leases as $lease)
                                              @if ($lease->user->hasRole('admin'))
                                                  <p class="text-primary">
@@ -119,7 +122,7 @@
                                                  @php $status = true; @endphp
                                              @endif
                                          @endforeach
-                                 
+
                                          @if (!$status)
                                              <p class="text-danger">
                                                  Belum Ada Ketua Kontrakan
@@ -129,20 +132,15 @@
                                                     style="cursor: pointer; width: 1px; height: 0px;"></button>
                                              </p>
                                          @endif --}}
-                                
+
                                         @hasrole('super_admin')
-                                            
-                                        <button type="button" class="btn btn-primary w-30 mt-3" 
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#createModal" 
-                                        >Tambah Kontrak</button>
-
-
+                                            <button type="button" class="btn btn-primary w-30 mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#createModal">Tambah Kontrak</button>
                                         @endhasrole
                                     </div>
                                 </div>
-                                
-                
+
+
                                 {{-- ANGGOTA --}}
                                 <div class="card mt-4">
                                     <div class="card-header">
@@ -164,11 +162,77 @@
                                     </div>
                                 </div>
                                 {{-- END ANGGOTA --}}
+
+                                {{-- MAPS --}}
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-12 d-flex justify-content-around">
+                                                        <h3 class="card-title">
+                                                            Lokasi
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-12">
+                                                        <div class="map-container">
+                                                            <div style="width: 100%;height: 83vh;border-radius: 10px"
+                                                                id="map"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
+                                                    <div class="map-container">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    var lat = -7.896591;
+                                    var lng = 112.6089657;
+                                    var zoomLevel = 16;
+
+                                    var map = L.map('map').setView([lat, lng], zoomLevel);
+
+                                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                        attribution: '© OpenStreetMap contributors'
+                                    }).addTo(map);
+
+                                    var waypoints = [{
+                                            latLng: L.latLng(<?php echo json_encode($property->langtitude); ?>, <?php echo json_encode($property->longtitude); ?>),
+                                            title: <?php echo json_encode($property->name); ?>,
+                                            address: <?php echo json_encode($property->address); ?>,
+                                        },
+                                        {
+                                            latLng: L.latLng(-7.900063, 112.6068816),
+                                            title: "Hummasoft / Hummatech (PT Humma Teknologi Indonesia)",
+                                            address: "Perum Permata Regency 1, Blk. 10 No.28, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152"
+                                        }
+                                    ];
+
+                                    var routingControl = L.Routing.control({
+                                        waypoints: waypoints.map(function(wp) {
+                                            return wp.latLng;
+                                        }),
+                                        routeWhileDragging: true,
+                                        createMarker: function(i, wp, nWps) {
+                                            var popupContent = waypoints[i].title + "<br><br><b>Address:</b>" + waypoints[i].address;
+                                            var marker = L.marker(wp.latLng).bindPopup(popupContent);
+                                            return marker;
+                                        }
+                                    }).addTo(map);
+                                </script>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 {{-- End Detail Modal --}}
             @endforeach
         </div>

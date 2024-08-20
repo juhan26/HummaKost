@@ -246,7 +246,7 @@
         </div>
     </div>
     <!-- Change Property Leader Modal -->
-    >>>>>>> c846f9e7b563fafae79af20ad9829c3e451d0708
+    
 
     <script>
         var lat = -7.896591;
