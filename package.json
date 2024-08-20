@@ -10,6 +10,7 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.4",
     "bootstrap": "^5.3.3",
+    "daisyui": "^4.12.10",
     "flowbite": "^2.5.1",
     "laravel-vite-plugin": "^1.0.5",
     "postcss": "^8.4.41",

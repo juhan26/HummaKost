@@ -61,7 +61,7 @@ class UserController extends Controller
             ->latest()
             ->Paginate(5);
 
-        $instances = Instance::orderBy('name','ASC')->get();
+        $instances = Instance::orderBy('name', 'ASC')->get();
         // Return view with users data
         return view('pages.users.index', compact('users', 'cari', 'instances'));
     }
@@ -124,8 +124,17 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        if (Auth::user()->id !== $user->id) {
+            return redirect()->route('user.index')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+        }
+
+        // Mengambil data instance untuk dropdown atau pilihan lainnya
+        $instances = Instance::orderBy('name', 'ASC')->get();
+
+        // Mengirim data pengguna dan instance ke view
+        return view('landing.users.show', compact('user', 'instances'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
