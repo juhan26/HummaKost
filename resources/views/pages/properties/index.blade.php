@@ -42,8 +42,8 @@
                                 <h5 class="m-0" style="color: rgba(32,180,134,1)">
                                     <i class="ri-calendar-line ri-20px me-2"></i>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
                                 </h5>
-                                <span class="badge rounded-pill bg-light"
-                                    style="padding: 8px 20px; color: rgba(32,180,134,0.7); background-color: rgba(32,180,134,0.2);">Tersedia</span>
+                                <span class="label bg-label-primary"
+                                    style="padding: 8px 20px; border-radius: 15px;">Tersedia</span>
                             </div>
                             <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
                             <p class="card-text" style="height: 80px; overflow: hidden; text-overflow: ellipsis;">
@@ -67,110 +67,100 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="propertyDetailModalLabel{{ $property->id }}">Detail Kontrakan
-                                    {{ $property->name }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <h5 class="modal-title text-primary" id="propertyDetailModalLabel{{ $property->id }}">
+                                    Detail Kontrakan "{{ $property->name }}"</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            {{-- properties --}}
-                                            <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
-                                                <div class="col-12 col-lg-6">
-                                                    @if ($property->image)
-                                                        <img class="card-img-top"
-                                                            src="{{ asset('storage/' . $property->image) }}"
-                                                            alt="Card image cap" />
-                                                    @else
-                                                        <img class="card-img-top"
-                                                            src="{{ asset('assets/img/image_not_available.png') }}"
-                                                            alt="Card image cap" />
-                                                    @endif
-                                                </div>
-                                                <div class="col-12 col-lg-6 ">
-                                                    <h1 class="text-secondary-emphasis">{{ $property->name }}</h1>
-                                                    <h5 class="text-secondary">{{ $property->description }}</h5>
-                                                    @php
-                                                        $status = false;
-                                                    @endphp
-                                                    @foreach ($property->leases as $lease)
-                                                        @if ($lease->user->hasRole('admin'))
-                                                            <p style="color: blue;">
-                                                                Ketua Kontrakan: {{ $lease->user->name }}
-                                                                <a data-bs-toggle="modal"
-                                                                    data-bs-target="#editPropertyLeaderModal{{ $property->id }}"
-                                                                    style="text-decoration: underline; color:purple; cursor: pointer;">Ubah
-                                                                    Ketua</a>
-                                                            </p>
-                                                            @php
-                                                                $status = true;
-                                                            @endphp
-                                                        @endif
-                                                    @endforeach
-
-                                                    @if ($status == false)
-                                                        <p style="color: red;">
-                                                            Belum Ada Ketua Kontrakan
-                                                            <a data-bs-toggle="modal"
-                                                                data-bs-target="#addPropertyLeaderModal{{ $property->id }}"
-                                                                style="text-decoration: underline; color:blue; cursor: pointer;">Tambah
-                                                                Ketua</a>
-                                                        </p>
-                                                    @endif
-
-                                                    <h2 class="fw-bold text-secondary my-6">
-                                                        {{ 'Rp. ' . number_format($property->rental_price, 0) }}
-                                                    </h2>
-                                                    <div class="badge fs-6 bg-label-secondary mt-6 me-3">Total Orang:
-                                                        <strong>{{ $property->leases->count() }}</strong>
-                                                    </div>
-                                                    /
-                                                    <div class="badge fs-6 bg-label-warning mt-6 me-3">Kapasitas:
-                                                        <strong>{{ $property->capacity }}</strong>
-                                                    </div>
-                                                    @if ($property->status === 'available')
-                                                        <div class="badge fs-6 bg-label-success mt-6">Tersedia</div>
-                                                    @else
-                                                        <div class="badge fs-6 bg-label-danger mt-6">Full</div>
-                                                    @endif
-                                                </div>
-                                                <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
-                                                    @hasrole('super_admin')
-                                                        <button type="button" class="btn btn-primary w-100"
-                                                            data-bs-toggle="modal" data-bs-target="#createModal">
-                                                            Tambah Kontrak
-                                                        </button>
-                                                    @endhasrole
-                                                </div>
-                                            </div>
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        @if ($property->image)
+                                            <img class="img-fluid rounded" src="{{ asset('storage/' . $property->image) }}"
+                                                alt="Gambar {{ $property->name }}" />
+                                        @else
+                                            <img class="img-fluid rounded" src="{{ asset('assets/img/image_not_available.png') }}"
+                                                alt="Gambar tidak tersedia" />
+                                        @endif
+                                    </div>
+                                    <div class="col-12">
+                                        <h3 class="text-black">{{ $property->name }}</h3>
+                                        <p>{{ $property->description }}</p>
+                                
+                                       
+                                
+                                        <h4 class="fw-bold text-primary my-3">
+                                            {{ 'Rp. ' . number_format($property->rental_price, 0) . '/ bln'}}
+                                        </h4>
+                                
+                                        <div class="d-flex align-items-center my-2 mb-8">
+                                            <span class="badge me-2 {{ $property->status === 'available' ? 'bg-label-primary' : 'bg-label-danger' }}">
+                                                {{ $property->status === 'available' ? 'Tersedia' : 'Full' }}
+                                            </span>
+                                            <span class="badge bg-label-secondary me-2">Total Orang:
+                                                <strong>{{ $property->leases->count() }}</strong>
+                                            </span>
+                                            <span class="badge bg-label-warning me-2">Kapasitas:
+                                                <strong>{{ $property->capacity }}</strong>
+                                            </span>
                                         </div>
+
+                                         {{-- Menampilkan status Ketua Kontrakan --}}
+                                         {{-- @php $status = false; @endphp
+                                
+                                         @foreach ($property->leases as $lease)
+                                             @if ($lease->user->hasRole('admin'))
+                                                 <p class="text-primary">
+                                                     Ketua Kontrakan: {{ $lease->user->name }}
+                                                     <a data-bs-toggle="modal"
+                                                        data-bs-target="#editPropertyLeaderModal{{ $property->id }}"
+                                                        class="text-decoration-underline text-primary"
+                                                        style="cursor: pointer;">Ubah Ketua</a>
+                                                 </p>
+                                                 @php $status = true; @endphp
+                                             @endif
+                                         @endforeach
+                                 
+                                         @if (!$status)
+                                             <p class="text-danger">
+                                                 Belum Ada Ketua Kontrakan
+                                                 <button data-bs-toggle="modal"
+                                                    data-bs-target="#addPropertyLeaderModal{{ $property->id }}"
+                                                    class="btn btn-primary"
+                                                    style="cursor: pointer; width: 1px; height: 0px;"></button>
+                                             </p>
+                                         @endif --}}
+                                
+                                        @hasrole('super_admin')
+                                            
+                                        <button type="button" class="btn btn-primary w-30 mt-3" 
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#createModal" 
+                                        >Tambah Kontrak</button>
+
+
+                                        @endhasrole
                                     </div>
                                 </div>
-
+                                
+                
                                 {{-- ANGGOTA --}}
-                                <div class="card mt-3">
-                                    <div class="card-content">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Daftar Anggota</h3>
-                                        </div>
-                                        <div class="card-body d-flex justify-content-center">
-                                            @forelse ($property->leases as $lease)
-                                                <div class="text-center"
-                                                    style="min-width: 12rem; flex-shrink: 0;">
-                                                    <img class="rounded-circle mx-auto d-block"
-                                                        style="width: 5rem; height: 5rem;"
-                                                        src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                        alt="{{ $lease->user->name }}">
-                                                    <h4 class="card-title mt-3">{{ $lease->user->name }}</h4>
-                                                    <p class="card-text text-muted">{{ $lease->user->status }}</p>
-                                                </div>
-                                            @empty
-                                                <div class="swiper-slide text-center text-black">Belum ada anggota
-                                                </div>
-                                            @endforelse
-                                        </div>
+                                <div class="card mt-4">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Daftar Anggota</h4>
+                                    </div>
+                                    <div class="card-body d-flex justify-content-center flex-wrap">
+                                        @forelse ($property->leases as $lease)
+                                            <div class="text-center me-3 mb-3" style="width: 120px;">
+                                                <img class="rounded-circle mx-auto d-block"
+                                                    style="width: 80px; height: 80px; object-fit: cover;"
+                                                    src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                    alt="{{ $lease->user->name }}">
+                                                <h5 class="card-title mt-2">{{ $lease->user->name }}</h5>
+                                                <p class="card-text text-muted">{{ $lease->user->status }}</p>
+                                            </div>
+                                        @empty
+                                            <p class="text-center text-muted">Belum ada anggota</p>
+                                        @endforelse
                                     </div>
                                 </div>
                                 {{-- END ANGGOTA --}}
@@ -178,6 +168,7 @@
                         </div>
                     </div>
                 </div>
+                
                 {{-- End Detail Modal --}}
             @endforeach
         </div>

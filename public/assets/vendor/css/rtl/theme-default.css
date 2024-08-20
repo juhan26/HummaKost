@@ -19,11 +19,11 @@ a.bg-primary:focus {
     background-color: #20b486 !important;
 }
 .bg-label-primary {
-    background-color: #e7e7ff !important;
+    background-color: #d1fbee !important;
     color: #20b486 !important;
 }
 .bg-label-hover-primary {
-    background-color: #e7e7ff !important;
+    background-color: #d1fbee !important;
     color: #20b486 !important;
 }
 .bg-label-hover-primary:hover {
@@ -37,7 +37,7 @@ a.bg-primary:focus {
 .page-item .page-link:focus,
 .pagination li > a:not(.page-link):hover,
 .pagination li > a:not(.page-link):focus {
-    background-color: #e7e7ff;
+    background-color: #d1fbee;
     color: #20b486;
 }
 .page-item .page-link.waves-effect .waves-ripple,
@@ -72,7 +72,7 @@ a.bg-primary:focus {
 .pagination-outline-primary.pagination li.active > a:not(.page-link):focus {
     border-color: #20b486 !important;
     color: #20b486;
-    background-color: #e7e7ff !important;
+    background-color: #d1fbee !important;
 }
 .pagination-outline-primary
     .page-item.active
@@ -174,7 +174,7 @@ button.list-group-item-primary.active {
 }
 .alert-outline-primary .alert-icon {
     color: #20b486 !important;
-    background-color: #e7e7ff !important;
+    background-color: #94f5d6 !important;
 }
 .alert-solid-primary {
     background-color: #20b486;
@@ -479,13 +479,13 @@ button.list-group-item-primary.active {
 }
 .btn-outline-primary:hover {
     color: #20b486 !important;
-    background-color: #f3f3ff !important;
+    background-color: #d1fbee !important;
     border-color: #20b486 !important;
 }
 .btn-check:focus + .btn-outline-primary,
 .btn-outline-primary:focus {
     color: #20b486;
-    background-color: #f3f3ff;
+    background-color: #d1fbee;
     border-color: #20b486;
 }
 .btn-check:checked + .btn-outline-primary,
@@ -494,7 +494,7 @@ button.list-group-item-primary.active {
 .btn-outline-primary.active,
 .btn-outline-primary.dropdown-toggle.show {
     color: #20b486 !important;
-    background-color: #f3f3ff !important;
+    background-color: #d1fbee !important;
     border-color: #20b486 !important;
 }
 .btn-outline-primary.disabled,
