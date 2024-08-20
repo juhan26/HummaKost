@@ -19,12 +19,13 @@
                             <input type="number" name="capacity" class="form-control" value="{{ $property->capacity }}">
                         </div>
                         <div class="col-12 col-lg-12 mb-3">
-                            <img style="width: 250px;"
+                            <img style="width: 250px;" id="imgPreview"
                                 src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
                                 alt="{{ $property->name }}">
                             <br>
                             <label for="image" class="form-label">Ubah Foto Kontrakan</label>
-                            <input type="file" name="image" class="form-control" value="{{ old('image') }}">
+                            <input type="file" name="image" class="form-control" value="{{ old('image') }}"
+                                id="imageInput">
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
                             <label for="rental_price" class="form-label">Harga Sewa/Bulan</label>
@@ -51,27 +52,31 @@
                         </div>
 
                         <div class="col-12 col-lg-12 mb-3" style="max-height: 300px; overflow: auto">
-                            <label for="facility_id[]" class="form-label">Facility</label>
-                            @forelse ($facilities as $facility)
-                                <div class="input-group mb-2">
-                                    <div class="input-group-text form-check mb-0">
-                                        <input class="form-check-input m-auto" type="checkbox" value="{{ $facility->id }}"
-                                            name="facility_id[]" aria-label="Checkbox for following text input"
-                                            @if (in_array($facility->id, old('facility_id', $selectedFacility))) checked @endif>
+                            <label for="facility_id[]" class="form-label">Fasilitas</label>
+                            <div class="d-flex flex-wrap gap-3">
+                                @forelse ($facilities as $facility)
+                                    <div class="d-flex mb-2 col-12 col-lg-2">
+                                        <div class="input-group-text form-check mb-0 " style="border-radius: 15px 0 0 15px">
+                                            <input class="form-check-input m-auto" type="checkbox"
+                                                value="{{ $facility->id }}" name="facility_id[]"
+                                                aria-label="Checkbox for following text input"
+                                                @if (in_array($facility->id, old('facility_id[]', $selectedFacility))) checked @endif>
+                                        </div>
+                                        <input type="text" disabled class="form-control"
+                                            style="border-radius: 0 15px 15px 0" aria-label="Text input with checkbox"
+                                            value="{{ $facility->name }}">
                                     </div>
-                                    <input type="text" disabled class="form-control"
-                                        aria-label="Text input with checkbox" value="{{ $facility->name }}">
-                                </div>
-                            @empty
-                                <div class="input-group mb-2">
-                                    <div class="input-group-text form-check mb-0">
-                                        <input class="form-check-input m-auto" type="checkbox" disabled value=""
-                                            aria-label="Checkbox for following text input">
+                                @empty
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text form-check mb-0">
+                                            <input class="form-check-input m-auto" type="checkbox" disabled value=""
+                                                aria-label="Checkbox for following text input">
+                                        </div>
+                                        <input type="text" disabled class="form-control"
+                                            aria-label="Text input with checkbox" value="Belum Ada Facility">
                                     </div>
-                                    <input type="text" disabled class="form-control"
-                                        aria-label="Text input with checkbox" value="Belum Ada Facility">
-                                </div>
-                            @endforelse
+                                @endforelse
+                            </div>
                         </div>
 
                         <div class="mb-5 mt-2">
@@ -120,8 +125,8 @@
 
                             <button class="btn btn-primary create-new btn-primary waves-effect waves-light" tabindex="0"
                                 aria-controls="DataTables_Table_0" type="submit"><span><i
-                                        class="ri-add-line ri-16px me-sm-2"></i>
-                                    <span class="d-none d-sm-inline-block">Simpan
+                                        class="ri-save-line ri-16px me-sm-2"></i>
+                                    <span class="d-none d-sm-inline-block"> Simpan
                                     </span></span></button>
                         </div>
                     </div>
@@ -202,5 +207,21 @@
 
             updateMarkerAndPopup(lat, lng);
         });
+
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            console.log(file);
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const imagePreview = document.getElementById('imgPreview');
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        })
     </script>
 @endsection

@@ -156,9 +156,7 @@ class PropertyController extends Controller
         }
 
         if ($facilities) {
-            foreach ($facilities as $facility) {
-                $property->facilities()->sync($facility);
-            }
+            $property->facilities()->sync($facilities);
         }
 
         return redirect()->route('properties.index')->with('success', 'data berhasil diubah');
