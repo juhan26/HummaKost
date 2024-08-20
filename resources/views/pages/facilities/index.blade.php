@@ -99,7 +99,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('facilities.upload') }}" class="dropzone" id="imageDropZone"
+                                <form action="{{ route('facility_images.store') }}" class="dropzone" id="imageDropZone"
                                     method="POST" enctype="multipart/form-data">
                                     @csrf
 
