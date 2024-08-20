@@ -3,7 +3,7 @@
 @section('content')
     <style>
         #searchInput {
-            padding-left: 60px ;
+            padding-left: 60px;
         }
 
         @media (max-width: 767.98px) {
@@ -11,9 +11,9 @@
                 display: none;
             }
 
-                #searchInput {
-                    padding: 0 15px 0 15px
-                }
+            #searchInput {
+                padding: 0 15px 0 15px
+            }
         }
     </style>
 
@@ -108,10 +108,12 @@
                     </div>
                 </div>
             @empty
-                <div class="text-center">
-                    <h4 class="my-3">
-                        <strong>{{ request('search') ? 'Kontrakan Yang Anda Cari Tidak Ditemukan' : 'Data Kontrakan Kosong' }}</strong>
-                    </h4>
+                <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
+                    <div class="head-label text-center">
+                        <h5 class="card-title mb-0">
+                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}
+                        </h5>
+                    </div>
                 </div>
             @endforelse
         </div>

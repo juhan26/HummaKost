@@ -52,7 +52,7 @@ class FacilityController extends Controller
         }
         return redirect()->route('facilities.index')->with('success', "Berhasil Menambah Fasilitas");
     }
-    
+
     public function upload(Request $request)
     {
         $photo = $request->file('photo');

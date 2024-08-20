@@ -24,8 +24,8 @@ class UpdateFacilityRequest extends FormRequest
     {
         return [
             'photo' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
-            'name' => ['required', 'string', 'max:255', Rule::unique('facilities', 'name')->ignore($this->facility->id)],
-            'description' => 'nullable|string|max:255',
+            'name' => ['required', 'string', 'max:50', Rule::unique('facilities', 'name')->ignore($this->facility->id)],
+            'description' => 'nullable|string|max:50',
         ];
     }
     public function messages(): array
@@ -36,10 +36,10 @@ class UpdateFacilityRequest extends FormRequest
             'photo.max' => 'Ukuran file foto maksimal 2MB.',
             'name.required' => 'Nama wajib diisi.',
             'name.string' => 'Nama harus berupa teks.',
-            'name.max' => 'Nama maksimal 255 karakter.',
+            'name.max' => 'Nama maksimal 50 karakter.',
             'name.unique' => 'Nama sudah digunakan, silakan pilih nama lain.',
             'description.string' => 'Deskripsi harus berupa teks.',
-            'description.max' => 'Deskripsi maksimal 255 karakter.',
+            'description.max' => 'Deskripsi maksimal 50 karakter.',
         ];
     }
 }
