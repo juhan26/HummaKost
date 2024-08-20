@@ -10,7 +10,7 @@ class FacilityImage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'property_id',
+        'facility_id',
         'image',
     ];
 

@@ -102,6 +102,7 @@
                                 <form action="{{ route('facility_images.store') }}" class="dropzone" id="imageDropZone"
                                     method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    <input type="hidden" value="{{ $facility->id }}" name="facility_id">
 
                                     <button type="submit" id="submit-all" class="btn btn-primary"
                                         style="position: absolute; bottom: 0; right: 0; margin: 10px">Tambah
@@ -239,13 +240,14 @@
         Dropzone.autoDiscover = false;
 
         const myDropzone = new Dropzone("#imageDropZone", {
-            paramName: "photo",
-            maxFilesize: 2,
-            acceptedFiles: ".jpeg,.jpg,.png",
-            autoProcessQueue: false,
-            addRemoveLinks: true,
+            url: "{{ route('facility_images.store') }}", // URL untuk mengirimkan gambar
+            paramName: "images", // Nama parameter yang digunakan untuk mengirimkan gambar
+            maxFilesize: 5, // Batas maksimal ukuran file (MB)
+            acceptedFiles: ".jpeg,.jpg,.png", // Tipe file yang diperbolehkan
+            autoProcessQueue: false, // Mencegah pengiriman otomatis
+            addRemoveLinks: true, // Tampilkan tombol hapus
             dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
-            parallelUploads: 10,
+            parallelUploads: 10, // Jumlah file yang diproses sekaligus
             init: function() {
                 const submitButton = document.querySelector("#submit-all");
                 const dropzoneInstance = this;
@@ -255,18 +257,20 @@
                     e.stopPropagation();
 
                     if (dropzoneInstance.getQueuedFiles().length > 0) {
-                        dropzoneInstance
-                            .processQueue();
+                        dropzoneInstance.processQueue();
                     } else {
                         dropzoneInstance.submitForm();
                     }
                 });
 
-                this.on("sendingmultiple", function(data, xhr, formData) {
+                this.on("sending", function(file, xhr, formData) {
                     formData.append("_token", "{{ csrf_token() }}");
-                    formData.append("name", document.querySelector('input[name="name"]').value);
-                    formData.append("description", document.querySelector(
-                        'textarea[name="description"]').value);
+                    formData.append("facility_id", document.querySelector('input[name="facility_id"]')
+                        .value);
+                });
+
+                this.on("success", function(file, response) {
+                    console.log('Upload berhasil:', response);
                 });
 
                 this.on("queuecomplete", function() {
@@ -277,6 +281,7 @@
                 document.querySelector("#imageDropZone").submit();
             }
         });
+
 
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
