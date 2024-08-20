@@ -6,6 +6,7 @@ use App\Http\Controllers\PropertyFacilityController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'role:admin|super_admin'])->group(function () {
+    Route::post('/facilities/upload', [FacilityController::class, 'upload'])->name('facilities.upload');
     Route::resource('facilities', FacilityController::class);
     Route::resource('property_facilities', PropertyFacilityController::class);
 

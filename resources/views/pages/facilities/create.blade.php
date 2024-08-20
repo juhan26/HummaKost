@@ -1,10 +1,10 @@
 @extends('app')
 @section('content')
-    <form action="{{ route('facilities.store') }}" class="dropzone" id="imageDropZone" method="POST"
+    <form action="{{ route('facilities.upload') }}" class="dropzone" id="imageDropZone" method="POST"
         enctype="multipart/form-data">
         @csrf
-        <button type="submit" id="submit-all" class="btn btn-primary"
-            style="position: absolute; bottom: 0; right: 0; margin: 10px">Simpan
+
+        <button type="submit" id="submit-all" class="btn btn-primary" style="position: absolute; bottom: 0; right: 0; margin: 10px">Simpan
             Gambar</button>
     </form>
 
