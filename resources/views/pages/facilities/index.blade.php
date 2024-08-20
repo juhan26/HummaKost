@@ -62,19 +62,56 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
+
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#imageDetail{{ $facility->id }}"><i
+                                            class="ri-image-line me-2 ri-20px"></i>Gambar Detail</button>
+                                </li>
+
                                 <li>
                                     <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#updateModal{{ $facility->id }}"><i
-                                            class="ri-edit-line ri-20px"></i>Edit</button>
+                                            class="ri-edit-line me-2 ri-20px"></i>Edit</button>
                                 </li>
 
-                                <li><button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal{{ $facility->id }}"><i
-                                            class="ri-delete-bin-line ri-20px"></i> Delete</button></li>
+                                            class="ri-delete-bin-line me-2 ri-20px"></i>Hapus</button>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
                 </div>
+
+                <!-- Image Detail Image -->
+                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1"
+                    aria-labelledby="imageDetailModalLabel aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar
+                                    {{ $facility->id }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('facility_images.store') }}" class="dropzone" id="imageDropZone"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+
+                                    <button type="submit" id="submit-all" class="btn btn-primary"
+                                        style="position: absolute; bottom: 0; right: 0; margin: 10px">Tambah
+                                        Gambar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image Detail Image -->
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
@@ -82,7 +119,8 @@
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit {{ $facility->id }}
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit
+                                    {{ $facility->id }}
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -151,7 +189,8 @@
                 <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
                     <div class="head-label text-center">
                         <h5 class="card-title mb-0">
-                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}</h5>
+                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}
+                        </h5>
                     </div>
                 </div>
             @endforelse
@@ -197,6 +236,48 @@
     <!-- Store Modal -->
 
     <script>
+        Dropzone.autoDiscover = false;
+
+        const myDropzone = new Dropzone("#imageDropZone", {
+            paramName: "photo",
+            maxFilesize: 2,
+            acceptedFiles: ".jpeg,.jpg,.png",
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
+            parallelUploads: 10,
+            init: function() {
+                const submitButton = document.querySelector("#submit-all");
+                const dropzoneInstance = this;
+
+                submitButton.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (dropzoneInstance.getQueuedFiles().length > 0) {
+                        dropzoneInstance
+                            .processQueue();
+                    } else {
+                        dropzoneInstance.submitForm();
+                    }
+                });
+
+                this.on("sendingmultiple", function(data, xhr, formData) {
+                    formData.append("_token", "{{ csrf_token() }}");
+                    formData.append("name", document.querySelector('input[name="name"]').value);
+                    formData.append("description", document.querySelector(
+                        'textarea[name="description"]').value);
+                });
+
+                this.on("queuecomplete", function() {
+                    dropzoneInstance.submitForm();
+                });
+            },
+            submitForm: function() {
+                document.querySelector("#imageDropZone").submit();
+            }
+        });
+
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             console.log(file);
