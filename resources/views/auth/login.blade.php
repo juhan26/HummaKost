@@ -141,16 +141,16 @@
                                             <input id="password" type="password"
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 name="password" required autocomplete="current-password">
-
+                                            <label for="password">Password</label>
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
-                                            <label for="password">Password</label>
                                         </div>
-                                        <span class="input-group-text cursor-pointer"><i
-                                                class="ri-eye-off-line"></i></span>
+                                        <span id="password-toggle" class="input-group-text cursor-pointer">
+                                            <i id="password-icon" class="ri-eye-off-line"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -209,6 +209,27 @@
 
     <!-- Page JS -->
     <script src="../../assets/js/pages-auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordField = document.getElementById('password');
+            const passwordToggle = document.getElementById('password-toggle');
+            const passwordIcon = document.getElementById('password-icon');
+
+            passwordToggle.addEventListener('click', function() {
+                // Toggle password visibility
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    passwordIcon.classList.remove('ri-eye-off-line');
+                    passwordIcon.classList.add('ri-eye-line');
+                } else {
+                    passwordField.type = 'password';
+                    passwordIcon.classList.remove('ri-eye-line');
+                    passwordIcon.classList.add('ri-eye-off-line');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 <!-- Mirrored from demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-login-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 27 Jun 2024 03:12:38 GMT -->
