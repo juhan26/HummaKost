@@ -1,13 +1,13 @@
 @extends('app')
 @section('content')
     <div class="col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 col-lg-12">
-                            <h3 class="card-title">
-                                Detail Kontrakan {{ $property->name }}
+        <div class="">
+            <div class="">
+                <div class="">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-10">
+                            <h3 class="mt-5">
+                                <strong>Detail Kontrakan "{{ $property->name }}"</strong>
                             </h3>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb breadcrumb-style1">
@@ -19,65 +19,9 @@
                                 </ol>
                             </nav>
                         </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    {{-- properties --}}
-                    <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
-                        <div class="col-12 col-lg-6">
-                            @if ($property->image)
-                                <img class="card-img-top" src="{{ asset('storage/' . $property->image) }}"
-                                    alt="Card image cap" />
-                            @else
-                                <img class="card-img-top" src="{{ asset('assets/img/image_not_available.png') }}"
-                                    alt="Card image cap" />
-                            @endif
-                        </div>
-                        <div class="col-12 col-lg-6 ">
-                            <h1 class="text-secondary-emphasis">{{ $property->name }}</h1>
-                            <h5 class="text-secondary">{{ $property->description }}</h5>
-                            @php
-                                $status = false;
-                            @endphp
-                            @foreach ($property->leases as $lease)
-                                @if ($lease->user->hasRole('admin'))
-                                    <p style="color: blue;">Ketua Kontrakan: {{ $lease->user->name }} <a
-                                            data-bs-toggle="modal" data-bs-target="#editPropertyLeaderModal"
-                                            style="text-decoration: underline; color:purple; cursor: pointer;">Ubah
-                                            Ketua</a>
-                                    </p>
-                                    @php
-                                        $status = true;
-                                    @endphp
-                                @endif
-                            @endforeach
-
-                            @if ($status == false)
-                                <p style="color: red;">
-                                    Belum Ada Ketua Kontrakan
-                                    <a data-bs-toggle="modal" data-bs-target="#addPropertyLeaderModal"
-                                        style="text-decoration: underline; color:blue; cursor: pointer;">Tambah Ketua</a>
-                                </p>
-                            @endif
-
-                            <h2 class="fw-bold text-secondary my-6">
-                                {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
-                            <div class="badge fs-6 bg-label-secondary mt-6 me-3">Total Orang:
-                                <strong>{{ $property->leases->count() }}</strong>
-                            </div>
-                            /
-                            <div class="badge fs-6 bg-label-warning mt-6 me-3">Kapasitas:
-                                <strong>{{ $property->capacity }}</strong>
-                            </div>
-                            @if ($property->status === 'available')
-                                <div class="badge fs-6 bg-label-success mt-6">Tersedia</div>
-                            @else
-                                <div class="badge fs-6 bg-label-danger mt-6">Full</div>
-                            @endif
-                        </div>
-                        <div class="col-12 col-lg-2 text-lg-end mt-3 mt-lg-0">
+                        <div class="col-12 col-lg-2 text-lg-end ms-auto mt-3 mt-lg-0">
                             @hasrole('super_admin')
-                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-primary w-75" data-bs-toggle="modal"
                                     data-bs-target="#createModal">
                                     Tambah Kontrak
                                 </button>
@@ -87,96 +31,107 @@
                 </div>
             </div>
         </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
+            <div class="col-12 col-lg-6">
+                @if ($property->image)
+                    <img class="card-img-top" src="{{ asset('storage/' . $property->image) }}" alt="Card image cap" />
+                @else
+                    <img class="card-img-top" src="{{ asset('assets/img/image_not_available.png') }}"
+                        alt="Card image cap" />
+                @endif
+            </div>
+            <div class="col-12 col-lg-6 ">
+                <h1 class="text-secondary-emphasis">{{ $property->name }}</h1>
+                <h5 class="text-secondary">{{ $property->description }}</h5>
+
+                <h2 class="fw-bold text-primary my-6">
+                    {{ 'Rp. ' . number_format($property->rental_price, 0) . '/ bln' }}</h2>
+
+
+            @if ($property->status === 'available')
+                    <span class="label bg-label-primary" style="padding: 8px 20px; border-radius: 15px;"><strong>Tersedia</strong></span>
+              @else
+            <span class="label bg-label-danger" style="padding: 8px 20px; border-radius: 15px;"><strong>Full</strong></span>
+            @endif
+
+            <span class="label bg-label-info" style="padding: 8px 20px; border-radius: 15px;">Total Orang: <strong>{{ $property->leases->count() }}</strong></span>
+            <span class="label bg-label-warning" style="padding: 8px 20px; border-radius: 15px;">Kapasitas: <strong>{{ $property->capacity }}</strong></span>
+
+            @php
+                $status = false;
+            @endphp
+            @foreach ($property->leases as $lease)
+                @if ($lease->user->hasRole('admin'))
+                    <p style="color: #20b486;" class="mt-10">Ketua Kontrakan: {{ $lease->user->name }}
+                        <a data-bs-toggle="modal" class="btn btn-primary ms-3" data-bs-target="#editPropertyLeaderModal"
+                            style="text-decoration; color: white;">+</a>
+                    </p>
+                    @php
+                        $status = true;
+                    @endphp
+                @endif
+            @endforeach
+
+            @if ($status == false)
+                <p style="color: red;" class="mt-10">
+                    *Belum Ada Ketua Kontrakan
+                    <a data-bs-toggle="modal" data-bs-target="#addPropertyLeaderModal" class="btn btn-primary ms-3"
+                        style="text-decoration; color: white;">+</a>
+                </p>
+            @endif
+        </div>
     </div>
 
-    {{-- ANGGOTA --}}
-    <div class="col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 col-lg-12 d-flex justify-content-around">
-                            <h3 class="card-title">
-                                Daftar Anggota
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body d-flex justify-content-center">
-                    @forelse ($property->leases as $lease)
-                        <div class="text-center" style="min-width: 12rem; flex-shrink: 0;">
-                            <img class="rounded-circle mx-auto d-block" style="width: 5rem; height: 5rem;"
-                                src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                alt="{{ $lease->user->name }}">
-                            <h4 class="card-title mt-3">{{ $lease->user->name }}</h4>
-                            <p class="card-text text-muted">{{ $lease->user->status }}</p>
-                        </div>
-                    @empty
-                        <div class="swiper-slide text-center text-black">Belum ada anggota</div>
-                    @endforelse
+    </div>
 
-                </div>
+    <!-- ANGGOTA -->
+    <h3 class="card-title m-0 mt-10">Daftar Anggota -</h3>
+    <div class="col-12 mb-12">
+        <div class="card shadow-sm">
+
+            <div class="card-body d-flex justify-content-center flex-wrap gap-4">
+                @forelse ($property->leases as $lease)
+                    <div class="text-center" style="width: 12rem;">
+                        <img class="rounded-circle mx-auto d-block" style="width: 5rem; height: 5rem;"
+                            src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                            alt="{{ $lease->user->name }}">
+                        <h4 class="mt-3 mb-1">{{ $lease->user->name }}</h4>
+                        <p class="text-muted mb-0">{{ $lease->user->status }}</p>
+                    </div>
+                @empty
+                    <div class="text-center text-muted">Belum ada anggota</div>
+                @endforelse
             </div>
         </div>
     </div>
 
-    {{-- Facility --}}
-    <div class="col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 col-lg-12 d-flex justify-content-around">
-                            <h3 class="card-title">
-                                Daftar Facility
-                            </h3>
-                        </div>
+    <!-- FACILITY -->
+    <h3 class="card-title m-0">Daftar Facility -</h3>
+    <div class="col-12 mb-8">
+        <div class="card shadow-sm">
+            <div class="card-body d-flex justify-content-center flex-wrap gap-4">
+                @forelse ($property->facilities as $facility)
+                    <div class="text-center" style="width: 12rem;">
+                        <img class="mx-auto d-block" style="width: 5rem; height: 5rem;"
+                            src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                            alt="{{ $facility->name }}">
+                        <h4 class="mt-3 mb-1">{{ $facility->name }}</h4>
+                        <p class="text-muted mb-0">{{ $facility->status }}</p>
                     </div>
-                </div>
-                <div class="card-body d-flex justify-content-center">
-                    @forelse ($property->facilities as $facility)
-                        <div class="text-center" style="min-width: 12rem; flex-shrink: 0;">
-                            <img class="mx-auto d-block" style="width: 5rem; height: 5rem;"
-                                src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
-                                alt="{{ $facility->name }}">
-                            <h4 class="card-title mt-3">{{ $facility->name }}</h4>
-                            <p class="card-text text-muted">{{ $facility->status }}</p>
-                        </div>
-                    @empty
-                        <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
-                    @endforelse
-
-                </div>
+                @empty
+                    <div class="text-center text-muted">Belum ada fasilitas</div>
+                @endforelse
             </div>
         </div>
     </div>
 
-    {{-- MAPS --}}
+    <!-- MAPS -->
+    <h3 class="card-title">Lokasi -</h3>
     <div class="col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 col-lg-12 d-flex justify-content-around">
-                            <h3 class="card-title">
-                                Lokasi
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-lg-12">
-                            <div class="map-container">
-                                <div style="width: 100%;height: 83vh;border-radius: 10px" id="map"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
-                        <div class="map-container">
-                        </div>
-                    </div>
-                </div>
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div id="map" style="width: 100%; height: 60vh; border-radius: 10px;"></div>
             </div>
         </div>
     </div>
@@ -246,7 +201,7 @@
         </div>
     </div>
     <!-- Change Property Leader Modal -->
-    
+
 
     <script>
         var lat = -7.896591;
@@ -312,10 +267,10 @@
                         <div class="mb-3">
                             <label for="createProperty" class="form-label">Property:</label>
                             <select class="form-select" name="property_id" id="createProperty">
-                                    <option value="{{ $property->id }}"
-                                        {{ old('property_id') == $property->id ? 'selected' : '' }}>
-                                        {{ $property->name }}
-                                    </option>
+                                <option value="{{ $property->id }}"
+                                    {{ old('property_id') == $property->id ? 'selected' : '' }}>
+                                    {{ $property->name }}
+                                </option>
                             </select>
                             @error('property_id')
                                 <div class="text-danger">{{ $message }}</div>
