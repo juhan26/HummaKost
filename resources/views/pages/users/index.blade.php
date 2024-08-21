@@ -399,11 +399,11 @@
                                 </style>
                                 @if ($users->onFirstPage())
                                     <li class="page-item disabled" aria-disabled="true">
-                                        <span class="page-link">Prev</span>
+                                        <span class="page-link px-6 text-white" style="background-color: #63cbab">Prev</span>
                                     </li>
                                 @else
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ $users->previousPageUrl() }}"
+                                        <a class="page-link px-6 bg-primary text-white" href="{{ $users->previousPageUrl() }}"
                                             rel="prev">Prev</a>
                                     </li>
                                 @endif
@@ -414,7 +414,7 @@
                                     </li>
                                 </div>
                                 {{-- Pagination Elements (visible only on large screens and up) --}}
-                                <div class="d-none d-lg-flex">
+                                <div class="d-none d-lg-flex gx-4">
                                     @php
                                         $currentPage = $users->currentPage();
                                         $totalPages = $users->lastPage();
@@ -463,12 +463,12 @@
                                 {{-- Next Page Link --}}
                                 @if ($users->hasMorePages())
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ $users->nextPageUrl() }}"
-                                            rel="next">&rsaquo;</a>
+                                        <a class="page-link px-6 bg-primary text-white" href="{{ $users->nextPageUrl() }}"
+                                            rel="next">Next</a>
                                     </li>
                                 @else
                                     <li class="page-item disabled" aria-disabled="true">
-                                        <span class="page-link">&rsaquo;</span>
+                                        <span class="page-link px-6 text-white" style="background-color: #63cbab">Next</span>
                                     </li>
                                 @endif
                             </ul>

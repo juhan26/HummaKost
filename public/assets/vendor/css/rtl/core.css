@@ -4448,10 +4448,10 @@ fieldset:disabled .btn {
     --bs-pagination-padding-y: 0.481rem;
     --bs-pagination-font-size: 0.9375rem;
     --bs-pagination-color: #3b4056;
-    --bs-pagination-bg: #eeeef0;
+    --bs-pagination-bg: transparent;
     --bs-pagination-border-width: var(--bs-border-width);
     --bs-pagination-border-color: #cfd0d6;
-    --bs-pagination-border-radius: 50%;
+    --bs-pagination-border-radius: 7px;
     --bs-pagination-hover-color: #3b4056;
     --bs-pagination-hover-bg: #f2f2f4;
     --bs-pagination-hover-border-color: #cfd0d6;
@@ -4462,7 +4462,7 @@ fieldset:disabled .btn {
     --bs-pagination-active-bg: #20b486;
     --bs-pagination-active-border-color: #20b486;
     --bs-pagination-disabled-color: #3b4056;
-    --bs-pagination-disabled-bg: #eeeef0;
+    --bs-pagination-disabled-bg: transparent;
     --bs-pagination-disabled-border-color: #cfd0d6;
     display: flex;
     padding-left: 0;
@@ -4473,7 +4473,6 @@ fieldset:disabled .btn {
     display: block;
     padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
     font-size: var(--bs-pagination-font-size);
-    color: var(--bs-pagination-color);
     background-color: var(--bs-pagination-bg);
     border: var(--bs-pagination-border-width) solid
         var(--bs-pagination-border-color);
@@ -4501,8 +4500,8 @@ fieldset:disabled .btn {
 .page-link.active,
 .active > .page-link {
     z-index: 3;
-    color: var(--bs-pagination-active-color);
-    background-color: var(--bs-pagination-active-bg);
+    color: #56c7a4;
+    background-color: #d2f0e7;
     border-color: var(--bs-pagination-active-border-color);
 }
 .page-link.disabled,
@@ -4516,19 +4515,20 @@ fieldset:disabled .btn {
     margin-left: 0.375rem;
 }
 .page-item .page-link {
-    border-radius: none;
+    border-radius: 7px;
 }
+
 .pagination-lg {
     --bs-pagination-padding-x: 0.75rem;
     --bs-pagination-padding-y: 0.52rem;
     --bs-pagination-font-size: 1.0625rem;
-    --bs-pagination-border-radius: 50%;
+    --bs-pagination-border-radius: none;
 }
 .pagination-sm {
     --bs-pagination-padding-x: 0.375rem;
     --bs-pagination-padding-y: 0.4416rem;
     --bs-pagination-font-size: 0.8125rem;
-    --bs-pagination-border-radius: 50%;
+    --bs-pagination-border-radius: none;
 }
 .badge {
     --bs-badge-padding-x: 0.6154em;
