@@ -164,7 +164,9 @@
     <div class="col-12">
         <div class="card shadow-sm">
             <div class="card-body p-0">
-                <div id="map" style="width: 100%; height: 60vh; border-radius: 10px;"></div>
+                <div id="map" style="width: 100%; height: 60vh; border-radius: 10px;">
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -235,20 +237,43 @@
     </div>
     <!-- Change Property Leader Modal -->
     </div>
+
+     
+<script>
+    var lat = -7.896591;
+    var lng = 112.6089657;
+    var zoomLevel = 16;
+
+    var map = L.map('map').setView([lat, lng], zoomLevel);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var waypoints = [{
+            latLng: L.latLng(<?php echo json_encode($property->langtitude); ?>, <?php echo json_encode($property->longtitude); ?>),
+            title: <?php echo json_encode($property->name); ?>,
+            address: <?php echo json_encode($property->address); ?>,
+        },
+        {
+            latLng: L.latLng(-7.900063, 112.6068816),
+            title: "Hummasoft / Hummatech (PT Humma Teknologi Indonesia)",
+            address: "Perum Permata Regency 1, Blk. 10 No.28, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152"
+        }
+    ];
+
+    var routingControl = L.Routing.control({
+        waypoints: waypoints.map(function(wp) {
+            return wp.latLng;
+        }),
+        routeWhileDragging: true,
+        createMarker: function(i, wp, nWps) {
+            var popupContent = waypoints[i].title + "<br><br><b>Address:</b>" + waypoints[i].address;
+            var marker = L.marker(wp.latLng).bindPopup(popupContent);
+            return marker;
+        }
+    }).addTo(map);
+    
+</script>
 @endsection
-
-@push('scripts')
-    <script>
-        var property = @json($property);
-        var map = L.map('map').setView([property.latitude, property.longitude], 17);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-
-        var marker = L.marker([property.latitude, property.longitude]).addTo(map)
-            .bindPopup(property.name)
-            .openPopup();
-    </script>
-@endpush
+  
