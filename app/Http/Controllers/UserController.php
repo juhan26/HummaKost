@@ -54,7 +54,7 @@ class UserController extends Controller
         END
     ")
             ->latest()
-            ->paginate(1);
+            ->paginate(10);
 
         $instances = Instance::orderBy('name', 'ASC')->get();
 
