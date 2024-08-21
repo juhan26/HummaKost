@@ -164,7 +164,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <a href=""
+                                            <a href="{{ route('user.show', Auth::user()->id) }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
                                         </li>
                                         <li>
@@ -626,8 +626,7 @@
 
                 <div class="xl:w-1/2 w-full relative flex justify-center items-center">
                     <div class="inline-flex justify-center">
-                        <img src="/assets/images/kosjempol.png" alt="Achievement Image"
-                            class="">
+                        <img src="/assets/images/kosjempol.png" alt="Achievement Image" class="">
                     </div>
                 </div>
             </div>
@@ -1068,13 +1067,13 @@
         });
     </script>
 
-    <script src="/assets/plugins/js/jquery.js"></script>
-    <script src="/assets/plugins/js/swipper.js"></script>
-    <script src="/assets/plugins/js/waypoint.js"></script>
-    <script src="/assets/plugins/js/counter.js"></script>
-    <script src="/assets/plugins/js/aos.js"></script>
-    <script src="/assets/js/main2.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/assets/plugins/js/jquery.js"></script>
+        <script src="/assets/plugins/js/swipper.js"></script>
+        <script src="/assets/plugins/js/waypoint.js"></script>
+        <script src="/assets/plugins/js/counter.js"></script>
+        <script src="/assets/plugins/js/aos.js"></script>
+        <script src="/assets/js/main2.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </body>
