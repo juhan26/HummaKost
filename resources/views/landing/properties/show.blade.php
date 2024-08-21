@@ -83,30 +83,112 @@
                 <!-- menu end -->
 
                 <!-- right menu -->
-                <div class="flex items-center gap-6">
-                    <a href=""
+                <div class="flex items-center">
+                    <div
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
-                        <span class="flex justify-center items-center">
-                            {{-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.5 8.25H4.5C4.08579 8.25 3.75 8.58579 3.75 9V19.5C3.75 19.9142 4.08579 20.25 4.5 20.25H19.5C19.9142 20.25 20.25 19.9142 20.25 19.5V9C20.25 8.58579 19.9142 8.25 19.5 8.25Z"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path
-                                    d="M8.625 8.25V4.875C8.625 3.97989 8.98058 3.12145 9.61351 2.48851C10.2465 1.85558 11.1049 1.5 12 1.5C12.8951 1.5 13.7535 1.85558 14.3865 2.48851C15.0194 3.12145 15.375 3.97989 15.375 4.875V8.25"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path
-                                    d="M12 15.375C12.6213 15.375 13.125 14.8713 13.125 14.25C13.125 13.6287 12.6213 13.125 12 13.125C11.3787 13.125 10.875 13.6287 10.875 14.25C10.875 14.8713 11.3787 15.375 12 15.375Z"
-                                    fill="currentColor" />
-                            </svg> --}}
-                        </span>
-                        <a href="{{ route('login') }}" class="hidden xl:inline-block btn-primary"><span>Login</span></a>
-                    </a>
-                    {{-- <a href="#" class="hidden xl:inline-block btn-primary">
-                        <span>Sign up for Free</span>
-                    </a> --}}
+                        <span class="flex justify-center items-center"></span>
+
+                        @php
+                            $user = Auth::user();
+                            $hasNonMemberRole = $user && $user->roles()->where('name', '!=', 'tenant')->exists();
+                        @endphp
+                        @if ($hasNonMemberRole)
+                            <div class="relative">
+                                <button id="profile-btn" onclick="a(this)"
+                                    class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
+                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                        onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
+                                    {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
+                                        onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
+                                </button>
+                                <div id="profile-menu"
+                                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
+                                    <ul class="py-2 text-gray-700">
+                                        {{-- <li class="flex items-center gap-2 px-4 py-2">
+                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                            onclick="a(this)" alt="User Photo"
+                                            class="w-7 h-7 object-cover rounded-full">
+                                        <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
+                                    </li> --}}
+                                        <li>
+                                            <a href=""
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100"
+                                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @elseif($user && $user->roles->contains('name', 'tenant') && $user->status === 'accepted')
+                            <div class="relative">
+                                <button id="profile-btn" onclick="a(this)"
+                                    class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
+                                    <img src="
+                                    @if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
+                                    @elseif(Auth::user()->gender === 'male')
+                                    {{ asset('assets/img/avatars/5.png') }}
+                                    @elseif(Auth::user()->gender === 'female')
+                                        {{ asset('assets/img/avatars/10.png') }} @endif"
+                                        onclick="a(this)" alt="User Photo"
+                                        class="w-full h-full object-cover rounded-full">
+                                </button>
+                                <div id="profile-menu"
+                                    class="absolute right-0 mt-2 max-w-xs bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
+                                    <ul class="py-2 text-gray-700">
+                                        <li
+                                            class="flex justify-center items-start gap-3 px-8 py-2 border-b border-gray-200 overflow-hidden">
+                                            <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
+                                                    @elseif(Auth::user()->gender === 'male')
+                                                        {{ asset('assets/img/avatars/5.png') }}
+                                                    @elseif(Auth::user()->gender === 'female')
+                                                        {{ asset('assets/img/avatars/10.png') }} @endif"
+                                                alt="User Photo" class="w-12 h-12 object-cover rounded-full">
+                                            <div class="flex flex-col" style="object-fit: cover">
+                                                <span class="font-semibold">{{ Auth::user()->name }}</span>
+                                                <span class="text-gray-500"
+                                                    text-muted>{{ Auth::user()->email }}</small>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href=""
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100"
+                                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @else
+                                <a href="{{ route('register') }}"
+                                    class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
+                                    style="padding:12px 16px; border-radius:8px; margin-right: 1rem"><span>{{ 'Daftar' }}</span></a>
+                                <a href="{{ route('login') }}"
+                                    class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
+                        @endif
+                    </div>
+
+                    <!-- Hamburger Menu -->
                     <div class="xl:hidden inline-block hamburger-btn" id="hamburger-btn">
                         <span></span>
                         <span></span>
@@ -114,6 +196,29 @@
                     </div>
                 </div>
                 <!-- right menu end -->
+                <script>
+                    document.getElementById('profile-btn').addEventListener('click', function(event) {
+                        event.preventDefault(); // Prevent default action to avoid reloading
+                        var menu = document.getElementById('profile-menu');
+                        menu.classList.toggle('hidden');
+                    });
+
+                    // window.addEventListener('click', function(event) {
+                    //     var menu = document.getElementById('profile-menu');
+                    //     var button = document.getElementById('profile-btn');
+                    //     if (!menu.contains(event.target) && event.target !== button) {
+                    //         menu.classList.add('hidden');
+                    //     }
+                    // });
+
+                    function a() {
+                        var menu = document.getElementById('profile-menu');
+                        // var button = document.getElementById('profile-btn');
+                        if (!menu.contains(event.target) && event.target !== button) {
+                            menu.classList.add('hidden');
+                        }
+                    }
+                </script>
             </div>
         </div>
     </header>
