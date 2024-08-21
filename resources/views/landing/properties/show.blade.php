@@ -11,6 +11,10 @@
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    />
 
     {{-- leafletjs --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
@@ -20,6 +24,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+
 
 
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
@@ -283,7 +288,7 @@
         <div class="container mx-auto my-5 p-10">
             <div class="flex flex-wrap gap-6">
                 <div class="flex flex-col lg:flex-row gap-6 my-2">
-                    <div class="lg:w-1/2 bg-white rounded-lg">
+                    <div class="lg:w-1/2 rounded-lg">
                         @if ($property->image)
                             <img class="w-full h-auto" src="{{ asset('storage/' . $property->image) }}"
                                 alt="Card image cap" style="width: 1500px; height: 500px'" />
@@ -294,9 +299,8 @@
                     </div>
 
 
-                    <div class="lg:w-1/2 bg-white rounded-lg container"
-                        style="padding-left: 25px; padding-bottom: 30px; padding-top: 30px; padding-right: 25px">
-                        <h1 class="text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}
+                    <div class="lg:w-1/2 rounded-lg container" style="padding-bottom: 30px; padding-right: 25px">
+                        <h3 class="font-bold text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}
                             {{-- @if ($property->status === 'available')
                                 <span
                                     class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $property->status }}</span>
@@ -304,30 +308,68 @@
                                 <div class="inline-block bg-red-500 text-white px-2 py-1 rounded mt-6">
                                     {{ $property->status }}</div>
                             @endif --}}
-                        </h1>
+                        </h3>
 
-                        <h5 class="text-lg text-gray-600">{{ $property->description }}</h5>
-                        <h2 class="font-bold text-2xl text-gray-800 my-6">
-                            {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h2>
+                        {{-- <h5 class="text-lg text-gray-600">{{ $property->description }}</h5> --}}
 
-                        @if ($property->status === 'available')
+
+                        {{-- @if ($property->status === 'available')
                             <div class="inline-block bg-green-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Tersedia
                             </div>
                         @else
                             <div class="inline-block bg-red-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Full</div>
+                        @endif --}}
+                        @if ($property->gender_target === 'male')
+                            <div
+                                class="inline-block bg-blue-100 text-blue-400 px-4 py-1 rounded-lg mt-6 mr-3 shadow-sm">
+                                <i class="fa-solid fa-person"></i><strong class="ml-3">Laki-Laki</strong>
+                            </div>
+                        @else
+                            <div
+                                class="inline-block bg-pink-200 text-pink-400 px-4 py-1 rounded-lg mt-6 mr-3 shadow-sm">
+                                <i class="fa-solid fa-person-dress"></i> Perempuan
+                            </div>
                         @endif
-                        /
-                        <div class="inline-block bg-gray-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Total Orang:
+
+                        <div class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-6 mr-3 shadow-sm">
+                            Total Orang:
                             <strong>{{ $property->leases->count() }}</strong>
                         </div>
-                        /
-                        <div class="inline-block bg-yellow-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">
-                            Capacity: <strong>{{ $property->capacity }}</strong>
+
+                        <div class="inline-block bg-yellow-100 text-yellow-400 px-2 py-1 rounded-lg mt-6 mr-3 mb-8">
+                            Kapasitas: <strong>{{ $property->capacity }}</strong>
                         </div>
 
+                        <div class="">
+                            <h4 class="font-bold">Ketua:</h4>
+
+                            @php
+                                $status = false;
+                            @endphp
+                            @foreach ($property->leases as $lease)
+                                <div
+                                    class="inline-block bg-green-200 text-red-green px-2 py-1 rounded-lg mt-1 mr-3 shadow-sm">
+                                    Ketua:
+                                    <strong>{{ $lease->user->name }}</strong>
+                                </div>
+                                @php
+                                    $status = true;
+                                @endphp
+                            @endforeach
+
+                            @if ($status == false)
+                                <div
+                                    class="inline-block bg-red-200 text-red-400 px-5 py-1 rounded-2xl mt-1 mr-3 shadow-sm">
+                                    Ketua Tidak Tersedia
+                                </div>
+                            @endif
+
+                            <h2 class="font-bold text-2xl text-primary-500 mt-6">
+                                {{ 'Rp. ' . number_format($property->rental_price, 0) . ' / bln' }}</h2>
+                        </div>
                         <!-- Menampilkan Semua Pengguna -->
                         <!-- Menampilkan Semua Pengguna -->
-                        <div class="mt-6">
+                        {{-- <div class="mt-6">
                             <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Anggota</h3>
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
@@ -351,7 +393,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
