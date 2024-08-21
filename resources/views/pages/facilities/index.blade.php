@@ -151,11 +151,38 @@
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="row g-4">
                                         @forelse ($facility->facility_images as $index => $image)
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
-                                                    class="img-fluid rounded"
-                                                    style="max-height: 250px; object-fit: cover;">
-                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4 position-relative">
+                                                <div class="position-relative">
+                                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                                        class="img-fluid rounded"
+                                                        style="max-height: 200px; object-fit: cover;">
+
+                                                    <!-- Button with Dropdown -->
+                                                    <div class="dropdown position-absolute top-0 end-0 m-2">
+                                                        <button
+                                                            class="btn btn-text-secondary rounded-pill text-muted border-0 p-1"
+                                                            type="button" id="dropdownMenuButton{{ $index }}"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="ri-more-2-line ri-20px"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end"
+                                                            aria-labelledby="dropdownMenuButton{{ $index }}">
+                                                            <li>
+                                                                <form
+                                                                    action="{{ route('facility_images.destroy', $image->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="dropdown-item text-danger">
+                                                                        <i class="ri-delete-bin-line ri-18px me-2"></i>
+                                                                        Hapus
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                         @empty
                                             <div class="col-12">
                                                 <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong>
@@ -164,6 +191,8 @@
                                         @endforelse
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
