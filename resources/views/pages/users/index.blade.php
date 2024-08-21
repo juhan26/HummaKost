@@ -399,12 +399,12 @@
                                 </style>
                                 @if ($users->onFirstPage())
                                     <li class="page-item disabled" aria-disabled="true">
-                                        <span class="page-link">&lsaquo;</span>
+                                        <span class="page-link">Prev</span>
                                     </li>
                                 @else
                                     <li class="page-item">
                                         <a class="page-link" href="{{ $users->previousPageUrl() }}"
-                                            rel="prev">&lsaquo;</a>
+                                            rel="prev">Prev</a>
                                     </li>
                                 @endif
 
