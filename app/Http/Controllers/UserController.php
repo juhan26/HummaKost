@@ -18,35 +18,30 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query();
-        $cari = 0;
+        $search = $request->input('search');
+        $status = $request->input('status', []);
 
-        // Apply filter if specified
-        if ($request->has('filter')) {
+        if ($request->has('filter') || $request->has('search') || $request->has('status')) {
             $filter = $request->input('filter');
             $query->whereHas('roles', function ($query) use ($filter) {
                 $query->where('name', $filter);
-            });
-        } elseif ($request->has('search')) {
-            $search = $request->input('search');
-            $query->where(function ($query) use ($search) {
+            })->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%");
+            })->where(function ($query) use ($status) {
+                if (!empty($status)) {
+                    $query->whereIn('status', $status);
+                }
             })->whereHas('roles', function ($query) {
                 $query->where('name', 'tenant')
                     ->orWhere('name', 'admin');
             });
-            $cari = 1;
-        }
-        // Apply role-based filtering
-        else {
+        } else {
             if (!Auth::user()->hasRole('tenant')) {
                 $query->whereHas('roles', function ($query) {
                     $query->where('name', 'tenant');
                 })->where('id', '!=', Auth::user()->id);
             }
-            //  elseif (Auth::user()->hasRole('member')) {
-            //     $query->role('member');
-            // }
         }
 
         // Get paginated users
@@ -59,12 +54,16 @@ class UserController extends Controller
         END
     ")
             ->latest()
-            ->Paginate(5);
+            ->paginate(1);
 
         $instances = Instance::orderBy('name', 'ASC')->get();
+
+        // Pass the status filter to the view
+        $isStatusFiltered = !empty($status);
         // Return view with users data
-        return view('pages.users.index', compact('users', 'cari', 'instances'));
+        return view('pages.users.index', compact('users', 'instances', 'status', 'isStatusFiltered'));
     }
+
 
 
     /**
