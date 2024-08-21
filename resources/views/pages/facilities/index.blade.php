@@ -86,15 +86,14 @@
                     </div>
                 </div>
 
-                <!-- Image Detail Image -->
+                <!-- Image Detail Modal -->
                 <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1"
-                    aria-labelledby="imageDetailModalLabel aria-hidden="true">
+                    aria-labelledby="imageDetailModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar
-                                    {{ $facility->id }}
-                                </h5>
+                                    {{ $facility->id }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -103,16 +102,35 @@
                                     method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" value="{{ $facility->id }}" name="facility_id">
-
                                     <button type="submit" id="submit-all" class="btn btn-primary"
-                                        style="position: absolute; bottom: 0; right: 0; margin: 10px">Tambah
-                                        Gambar</button>
+                                        style="position: absolute; bottom: 0; right: 0; margin: 10px">
+                                        Tambah Gambar
+                                    </button>
                                 </form>
+                            </div>
+                            <div class="p-4">
+                                <div class="grid grid-cols-3 gap-4 bg-gray-100 rounded-lg shadow-lg">
+                                    <div class="row">
+                                        @forelse ($facility->facility_images as $index => $image)
+                                            <div class="col-12 col-lg-4">
+                                                <div
+                                                    class="p-2 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                                        class="w-100 object-cover rounded-md">
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <p class="text-center text-gray-500 col-span-3">Tidak ada gambar tersedia.</p>
+                                        @endforelse
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Image Detail Image -->
+
+                <!-- Image Detail Modal -->
+
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
