@@ -34,10 +34,50 @@ class UserSeeder extends Seeder
         ])->assignRole('admin');
 
         User::create([
+            "name" => "member1",
+            "gender" => "male",
+            "email" => "member1@gmail.com",
+            "phone_number" => "089630382181719",
+            "instance_id" => 1,
+            "status" => "accepted",
+            "password" => "12345678",
+        ])->assignRole('tenant');
+
+        User::create([
+            "name" => "member2",
+            "gender" => "female",
+            "email" => "member2@gmail.com",
+            "phone_number" => "089630382182719",
+            "instance_id" => 1,
+            "status" => "accepted",
+            "password" => "12345678",
+        ])->assignRole('tenant');
+
+        User::create([
             "name" => "member3",
             "gender" => "male",
             "email" => "member3@gmail.com",
-            "phone_number" => "089630382184719",
+            "phone_number" => "089630382134719",
+            "instance_id" => 1,
+            "status" => "accepted",
+            "password" => "12345678",
+        ])->assignRole('tenant');
+
+        User::create([
+            "name" => "member4",
+            "gender" => "male",
+            "email" => "member4@gmail.com",
+            "phone_number" => "089630383534719",
+            "instance_id" => 1,
+            "status" => "accepted",
+            "password" => "12345678",
+        ])->assignRole('tenant');
+
+        User::create([
+            "name" => "member5",
+            "gender" => "male",
+            "email" => "member5@gmail.com",
+            "phone_number" => "089630809320719",
             "instance_id" => 1,
             "status" => "accepted",
             "password" => "12345678",

@@ -38,8 +38,8 @@
                 <div class="col-md-6 mb-4">
                     <div class="p-4 shadow-sm d-flex justify-content-between" style="border-radius: 15px;">
                         <div class="d-flex">
-                            <img src="{{ asset('/assets/img/image_not_available.png') }}" alt="" class="p-2"
-                                style="max-width: 100px; object-fit:cover;">
+                            <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                alt="" class="p-2" style="max-width: 100px;object-fit:cover; border-radius:15px">
                             <div class="py-4">
                                 <h4 class="text-primary m-0"
                                     style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -70,10 +70,48 @@
                                     </button>
                                 </li>
                             </ul>
-                            <button type="button" class="btn btn-primary" style="border-radius: 50px;">Detail</button>
+                            <button type="button" class="btn btn-primary" style="border-radius: 50px"
+                                data-bs-toggle="modal" data-bs-target="#detailModal{{ $facility->id }}">Detail</button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Detail Modal -->
+                <div class="modal fade" id="detailModal{{ $facility->id }}" tabindex="-1"
+                    aria-labelledby="detailModalLabel aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail
+                                    {{ $facility->id }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex">
+                                    <div class="p-4">
+                                        <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                            alt="{{ $facility->name }}"
+                                            style="max-width: 200px;max-height:200px;object-fit:cover;border-radius:15px">
+                                    </div>
+                                    <div class="p-4 w-100">
+                                        <h3 class="mb-2" style="color: rgba(32,180,134,1)">{{ $facility->name }}</h3>
+                                        <div style="background-color: rgba(32,180,134,0.1); border-radius:15px;min-height: 85px"
+                                            class="w-100 p-3">
+                                            <p class="m-0" style="color: black">
+                                                {{ $facility->description ? $facility->description : 'Deskripsi Kosong' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="p-4"><strong>Foto Detail</strong></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Detail Modal -->
 
                 <!-- Image Detail Modal -->
                 <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1" aria-labelledby="imageDetailModalLabel" aria-hidden="true">
@@ -106,7 +144,6 @@
                                                     <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image" class="img-fluid rounded"
                                                         style="max-height: 200px; object-fit: cover;">
                                                 </div>
-                                            </div>
                                         @empty
                                             <div class="col-12">
                                                 <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong></p>
@@ -184,7 +221,6 @@
                 </script>
 
 
-
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md">
@@ -196,11 +232,15 @@
                             <div class="modal-body">
                                 <form action="{{ route('facilities.update', $facility->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    @method('PATCH')
-                                    <div class="form-group mb-3">
-                                        <label for="facilityName{{ $facility->id }}" class="form-label">Nama Fasilitas</label>
-                                        <input type="text" class="form-control" id="facilityName{{ $facility->id }}"
-                                            name="name" value="{{ $facility->name }}">
+                                    @method('PUT')
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                                id="imgPreviewEdit" alt="{{ $facility->name }}"
+                                                style="max-width:250px;max-height:250px;object-fit:cover">
+                                        </div>
+                                        <label for="facilityPhoto" class="form-label">Foto Fasilitas</label>
+                                        <input type="file" id="imageInputEdit" class="form-control" name="photo">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="facilityDescription{{ $facility->id }}" class="form-label">Deskripsi</label>
@@ -244,4 +284,126 @@
             @endforelse
         </div>
     </div>
+
+    <!-- Store Modal -->
+    <div class="modal fade" id="storeModal" tabindex="-1" aria-labelledby="storeModalLabel aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="facilityStoreModalLabel">Tambah Fasilitas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('facilities.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-center">
+                                <img src="" id="imgPreview" alt=""
+                                    style="max-width:250px;max-height:250px;object-fit:cover">
+                            </div>
+                            <label for="facilityPhoto" class="form-label">Foto Fasilitas</label>
+                            <input type="file" id="imageInput" class="form-control" name="photo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="facilityName" class="form-label">Nama Fasilitas</label>
+                            <input type="text" class="form-control" id="facilityName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="facilityDescription" class="form-label">Deskripsi <small>(max: 50
+                                    karakter)</small></label>
+                            <textarea class="form-control" id="facilityDescription" name="description"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="ri-add-line ri-20px"></i>Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Store Modal -->
+
+    <script>
+        Dropzone.autoDiscover = false;
+
+        document.querySelectorAll('.facility-dropzone').forEach(function(dropzoneElement) {
+            const facilityId = dropzoneElement.dataset.facilityId;
+            const myDropzone = new Dropzone(dropzoneElement, {
+                url: "{{ route('facility_images.store') }}",
+                paramName: "images",
+                maxFilesize: 2,
+                acceptedFiles: ".jpeg,.jpg,.png",
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
+                parallelUploads: 6,
+                init: function() {
+                    const submitButton = dropzoneElement.querySelector(".btn-primary");
+                    const dropzoneInstance = this;
+
+                    submitButton.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (dropzoneInstance.getQueuedFiles().length > 0) {
+                            dropzoneInstance.processQueue();
+                        } else {
+                            dropzoneInstance.submitForm();
+                        }
+                    });
+
+                    this.on("sending", function(file, xhr, formData) {
+                        formData.append("_token", "{{ csrf_token() }}");
+                        formData.append("facility_id", facilityId);
+                    });
+
+                    this.on("success", function(file, response) {
+                        console.log('Upload berhasil:', response);
+                    });
+
+                    this.on("queuecomplete", function() {
+                        dropzoneInstance.submitForm();
+                    });
+                },
+                submitForm: function() {
+                    dropzoneElement.submit();
+                }
+            });
+        });
+
+
+
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            console.log(file);
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const imagePreview = document.getElementById('imgPreview');
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        })
+
+        document.getElementById('imageInputEdit').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            console.log(file);
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const imagePreview = document.getElementById('imgPreviewEdit');
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        })
+    </script>
 @endsection
