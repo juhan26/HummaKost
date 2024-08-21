@@ -40,6 +40,16 @@
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm position-relative" style="border-radius: 20px; overflow: hidden;">
                         <!-- Edit and Delete Icons -->
+                        @if ($property->gender_target === 'male')
+                            <span class="badge rounded-pill bg-label-info position-absolute top-0 start-0 m-2">
+                                <i class="mdi ri-men-line"></i> Laki-Laki
+                            </span>
+                        @else
+                            <span class="badge rounded-pill bg-label-danger position-absolute top-0 start-0 m-2">
+                                <i class="mdi ri-women-line"></i> Perempuan
+                            </span>
+                        @endif
+
                         <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
                             id="card-actions-{{ $property->id }}">
                             <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">

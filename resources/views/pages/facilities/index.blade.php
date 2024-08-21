@@ -43,18 +43,19 @@
                     <div class="p-4 shadow-sm d-flex justify-content-between" style="border-radius: 15px;">
                         <div class="d-flex">
                             <img src="{{ asset('/assets/img/image_not_available.png') }}" alt="" class="p-2"
-                                style="max-width: 100px;">
-                            <div>
+                                style="max-width: 100px;object-fit:cover;">
+                            <div class="py-4">
                                 <h4 class="text-primary m-0"
                                     style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     <strong>{{ $facility->name }}</strong>
                                 </h4>
                                 <div>
-                                    <p>{{ $facility->description ? $facility->description : 'Deskripsi Kosong' }}</p>
+                                    <p class="m-0">
+                                        {{ $facility->description ? $facility->description : 'Deskripsi Kosong' }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="dropdown">
+                        <div class="dropdown d-flex flex-column justify-content-between align-items-end">
                             <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
                                 id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -82,37 +83,47 @@
                                 </li>
 
                             </ul>
+                            <button type="button" class="btn btn-primary" style="border-radius: 50px">Detail</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Image Detail Image -->
-                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1"
-                    aria-labelledby="imageDetailModalLabel aria-hidden="true">
+                <!-- Image Detail Modal -->
+                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1" aria-labelledby="imageDetailModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar
-                                    {{ $facility->id }}
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar {{ $facility->id }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('facility_images.store') }}" class="dropzone" id="imageDropZone"
-                                    method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone" data-facility-id="{{ $facility->id }}" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" value="{{ $facility->id }}" name="facility_id">
-
-                                    <button type="submit" id="submit-all" class="btn btn-primary"
-                                        style="position: absolute; bottom: 0; right: 0; margin: 10px">Tambah
-                                        Gambar</button>
+                                    <button type="submit" id="submit-all" class="btn btn-primary position-absolute" style="bottom: 10px; right: 10px;">
+                                        Tambah Gambar
+                                    </button>
                                 </form>
+                
+                                <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
+                                    <div class="row g-4">
+                                        @forelse ($facility->facility_images as $index => $image)
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                            </div>
+                                        @empty
+                                            <div class="col-12">
+                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong></p>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Image Detail Image -->
+                </div>                
+                <!-- Image Detail Modal -->
+
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
@@ -222,7 +233,8 @@
                             <input type="text" class="form-control" id="facilityName" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="facilityDescription" class="form-label">Deskripsi</label>
+                            <label for="facilityDescription" class="form-label">Deskripsi <small>(max: 100
+                                    karakter)</small></label>
                             <textarea class="form-control" id="facilityDescription" name="description"></textarea>
                         </div>
                         <div class="d-flex justify-content-end">
@@ -239,48 +251,51 @@
     <script>
         Dropzone.autoDiscover = false;
 
-        const myDropzone = new Dropzone("#imageDropZone", {
-            url: "{{ route('facility_images.store') }}", // URL untuk mengirimkan gambar
-            paramName: "images", // Nama parameter yang digunakan untuk mengirimkan gambar
-            maxFilesize: 5, // Batas maksimal ukuran file (MB)
-            acceptedFiles: ".jpeg,.jpg,.png", // Tipe file yang diperbolehkan
-            autoProcessQueue: false, // Mencegah pengiriman otomatis
-            addRemoveLinks: true, // Tampilkan tombol hapus
-            dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
-            parallelUploads: 10, // Jumlah file yang diproses sekaligus
-            init: function() {
-                const submitButton = document.querySelector("#submit-all");
-                const dropzoneInstance = this;
+        document.querySelectorAll('.facility-dropzone').forEach(function(dropzoneElement) {
+            const facilityId = dropzoneElement.dataset.facilityId;
+            const myDropzone = new Dropzone(dropzoneElement, {
+                url: "{{ route('facility_images.store') }}",
+                paramName: "images",
+                maxFilesize: 2,
+                acceptedFiles: ".jpeg,.jpg,.png",
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
+                parallelUploads: 6,
+                init: function() {
+                    const submitButton = dropzoneElement.querySelector(".btn-primary");
+                    const dropzoneInstance = this;
 
-                submitButton.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    submitButton.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
 
-                    if (dropzoneInstance.getQueuedFiles().length > 0) {
-                        dropzoneInstance.processQueue();
-                    } else {
+                        if (dropzoneInstance.getQueuedFiles().length > 0) {
+                            dropzoneInstance.processQueue();
+                        } else {
+                            dropzoneInstance.submitForm();
+                        }
+                    });
+
+                    this.on("sending", function(file, xhr, formData) {
+                        formData.append("_token", "{{ csrf_token() }}");
+                        formData.append("facility_id", facilityId);
+                    });
+
+                    this.on("success", function(file, response) {
+                        console.log('Upload berhasil:', response);
+                    });
+
+                    this.on("queuecomplete", function() {
                         dropzoneInstance.submitForm();
-                    }
-                });
-
-                this.on("sending", function(file, xhr, formData) {
-                    formData.append("_token", "{{ csrf_token() }}");
-                    formData.append("facility_id", document.querySelector('input[name="facility_id"]')
-                        .value);
-                });
-
-                this.on("success", function(file, response) {
-                    console.log('Upload berhasil:', response);
-                });
-
-                this.on("queuecomplete", function() {
-                    dropzoneInstance.submitForm();
-                });
-            },
-            submitForm: function() {
-                document.querySelector("#imageDropZone").submit();
-            }
+                    });
+                },
+                submitForm: function() {
+                    dropzoneElement.submit();
+                }
+            });
         });
+
 
 
         document.getElementById('imageInput').addEventListener('change', function(e) {
