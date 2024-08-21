@@ -42,6 +42,6 @@ export default {
             "blue-200": "#F0F7FF",
         },
     },
-    plugins: [require("flowbite/plugin"), require('daisyui'),],
+    plugins: [require("flowbite/plugin")],
 
 };
