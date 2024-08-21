@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequest;
 use App\Models\Facility;
+use App\Models\FacilityImage;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
