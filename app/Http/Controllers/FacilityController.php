@@ -17,7 +17,7 @@ class FacilityController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $facilities = Facility::where('name', 'LIKE', "%" . $request->search . "%")->paginate(6);
+            $facilities = Facility::with('facility_images')->where('name', 'LIKE', "%" . $request->search . "%")->paginate(6);
         } else {
             $facilities = Facility::latest()->paginate(6);
         }
