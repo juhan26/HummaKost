@@ -16,5 +16,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('payments', PaymentPerMonthController::class);
 
+    Route::get('users/show/{user}', [UserController::class, 'show'])->name('user.show');
+
 });
 
