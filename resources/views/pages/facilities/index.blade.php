@@ -105,7 +105,7 @@
                                     </button>
                                 </form>
                 
-                                <div class="p-4 shadow-sm">
+                                <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="row g-4">
                                         @forelse ($facility->facility_images as $index => $image)
                                             <div class="col-12 col-md-6 col-lg-4">
