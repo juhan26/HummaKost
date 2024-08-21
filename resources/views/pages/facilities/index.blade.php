@@ -1,247 +1,409 @@
 @extends('app')
 
 @section('content')
-    <div class="card">
-        <div class="card-datatable table-responsive pt-0">
-            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                <div class="card-header d-flex align-items-center justify-content-between border-bottom">
-                    <div class="head-label text-center">
-                        <h5 class="card-title mb-0">Fasilitas Yang Tersedia</h5>
-                    </div>
-                    <a href="#" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
-                        data-bs-target="#storeModal">
-                        <i class="ri-add-line ri-16px me-sm-2"></i>
-                        Tambah Fasilitas
-                    </a>
-                </div>
-                <div class="d-flex align-items-end justify-content-between mb-3 card-header">
-                    @if ($facilities->lastPage() != 1)
-                        <div class="col-sm-12 col-md-6 mt-5 mt-md-0">
-                            <strong>Hasil Halaman: {{ $facilities->currentPage() }}</strong>
-                        </div>
-                    @endif
-                    <div
-                        class="col-sm-12 col-md-6 d-flex {{ $facilities->lastPage() != 1 ? 'justify-content-end' : 'justify-content-start' }} gap-3">
-                        @if ($facilities->lastPage() != 1)
-                            <label>Pilih Halaman: <select name="page" aria-controls="DataTables_Table_0"
-                                    class="form-select form-select-sm" id="pageSelect">
-                                    @for ($i = 1; $i <= $facilities->lastPage(); $i++)
-                                        <option value="{{ request()->url() }}?page={{ $i }}"
-                                            {{ $facilities->currentPage() == $i ? 'selected' : '' }}>
-                                            {{ $i }}
-                                        </option>
-                                    @endfor
-                                </select></label>
-                        @endif
-                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                            <label>Search:
-                                <form action="{{ route('facilities.index') }}" method="GET">
-                                    @csrf
-                                    <input type="text" name="search" placeholder="name..."
-                                        class="form-control form-control-sm" aria-controls="DataTables_Table_0"
-                                        value="{{ request('search') }}">
-                                </form>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-cols-1 row-cols-md-3 g-6 mb-3">
-                    @forelse ($facilities as $facility)
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card h-100 ms-5">
-                                <img style="height: 225px;object-fit: cover" class="card-img-top"
-                                    src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
-                                    alt="{{ $facility->name }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $facility->name }}</h5>
-                                    <div style="min-height: 120px;max-height: 120px; overflow: auto">
-                                        <p class="card-text">
-                                            {{ $facility->description ? $facility->description : 'Deskripsi Kosong' }}
-                                        </p>
-                                    </div>
-                                </div>
+    <style>
+        #searchInput {
+            padding-left: 60px;
+        }
 
-                                <div class="modal-footer d-flex justify-content-between align-items-center px-5 mb-5">
-                                    <a href="#" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal"
-                                        data-bs-target="#showModal{{ $facility->id }}">Lihat Detail</a>
-                                    <div class="dropdown">
-                                        <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1"
-                                            type="button" id="facilityActionsDropdown{{ $facility->id }}"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line ri-20px"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end"
-                                            aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
-                                            <li><a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#updateModal{{ $facility->id }}">Edit</a></li>
-                                            <li><button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $facility->id }}">Delete</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
+        @media (max-width: 767.98px) {
+            #searchIcon {
+                display: none;
+            }
+
+            #searchInput {
+                padding: 0 15px;
+            }
+        }
+    </style>
+
+    <div class="container" style="min-height: 200px;">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4" style="padding: 50px 0 30px;">
+            <h3 class="m-0 mb-3 mb-md-0"><strong>List Fasilitas</strong></h3>
+            <form action="{{ route('facilities.index') }}" method="GET" class="d-flex flex-column flex-md-row align-items-center" style="gap: 15px; position: relative; width: 70%;">
+                @csrf
+                <input type="text" class="form-control" name="search" id="searchInput"
+                    style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none;"
+                    value="{{ request('search') }}" placeholder="Cari...">
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#storeModal"
+                    style="width: 160px; padding: 15px 0; border-radius: 10px; background-color: rgba(32,180,134,1); color: white; font-size: 16px;">
+                    <i class="ri-add-line ri-20px"></i>Tambah
+                </button>
+                <i class="ri-search-line ri-20px" id="searchIcon" style="position: absolute; top: 50%; transform: translateY(-50%); left: 3%;"></i>
+            </form>
+        </div>
+
+        <div class="row">
+            @forelse($facilities as $facility)
+                <div class="col-md-6 mb-4">
+                    <div class="p-4 shadow-sm d-flex justify-content-between" style="border-radius: 15px;">
+                        <div class="d-flex">
+                            <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                alt="" class="p-2" style="max-width: 100px;object-fit:cover; border-radius:15px">
+                            <div class="py-4">
+                                <h4 class="text-primary m-0"
+                                    style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    <strong>{{ $facility->name }}</strong>
+                                </h4>
+                                <p class="m-0">{{ $facility->description ?: 'Deskripsi Kosong' }}</p>
                             </div>
                         </div>
+                        <div class="dropdown d-flex flex-column justify-content-between align-items-end">
+                            <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
+                                id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="ri-more-2-line ri-20px"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#imageDetail{{ $facility->id }}">
+                                        <i class="ri-image-line me-2 ri-20px"></i>Gambar Detail
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateModal{{ $facility->id }}">
+                                        <i class="ri-edit-line me-2 ri-20px"></i>Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $facility->id }}">
+                                        <i class="ri-delete-bin-line me-2 ri-20px"></i>Hapus
+                                    </button>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary" style="border-radius: 50px"
+                                data-bs-toggle="modal" data-bs-target="#detailModal{{ $facility->id }}">Detail</button>
+                        </div>
+                    </div>
+                </div>
 
-                        <!-- Show Modal -->
-                        <div class="modal fade" id="showModal{{ $facility->id }}" tabindex="-1"
-                            aria-labelledby="showModalLabel{{ $facility->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="showModalLabel{{ $facility->id }}">
-                                            {{ $facility->name }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                <!-- Detail Modal -->
+                <div class="modal fade" id="detailModal{{ $facility->id }}" tabindex="-1"
+                    aria-labelledby="detailModalLabel aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail
+                                    {{ $facility->id }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex">
+                                    <div class="p-4">
+                                        <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                            alt="{{ $facility->name }}"
+                                            style="max-width: 200px;max-height:200px;object-fit:cover;border-radius:15px">
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="row align-items-center">
-                                            <!-- Gambar -->
-                                            <style>
-                                                .modal-img {
-                                                    width: 300px;
-                                                    /* Ubah sesuai kebutuhan */
-                                                    height: 200px;
-                                                    /* Ubah sesuai kebutuhan */
-                                                    object-fit: cover;
-                                                    /* Memastikan gambar tidak terdistorsi */
-                                                }
-                                            </style>
-                                            <div class="col-md-4">
-                                                <img class="img-fluid modal-img"
-                                                    src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
-                                                    alt="{{ $facility->name }}">
-                                            </div>
-                                            <!-- Detail Fasilitas -->
-                                            <div class="col-md-8">
-                                                <h5>{{ $facility->name }}</h5>
-                                                <h6>Description:</h6>
-                                                <p>{{ $facility->description ? $facility->description : 'Deskripsi Kosong' }}
-                                                </p>
-                                            </div>
+                                    <div class="p-4 w-100">
+                                        <h3 class="mb-2" style="color: rgba(32,180,134,1)">{{ $facility->name }}</h3>
+                                        <div style="background-color: rgba(32,180,134,0.1); border-radius:15px;min-height: 85px"
+                                            class="w-100 p-3">
+                                            <p class="m-0" style="color: black">
+                                                {{ $facility->description ? $facility->description : 'Deskripsi Kosong' }}
+                                            </p>
                                         </div>
                                     </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                                <span class="p-4"><strong>Foto Detail</strong></span>
 
-                        <!-- Show Modal -->
-
-                        <!-- Update Modal -->
-                        <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
-                            aria-labelledby="updateModalLabel{{ $facility->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="updateModalLabel{{ $facility->id }}">Edit
-                                            {{ $facility->name }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('facilities.update', $facility->id) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="mb-3">
-                                                <label for="facilityName{{ $facility->id }}"
-                                                    class="form-label">Name</label>
-                                                <input type="text" class="form-control"
-                                                    id="facilityName{{ $facility->id }}" name="name"
-                                                    value="{{ $facility->name }}" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="facilityDescription{{ $facility->id }}"
-                                                    class="form-label">Description</label>
-                                                <textarea class="form-control" id="facilityDescription{{ $facility->id }}" name="description">{{ $facility->description }}</textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="facilityPhoto{{ $facility->id }}"
-                                                    class="form-label">Photo</label>
-                                                <input type="file" class="form-control"
-                                                    id="facilityPhoto{{ $facility->id }}" name="photo">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Update</button>
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        <!-- Update Modal -->
-
-                        <!-- Delete Modal -->
-                        <div class="modal fade" id="deleteModal{{ $facility->id }}" tabindex="-1"
-                            aria-labelledby="deleteModalLabel{{ $facility->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel{{ $facility->id }}">Hapus
-                                            {{ $facility->name }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Apakah anda yakin ingin menghapus fasilitas ini?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <form action="{{ route('facilities.destroy', $facility->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Delete Modal -->
-                    @empty
-                        <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
-                            <div class="head-label text-center">
-                                <h5 class="card-title mb-0">
-                                    {{ request('search') ? 'Fasilitas Tidak Ditemukan' : 'Belum Ada Fasilitas' }}</h5>
-                            </div>
-                        </div>
-                    @endforelse
+                    </div>
                 </div>
-                {{ $facilities->links() }}
-            </div>
+                <!-- Detail Modal -->
+
+                <!-- Image Detail Modal -->
+                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1" aria-labelledby="imageDetailModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar {{ $facility->id }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone" data-facility-id="{{ $facility->id }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" value="{{ $facility->id }}" name="facility_id">
+                                    <button type="submit" id="submit-all" class="btn btn-primary position-absolute" style="bottom: 10px; right: 10px;">
+                                        Tambah Gambar
+                                    </button>
+                                </form>
+
+                                <div class="p-4 shadow-sm mt-3" style="border-radius:15px;">
+                                    <div class="row g-4">
+                                        <div class="col-12 mb-3">
+                                            <button id="select-all" class="btn btn-secondary">Pilih Semua</button>
+                                            <button id="delete-selected" class="btn btn-danger" disabled>Hapus yang Dipilih</button>
+                                        </div>
+                                        @forelse ($facility->facility_images as $image)
+                                            <div class="col-12 col-md-6 col-lg-4 position-relative" data-image-id="{{ $image->id }}">
+                                                <div class="position-relative">
+                                                    <input type="checkbox" class="image-checkbox" data-image-id="{{ $image->id }}"
+                                                        style="position: absolute; top: 10px; left: 10px;">
+                                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image" class="img-fluid rounded"
+                                                        style="max-height: 200px; object-fit: cover;">
+                                                </div>
+                                        @empty
+                                            <div class="col-12">
+                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong></p>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const selectAllButton = document.getElementById('select-all');
+                        const deleteSelectedButton = document.getElementById('delete-selected');
+                        const imageCheckboxes = document.querySelectorAll('.image-checkbox');
+                        let allSelected = false;
+
+                        selectAllButton.addEventListener('click', function() {
+                            allSelected = !allSelected; // Toggle the allSelected flag
+                            imageCheckboxes.forEach(checkbox => {
+                                checkbox.checked = allSelected;
+                            });
+                            selectAllButton.textContent = allSelected ? 'Batal Pilih Semua' : 'Pilih Semua';
+                            updateDeleteButtonState();
+                        });
+
+                        deleteSelectedButton.addEventListener('click', function() {
+                            const selectedImageIds = Array.from(imageCheckboxes)
+                                .filter(checkbox => checkbox.checked)
+                                .map(checkbox => checkbox.dataset.imageId);
+
+                            if (selectedImageIds.length === 0) {
+                                alert('Tidak ada gambar yang dipilih.');
+                                return;
+                            }
+
+                            if (confirm('Apakah Anda yakin ingin menghapus gambar yang dipilih?')) {
+                                selectedImageIds.forEach(imageId => {
+                                    fetch(`/facility_images/${imageId}`, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        }
+                                    })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            const imageContainer = document.querySelector(`[data-image-id="${imageId}"]`);
+                                            if (imageContainer) {
+                                                imageContainer.remove();
+                                            }
+                                            updateDeleteButtonState();
+                                        } else {
+                                            console.error('Error deleting image', response);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                    });
+                                });
+                            }
+                        });
+
+                        imageCheckboxes.forEach(checkbox => {
+                            checkbox.addEventListener('change', updateDeleteButtonState);
+                        });
+
+                        function updateDeleteButtonState() {
+                            const anyChecked = Array.from(imageCheckboxes).some(checkbox => checkbox.checked);
+                            deleteSelectedButton.disabled = !anyChecked;
+                        }
+                    });
+                </script>
+
+
+                <!-- Update Modal -->
+                <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit {{ $facility->id }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('facilities.update', $facility->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                                id="imgPreviewEdit" alt="{{ $facility->name }}"
+                                                style="max-width:250px;max-height:250px;object-fit:cover">
+                                        </div>
+                                        <label for="facilityPhoto" class="form-label">Foto Fasilitas</label>
+                                        <input type="file" id="imageInputEdit" class="form-control" name="photo">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="facilityDescription{{ $facility->id }}" class="form-label">Deskripsi</label>
+                                        <textarea class="form-control" id="facilityDescription{{ $facility->id }}" rows="4" name="description">{{ $facility->description }}</textarea>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="facilityImage{{ $facility->id }}" class="form-label">Gambar</label>
+                                        <input type="file" class="form-control" id="facilityImage{{ $facility->id }}" name="image">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="border-radius: 50px; background-color: rgba(32,180,134,1);">Simpan</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal{{ $facility->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-danger" id="facilityDeleteModalLabel">Hapus {{ $facility->id }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Apakah Anda yakin ingin menghapus fasilitas ini?</p>
+                                <form action="{{ route('facilities.destroy', $facility->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" style="border-radius: 50px;">Hapus</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            @empty
+                <div class="col-12">
+                    <p class="text-center m-0 py-3"><strong>Belum ada fasilitas.</strong></p>
+                </div>
+            @endforelse
         </div>
     </div>
 
     <!-- Store Modal -->
-    <div class="modal fade" id="storeModal" tabindex="-1" aria-labelledby="storeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="storeModal" tabindex="-1" aria-labelledby="storeModalLabel aria-hidden="true">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="storeModalLabel">Tambah Fasilitas</h5>
+                    <h5 class="modal-title text-primary" id="facilityStoreModalLabel">Tambah Fasilitas</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('facilities.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="facilityName" class="form-label">Name</label>
+                            <div class="d-flex justify-content-center">
+                                <img src="" id="imgPreview" alt=""
+                                    style="max-width:250px;max-height:250px;object-fit:cover">
+                            </div>
+                            <label for="facilityPhoto" class="form-label">Foto Fasilitas</label>
+                            <input type="file" id="imageInput" class="form-control" name="photo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="facilityName" class="form-label">Nama Fasilitas</label>
                             <input type="text" class="form-control" id="facilityName" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="facilityDescription" class="form-label">Description</label>
+                            <label for="facilityDescription" class="form-label">Deskripsi <small>(max: 50
+                                    karakter)</small></label>
                             <textarea class="form-control" id="facilityDescription" name="description"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="facilityPhoto" class="form-label">Photo</label>
-                            <input type="file" class="form-control" id="facilityPhoto" name="photo">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="ri-add-line ri-20px"></i>Tambah</button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Store Modal -->
+    <!-- Store Modal -->
+
+    <script>
+        Dropzone.autoDiscover = false;
+
+        document.querySelectorAll('.facility-dropzone').forEach(function(dropzoneElement) {
+            const facilityId = dropzoneElement.dataset.facilityId;
+            const myDropzone = new Dropzone(dropzoneElement, {
+                url: "{{ route('facility_images.store') }}",
+                paramName: "images",
+                maxFilesize: 2,
+                acceptedFiles: ".jpeg,.jpg,.png",
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
+                parallelUploads: 6,
+                init: function() {
+                    const submitButton = dropzoneElement.querySelector(".btn-primary");
+                    const dropzoneInstance = this;
+
+                    submitButton.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (dropzoneInstance.getQueuedFiles().length > 0) {
+                            dropzoneInstance.processQueue();
+                        } else {
+                            dropzoneInstance.submitForm();
+                        }
+                    });
+
+                    this.on("sending", function(file, xhr, formData) {
+                        formData.append("_token", "{{ csrf_token() }}");
+                        formData.append("facility_id", facilityId);
+                    });
+
+                    this.on("success", function(file, response) {
+                        console.log('Upload berhasil:', response);
+                    });
+
+                    this.on("queuecomplete", function() {
+                        dropzoneInstance.submitForm();
+                    });
+                },
+                submitForm: function() {
+                    dropzoneElement.submit();
+                }
+            });
+        });
+
+
+
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            console.log(file);
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const imagePreview = document.getElementById('imgPreview');
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        })
+
+        document.getElementById('imageInputEdit').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            console.log(file);
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const imagePreview = document.getElementById('imgPreviewEdit');
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        })
+    </script>
 @endsection

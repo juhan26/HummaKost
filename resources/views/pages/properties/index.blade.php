@@ -3,7 +3,7 @@
 @section('content')
     <style>
         #searchInput {
-            padding-left: 60px ;
+            padding-left: 60px;
         }
 
         @media (max-width: 767.98px) {
@@ -11,9 +11,9 @@
                 display: none;
             }
 
-                #searchInput {
-                    padding: 0 15px 0 15px
-                }
+            #searchInput {
+                padding: 0 15px 0 15px
+            }
         }
     </style>
 
@@ -40,6 +40,16 @@
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm position-relative" style="border-radius: 20px; overflow: hidden;">
                         <!-- Edit and Delete Icons -->
+                        @if ($property->gender_target === 'male')
+                            <span class="badge rounded-pill bg-label-info position-absolute top-0 start-0 m-2">
+                                <i class="mdi ri-men-line"></i> Laki-Laki
+                            </span>
+                        @else
+                            <span class="badge rounded-pill bg-label-danger position-absolute top-0 start-0 m-2">
+                                <i class="mdi ri-women-line"></i> Perempuan
+                            </span>
+                        @endif
+
                         <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
                             id="card-actions-{{ $property->id }}">
                             <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">
@@ -108,10 +118,12 @@
                     </div>
                 </div>
             @empty
-                <div class="text-center">
-                    <h4 class="my-3">
-                        <strong>{{ request('search') ? 'Kontrakan Yang Anda Cari Tidak Ditemukan' : 'Data Kontrakan Kosong' }}</strong>
-                    </h4>
+                <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
+                    <div class="head-label text-center">
+                        <h5 class="card-title mb-0">
+                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}
+                        </h5>
+                    </div>
                 </div>
             @endforelse
         </div>

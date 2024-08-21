@@ -46,6 +46,7 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">
+
                                 <i class="ri-user-3-line ri-22px me-3"></i><span class="align-middle">My Profile</span>
                             </a>
                         </li>
@@ -76,12 +77,12 @@
                             <a class="dropdown-item" href="pages-faq.html">
                                 <i class="ri-question-line ri-22px me-3"></i><span class="align-middle">FAQ</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <div class="d-grid px-4 pt-2 pb-1">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    <i class="mdi mdi-logout me-2"></i>
+                                    <i class="ri-logout-box-line"></i>
                                     <span class="align-middle">{{ __('Logout') }}</span>
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

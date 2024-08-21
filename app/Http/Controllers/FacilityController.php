@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequest;
 use App\Models\Facility;
+use App\Models\FacilityImage;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,7 @@ class FacilityController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $facilities = Facility::where('name', 'LIKE', "%" . $request->search . "%")->paginate(6);
+            $facilities = Facility::with('facility_images')->where('name', 'LIKE', "%" . $request->search . "%")->paginate(6);
         } else {
             $facilities = Facility::latest()->paginate(6);
         }
@@ -52,15 +53,15 @@ class FacilityController extends Controller
         }
         return redirect()->route('facilities.index')->with('success', "Berhasil Menambah Fasilitas");
     }
-    
-    public function upload(Request $request)
-    {
-        $photo = $request->file('photo');
-        $imageName = time() . rand(1, 100) . '.' . $photo->extension();
-        $photoPath = $photo->store('facilityPhotos', 'public');
-        // $photo->move(public_path('images'), $imageName);
-        return response()->json(['success' => $imageName]);
-    }
+
+    // public function upload(Request $request)
+    // {
+    //     $photo = $request->file('photo');
+    //     $imageName = time() . rand(1, 100) . '.' . $photo->extension();
+    //     $photoPath = $photo->store('facilityPhotos', 'public');
+    //     // $photo->move(public_path('images'), $imageName);
+    //     return response()->json(['success' => $imageName]);
+    // }
 
     /**
      * Display the specified resource.
