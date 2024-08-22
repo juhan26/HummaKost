@@ -76,8 +76,10 @@
                             <span class="label bg-label-warning me-1" style="padding: 8px 20px; border-radius: 10px; ">Ketua
                                 Kontrakan: {{ $lease->user->name }}</strong></span>
 
-                            <a data-bs-toggle="modal" class="btn btn-primary ms-1" data-bs-target="#editPropertyLeaderModal"
-                                style="text-decoration; color: white;">+</a>
+                            @hasrole('super_admin')
+                                <a data-bs-toggle="modal" class="btn btn-primary ms-1" data-bs-target="#editPropertyLeaderModal"
+                                    style="text-decoration; color: white;">+</a>
+                            @endhasrole
                             @php
                                 $status = true;
                             @endphp

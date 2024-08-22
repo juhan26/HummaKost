@@ -325,6 +325,7 @@
                                                 </div>
                                             </td>
                                         @elseif ($adminAccess === 0 && request()->input('filter') === 'admin')
+                                        @hasrole('super_admin')
                                             <td>
                                                 <div class="dropdown d-flex justify-content-center">
                                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -341,7 +342,9 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            @endhasrole
                                         @elseif ($adminAccess === 0 && $user->status !== 'pending')
+                                        @hasrole('super_admin')
                                             <td>
                                                 <div class="dropdown d-flex justify-content-center">
                                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -358,6 +361,7 @@
 
                                                 </div>
                                             </td>
+                                            @endhasrole
                                         @elseif ($adminAccess === 1)
                                         @endif
                                     </tr>

@@ -27,9 +27,11 @@
                 <input type="text" class="form-control" name="search" id="searchInput"
                     style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none; "
                     value="{{ request('search') }}" placeholder="Cari...">
-                <a href="{{ route('properties.create') }}" class="btn"
-                    style="width: 160px; padding: 15px 0 ;border-radius: 10px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
-                        class="ri-add-line ri-20px"></i>Tambah</a>
+                @hasrole('super_admin')
+                    <a href="{{ route('properties.create') }}" class="btn"
+                        style="width: 160px; padding: 15px 0 ;border-radius: 10px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
+                            class="ri-add-line ri-20px"></i>Tambah</a>
+                @endhasrole
                 <i class="ri-search-line ri-20px" id="searchIcon"
                     style="position: absolute; top: 50%;transform: translateY(-50%); left: 3%;"></i>
             </form>
@@ -42,44 +44,18 @@
                         <!-- Edit and Delete Icons -->
 
 
+
                         <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
                             id="card-actions-{{ $property->id }}">
-                            <button class="btn btn-white btn-text-white shadow-sm  p-2" type="button"
-                                id="propertyActionsDropdown{{ $property->id }}" data-bs-toggle="dropdown"
-                                aria-expanded="false" style="border-radius: none;border:1px solid rgba(0,0,0,.1);">
-                                <i class="ri-more-2-line ri-20px"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="propertyActionsDropdown{{ $property->id }}">
-
-                                <li>
-                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                        data-bs-target="#imageDetail{{ $property->id }}"><i
-                                            class="ri-image-add-line me-2 ri-20px text-primary"></i>Tambah Foto
-                                        Detail</button>
-                                </li>
-
-
-
-                                <li>
-                                    <a href="{{ route('properties.edit', $property->id) }}" class="dropdown-item">
-                                        <i class="ri-edit-line me-2 text-secondary"></i>
-                                        Edit Kontrakan
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ $property->id }}">
-                                        <i class="ri-delete-bin-line me-2 text-danger"></i>
-                                        Hapus Kontrakan
-                                    </button>
-                                </li>
-
-                            </ul>
-
-
-
+                            @hasrole('super_admin')
+                                <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal{{ $property->id }}">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            @endhasrole
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
                                 aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
@@ -107,7 +83,6 @@
                                 </div>
                             </div>
                             <!-- Delete Modal -->
-
                         </div>
 
                         <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
