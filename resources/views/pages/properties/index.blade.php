@@ -203,14 +203,11 @@
             @endforelse
         </div>
     </div>
-@endsection
 
-@section('script')
     <script>
         Dropzone.autoDiscover = false;
 
         document.querySelectorAll('.property-dropzone').forEach(function(dropzoneElement) {
-            console.log(dropzoneElement);
             const propertyId = dropzoneElement.dataset.propertyId;
             const myDropzone = new Dropzone(dropzoneElement, {
                 url: "{{ route('property_images.store') }}",
@@ -255,19 +252,5 @@
             });
         });
     </script>
-
-    <script>
-        $(document).ready(function() {
-            $('.card').hover(
-                function() {
-                    let id = $(this).data('id');
-                    $('#card-actions-' + id).show();
-                },
-                function() {
-                    let id = $(this).data('id');
-                    $('#card-actions-' + id).hide();
-                }
-            );
-        });
-    </script>
 @endsection
+
