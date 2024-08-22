@@ -1,6 +1,18 @@
 @extends('app')
 
 @section('content')
+    <style>
+        .is-invalid {
+            border-color: #dc3545;
+            background-color: #white;
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            display: block;
+        }
+    </style>
+
     <div class="col-md-12">
         <div class="card mb-6">
             <h5 class="card-header">Tambah Kontrakan Baru</h5>
@@ -10,43 +22,81 @@
                     <div class="row">
                         <div class="col-12 col-lg-6 mb-3">
                             <label for="name" class="form-label">Nama Kontrakan</label>
-                            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name') }}">
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
-                            <label for="capacity" class="form-label">Kapasitas <small>(Yang Dapat
-                                    Ditampung)</small></label>
-                            <input type="number" name="capacity" class="form-control" value="{{ old('capacity') }}">
+                            <label for="capacity" class="form-label">Kapasitas <small>(Yang Dapat Ditampung)</small></label>
+                            <input type="number" name="capacity"
+                                class="form-control @error('capacity') is-invalid @enderror" value="{{ old('capacity') }}">
+                            @error('capacity')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-12 col-lg-12 mb-3">
                             <img src="" style="max-width: 250px" alt="" id="imgPreview">
                             <label for="image" class="form-label">Foto Kontrakan</label>
                             <input type="file" name="image" id="imageInput"
-                                class="form-control" value="{{ old('image') }}">
+                                class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}">
+                            @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
                             <label for="rental_price" class="form-label">Harga Sewa/Bulan</label>
-                            <input type="number" name="rental_price" class="form-control"
+                            <input type="number" name="rental_price"
+                                class="form-control @error('rental_price') is-invalid @enderror"
                                 value="{{ old('rental_price') }}">
+                            @error('rental_price')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
-                            <label for="gender_target" class="form-label">Penghuni Kontrakan </label>
-                            <select name="gender_target" id="gender_target" class="form-select"
-                                value="{{ old('gender_target') }}">
-                                <option value="male">Laki - Laki</option>
-                                <option value="female">Perempuan</option>
+                            <label for="gender_target" class="form-label">Penghuni Kontrakan</label>
+                            <select name="gender_target" id="gender_target"
+                                class="form-select @error('gender_target') is-invalid @enderror">
+                                <option value="male" {{ old('gender_target') == 'male' ? 'selected' : '' }}>Laki - Laki
+                                </option>
+                                <option value="female" {{ old('gender_target') == 'female' ? 'selected' : '' }}>Perempuan
+                                </option>
                             </select>
+                            @error('gender_target')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-
                         <div class="form-floating col-12 col-lg-12 mb-3">
-                            <textarea class="form-control" id="description" name="description" style="height: 100px">{{ old('description') }}</textarea>
+                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
+                                style="height: 100px">{{ old('description') }}</textarea>
                             <label for="description">Deskripsi <small>(Opsional)</small></label>
+                            @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-
                         <div class="col-12 col-lg-12 mb-3">
                             <label for="address" class="form-label">Alamat</label>
-                            <input type="text" name="address" class="form-control" value="{{ old('address') }}">
+                            <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"
+                                value="{{ old('address') }}">
+                            @error('address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-
                         <div class="col-12 col-lg-12 mb-3" style="max-height: 300px; overflow: auto">
                             <label for="facility_id[]" class="form-label">Fasilitas</label>
                             <div class="d-flex flex-wrap gap-3">
@@ -74,51 +124,61 @@
                                 @endforelse
                             </div>
                         </div>
-
                         <div class="mb-5 mt-2">
                             <p class="text-center m-0"><strong>Kordinat Maps</strong></p>
                             <p class="text-center">Bisa menggunakan cari lokasi atau langtitude dan longtitude.</p>
                         </div>
-
                         <div class="col-12 col-lg-12">
                             <label for="searchLocation" class="form-label">Cari Lokasi
                                 <small>(Lokasi/Alamat)</small></label>
                             <div class="d-flex gap-3 mb-3 ">
                                 <input type="text" id="location-search" name="searchLocation" id="searchLocation"
-                                    class="form-control" value="{{ old('searchLocation') }}">
+                                    class="form-control @error('searchLocation') is-invalid @enderror"
+                                    value="{{ old('searchLocation') }}">
                                 <button type="button" id="search-button" class="btn btn-primary"><i
                                         class="ri-search-line ri-16px me-sm-2"></i>Cari</button>
                             </div>
+                            @error('searchLocation')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-
                         <div class="col-12 col-lg-6">
                             <label for="langtitude" class="form-label">Langtitude</label>
-                            <input type="text" id="langtitude" name="langtitude" id="langtitude"
-                                class="form-control" value="{{ old('langtitude') }}">
+                            <input type="text" id="langtitude" name="langtitude"
+                                class="form-control @error('langtitude') is-invalid @enderror"
+                                value="{{ old('langtitude') }}">
+                            @error('langtitude')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-
                         <div class="col-12 col-lg-6">
                             <label for="longtitude" class="form-label">Longtitude</label>
-                            <input type="text" id="longtitude" name="longtitude" id="longtitude"
-                                class="form-control" value="{{ old('longtitude') }}">
+                            <input type="text" id="longtitude" name="longtitude"
+                                class="form-control @error('longtitude') is-invalid @enderror"
+                                value="{{ old('longtitude') }}">
+                            @error('longtitude')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-
                         <div class="col-12 col-lg-12 mt-3 d-flex justify-content-end">
                             <button id="search-coordinates-button" class="btn btn-primary" style="height: 48px"
                                 type="button"><i class="ri-map-pin-add-line ri-16px me-sm-2"></i>Cari Berdasarkan
                                 Kordinat Lang/Long</button>
                         </div>
-
                         <div class="col-12 col-lg-12 mb-3">
                             <small>Atau Pilih Lokasi Dengan Mengklik Map</small>
                             <div id="map" style="width: 100%; height: 400px"></div>
                         </div>
-
                         <div class="col-12 col-lg-12 d-flex justify-content-between">
                             <a href="{{ route('properties.index') }}" class="btn btn-secondary">
                                 <i class="ri-arrow-go-back-line ri-16px me-sm-2"></i>Batal
                             </a>
-
                             <button class="btn btn-primary create-new btn-primary waves-effect waves-light" tabindex="0"
                                 aria-controls="DataTables_Table_0" type="submit"><span><i
                                         class="ri-add-line ri-16px me-sm-2"></i>

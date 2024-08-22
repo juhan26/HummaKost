@@ -58,27 +58,23 @@
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}">home</a>
+                            href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#loadMember">properties</a>
+                            href="#properties">Kontrakan</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#loadMember">tenant</a>
+                            href="#about">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#descc">about</a>
+                            href="#feedback">Masukan</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#gambars">feedback</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#blog">contact</a>
+                            href="#blog">Kontak</a>
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -350,7 +346,7 @@
                     <div class="2xl:pt-[150px] pt-5">
                         <div class="2xl:w-[677px] w-full">
                             <h2 class="font-display text-primary-500 font-semibold 2xl:text-2xl md:text-lg text-sm pb-2 2xl:pb-6"
-                                data-aos="fade-down" data-aos-duration="1000">Welcome To
+                                data-aos="fade-down" data-aos-duration="1000">Selamat Datang di
                             </h2>
                             <h1 class="capitalize mb-4 lg:mb-6 font-display font-semibold md:text-3xl text-2xl 2xl:text-[56px] 2xl:leading-[72px] text-primary-900"
                                 data-aos="fade-down" data-aos-duration="1000">
@@ -428,8 +424,8 @@
                 <div class="xl:w-1/4">
                     <h2
                         class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
-                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in"
-                            data-aos-duration="1000">Properties</span>
+                         <span class="text-primary-500 after-svg popular" data-aos="fade-in"
+                            data-aos-duration="1000">Properties</span> kami
                     </h2>
                 </div>
                 <div class="2xl:w-3/4">
@@ -592,11 +588,11 @@
 
     <!-- intructor section end -->
 
-    <section class="section-padding achievement-section">
+    <section class="section-padding achievement-section" id="about">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                About <span class="text-primary-500 after-svg achievement">Us</span>
+                Tentang <span class="text-primary-500 after-svg achievement">Kami</span>
             </h2>
             <div class="flex flex-wrap">
                 <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
@@ -635,11 +631,11 @@
 
 
 
-    <section class="section-padding feedback-section">
+    <section class="section-padding feedback-section" id="feedback">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Tenant <span class="text-primary-500 after-svg feedback">Feedback</span>
+                Masukan <span class="text-primary-500 after-svg feedback">Penyewa</span>
             </h2>
             <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by
                 accident.</p>
@@ -940,28 +936,28 @@
                         <ul>
                             <li class="">
                                 <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Home</a>
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Beranda</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">About</a>
+                                <a href="#properties"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Kontrakan</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Course</a>
+                                <a href="#about"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Tentang</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Blog</a>
+                                <a href="#feedback"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Masukan</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Contact</a>
+                                <a href="#kontak"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Kontak</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="footer-widget min-w-[160px]">
+                {{-- <div class="footer-widget min-w-[160px]">
                     <div class="footer-widget-title xl:mb-8 md:mb-5 mb-3">
                         <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Category</h2>
                     </div>
@@ -997,7 +993,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="footer-widget min-w-[320px]">
                     <div class="footer-widget-title xl:mb-8 md:mb-5 mb-3">
                         <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Subscribes
