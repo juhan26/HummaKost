@@ -361,15 +361,15 @@
 
                 <section id="property_gambar" class="section-padding property_gambar-section">
                     <div class="container px-4 2xl:px-0">
-                            <div class="flex items-center justify-between mb-4">
-                                <h2
-                                    class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                                    Gambar
-                                    <span class="text-primary-500 after-svg instructor">Kontrakan</span>
-                                </h2>
-                            </div>
-        
-        
+                        <div class="flex items-center justify-between mb-4">
+                            <h2
+                                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                                Gambar
+                                <span class="text-primary-500 after-svg instructor">Kontrakan</span>
+                            </h2>
+                        </div>
+
+
                         <div class="flex items-center mb-4">
                             <p id="descc" class="text-gray-500 text-xl mb-0">Gambar gambar di kontrakan ini
                                 "{{ $property->name }}"</p>
@@ -377,28 +377,14 @@
                         <div class="slider-container mx-auto px-4 2xl:px-0">
                             <div class="swiper instructorSwipper relative">
                                 <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                                    @forelse ($users as $user)
+                                    @forelse ($property->property_images as $image)
                                         <div class="swiper-slide">
                                             <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
                                                 <div class="mb-4 overflow-hidden rounded-lg">
                                                     <a href="#">
-                                                        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                            alt="{{ $user->name }}" class="rounded-lg">
+                                                        <img src="{{ asset('storage/' . $image->image) }}"
+                                                            alt="" class="rounded-lg">
                                                     </a>
-                                                </div>
-                                                <div>
-                                                    <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                                        <a href="#">{{ $user->name }}</a>
-                                                        {{-- <span
-                                                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                        {{ $user->lease->status }}
-                                                    </span> --}}
-                                                    </h2>
-                                                    <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                                        <a href="#">
-                                                            {{ $user->instance->name }}
-                                                        </a>
-                                                    </h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -422,7 +408,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </section>
 

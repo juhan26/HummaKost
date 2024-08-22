@@ -57,14 +57,14 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="dropdown d-flex flex-column {{ Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('admin') ? "justify-content-between" : "justify-content-end" }} align-items-end">
+                        <div
+                            class="dropdown d-flex flex-column {{ Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('admin') ? 'justify-content-between' : 'justify-content-end' }} align-items-end">
                             @hasrole('admin|super_admin')
-                            <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
-                                id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <i class="ri-more-2-line ri-20px"></i>
-                            </button>
+                                <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
+                                    id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="ri-more-2-line ri-20px"></i>
+                                </button>
                             @endhasrole
 
                             <ul class="dropdown-menu dropdown-menu-end"
@@ -125,7 +125,22 @@
                                     </div>
                                 </div>
                                 <span class="p-4"><strong>Foto Detail</strong></span>
-
+                                <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
+                                    <div class="row g-4">
+                                        @forelse ($facility->facility_images as $index => $image)
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                                    class="img-fluid rounded"
+                                                    style="max-height: 250px; object-fit: cover;">
+                                            </div>
+                                        @empty
+                                            <div class="col-12">
+                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong>
+                                                </p>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

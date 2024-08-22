@@ -109,13 +109,8 @@
                         </button>
                     @endhasrole
                 </div>
-
             </div>
-
-
-
         </div>
-
     </div>
 
     <h4 class="fw-bold card-title m-0 mt-10">Detail Foto Kontrakan</h4>

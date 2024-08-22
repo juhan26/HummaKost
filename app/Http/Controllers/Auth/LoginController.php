@@ -64,7 +64,7 @@ class LoginController extends Controller
                 return redirect()->route('login');
             }
             elseif ($user->roles->contains('name', 'tenant') && $user->status === 'accepted') {
-                return redirect('/');
+                return redirect('/dashboard');
             }
 
             return redirect()->intended('dashboard');

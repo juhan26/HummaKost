@@ -160,6 +160,10 @@
                                             </div>
                                         </li>
                                         <li>
+                                            <a href="{{ route('dashboard') }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -467,7 +471,7 @@
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
                                                     <h4 class="text-gray-black font-semibold font-display text-2xl"
-                                                    id="loadMember">
+                                                        id="loadMember">
                                                         {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h4>
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
@@ -1059,13 +1063,13 @@
         });
     </script>
 
-        <script src="/assets/plugins/js/jquery.js"></script>
-        <script src="/assets/plugins/js/swipper.js"></script>
-        <script src="/assets/plugins/js/waypoint.js"></script>
-        <script src="/assets/plugins/js/counter.js"></script>
-        <script src="/assets/plugins/js/aos.js"></script>
-        <script src="/assets/js/main2.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/plugins/js/jquery.js"></script>
+    <script src="/assets/plugins/js/swipper.js"></script>
+    <script src="/assets/plugins/js/waypoint.js"></script>
+    <script src="/assets/plugins/js/counter.js"></script>
+    <script src="/assets/plugins/js/aos.js"></script>
+    <script src="/assets/js/main2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </body>
