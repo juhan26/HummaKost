@@ -97,14 +97,16 @@ class PropertyController extends Controller
                 });
             })
             ->latest()
-            ->get();;
+            ->get();
         $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
         $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
             $query->whereDoesntHave('roles', function ($query) {
                 $query->where('name', 'admin');
             });
         })->get();
-        return view('pages.properties.detail', compact('property', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
+
+        $properties = Property::all();
+        return view('pages.properties.detail', compact('property', 'properties', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
     }
 
     /**
@@ -191,7 +193,7 @@ class PropertyController extends Controller
         return redirect()->back()->with('success', 'Berhasil Mengubah Ketua Kontrakan');
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      */

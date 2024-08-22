@@ -56,11 +56,11 @@
                             </div>
                         </div>
                         <div class="dropdown d-flex flex-column justify-content-between align-items-end">
-                            <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
-                                id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <i class="ri-more-2-line ri-20px"></i>
-                            </button>
+                                <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
+                                    id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="ri-more-2-line ri-20px"></i>
+                                </button>
                             <ul class="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
 

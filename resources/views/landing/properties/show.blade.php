@@ -9,6 +9,9 @@
 
     <title>Kontrakan Las Vegas</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -323,7 +326,6 @@
                                 Kapasitas: <strong>{{ $property->capacity }}</strong>
                             </div>
                         </div>
-
                         <div class="mt-8">
                             <h4 class="font-bold">Ketua:</h4>
 
@@ -358,7 +360,8 @@
 
                 <div class="col-12 col-lg-12" style="margin-top: 50px">
                     <div class="card shadow-sm">
-                        <div class="card-content px-3 py-6 d-flex align-items-center " style="background-color:white; border-radius: 10px;">
+                        <div class="card-content px-3 py-6 d-flex align-items-center "
+                            style="background-color:white; border-radius: 10px;">
                             <h6 class="mb-0">{{ $property->description }}</h6>
                         </div>
                     </div>
@@ -369,13 +372,13 @@
 
         <section id="tenant" class="section-padding instructor-section">
             <div class="container px-4 2xl:px-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2
-                            class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                            Daftar
-                            <span class="text-primary-500 after-svg instructor">Penyewa</span>
-                        </h2>
-                    </div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                        Daftar
+                        <span class="text-primary-500 after-svg instructor">Penyewa</span>
+                    </h2>
+                </div>
 
 
                 <div class="flex items-center mb-4">
@@ -385,18 +388,18 @@
                 <div class="slider-container mx-auto px-4 2xl:px-0">
                     <div class="swiper instructorSwipper relative">
                         <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                            @forelse ($users as $user)
+                            @forelse ($property->leases as $user)
                                 <div class="swiper-slide">
                                     <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
                                         <div class="mb-4 overflow-hidden rounded-lg">
                                             <a href="#">
-                                                <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                    alt="{{ $user->name }}" class="rounded-lg">
+                                                <img src="{{ $user->user->photo ? asset('storage/' . $user->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                    alt="{{ $user->user->name }}" class="rounded-lg">
                                             </a>
                                         </div>
                                         <div>
                                             <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                                <a href="#">{{ $user->name }}</a>
+                                                <a href="#">{{ $user->user->name }}</a>
                                                 {{-- <span
                                                 class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                                 {{ $user->lease->status }}
@@ -404,7 +407,7 @@
                                             </h2>
                                             <h4 class="mb-0 text-base font-display text-gray-500 text-center">
                                                 <a href="#">
-                                                    {{ $user->instance->name }}
+                                                    {{ $user->user->instance->name }}
                                                 </a>
                                             </h4>
                                         </div>
@@ -419,30 +422,37 @@
                         <div class="swiper-pagination" style="background: none; color: #20B486"></div>
                     </div>
                 </div>
+                <div class="swiper-button-next" style="background: none; color: #20B486"></div>
+                <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
+                <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+            </div>
+            </div>
             </div>
         </section>
 
         <section id="facility" class="section-padding facility-section">
             <div class="container mx-auto mt-10">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
                         Daftar
                         <span class="text-primary-500 after-svg instructor">Fasilitas</span>
                     </h2>
                 </div>
-                
-                
-                    <p id="descc" class="text-gray-500 text-xl mb-4">Daftar-daftar penyewa Kontrakan
-                        "{{ $property->name }}"</p>
-                
 
-                
+
+                <p id="descc" class="text-gray-500 text-xl mb-4">Daftar-daftar penyewa Kontrakan
+                    "{{ $property->name }}"</p>
+
+
+
                 <div class="swiper-container relative">
                     <div class="swiper-wrapper py-4 mt-4">
                         @forelse ($property->facilities as $facility)
                             <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
                                 <div class="max-w-xs min-h-[400px] flex flex-col">
-                                    <div class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex">
+                                    <div
+                                        class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex">
                                         <img class="w-16 h-16 mr-4 rounded-lg object-cover"
                                             src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
                                             alt="{{ $facility->name }}">
@@ -460,17 +470,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         @empty
                             <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
                         @endforelse
                     </div>
-                    <div class="swiper-button-next"
-                        style="background: none; color: #20B486;"></div>
-                    <div class="swiper-button-prev"
-                        style="background: none; color: #20B486;"></div>
+                    <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
+                    <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
                 </div>
 
             </div>
@@ -831,6 +839,9 @@
     <script src="/assets/plugins/js/counter.js"></script>
     <script src="/assets/plugins/js/aos.js"></script>
     <script src="/assets/js/main2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
