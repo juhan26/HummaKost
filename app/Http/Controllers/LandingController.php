@@ -54,8 +54,10 @@ class LandingController extends Controller
         // Ambil semua pengguna
         $users = User::all();
 
+        $leases = Lease::all();
+
         // Kembalikan view dengan data yang dibutuhkan
-        return view('landing.properties.show', compact('property', 'properties', 'users'));
+        return view('landing.properties.show', compact('property', 'properties', 'users', 'leases'));
     }
 
 }

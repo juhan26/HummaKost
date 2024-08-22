@@ -60,9 +60,9 @@ a.bg-primary:focus {
 .pagination li.active > a:not(.page-link):focus,
 .pagination li.active > a:not(.page-link):disabled,
 .pagination li.active > a:not(.page-link).disabled {
-    border-color: #20b486;
-    background-color: #20b486;
-    color: #fff;
+    border-color: #d2f0e7;
+    color: #56c7a4;
+    background-color: #d2f0e7;
 }
 .pagination-outline-primary .page-item.active .page-link,
 .pagination-outline-primary .page-item.active .page-link:hover,

@@ -5,9 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Kontrakan Las Vegas" />
+    
     <title>HummaKost</title>
-    <link rel="icon" type="image/x-icon" sizes="128x128" href="/assets/images/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- favicon -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    {{-- leafletjs --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
     <link href="/assets/plugins/css/animate.css" rel="stylesheet">
     <link href="/assets/plugins/css/swipper.css" rel="stylesheet">
@@ -39,33 +55,252 @@
             border-bottom: 1px solid #e2e8f0;
         }
 
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    <!-- Mobile Menu Area Start -->
+    <div class="nav-menu" id="nav-menu">
+        <div class="flex justify-between items-center p-6 mb-8">
+            <div>
+                <a href="#">
+                    <img src="/assets/img/images/logo.png" alt="">
+                </a>
+            </div>
+            <div>
+                <button
+                    class="hamburger-btn-close bg-[#F7F7F9] text-primary-900 hover:bg-primary-500 w-[44px] h-[44px] rounded-full flex items-center justify-center hover:text-white"
+                    id="hamburger-btn-close">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path d="M1 1L11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- menu -->
+        <ul class="flex flex-col capitalize px-6 mb-6">
+            <li class="mb-2">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                    href="{{ route('home.index') }}">home</a>
+            </li>
+            <li class="mb-2">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                    href="#member">member</a>
+            </li>
+            <li class="mb-2">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                    href="#workprocess">course</a>
+            </li>
+            <li class="mb-2">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                    href="#portfolio">blog</a>
+            </li>
+            <li class="">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                    href="#blog">contact</a>
+            </li>
+        </ul>
+        <div class="px-6 mb-8">
+            <a href="#" class="btn-primary">
+                <span>Sign up for Free</span>
+            </a>
+        </div>
+    </div>
+    <!-- Mobile Menu Area End -->
+    <div class="overlay" id="overlay"></div>
+    <!-- header area end -->
 
-        .logo img {
-            width: 3rem;
-            height: 3rem;
-        }
-
-        .menu-link {
-            padding: 8px 12px;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .menu-link:hover {
-            color: #0d6efd;
-        }
-
-        .profile-btn img {
-            width: 2.5rem;
-            height: 2.5rem;
-        }
+    <section class="section-padding bg-primary-50/70" style="padding:50px !important;">
+        <div class="container mx-auto my-5 p-10 mb-10">
+            <div class="flex flex-wrap gap-6">
+                <div class="flex flex-col lg:flex-row gap-6 my-2">
+                    <div class="w-full lg:w-1/2 rounded-lg">
+                        @if ($property->image)
+                            <img class="w-full h-auto object-cover rounded-lg" src="{{ asset('storage/' . $property->image) }}"
+                                alt="Property image" />
+                        @else
+                            <img class="w-full h-auto object-cover rounded-lg" src="{{ asset('assets/img/image_not_available.png') }}"
+                                alt="Image not available" />
+                        @endif
+                    </div>
+    
+                    <div class="w-full lg:w-1/2 rounded-lg">
+                        <h3 class="font-bold text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}</h3>
+    
+                        @if ($property->gender_target === 'male')
+                            <div
+                                class="inline-block bg-blue-100 text-blue-400 px-4 py-1 rounded-lg mt-6 mr-3 shadow-sm">
+                                <i class="fa-solid fa-person"></i><strong class="ml-3">Laki-Laki</strong>
+                            </div>
+                        @else
+                            <div
+                                class="inline-block bg-pink-200 text-pink-400 px-4 py-1 rounded-lg mt-6 mr-3 shadow-sm">
+                                <i class="fa-solid fa-person-dress"></i> Perempuan
+                            </div>
+                        @endif
+    
+                        <div class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-6 mr-3 shadow-sm">
+                            Total Orang:
+                            <strong>{{ $property->leases->count() }}</strong>
+                        </div>
+    
+                        <div class="inline-block bg-yellow-100 text-yellow-400 px-2 py-1 rounded-lg mt-6 mr-3 mb-8">
+                            Kapasitas: <strong>{{ $property->capacity }}</strong>
+                        </div>
+    
+                        <div class="">
+                            <h4 class="font-bold">Ketua:</h4>
+    
+                            @php
+                                $status = false;
+                            @endphp
+                            @foreach ($property->leases as $lease)
+                                @if ($lease->user->hasRole('admin'))
+                                    <div
+                                        class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-1 mr-3 shadow-sm">
+                                        <strong>{{ $lease->user->name }}</strong>
+                                    </div>
+                                    @php
+                                        $status = true;
+                                    @endphp
+                                @endif
+                            @endforeach
+    
+                            @if ($status == false)
+                                <div
+                                    class="inline-block bg-red-200 text-red-400 px-5 py-1 rounded-2xl mt-1 mr-3 shadow-sm">
+                                    Ketua Tidak Tersedia
+                                </div>
+                            @endif
+    
+                            <h2 class="font-bold text-2xl text-primary-500 mt-6">
+                                {{ 'Rp. ' . number_format($property->rental_price, 0) . ' / bln' }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="container mx-auto mt-10">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Anggota</h3>
+            <div class="swiper-container relative">
+                <div class="swiper-wrapper py-4">
+                    @forelse ($property->leases as $lease)
+                        <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
+                            <div class="max-w-xs min-h-[400px] flex flex-col">
+                                <div
+                                    class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex flex-col items-center">
+                                    <div class="overflow-hidden rounded-full inline-block relative">
+                                        <img class="w-24 h-24 rounded-full mb-2 object-cover"
+                                            src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                            alt="{{ $lease->user->name }}">
+                                    </div>
+                                    <h4
+                                        class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-4 hover:text-primary-500 transition duration-300 ease-linear">
+                                        {{ $lease->user->name }}
+                                    </h4>
+                                    <p class="text-gray-600">{{ $lease->user->status }}</p>
+                                    <a href="#"
+                                        class="mt-2 text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="swiper-slide text-center text-black">Belum ada anggota</div>
+                    @endforelse
+                </div>
+                <div class="swiper-button-next" style="background: none; color: #20B486"></div>
+                <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
+            </div>
+        </div>
+    
+        <div class="container mx-auto mt-10">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Fasilitas</h3>
+            <div class="swiper-container relative">
+                <div class="swiper-wrapper py-4">
+                    @forelse ($property->facilities as $facility)
+                        <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
+                            <div class="max-w-xs min-h-[400px] flex flex-col">
+                                <div
+                                    class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex items-center">
+                                    <img class="w-16 h-16 mr-4 rounded-lg object-cover"
+                                        src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                        alt="{{ $facility->name }}">
+                                    <div>
+                                        <h4
+                                            class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-4 hover:text-primary-500 transition duration-300 ease-linear">
+                                            {{ $facility->name }}
+                                        </h4>
+                                        <p class="text-gray-600">{{ $facility->description }}</p>
+                                        <a href="#"
+                                            class="mt-2 text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
+                    @endforelse
+                </div>
+                <div class="swiper-button-next" style="background: none; color: #20B486; width: 40px; height: 40px; padding: 5px;"></div>
+                <div class="swiper-button-prev" style="background: none; color: #20B486; width: 40px; height: 40px; padding: 5px;"></div>
+                
+            </div>
+        </div>
+    
+        <!-- Mengimpor Swiper CSS dan JS -->
+        <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css" />
+        <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
+        <script>
+            const swiperMembers = new Swiper('.swiper-container:nth-of-type(1)', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2
+                    },
+                    768: {
+                        slidesPerView: 3
+                    },
+                    1024: {
+                        slidesPerView: 4
+                    },
+                },
+            });
+    
+            const swiperFacilities = new Swiper('.swiper-container:nth-of-type(2)', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2
+                    },
+                    768: {
+                        slidesPerView: 3
+                    },
+                    1024: {
+                        slidesPerView: 4
+                    },
+                },
+            });
+        </script>
+    
+        <div class="container mx-auto mt-10">
+            <div class="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="map-container relative" style="z-index: 0;">
+                    <div style="width: 100%; height: 500px;" id="map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
         .profile-menu {
             width: 240px;
@@ -222,15 +457,50 @@
             <button onclick="openEditModal()">Edit Profile</button>
         </div>
 
-        <div class="profile-details flex items-center">
-            <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                class="object-cover rounded-full">
-            <div>
-                <h2>{{ $user->name }}</h2>
-                <p>{{ $user->email }}</p>
-                <p>Instance: {{ $user->instance->name }}</p>
-            </div>
-        </div>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
+
+    <script>
+        const swiperMembers = new Swiper('.swiper-container:nth-of-type(1)', {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2
+                },
+                768: {
+                    slidesPerView: 3
+                },
+                1024: {
+                    slidesPerView: 4
+                },
+            },
+        });
+
+        const swiperFacilities = new Swiper('.swiper-container:nth-of-type(2)', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1
+                },
+                768: {
+                    slidesPerView: 2
+                },
+                1024: {
+                    slidesPerView: 3
+                },
+            },
+        });
+    </script>
 
         <div class="profile-info mt-4">
             <h3>Personal Information</h3>
