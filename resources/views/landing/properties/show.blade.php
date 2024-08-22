@@ -465,10 +465,6 @@
                         <div class="swiper-pagination" style="background: none; color: #20B486"></div>
                     </div>
                 </div>
-                <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                <div class="swiper-pagination" style="background: none; color: #20B486"></div>
-            </div>
             </div>
             </div>
         </section>

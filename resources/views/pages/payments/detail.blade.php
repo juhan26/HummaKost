@@ -66,8 +66,9 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $payment->lease->user->name }}</td>
                                 <td>{{ 'Rp. ' . number_format($payment->nominal) }}</td>
-                                <td>{{ \Carbon\Carbon::parse($payment->month)->format('F Y') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->translatedFormat('d F Y H:i') }}
+                                <td>{{ \Carbon\Carbon::parse($property->month)->locale('id')->translatedFormat('j F Y') }}
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
                                 </td>
                             </tr>
                         @empty
