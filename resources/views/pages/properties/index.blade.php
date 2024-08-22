@@ -27,9 +27,11 @@
                 <input type="text" class="form-control" name="search" id="searchInput"
                     style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none; "
                     value="{{ request('search') }}" placeholder="Cari...">
-                <a href="{{ route('properties.create') }}" class="btn"
-                    style="width: 160px; padding: 15px 0 ;border-radius: 10px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
-                        class="ri-add-line ri-20px"></i>Tambah</a>
+                @hasrole('super_admin')
+                    <a href="{{ route('properties.create') }}" class="btn"
+                        style="width: 160px; padding: 15px 0 ;border-radius: 10px; background-color: rgba(32,180,134,1);color: white;font-size: 16px"><i
+                            class="ri-add-line ri-20px"></i>Tambah</a>
+                @endhasrole
                 <i class="ri-search-line ri-20px" id="searchIcon"
                     style="position: absolute; top: 50%;transform: translateY(-50%); left: 3%;"></i>
             </form>
@@ -50,15 +52,18 @@
                             </span>
                         @endif
 
+
                         <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
                             id="card-actions-{{ $property->id }}">
-                            <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">
-                                <i class="ri-edit-line"></i>
-                            </a>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal{{ $property->id }}">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
+                            @hasrole('super_admin')
+                                <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal{{ $property->id }}">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            @endhasrole
 
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
@@ -87,7 +92,6 @@
                                 </div>
                             </div>
                             <!-- Delete Modal -->
-
                         </div>
 
                         <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
