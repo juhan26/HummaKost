@@ -52,9 +52,11 @@ class LandingController extends Controller
         // dd($property);
         $properties = Property::all();
         // Ambil semua pengguna
-        $users = User::all();
-
         $leases = Lease::all();
+        
+        $userIds = $leases->pluck('user.id')->unique();
+        $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
+
 
         // Kembalikan view dengan data yang dibutuhkan
         return view('landing.properties.show', compact('property', 'properties', 'users', 'leases'));
