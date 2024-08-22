@@ -40,7 +40,7 @@
         <div class="row">
             @forelse ($properties as $property)
                 <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm position-relative" style="border-radius: 20px; overflow: hidden;">
+                    <div class="card shadow-sm position-relative" style="bo rder-radius: 20px; overflow: hidden;">
                         <!-- Edit and Delete Icons -->
                         @if ($property->gender_target === 'male')
                             <span class="badge rounded-pill bg-label-info position-absolute top-0 start-0 m-2">
