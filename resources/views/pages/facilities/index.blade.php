@@ -57,6 +57,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="dropdown d-flex flex-column {{ Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('admin') ? "justify-content-between" : "justify-content-end" }} align-items-end">
                             @hasrole('admin|super_admin')
                             <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
@@ -65,6 +66,7 @@
                                 <i class="ri-more-2-line ri-20px"></i>
                             </button>
                             @endhasrole
+
                             <ul class="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
 
