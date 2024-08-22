@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    />
+
 
     {{-- leafletjs --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
@@ -285,40 +285,22 @@
     <!-- header area end -->
 
     <section class="section-padding bg-primary-50/70" style="padding:50px !important;">
-        <div class="container mx-auto my-5 p-10">
+        <div class="container mx-auto my-5 p-10 mb-10">
             <div class="flex flex-wrap gap-6">
                 <div class="flex flex-col lg:flex-row gap-6 my-2">
-                    <div class="lg:w-1/2 rounded-lg">
+                    <div class="w-full lg:w-1/2 rounded-lg">
                         @if ($property->image)
-                            <img class="w-full h-auto" src="{{ asset('storage/' . $property->image) }}"
-                                alt="Card image cap" style="width: 1500px; height: 500px'" />
+                            <img class="w-full h-auto object-cover rounded-lg" src="{{ asset('storage/' . $property->image) }}"
+                                alt="Property image" />
                         @else
-                            <img class="w-full h-auto" src="{{ asset('assets/img/image_not_available.png') }}"
-                                alt="Card image cap" style="width: 1500px; height: 500px;" />
+                            <img class="w-full h-auto object-cover rounded-lg" src="{{ asset('assets/img/image_not_available.png') }}"
+                                alt="Image not available" />
                         @endif
                     </div>
-
-
-                    <div class="lg:w-1/2 rounded-lg container" style="padding-bottom: 30px; padding-right: 25px">
-                        <h3 class="font-bold text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}
-                            {{-- @if ($property->status === 'available')
-                                <span
-                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $property->status }}</span>
-                            @else
-                                <div class="inline-block bg-red-500 text-white px-2 py-1 rounded mt-6">
-                                    {{ $property->status }}</div>
-                            @endif --}}
-                        </h3>
-
-                        {{-- <h5 class="text-lg text-gray-600">{{ $property->description }}</h5> --}}
-
-
-                        {{-- @if ($property->status === 'available')
-                            <div class="inline-block bg-green-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Tersedia
-                            </div>
-                        @else
-                            <div class="inline-block bg-red-400 text-white px-2 py-1 rounded mt-6 mr-3 ms-3">Full</div>
-                        @endif --}}
+    
+                    <div class="w-full lg:w-1/2 rounded-lg">
+                        <h3 class="font-bold text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}</h3>
+    
                         @if ($property->gender_target === 'male')
                             <div
                                 class="inline-block bg-blue-100 text-blue-400 px-4 py-1 rounded-lg mt-6 mr-3 shadow-sm">
@@ -330,120 +312,170 @@
                                 <i class="fa-solid fa-person-dress"></i> Perempuan
                             </div>
                         @endif
-
+    
                         <div class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-6 mr-3 shadow-sm">
                             Total Orang:
                             <strong>{{ $property->leases->count() }}</strong>
                         </div>
-
+    
                         <div class="inline-block bg-yellow-100 text-yellow-400 px-2 py-1 rounded-lg mt-6 mr-3 mb-8">
                             Kapasitas: <strong>{{ $property->capacity }}</strong>
                         </div>
-
+    
                         <div class="">
                             <h4 class="font-bold">Ketua:</h4>
-
+    
                             @php
                                 $status = false;
                             @endphp
                             @foreach ($property->leases as $lease)
-                                <div
-                                    class="inline-block bg-green-200 text-red-green px-2 py-1 rounded-lg mt-1 mr-3 shadow-sm">
-                                    Ketua:
-                                    <strong>{{ $lease->user->name }}</strong>
-                                </div>
-                                @php
-                                    $status = true;
-                                @endphp
+                                @if ($lease->user->hasRole('admin'))
+                                    <div
+                                        class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-1 mr-3 shadow-sm">
+                                        <strong>{{ $lease->user->name }}</strong>
+                                    </div>
+                                    @php
+                                        $status = true;
+                                    @endphp
+                                @endif
                             @endforeach
-
+    
                             @if ($status == false)
                                 <div
                                     class="inline-block bg-red-200 text-red-400 px-5 py-1 rounded-2xl mt-1 mr-3 shadow-sm">
                                     Ketua Tidak Tersedia
                                 </div>
                             @endif
-
+    
                             <h2 class="font-bold text-2xl text-primary-500 mt-6">
                                 {{ 'Rp. ' . number_format($property->rental_price, 0) . ' / bln' }}</h2>
                         </div>
-                        <!-- Menampilkan Semua Pengguna -->
-                        <!-- Menampilkan Semua Pengguna -->
-                        {{-- <div class="mt-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Anggota</h3>
-                            <div class="swiper-container">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="flex overflow-x-auto gap-4 py-15">
-                                            @forelse ($property->leases as $lease)
-                                                <div class="bg-white rounded-lg p-4 min-w-48 flex-shrink-0">
-                                                    <img class="w-20 h-20 rounded-full mx-auto"
-                                                        src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                        alt="{{ $lease->user->name }}">
-                                                    <h4 class="text-lg font-semibold text-gray-800 mt-2 text-center">
-                                                        {{ $lease->user->name }}</h4>
-                                                    <p class="text-gray-600 text-center">{{ $lease->user->status }}
-                                                    </p>
-                                                </div>
-                                            @empty
-                                                <div class="swiper-slide text-center text-black">Belum ada anggota
-                                                </div>
-                                            @endforelse
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
-
             </div>
-
-            <div class="container bg-white mb-4 rounded-lg shadow-lg p-6">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            {{-- Furniture --}}
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="card-header">
-                                            <div class="flex justify-center">
-                                                <h3 class="card-title text-xl font-bold">
-                                                    Daftar Fasilitas
-                                                </h3>
-                                            </div>
-                                        </div>
-                                        <div class="card-body flex flex-wrap justify-center gap-4">
-                                            @forelse ($property->facilities as $facilities)
-                                                <div class="text-center min-w-[12rem] flex-shrink-0">
-                                                    <img class="mx-auto" style="width: 5rem; height: 5rem;"
-                                                        src="{{ $facilities->photo ? asset('storage/' . $facilities->photo) : asset('/assets/img/image_not_available.png') }}"
-                                                        alt="{{ $facilities->name }}">
-                                                    <h4 class="card-title mt-3 font-semibold">{{ $facilities->name }}
-                                                    </h4>
-                                                    <p class="card-text text-muted">{{ $facilities->status }}</p>
-                                                </div>
-                                            @empty
-                                                <div class="text-center text-black">Belum ada fasilitas</div>
-                                            @endforelse
-                                        </div>
+        </div>
+    
+        <div class="container mx-auto mt-10">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Anggota</h3>
+            <div class="swiper-container relative">
+                <div class="swiper-wrapper py-4">
+                    @forelse ($property->leases as $lease)
+                        <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
+                            <div class="max-w-xs min-h-[400px] flex flex-col">
+                                <div
+                                    class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex flex-col items-center">
+                                    <div class="overflow-hidden rounded-full inline-block relative">
+                                        <img class="w-24 h-24 rounded-full mb-2 object-cover"
+                                            src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                            alt="{{ $lease->user->name }}">
+                                    </div>
+                                    <h4
+                                        class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-4 hover:text-primary-500 transition duration-300 ease-linear">
+                                        {{ $lease->user->name }}
+                                    </h4>
+                                    <p class="text-gray-600">{{ $lease->user->status }}</p>
+                                    <a href="#"
+                                        class="mt-2 text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="swiper-slide text-center text-black">Belum ada anggota</div>
+                    @endforelse
+                </div>
+                <div class="swiper-button-next" style="background: none; color: #20B486"></div>
+                <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
+            </div>
+        </div>
+    
+        <div class="container mx-auto mt-10">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Fasilitas</h3>
+            <div class="swiper-container relative">
+                <div class="swiper-wrapper py-4">
+                    @forelse ($property->facilities as $facility)
+                        <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
+                            <div class="max-w-xs min-h-[400px] flex flex-col">
+                                <div
+                                    class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex items-center">
+                                    <img class="w-16 h-16 mr-4 rounded-lg object-cover"
+                                        src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                        alt="{{ $facility->name }}">
+                                    <div>
+                                        <h4
+                                            class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-4 hover:text-primary-500 transition duration-300 ease-linear">
+                                            {{ $facility->name }}
+                                        </h4>
+                                        <p class="text-gray-600">{{ $facility->description }}</p>
+                                        <a href="#"
+                                            class="mt-2 text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @empty
+                        <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
+                    @endforelse
                 </div>
+                <div class="swiper-button-next" style="background: none; color: #20B486; width: 40px; height: 40px; padding: 5px;"></div>
+                <div class="swiper-button-prev" style="background: none; color: #20B486; width: 40px; height: 40px; padding: 5px;"></div>
+                
             </div>
-
-
-            <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
-                <div class="map-container" style="z-index: 0;">
-                    <div style="width: 100%;height: 100vh;" id="map"></div>
+        </div>
+    
+        <!-- Mengimpor Swiper CSS dan JS -->
+        <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css" />
+        <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
+        <script>
+            const swiperMembers = new Swiper('.swiper-container:nth-of-type(1)', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2
+                    },
+                    768: {
+                        slidesPerView: 3
+                    },
+                    1024: {
+                        slidesPerView: 4
+                    },
+                },
+            });
+    
+            const swiperFacilities = new Swiper('.swiper-container:nth-of-type(2)', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2
+                    },
+                    768: {
+                        slidesPerView: 3
+                    },
+                    1024: {
+                        slidesPerView: 4
+                    },
+                },
+            });
+        </script>
+    
+        <div class="container mx-auto mt-10">
+            <div class="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="map-container relative" style="z-index: 0;">
+                    <div style="width: 100%; height: 500px;" id="map"></div>
                 </div>
             </div>
         </div>
     </section>
+    
 
 
     <style>
@@ -502,6 +534,51 @@
         }).addTo(map);
     </script>
 
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
+
+    <script>
+        const swiperMembers = new Swiper('.swiper-container:nth-of-type(1)', {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2
+                },
+                768: {
+                    slidesPerView: 3
+                },
+                1024: {
+                    slidesPerView: 4
+                },
+            },
+        });
+
+        const swiperFacilities = new Swiper('.swiper-container:nth-of-type(2)', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1
+                },
+                768: {
+                    slidesPerView: 2
+                },
+                1024: {
+                    slidesPerView: 3
+                },
+            },
+        });
+    </script>
 
 
 
