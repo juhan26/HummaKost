@@ -89,11 +89,11 @@
     }
 </style>
 
-<aside id="layout-menu" class="layout-menu card menu-vertical menu bg-menu-theme" style="border-radius: 0;">
+<aside id="layout-menu" class="layout-menu card menu-vertical menu bg-menu-theme" style="border-radius: 0; z-index: 999">
 
 
     <div class="app-brand demo">
-        <a href="{{ route('dashboard') }}" class="app-brand-link">
+        <a href="{{ route('home.index') }}" class="app-brand-link">
             <div class="app-brand-logo demo d-flex justify-content-center align-items-center gap-2">
                 <img style="width: 30px" src="/assets/images/logo.png" alt="">
                 <div class="app-brand-text demo menu-text fw-semibold">

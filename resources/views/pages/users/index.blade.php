@@ -311,56 +311,53 @@
                                                             </form>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
-                                                            <form action="{{ route('user.reject', $user->id) }}"
-                                                                method="POST" class="text-center w-100">
+                                                            <form action="{{ route('user.reject', $user->id) }}" method="POST" class="text-center w-100">
                                                                 @csrf
-                                                                <button type="submit"
-                                                                    class="col-12 btn btn-label-danger  p-0 m-0 "
-                                                                    style="width: fit-content">
-                                                                    <span class="material-symbols-outlined ">close</span>
+                                                                <button type="submit" class="col-12 btn btn-label-danger p-0 m-0 reject-button" style="width: fit-content">
+                                                                    <span class="material-symbols-outlined">close</span>
                                                                 </button>
                                                             </form>
-                                                        </div>
+                                                        </div>                                                        
                                                     </div>
                                                 </div>
                                             </td>
                                         @elseif ($adminAccess === 0 && request()->input('filter') === 'admin')
-                                        @hasrole('super_admin')
-                                            <td>
-                                                <div class="dropdown d-flex justify-content-center">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
-                                                    <div class="dropdown-menu">
-                                                        <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#editModal{{ $user->id }}"><i
-                                                                class="ri-pencil-line me-1"></i>Ubah</a>
-                                                        <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#dismissModal{{ $user->id }}"><i
-                                                                class="ri-close-circle-line me-1"></i>Berhentikan
-                                                            sebagai ketua kontrakan</a>
+                                            @hasrole('super_admin')
+                                                <td>
+                                                    <div class="dropdown d-flex justify-content-center">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editModal{{ $user->id }}"><i
+                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#dismissModal{{ $user->id }}"><i
+                                                                    class="ri-close-circle-line me-1"></i>Berhentikan
+                                                                sebagai ketua kontrakan</a>
 
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
                                             @endhasrole
                                         @elseif ($adminAccess === 0 && $user->status !== 'pending')
-                                        @hasrole('super_admin')
-                                            <td>
-                                                <div class="dropdown d-flex justify-content-center">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
-                                                    <div class="dropdown-menu">
-                                                        <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#editModal{{ $user->id }}"><i
-                                                                class="ri-pencil-line me-1"></i>Ubah</a>
-                                                        <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $user->id }}"><i
-                                                                class="ri-delete-bin-line me-1"></i>Hapus Anggota</a>
+                                            @hasrole('super_admin')
+                                                <td>
+                                                    <div class="dropdown d-flex justify-content-center">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editModal{{ $user->id }}"><i
+                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#deleteModal{{ $user->id }}"><i
+                                                                    class="ri-delete-bin-line me-1"></i>Hapus Anggota</a>
+
+                                                        </div>
 
                                                     </div>
-
-                                                </div>
-                                            </td>
+                                                </td>
                                             @endhasrole
                                         @elseif ($adminAccess === 1)
                                         @endif
@@ -492,17 +489,19 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p class="card-">Apakah anda yakin akan memberhentikan <span class="text-primary">{{ $user->name }}</span> sebagai ketua kontrakan?</p>
+                                                    <p class="card-">Apakah anda yakin akan memberhentikan <span
+                                                            class="text-primary">{{ $user->name }}</span> sebagai ketua
+                                                        kontrakan?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal" aria-label="Close">Batal</button>
-                                                        <form action="{{ route('user.dismissHeadLease', $user->id) }}"
-                                                            method="POST" class="d-inline">
-                                                            @method('POST')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-primary">simpan</button>
-                                                        </form>
+                                                    <form action="{{ route('user.dismissHeadLease', $user->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary">simpan</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -694,4 +693,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // SweetAlert configuration for rejecting a user
+        document.querySelectorAll('.reject-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
+                const form = this.closest('form'); // Get the form related to this button
+
+                Swal.fire({
+                    title: "Yakin ingin menolak?",
+                    text: "Tindakan ini tidak dapat dibatalkan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Ya, tolak!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit the form if confirmed
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
