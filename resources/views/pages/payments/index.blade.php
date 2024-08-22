@@ -40,10 +40,15 @@
         <div class="row">
             @forelse ($leases as $lease)
                 <div class="col-md-6 col-lg-4 mb-12">
-                    <div class="card h-100">
-                        <img style="height: 250px;object-fit: cover" class="card-img-top mt-8"
-                            src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('/assets/img/image_not_available.png') }}"
-                            alt="{{ $lease->user->name }}">
+                    <div class="card h-100" style="overflow: hidden">
+                        @if ($lease->user->photo)
+                            <img src="{{ asset('storage/' . $lease->user->photo) }}" class=""
+                                alt="{{ $user->name }}">
+                        @elseif ($lease->user->gender === 'male')
+                            <img class="" src="../../assets/img/avatars/5.png" alt="Avatar">
+                        @elseif ($lease->user->gender === 'female')
+                            <img class="" src="../../assets/img/avatars/10.png" alt="Avatar">
+                        @endif
                         <div class="card-body">
                             <div class="d-flex justify-content-between p-0 m-1 align-items-center">
                                 <h5 class="card-title m-0 ">{{ $lease->user->name }}</h5>
@@ -55,11 +60,17 @@
                             <div style="max-height: 120px; overflow: auto">
                                 <p class="card-text">
                                     @php
-                                        $lastPayment = $lease->payments->first();
+                                        $startPayment = '';
+                                        $lastPayment = '';
+                                        foreach ($lease->payments as $payment) {
+                                            $startPayment = $payment->payment_month;
+                                            $lastPayment = $payment->month;
+                                        }
                                     @endphp
+
                                     @if ($lastPayment)
-                                        Sudah Membayar Kontrakan Sampai Bulan
-                                        {{ $lastPayment? \Carbon\Carbon::parse($lastPayment->month)->addMonth(1)->format('F Y'): 'Belum ada pembayaran' }}
+                                        Telah membayar kontrakan dari Bulan <strong>{{ $startPayment }}</strong> sampai
+                                        Bulan <strong>{{ $lastPayment }}</strong>
                                     @else
                                         Belum pernah melakukan pembayaran
                                     @endif
@@ -67,18 +78,20 @@
                             </div>
                         </div>
                         <div class="modal-footer d-flex justify-content-end gap-2 align-items-center px-5 mb-5">
-                            @if($lease->total_nominal < $lease->total_iuran)
-                            <button type="button" class="btn btn-primary" style="border-radius: 50px;"
-                                data-bs-toggle="modal" data-bs-target="#createModal{{ $lease->id }}">
-                                Bayar
-                            </button>
-                            @endif
+                            <div>
+                                @if ($lease->total_nominal < $lease->total_iuran)
+                                    <button type="button" class="btn btn-primary" style="border-radius: 50px;"
+                                        data-bs-toggle="modal" data-bs-target="#createModal{{ $lease->id }}">
+                                        Bayar
+                                    </button>
+                                @endif
 
-                            <button type="button" class="btn btn-primary"
-                                style="border-radius: 50px; background-color: #7B7EFF" data-bs-toggle="modal"
-                                data-bs-target="#detailModal{{ $lease->id }}">
-                                Detail
-                            </button>
+                                <button type="button" class="btn btn-primary"
+                                    style="border-radius: 50px; background-color: #7B7EFF" data-bs-toggle="modal"
+                                    data-bs-target="#detailModal{{ $lease->id }}">
+                                    Detail
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
