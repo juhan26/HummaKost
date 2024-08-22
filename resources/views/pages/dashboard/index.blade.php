@@ -54,32 +54,88 @@
             <div class="col-md-6">
                 <div class="row h-100">
                     <div class="col-12 mb-4">
+
                         <div class="card h-100">
                             <div class="card-header">
                                 <div class="card-title">Anggota Terdaftar</div>
                             </div>
                             <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <canvas id="anggotChart" style="max-width: 100%; height: auto;"></canvas>
-                                    <div class="total-count"></div>
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr class="text-center" style="border-bottom: 1px solid rgba(0,0,0,.15);">
+                                                <th>No</th>
+                                                <th>Nama</th>
+                                                <th>Jenis Kelamin</th>
+                                                <th>Email</th>
+                                                <th>Sekolah</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users->take(10) as $index => $user)
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $user->name }}</td>
+                                                    <td>{{ $user->gender === 'male' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                                    <td>{{ $user->email }}</td>
+                                                    <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
+                                                    </td>
+                                                    <td>{{ $user->status === 'pending' ? 'Tertunda' : ($user->status === 'accepted' ? 'Diterima' : 'Ditolak') }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex justify-content-end mt-3">
+                                    <a href="{{ route('user.index') }}" class="btn btn-primary">Lihat Anggota</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    @php
+                        // Mengambil semua user yang memiliki status pending
+                        $pendingUsers = \App\Models\User::where('status', 'pending')->get();
+                    @endphp
+
                     <div class="col-12">
                         <div class="card h-100">
                             <div class="card-header">
-                                <div class="card-title">Pemasukan</div>
+                                <div class="card-title">Anggota Pending</div>
                             </div>
                             <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <canvas id="pemasukanChart" style="max-width: 100%; height: auto;"></canvas>
-                                    <div class="total-revenue"></div>
-                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($pendingUsers as $user)
+                                            <tr>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>
+                                                    <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
+                                                </td>
+                                            </tr>
+                                            @empty
+                                            <td colspan="3" class="text-center">Belum Ada Calon Penyewa</td>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3 mb-5 me-4">
+                                <!-- Menambahkan filter ke route agar hanya menampilkan pengguna dengan status pending -->
+                                <a href="{{ route('user.index') }}" class="btn btn-primary">Lihat Anggota</a>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -101,52 +157,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const anggotCtx = document.getElementById('anggotChart').getContext('2d');
-        const anggotChart = new Chart(anggotCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Des'],
-                datasets: [{
-                    label: 'Anggota Terdaftar',
-                    data: [5, 10, 8, 12, 15, 14, 13, 19, 16, 18, 20, 19],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Data for "Pemasukan"
-        const pemasukanCtx = document.getElementById('pemasukanChart').getContext('2d');
-        const pemasukanChart = new Chart(pemasukanCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Des'],
-                datasets: [{
-                    label: 'Pemasukan',
-                    data: [500, 700, 650, 1200, 1100, 1500, 1400, 1700, 1600, 1300, 1400, 1800],
-                    fill: false,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
         const ctx = document.getElementById('dashboardChart').getContext('2d');
         const dashboardChart = new Chart(ctx, {
             type: 'doughnut',
