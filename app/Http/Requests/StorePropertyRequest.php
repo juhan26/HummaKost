@@ -24,7 +24,7 @@ class StorePropertyRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', 'unique:properties,name'],
             'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
-            'rental_price' => ['required', 'numeric', 'min:0'],
+            'rental_price' => ['required', 'numeric', 'min:0', 'not_regex:/-/'],
             'description' => ['nullable', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'capacity' => ['required', 'numeric', 'min:0', 'not_regex:/-/'],
