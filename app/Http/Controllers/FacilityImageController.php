@@ -66,6 +66,19 @@ class FacilityImageController extends Controller
      */
     public function destroy(FacilityImage $facilityImage)
     {
-        //
+        // Get the image path
+        $imagePath = storage_path('public/' . $facilityImage->image);
+
+        // Check if the image file exists and delete it
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Delete the record from the database
+        $facilityImage->delete();
+
+        // Redirect or return a response
+        return redirect()->back()->with('success', 'Gambar berhasil dihapus.');
     }
+
 }

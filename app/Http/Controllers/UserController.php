@@ -8,6 +8,7 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserRequest;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -132,7 +133,7 @@ class UserController extends Controller
         $instances = Instance::orderBy('name', 'ASC')->get();
 
         // Mengirim data pengguna dan instance ke view
-        return view('landing.users.show', compact('user', 'instances'));
+        return view('pages.users.show', compact('user', 'instances'));
     }
 
 
@@ -174,6 +175,24 @@ class UserController extends Controller
         }
         return redirect()->route('user.index')->with('success', 'Berhasil memberhentikan Ketua Kontrakan');
     }
+
+    public function changePassword(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'newPassword' => 'required|min:8|regex:/[A-Z]/|regex:/[@$!%*?&#]/',
+            'confirmPassword' => 'required|same:newPassword',
+        ]);
+
+        // Update password
+        $user = Auth::user();
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
+        // Redirect atau response setelah berhasil mengubah password
+        return back()->with('success', 'Password successfully changed!');
+    }
+
 
     /**
      * Remove the specified resource from storage.

@@ -42,8 +42,8 @@
                 <div class="col-md-6 mb-4">
                     <div class="p-4 shadow-sm d-flex justify-content-between" style="border-radius: 15px;">
                         <div class="d-flex">
-                            <img src="{{ asset('/assets/img/image_not_available.png') }}" alt="" class="p-2"
-                                style="max-width: 100px;object-fit:cover;">
+                            <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                alt="" class="p-2" style="max-width: 100px;object-fit:cover; border-radius:15px">
                             <div class="py-4">
                                 <h4 class="text-primary m-0"
                                     style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -83,37 +83,83 @@
                                 </li>
 
                             </ul>
-                            <button type="button" class="btn btn-primary" style="border-radius: 50px">Detail</button>
+                            <button type="button" class="btn btn-primary" style="border-radius: 50px"
+                                data-bs-toggle="modal" data-bs-target="#detailModal{{ $facility->id }}">Detail</button>
                         </div>
                     </div>
                 </div>
 
+                <!-- Detail Modal -->
+                <div class="modal fade" id="detailModal{{ $facility->id }}" tabindex="-1"
+                    aria-labelledby="detailModalLabel aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail
+                                    {{ $facility->id }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex">
+                                    <div class="p-4">
+                                        <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                                            alt="{{ $facility->name }}"
+                                            style="max-width: 200px;max-height:200px;object-fit:cover;border-radius:15px">
+                                    </div>
+                                    <div class="p-4 w-100">
+                                        <h3 class="mb-2" style="color: rgba(32,180,134,1)">{{ $facility->name }}</h3>
+                                        <div style="background-color: rgba(32,180,134,0.1); border-radius:15px;min-height: 85px"
+                                            class="w-100 p-3">
+                                            <p class="m-0" style="color: black">
+                                                {{ $facility->description ? $facility->description : 'Deskripsi Kosong' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="p-4"><strong>Foto Detail</strong></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Detail Modal -->
+
                 <!-- Image Detail Modal -->
-                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1" aria-labelledby="imageDetailModalLabel" aria-hidden="true">
+                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1"
+                    aria-labelledby="imageDetailModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar {{ $facility->id }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar
+                                    {{ $facility->id }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone" data-facility-id="{{ $facility->id }}" enctype="multipart/form-data">
+                                <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone"
+                                    data-facility-id="{{ $facility->id }}" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" value="{{ $facility->id }}" name="facility_id">
-                                    <button type="submit" id="submit-all" class="btn btn-primary position-absolute" style="bottom: 10px; right: 10px;">
+                                    <button type="submit" id="submit-all" class="btn btn-primary position-absolute"
+                                        style="bottom: 10px; right: 10px;">
                                         Tambah Gambar
                                     </button>
                                 </form>
-                
+
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="row g-4">
                                         @forelse ($facility->facility_images as $index => $image)
                                             <div class="col-12 col-md-6 col-lg-4">
-                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                                    class="img-fluid rounded"
+                                                    style="max-height: 250px; object-fit: cover;">
                                             </div>
                                         @empty
                                             <div class="col-12">
-                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong></p>
+                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong>
+                                                </p>
                                             </div>
                                         @endforelse
                                     </div>
@@ -121,9 +167,8 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
                 <!-- Image Detail Modal -->
-
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
@@ -144,7 +189,7 @@
                                     @method('PUT')
                                     <div class="mb-3">
                                         <div class="d-flex justify-content-center">
-                                            <img src="{{ $facility->image ? asset('storage/' . $facility->image) : asset('/assets/img/image_not_available.png') }}"
+                                            <img src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
                                                 id="imgPreviewEdit" alt="{{ $facility->name }}"
                                                 style="max-width:250px;max-height:250px;object-fit:cover">
                                         </div>
@@ -233,7 +278,7 @@
                             <input type="text" class="form-control" id="facilityName" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="facilityDescription" class="form-label">Deskripsi <small>(max: 100
+                            <label for="facilityDescription" class="form-label">Deskripsi <small>(max: 50
                                     karakter)</small></label>
                             <textarea class="form-control" id="facilityDescription" name="description"></textarea>
                         </div>
