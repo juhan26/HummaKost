@@ -42,20 +42,46 @@
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm position-relative" style="bo rder-radius: 20px; overflow: hidden;">
                         <!-- Edit and Delete Icons -->
-
-
-
                         <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
                             id="card-actions-{{ $property->id }}">
-                            @hasrole('super_admin')
-                                <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">
-                                    <i class="ri-edit-line"></i>
-                                </a>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal{{ $property->id }}">
-                                    <i class="ri-delete-bin-line"></i>
+                            @hasrole('admin|super_admin')
+                                <button class="btn btn-white btn-text-white shadow-sm  p-2" type="button"
+                                    id="propertyActionsDropdown{{ $property->id }}" data-bs-toggle="dropdown"
+                                    aria-expanded="false" style="border-radius: none;border:1px solid rgba(0,0,0,.1);">
+                                    <i class="ri-more-2-line ri-20px"></i>
                                 </button>
                             @endhasrole
+                            <ul class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="propertyActionsDropdown{{ $property->id }}">
+
+                                @hasrole('admin|super_admin')
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#imageDetail{{ $property->id }}"><i
+                                            class="ri-image-add-line me-2 ri-20px text-primary"></i>Tambah Foto
+                                        Detail</button>
+                                </li>
+                                @endhasrole
+
+                                @hasrole('super_admin')
+                                <li>
+                                    <a href="{{ route('properties.edit', $property->id) }}" class="dropdown-item">
+                                        <i class="ri-edit-line me-2 text-secondary"></i>
+                                        Edit Kontrakan
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ $property->id }}">
+                                        <i class="ri-delete-bin-line me-2 text-danger"></i>
+                                        Hapus Kontrakan
+                                    </button>
+                                </li>
+                                @endhasrole
+
+                            </ul>
+
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
                                 aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
@@ -228,4 +254,3 @@
         });
     </script>
 @endsection
-
