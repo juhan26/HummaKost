@@ -17,32 +17,15 @@ class PaymentPerMonthController extends Controller
      */
     public function index(Request $request)
     {
-        $query = PaymentPerMonth::with('lease.user');
-
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->whereHas('lease.user', function ($q) use ($search) {
-                $q->where('name', 'LIKE', '%' . $search . '%');
-            })
-                ->orWhere('month', 'LIKE', '%' . $search . '%');
+        $search = $request->search;
+        if ($search) {
+            $leases = Lease::with(['user', 'payments'])->whereHas('user', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            })->latest()->paginate(6);
+        } else {
+            $leases = Lease::with(['user', 'payments'])->latest()->paginate(6);
         }
-
-        $payments = $query->with('lease')->latest()->paginate(5);
-        $leases = Lease::with('user')->where('status', 'active')->paginate(5);
-
-        // foreach ($leases as $lease) {
-        //     $currentDate = now();
-
-        //     $currentMonthPayment = $lease->payments->filter(function ($payment) use ($currentDate) {
-        //         return $payment->created_at->month === $currentDate->month && $payment->created_at->year === $currentDate->year;
-        //     })->first();
-
-        //     $messeage = null;
-        //     if ($currentMonthPayment) {
-        //         $messeage = "User belum melakukan pembayaran untuk bulan ini.";
-        //         break;
-        //     }
-        // }
+        $payments = PaymentPerMonth::all();
 
         return view('pages.payments.index', compact('payments', 'leases'));
     }
@@ -63,32 +46,48 @@ class PaymentPerMonthController extends Controller
     {
         $lease = Lease::find($request->lease_id);
 
-        $nominal = $lease->properties->rental_price;
-        $totalNominal = $lease->total_nominal + $nominal;
-        $totalKurangi = $lease->total_iuran - $totalNominal;
-        $total_lease = $totalKurangi / $nominal;
-        $date =  Carbon::parse($lease->end_date);
-        $date->subMonths($total_lease + 1);
-        $leasesPaymentMonth = $date->format('F');
-
-        if ($lease->total_iuran <= $lease->total_nominal) {
-            return redirect()->route('payments.index')->with('error', 'Pengguna Sudah Lunas');
-        } else {
-
-            PaymentPerMonth::create([
-                'lease_id' => $request->lease_id,
-                'month' => $leasesPaymentMonth,
-                'nominal' => $nominal,
-                'description' => $request->description,
-            ]);
-
-
-            $lease->update([
-                'total_nominal' => $totalNominal,
-            ]);
+        if (!$lease) {
+            return redirect()->route('payments.index')->with('error', 'Lease tidak ditemukan.');
         }
-        return redirect()->route('payments.index')->with('success', 'Pembayaran berhasil di simpan');
+
+        $nominal = $request->rental_price; //600 000
+
+        if ($lease->total_nominal >= $lease->total_iuran) {
+            return redirect()->route('payments.index')->with('error', 'Pengguna Sudah Lunas');
+        }
+
+        $totalNominal = $lease->total_nominal + $nominal;
+
+        $startDate = \Carbon\Carbon::parse($lease->start_date);
+
+        $totalMonthsPaid = floor($lease->total_nominal / $lease->properties->rental_price);
+
+        $monthsToAdd = floor($nominal / $lease->properties->rental_price);
+
+        $startPaymentMonth = $startDate->copy()->addMonths($totalMonthsPaid);
+
+        $paymentMonth = $startDate->copy()->addMonths($totalMonthsPaid + $monthsToAdd);
+
+        $startPaymentMonthFormatted = $startPaymentMonth->format('F Y');
+        $paymentMonthFormatted = $paymentMonth->format('F Y');
+
+        PaymentPerMonth::create([
+            'lease_id' => $request->lease_id,
+            'payment_month' => $startPaymentMonthFormatted,
+            'month' => $paymentMonthFormatted,
+            'nominal' => $nominal,
+            'description' => $request->description,
+        ]);
+
+        $lease->update([
+            'total_nominal' => $totalNominal,
+        ]);
+
+        return redirect()->route('payments.index')->with('success', 'Pembayaran berhasil disimpan');
     }
+
+
+
 
     /**
      * Display the specified resource.
