@@ -21,7 +21,7 @@ class PropertyController extends Controller
     public function index(Request $request)
     {
         if ($request->input('search')) {
-            $properties = Property::where('name', 'LIKE', "%{$request->input('search')}%")
+            $properties = Property::with('property_images')->where('name', 'LIKE', "%{$request->input('search')}%")
                 ->orWhere('description', 'LIKE', "%($request->input('search'))%")
                 ->paginate(6);
         } else {

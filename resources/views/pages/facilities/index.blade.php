@@ -27,11 +27,13 @@
                 <input type="text" class="form-control" name="search" id="searchInput"
                     style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none;"
                     value="{{ request('search') }}" placeholder="Cari...">
-                <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
-                    data-bs-target="#storeModal"
-                    style="width: 160px; padding: 15px 0; border-radius: 10px; background-color: rgba(32,180,134,1); color: white; font-size: 16px;">
-                    <i class="ri-add-line ri-20px"></i>Tambah
-                </button>
+                @hasrole('admin|super_admin')
+                    <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+                        data-bs-target="#storeModal"
+                        style="width: 160px; padding: 15px 0; border-radius: 10px; background-color: rgba(32,180,134,1); color: white; font-size: 16px;">
+                        <i class="ri-add-line ri-20px"></i>Tambah
+                    </button>
+                @endhasrole
                 <i class="ri-search-line ri-20px" id="searchIcon"
                     style="position: absolute; top: 50%; transform: translateY(-50%); left: 3%;"></i>
             </form>
@@ -55,12 +57,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="dropdown d-flex flex-column justify-content-between align-items-end">
-                                <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
-                                    id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <i class="ri-more-2-line ri-20px"></i>
-                                </button>
+
+                        <div class="dropdown d-flex flex-column {{ Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('admin') ? "justify-content-between" : "justify-content-end" }} align-items-end">
+                            @hasrole('admin|super_admin')
+                            <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-1" type="button"
+                                id="facilityActionsDropdown{{ $facility->id }}" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="ri-more-2-line ri-20px"></i>
+                            </button>
+                            @endhasrole
+
                             <ul class="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
 

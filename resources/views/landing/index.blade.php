@@ -62,7 +62,7 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#search_people">properties</a>
+                            href="#loadMember">properties</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
@@ -250,7 +250,7 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#search_people">properties</a>
+                    href="#loadMember">properties</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -467,7 +467,7 @@
                                             <div class="course-info px-4 py-4">
                                                 <div class="flex justify-between items-center">
                                                     <h4 class="text-gray-black font-semibold font-display text-2xl"
-                                                        id="loadMember">
+                                                    id="loadMember">
                                                         {{ 'Rp. ' . number_format($property->rental_price, 0) }}</h4>
                                                     <a href="{{ route('home.show', $property->id) }}"
                                                         class="link bg-gray-white px-[10px] py-[10px] rounded-[8px] shadow-[0px_3px_12px_rgba(75,75,75,0.08)]">
@@ -497,7 +497,7 @@
             </div>
         </div>
     </section>
-    <!-- intructor section start -->
+    {{-- <!-- intructor section start -->
     <section id="tenant" class="section-padding instructor-section bg-secondary-50">
         <div class="container px-4 2xl:px-0">
             <form id="propertyForm" method="GET" action="#loadMember">
@@ -574,7 +574,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <script>
         // Scroll to #tenant section if the URL contains #tenant fragment

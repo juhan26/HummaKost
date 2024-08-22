@@ -7,12 +7,13 @@
         background-color: white;
         border-radius: 0;
         object-fit: contain;
-        max-width: 100% ;
+        max-width: 100%;
         margin: 0 auto;
         align-self: end;
         z-index: 1000;
         transition: ease-in .3s;
     }
+
     @media screen and (min-width: 567px) {
 
         #layout-navbar {
@@ -88,8 +89,7 @@
     }
 </style>
 
-<aside id="layout-menu" class="layout-menu card menu-vertical menu bg-menu-theme"
-    style="border-radius: 0;">
+<aside id="layout-menu" class="layout-menu card menu-vertical menu bg-menu-theme" style="border-radius: 0;">
 
 
     <div class="app-brand demo">
@@ -145,27 +145,29 @@
 
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('leases.index') ? 'active' : '' }}">
-            <a href="{{ url('leases') }}" class="menu-link">
-                <div class="menu-icon"><span class="material-symbols-outlined">contract</span></div>
-                <div>Kontrak</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('payments.index') ? 'active' : '' }}">
-            <a href="{{ url('payments') }}" class="menu-link">
-                <div class="menu-icon"><span class="material-symbols-outlined">payments</span></div>
-                <div>Pembayaran</div>
-            </a>
-        </li>
-        <li class="menu-header mt-5">
-            <span class="menu-header-text">Info Lainnya</span>
-        </li>
-        <li class="menu-item {{ request()->routeIs('instance.index') ? 'active' : '' }}">
-            <a href="{{ url('instance') }}" class="menu-link">
-                <div class="menu-icon"><span class="material-symbols-outlined">school</span></div>
-                <div>instansi</div>
-            </a>
-        </li>
+        @hasrole('super_admin')
+            <li class="menu-item {{ request()->routeIs('leases.index') ? 'active' : '' }}">
+                <a href="{{ url('leases') }}" class="menu-link">
+                    <div class="menu-icon"><span class="material-symbols-outlined">contract</span></div>
+                    <div>Kontrak</div>
+                </a>
+            </li>
+            <li class="menu-item {{ request()->routeIs('payments.index') ? 'active' : '' }}">
+                <a href="{{ url('payments') }}" class="menu-link">
+                    <div class="menu-icon"><span class="material-symbols-outlined">payments</span></div>
+                    <div>Pembayaran</div>
+                </a>
+            </li>
+            <li class="menu-header mt-5">
+                <span class="menu-header-text">Info Lainnya</span>
+            </li>
+            <li class="menu-item {{ request()->routeIs('instance.index') ? 'active' : '' }}">
+                <a href="{{ url('instance') }}" class="menu-link">
+                    <div class="menu-icon"><span class="material-symbols-outlined">school</span></div>
+                    <div>instansi</div>
+                </a>
+            </li>
+        @endhasrole
         {{-- <li class="menu-item {{ request()->routeIs('property_furnitures.index') ? 'active' : '' }}">
             <a href="{{ url('property_furnitures') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-sofa-line"></i>
