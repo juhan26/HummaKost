@@ -358,15 +358,15 @@
 
                 <section id="property_gambar" class="section-padding property_gambar-section">
                     <div class="container px-4 2xl:px-0">
-                            <div class="flex items-center justify-between mb-4">
-                                <h2
-                                    class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                                    Gambar
-                                    <span class="text-primary-500 after-svg instructor">Kontrakan</span>
-                                </h2>
-                            </div>
-        
-        
+                        <div class="flex items-center justify-between mb-4">
+                            <h2
+                                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                                Gambar
+                                <span class="text-primary-500 after-svg instructor">Kontrakan</span>
+                            </h2>
+                        </div>
+
+
                         <div class="flex items-center mb-4">
                             <p id="descc" class="text-gray-500 text-xl mb-0">Gambar gambar di kontrakan ini
                                 "{{ $property->name }}"</p>
@@ -374,28 +374,14 @@
                         <div class="slider-container mx-auto px-4 2xl:px-0">
                             <div class="swiper instructorSwipper relative">
                                 <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                                    @forelse ($users as $user)
+                                    @forelse ($property->property_images as $image)
                                         <div class="swiper-slide">
                                             <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
                                                 <div class="mb-4 overflow-hidden rounded-lg">
                                                     <a href="#">
-                                                        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                            alt="{{ $user->name }}" class="rounded-lg">
+                                                        <img src="{{ asset('storage/' . $image->image) }}"
+                                                            alt="" class="rounded-lg">
                                                     </a>
-                                                </div>
-                                                <div>
-                                                    <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                                        <a href="#">{{ $user->name }}</a>
-                                                        {{-- <span
-                                                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                        {{ $user->lease->status }}
-                                                    </span> --}}
-                                                    </h2>
-                                                    <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                                        <a href="#">
-                                                            {{ $user->instance->name }}
-                                                        </a>
-                                                    </h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -418,20 +404,20 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </section>
 
 
         <section id="tenant" class="section-padding instructor-section">
             <div class="container px-4 2xl:px-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2
-                            class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                            Daftar
-                            <span class="text-primary-500 after-svg instructor">Penyewa</span>
-                        </h2>
-                    </div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                        Daftar
+                        <span class="text-primary-500 after-svg instructor">Penyewa</span>
+                    </h2>
+                </div>
 
 
                 <div class="flex items-center mb-4">
@@ -481,24 +467,26 @@
         <section id="facility" class="section-padding facility-section">
             <div class="container mx-auto mt-10">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
                         Daftar
                         <span class="text-primary-500 after-svg instructor">Fasilitas</span>
                     </h2>
                 </div>
-                
-                
-                    <p id="descc" class="text-gray-500 text-xl mb-4">Daftar-daftar penyewa Kontrakan
-                        "{{ $property->name }}"</p>
-                
 
-                
+
+                <p id="descc" class="text-gray-500 text-xl mb-4">Daftar-daftar penyewa Kontrakan
+                    "{{ $property->name }}"</p>
+
+
+
                 <div class="swiper-container relative">
                     <div class="swiper-wrapper py-4 mt-4">
                         @forelse ($property->facilities as $facility)
                             <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
                                 <div class="max-w-xs min-h-[400px] flex flex-col">
-                                    <div class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex">
+                                    <div
+                                        class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex">
                                         <img class="w-16 h-16 mr-4 rounded-lg object-cover"
                                             src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
                                             alt="{{ $facility->name }}">
@@ -516,17 +504,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         @empty
                             <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
                         @endforelse
                     </div>
-                    <div class="swiper-button-next"
-                        style="background: none; color: #20B486;"></div>
-                    <div class="swiper-button-prev"
-                        style="background: none; color: #20B486;"></div>
+                    <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
+                    <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
                 </div>
 
             </div>
