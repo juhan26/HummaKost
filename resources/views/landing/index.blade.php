@@ -497,7 +497,7 @@
             </div>
         </div>
     </section>
-    <!-- intructor section start -->
+    {{-- <!-- intructor section start -->
     <section id="tenant" class="section-padding instructor-section bg-secondary-50">
         <div class="container px-4 2xl:px-0">
             <form id="propertyForm" method="GET" action="#loadMember">
@@ -574,7 +574,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <script>
         // Scroll to #tenant section if the URL contains #tenant fragment
