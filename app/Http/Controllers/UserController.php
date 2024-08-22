@@ -8,6 +8,7 @@ use App\Models\Instance;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -54,7 +55,7 @@ class UserController extends Controller
         END
     ")
             ->latest()
-            ->paginate(10);
+            ->paginate(1);
 
         $instances = Instance::orderBy('name', 'ASC')->get();
 
@@ -131,7 +132,7 @@ class UserController extends Controller
         $instances = Instance::orderBy('name', 'ASC')->get();
 
         // Mengirim data pengguna dan instance ke view
-        return view('landing.users.show', compact('user', 'instances'));
+        return view('pages.users.show', compact('user', 'instances'));
     }
 
 
@@ -148,9 +149,44 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->all());
-        return redirect()->route('user.index')->with('success', 'Pengguna berhasil di ubah');
+        // Validasi input dari request
+        $validated = $request->validated();
+
+        // Cek apakah ada file foto yang diunggah
+        if ($request->hasFile('photo')) {
+            // Hapus foto lama jika ada
+            if ($user->photo && Storage::exists('public/' . $user->photo)) {
+                Storage::delete('public/' . $user->photo);
+            }
+
+            // Simpan foto baru
+            $validated['photo'] = $request->file('photo')->store('photos', 'public');
+        }
+
+        // Update data pengguna
+        $user->update($validated);
+
+        // Redirect dengan pesan sukses
+        return redirect()->back()->with('success', 'Pengguna berhasil di ubah');
     }
+
+    public function changePassword(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'newPassword' => 'required|min:8|regex:/[A-Z]/|regex:/[@$!%*?&#]/',
+            'confirmPassword' => 'required|same:newPassword',
+        ]);
+
+        // Update password
+        $user = Auth::user();
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
+        // Redirect atau response setelah berhasil mengubah password
+        return back()->with('success', 'Password successfully changed!');
+    }
+
 
     /**
      * Remove the specified resource from storage.

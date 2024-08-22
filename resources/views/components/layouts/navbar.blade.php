@@ -4,7 +4,6 @@
     <div class="layout-menu-toggle navbar-nav align-items-xl-center">
         <a class="nav-item nav-link" href="javascript:void(0)">
             <span class="material-symbols-outlined">
-
                 dock_to_right
             </span>
         </a>
@@ -45,8 +44,9 @@
                         <li>
                             <div class="dropdown-divider"></div>
                         </li>
-                        {{-- <li>
-                            <a class="dropdown-item" href="pages-profile-user.html">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">
+
                                 <i class="ri-user-3-line ri-22px me-3"></i><span class="align-middle">My Profile</span>
                             </a>
                         </li>
@@ -69,7 +69,8 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="pages-pricing.html">
-                                <i class="ri-money-dollar-circle-line ri-22px me-3"></i><span class="align-middle">Pricing</span>
+                                <i class="ri-money-dollar-circle-line ri-22px me-3"></i><span
+                                    class="align-middle">Pricing</span>
                             </a>
                         </li>
                         <li>

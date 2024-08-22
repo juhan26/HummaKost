@@ -112,10 +112,6 @@
                                         <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
                                     </li> --}}
                                         <li>
-                                            <a href=""
-                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
-                                        </li>
-                                        <li>
                                             <a href="{{ route('dashboard') }}"
                                                 class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
                                         </li>
@@ -162,10 +158,6 @@
                                                 <span class="text-gray-500"
                                                     text-muted>{{ Auth::user()->email }}</small>
                                             </div>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('user.show', Auth::user()->id) }}"
-                                                class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
                                         </li>
                                         <li>
                                             <a href="{{ route('logout') }}"
