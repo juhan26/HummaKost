@@ -53,7 +53,7 @@ class LandingController extends Controller
         $properties = Property::all();
         // Ambil semua pengguna
         $leases = Lease::all();
-        
+
         $userIds = $leases->pluck('user.id')->unique();
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 

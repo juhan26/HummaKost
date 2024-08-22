@@ -66,6 +66,7 @@
                                     <i class="ri-more-2-line ri-20px"></i>
                                 </button>
                             @endhasrole
+
                             <ul class="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="facilityActionsDropdown{{ $facility->id }}">
 

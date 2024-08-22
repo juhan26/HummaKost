@@ -271,7 +271,86 @@
     </div>
     <!-- Change Property Leader Modal -->
     </div>
-
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel" style="color: rgba(32,180,134,1)">Tambah Kontrak</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('leases.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <img src="" style="max-width: 250px;border-radius:50%;object-fit: cover;"
+                                alt="" id="imgUserCreateModal">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userIdSelect" class="form-label">Nama Penyewa</label>
+                            <select class="form-select" name="user_id" id="userIdSelect">
+                                @forelse ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @empty
+                                    <option value="">Calon Penyewa Tidak Ditemukan</option>
+                                @endforelse
+                            </select>
+                            @error('user_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="property_id" class="form-label">Kontrakan</label>
+                            <input type="hidden"  name="property_id" id="property_id" value="{{ $property->id }}">
+                            <input type="text" disabled  value="{{ $property->name }}" class="form-control">
+                            @error('property_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Tanggal Mulai</label>
+                            <input type="date" class="form-control" name="start_date" id="start_date"
+                                value="{{ old('start_date') }}">
+                            @error('start_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
+                            <input type="date" class="form-control" name="end_date" id="end_date"
+                                value="{{ old('end_date') }}">
+                            @error('end_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            {{-- <label for="createStatus" class="form-label">Status:</label>
+                            <select class="form-select" name="status" id="createStatus">
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                            </select>
+                            @error('status')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror --}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi <small>(Opsional)</small></label>
+                            <textarea class="form-control" name="description" id="description">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="ri-add-line ri-20px"></i>Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         var lat = -7.896591;
@@ -308,4 +387,93 @@
             }
         }).addTo(map);
     </script>
+
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel" style="color: rgba(32,180,134,1)">Tambah Kontrak</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('leases.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <img src="" style="max-width: 250px;border-radius:50%;object-fit: cover;"
+                                alt="" id="imgUserCreateModal">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userIdSelect" class="form-label">Nama Penyewa</label>
+                            <select class="form-select" name="user_id" id="userIdSelect">
+                                @forelse ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @empty
+                                    <option value="">Calon Penyewa Tidak Ditemukan</option>
+                                @endforelse
+                            </select>
+                            @error('user_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="property_id" class="form-label">Kontrakan</label>
+                            <select class="form-select" name="property_id" id="property_id">
+
+                                <option value="{{ $property->id }}"
+                                    {{ old('property_id') == $property->id ? 'selected' : '' }}>
+                                    {{ $property->name }}
+                                </option>
+
+
+
+                            </select>
+                            @error('property_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Tanggal Mulai</label>
+                            <input type="date" class="form-control" name="start_date" id="start_date"
+                                value="{{ old('start_date') }}">
+                            @error('start_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
+                            <input type="date" class="form-control" name="end_date" id="end_date"
+                                value="{{ old('end_date') }}">
+                            @error('end_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            {{-- <label for="createStatus" class="form-label">Status:</label>
+                            <select class="form-select" name="status" id="createStatus">
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                            </select>
+                            @error('status')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror --}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi <small>(Opsional)</small></label>
+                            <textarea class="form-control" name="description" id="description">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="ri-add-line ri-20px"></i>Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
