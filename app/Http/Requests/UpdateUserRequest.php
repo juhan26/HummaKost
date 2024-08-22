@@ -23,12 +23,10 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
+
             'name' => 'required|string|max:255',
-            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user->id)],
             'phone_number' => ['required','numeric',Rule::unique('users', 'phone_number')->ignore($this->user->id)],
-            'gender' => 'in:male,female',
-            'instance_id' => [ 'exists:instances,id'],
-            // 'photo' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+
         ];
     }
 
