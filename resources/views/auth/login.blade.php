@@ -87,7 +87,7 @@
                 Swal.fire({
                     title: "Perhatian",
                     text: @json(session('error')),
-                    showConfirmButton:false,
+                    showConfirmButton: false,
                     icon: 'info',
                     footer: '<a href="/" class="btn btn-primary">Home</a>'
                 });
@@ -115,9 +115,9 @@
                     <!-- /Logo -->
 
                     <div class="card-body mt-1">
-                        <h4 class="mb-1">Welcome to Hummakost! 👋</h4>
+                        <h4 class="mb-1">Selamat datang di Hummakost! 👋</h4>
                         <p class="mb-5">
-                            Please sign-in to your account.
+                            Silakan masuk ke akun Anda.
                         </p>
 
                         <form class="mb-5" method="POST" action="{{ route('login') }}">
@@ -157,7 +157,7 @@
                             <div class="mb-5 d-flex justify-content-end mt-5">
                                 @if (Route::has('password.request'))
                                     <a class="btn-link float-end mb-1 mt-2" href="{{ route('password.request') }}">
-                                        <span>{{ __('Forgot Your Password?') }}</span>
+                                        <span>Lupa kata sandi?</span>
                                     </a>
                                 @endif
                             </div>

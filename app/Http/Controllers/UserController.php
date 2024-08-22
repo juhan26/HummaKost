@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Models\Instance;
 use App\Models\User;
+use App\Models\Instance;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -55,7 +56,7 @@ class UserController extends Controller
         END
     ")
             ->latest()
-            ->paginate(1);
+            ->paginate(10);
 
         $instances = Instance::orderBy('name', 'ASC')->get();
 
@@ -149,25 +150,30 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        // Validasi input dari request
-        $validated = $request->validated();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'instance_id' => $request->instance_id,
+            'gender' => $request->gender,
+        ]);
 
-        // Cek apakah ada file foto yang diunggah
-        if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
-            if ($user->photo && Storage::exists('public/' . $user->photo)) {
-                Storage::delete('public/' . $user->photo);
-            }
+        return redirect()->route('user.index')->with('success', 'Pengguna berhasil diubah');
+    }
 
-            // Simpan foto baru
-            $validated['photo'] = $request->file('photo')->store('photos', 'public');
+
+    public function deletePropertyLeader(User $user)
+     {
+
+        $lastLeader = $user->lease()->whereHas('user.roles', function ($query) {
+            $query->where('name', 'admin');
+        })->first();
+
+        if ($lastLeader) {
+            $lastLeader->user->removeRole('admin');
+            $lastLeader->user->assignRole('tenant');
         }
-
-        // Update data pengguna
-        $user->update($validated);
-
-        // Redirect dengan pesan sukses
-        return redirect()->back()->with('success', 'Pengguna berhasil di ubah');
+        return redirect()->route('user.index')->with('success', 'Berhasil memberhentikan Ketua Kontrakan');
     }
 
     public function changePassword(Request $request)
@@ -200,9 +206,8 @@ class UserController extends Controller
             $user->delete();
             return redirect()->route('user.index')->with('success', 'Pengguna berhasil di hapus');
         } catch (\Exception $e) {
-            if ($e->getCode() === '23000') {
-                return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus pengguna ini karena data memiliki data terkait di tabel lain');
-            }
+            $user->assignRole('tenant');
+            return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus pengguna ini karena pengguna memiliki kontrak');
         }
     }
 }
