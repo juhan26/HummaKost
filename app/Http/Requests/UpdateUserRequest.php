@@ -24,8 +24,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'email' => ['required', Rule::unique('users', 'email')->ignore($this->user->id)],
-            'phone_number' => ['required', 'numeric', Rule::unique('users', 'phone_number')->ignore($this->user->id)],
+            'phone_number' => ['required', 'numeric','min:8', Rule::unique('users', 'phone_number')->ignore($this->user->id)],
         ];
     }
 

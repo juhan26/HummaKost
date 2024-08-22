@@ -174,7 +174,7 @@ class UserController extends Controller
     {
         // Validasi input
         $request->validate([
-            'newPassword' => 'required|min:8|regex:/[A-Z]/|regex:/[@$!%*?&#]/',
+            'password' => 'required|min:8',
             'confirmPassword' => 'required|same:newPassword',
         ]);
 
