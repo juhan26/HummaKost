@@ -111,17 +111,51 @@
                 </div>
 
             </div>
-            <div class="col-12 col-lg-12" style="margin-top: 50px">
-                <div class="card shadow-sm">
-                    <div class="card-content px-3 py-6 d-flex align-items-center "
-                        style="background-color: rgba(32, 180, 134, 0.1); border-radius: 10px;">
-                        <h6 class="mb-0">{{ $property->description }}</h6>
-                    </div>
-                </div>
-            </div>
+
+
+
         </div>
 
     </div>
+
+    <h4 class="fw-bold card-title m-0 mt-10">Detail Foto Kontrakan</h4>
+    <div class="col-12 mb-12">
+        <div class="card shadow-sm">
+
+            <div class="card-body d-flex justify-content-start flex-wrap gap-4">
+                @forelse ($property->property_images as $index => $detailFoto)
+                    <div class="text-center mx-5" style="width: fit-content;">
+                        <div class="img rounded d-block"
+                            style="
+                            height:12rem;
+                            width:12rem;
+                            background: url({{ asset('storage/' . $detailFoto->image) }});
+                            background-position:center;
+                            background-size:cover;
+                            "
+                        ></div>
+                    <h4 class="mt-3 mb-1">Gambar ke {{ $index + 1 }}</h4>
+                        {{-- <img class="rounded mx-auto d-block" style="width: 15rem; height: 15rem;"
+                            src="{{ $detailFoto->image ? asset('storage/' . $detailFoto->image) : asset('assets/img/image_not_available.png') }}"> --}}
+                        {{-- <p class="text-muted mb-0">{{ $detailFoto->user->status }}</p> --}}
+                    </div>
+                @empty
+                    <div class="text-center text-muted">Belum ada anggota</div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-12" style="margin-top: 50px">
+        <div class="card shadow-sm">
+            <div class="card-content px-3 py-6 d-flex align-items-center "
+                style="background-color: rgba(32, 180, 134, 0.1); border-radius: 10px;">
+                <h6 class="mb-0">{{ $property->description }}</h6>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- ANGGOTA -->
     <h4 class="fw-bold card-title m-0 mt-10">Daftar Anggota</h4>

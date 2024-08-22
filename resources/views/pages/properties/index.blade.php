@@ -42,15 +42,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm position-relative" style="bo rder-radius: 20px; overflow: hidden;">
                         <!-- Edit and Delete Icons -->
-                        @if ($property->gender_target === 'male')
-                            <span class="badge rounded-pill bg-label-info position-absolute top-0 start-0 m-2">
-                                <i class="mdi ri-men-line"></i> Laki-Laki
-                            </span>
-                        @else
-                            <span class="badge rounded-pill bg-label-danger position-absolute top-0 start-0 m-2">
-                                <i class="mdi ri-women-line"></i> Perempuan
-                            </span>
-                        @endif
+
 
 
                         <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
@@ -64,7 +56,6 @@
                                     <i class="ri-delete-bin-line"></i>
                                 </button>
                             @endhasrole
-
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
                                 aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
@@ -98,17 +89,28 @@
                             alt="{{ $property->name }}" class="card-img-top" style="height: 250px; object-fit: cover;">
 
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="m-0" style="color: rgba(32,180,134,1)">
-                                    <i
-                                        class="ri-calendar-line ri-20px me-2"></i>{{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
+                            <div class="d-flex justify-content-start align-items-center mb-3 mt-3">
+                                <i class="ri-calendar-line ri-20px me-2" style="color: rgba(32,180,134,.7)"></i>
+                                <h5 class="m-0 me-auto" style="color: rgba(32,180,134,.7);font-size:1rem;">
+                                    {{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
                                 </h5>
-                                <span class="label bg-label-primary"
-                                    style="padding: 8px 20px; border-radius: 15px;">Tersedia</span>
+                                @if ($property->gender_target === 'male')
+                                    <span class="label bg-label-info" style="padding: 6px 15px; border-radius: 15px;">
+                                        Laki-Laki
+                                    </span>
+                                @else
+                                    <span class="label bg-label-danger" style="padding: 6px 15px; border-radius: 15px;">
+                                        Perempuan
+                                    </span>
+                                @endif
+                                <span class="label bg-label-primary ms-1"
+                                    style="padding: 6px 15px; border-radius: 15px;">Tersedia</span>
                             </div>
                             <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
-                            <p class="card-text" style="height: 80px; overflow: hidden; text-overflow: ellipsis;">
+                            <p class="card-text mb-6"
+                                style="height: 80px;width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
                                 {{ $property->description ? $property->description : 'Deskripsi Kosong' }}</p>
+
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="m-0" style="color: rgba(32,180,134,1)">Rp.
                                     {{ number_format($property->rental_price, 0, ',', '.') }} / bln</h5>
@@ -121,6 +123,50 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Image Detail Modal -->
+                <div class="modal fade" id="imageDetail{{ $property->id }}" tabindex="-1"
+                    aria-labelledby="imageDetailModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="propertyUpdateModalLabel">Detail Gambar
+                                    {{ $property->id }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('property_images.store') }}" class="dropzone property-dropzone"
+                                    data-property-id="{{ $property->id }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" value="{{ $property->id }}" name="property_id">
+                                    <button type="submit" id="submit-all" class="btn btn-primary position-absolute"
+                                        style="bottom: 10px; right: 10px;">
+                                        Tambah Gambar
+                                    </button>
+                                </form>
+
+                                <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
+                                    <div class="row g-4">
+                                        @forelse ($property->property_images as $index => $image)
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Property Image"
+                                                    class="img-fluid rounded"
+                                                    style="max-height: 250px; object-fit: cover;">
+                                            </div>
+                                        @empty
+                                            <div class="col-12">
+                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong>
+                                                </p>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image Detail Modal -->
             @empty
                 <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
                     <div class="head-label text-center">
@@ -132,21 +178,54 @@
             @endforelse
         </div>
     </div>
-@endsection
 
-@section('script')
     <script>
-        $(document).ready(function() {
-            $('.card').hover(
-                function() {
-                    let id = $(this).data('id');
-                    $('#card-actions-' + id).show();
+        Dropzone.autoDiscover = false;
+
+        document.querySelectorAll('.property-dropzone').forEach(function(dropzoneElement) {
+            const propertyId = dropzoneElement.dataset.propertyId;
+            const myDropzone = new Dropzone(dropzoneElement, {
+                url: "{{ route('property_images.store') }}",
+                paramName: "images",
+                maxFilesize: 2,
+                acceptedFiles: ".jpeg,.jpg,.png",
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah",
+                parallelUploads: 6,
+                init: function() {
+                    const submitButton = dropzoneElement.querySelector(".btn-primary");
+                    const dropzoneInstance = this;
+
+                    submitButton.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (dropzoneInstance.getQueuedFiles().length > 0) {
+                            dropzoneInstance.processQueue();
+                        } else {
+                            dropzoneInstance.submitForm();
+                        }
+                    });
+
+                    this.on("sending", function(file, xhr, formData) {
+                        formData.append("_token", "{{ csrf_token() }}");
+                        formData.append("property_id", propertyId);
+                    });
+
+                    this.on("success", function(file, response) {
+                        console.log('Upload berhasil:', response);
+                    });
+
+                    this.on("queuecomplete", function() {
+                        dropzoneInstance.submitForm();
+                    });
                 },
-                function() {
-                    let id = $(this).data('id');
-                    $('#card-actions-' + id).hide();
+                submitForm: function() {
+                    dropzoneElement.submit();
                 }
-            );
+            });
         });
     </script>
 @endsection
+
