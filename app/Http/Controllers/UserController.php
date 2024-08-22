@@ -150,20 +150,14 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'instance_id' => $request->instance_id,
-            'gender' => $request->gender,
-        ]);
+        $user->update([$request->all()]);
 
-        return redirect()->route('user.index')->with('success', 'Pengguna berhasil diubah');
+        return redirect()->back()->with('success', 'Pengguna berhasil diubah');
     }
 
 
     public function deletePropertyLeader(User $user)
-     {
+    {
 
         $lastLeader = $user->lease()->whereHas('user.roles', function ($query) {
             $query->where('name', 'admin');
@@ -181,12 +175,15 @@ class UserController extends Controller
         // Validasi input
         $request->validate([
             'password' => 'required|min:8',
-            'confirmPassword' => 'required|same:newPassword',
+            'confirmPassword' => 'required|same:password',
         ]);
 
         // Update password
+        if($request->password === Auth::user()->password) {
+            return back()->with('error', 'Password Tidak Boleh Sama');
+        }
         $user = Auth::user();
-        $user->password = Hash::make($request->newPassword);
+        $user->password = Hash::make($request->password);
         $user->save();
 
         // Redirect atau response setelah berhasil mengubah password

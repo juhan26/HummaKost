@@ -159,9 +159,9 @@
                                                     <td>{{ $payment->lease->user->name }}</td>
                                                     <td>{{ 'Rp. ' . number_format($payment->nominal) }}
                                                     </td>
-                                                    <td>{{ \Carbon\Carbon::parse($payment->payment_month)->format('F Y') }}
+                                                    <td>{{ \Carbon\Carbon::parse($payment->payment_month)->translatedFormat('F Y') }}
                                                     </td>
-                                                    <td>{{ \Carbon\Carbon::parse($payment->month)->format('F Y') }}
+                                                    <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat(' F Y') }}
                                                     </td>
                                                 </tr>
                                             @empty

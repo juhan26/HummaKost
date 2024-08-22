@@ -178,13 +178,13 @@
                                                 class="nav-link d-flex flex-column gap-1 waves-effect active" role="tab"
                                                 data-bs-toggle="tab" data-bs-target="#navs-profile-card"
                                                 aria-controls="navs-profile-card" aria-selected="true" tabindex="-1"><i
-                                                    class="tf-icons ri-user-3-line"></i> Profile</button>
+                                                    class="tf-icons ri-user-3-line"></i> Profil</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button type="button" class="nav-link d-flex flex-column gap-1 waves-effect"
                                                 role="tab" data-bs-toggle="tab" data-bs-target="#navs-messages-card"
                                                 aria-controls="navs-messages-card" aria-selected="false" tabindex="-1"><i
-                                                    class="tf-icons ri-message-2-line"></i> Security </button>
+                                                    class="tf-icons ri-message-2-line"></i> Keamanan </button>
                                         </li>
                                     </ul>
                                 </div>
@@ -193,11 +193,11 @@
                                 <div class="tab-content pb-0">
                                     <div class="tab-pane fade active show" id="navs-profile-card" role="tabpanel">
                                         <small
-                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">About</small>
+                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">Detail</small>
                                         <ul class="list-unstyled my-3 py-1">
                                             <li class="d-flex align-items-center mb-4"><i
                                                     class="ri-user-3-line ri-24px"></i><span class="fw-medium mx-2">
-                                                    Name:</span> <span>{{ $user->name }}</span></li>
+                                                    Nama:</span> <span>{{ $user->name }}</span></li>
                                             <li class="d-flex align-items-center mb-4">
                                                 @if ($user->gender == 'male')
                                                     <i class="ri-men-line ri-24px"></i>
@@ -240,11 +240,11 @@
                                             </li>
                                         </ul>
                                         <small
-                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">Contacts</small>
+                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">Kontak</small>
                                         <ul class="list-unstyled my-3 py-1">
                                             <li class="d-flex align-items-center mb-4"><i
-                                                    class="ri-phone-line ri-24px"></i><span
-                                                    class="fw-medium mx-2">Contact:</span>
+                                                    class="ri-phone-line ri-24px"></i><span class="fw-medium mx-2">No
+                                                    Hp:</span>
                                                 <span>{{ $user->phone_number }}</span>
                                             </li>
                                             <li class="d-flex align-items-center mb-2"><i
@@ -259,7 +259,7 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="navs-messages-card" role="tabpanel">
-                                        <h5 class="card-header">Change Password</h5>
+                                        <h5 class="card-header">Ganti Password</h5>
                                         <div class="card-body">
                                             <!-- Form action diubah menjadi POST dan menambahkan action ke route changePassword -->
                                             <form id="formChangePassword" method="POST"
@@ -267,11 +267,11 @@
                                                 class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                                                 @csrf <!-- Menambahkan CSRF token untuk keamanan -->
                                                 <div class="alert alert-warning alert-dismissible" role="alert">
-                                                    <h5 class="alert-heading mb-1">Ensure that these requirements are
-                                                        met</h5>
-                                                    <span>Minimum 8 characters long, uppercase &amp; symbol</span>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                        aria-label="Close"></button>
+                                                    <h5 class="alert-heading mb-1">Untuk memastikan bahwa persyaratan ini
+                                                        terpenuhi.
+                                                        <span>Minimal 8 karakter Untuk Mematikan Bahwa Persyatan Ini Terpernuhi</span>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                            aria-label="Close"></button>
                                                 </div>
                                                 <div class="row gx-5">
                                                     <div
@@ -279,9 +279,9 @@
                                                         <div class="input-group input-group-merge">
                                                             <div class="form-floating form-floating-outline">
                                                                 <input class="form-control" type="password"
-                                                                    id="newPassword" name="newPassword"
+                                                                    id="password" name="password"
                                                                     placeholder="············">
-                                                                <label for="password">New Password</label>
+                                                                <label for="password">Password Baru</label>
                                                             </div>
                                                             <span class="input-group-text cursor-pointer text-heading">
                                                                 <i id="password-icon" class=""></i>
@@ -299,8 +299,7 @@
                                                                 <input class="form-control" type="password"
                                                                     name="confirmPassword" id="confirmPassword"
                                                                     placeholder="············">
-                                                                <label for="confirmPassword">Confirm New
-                                                                    Password</label>
+                                                                <label for="confirmPassword">Konfirmasi Password Baru</label>
                                                             </div>
                                                             <span class="input-group-text cursor-pointer text-heading">
                                                                 <i id="password-icon" class=""></i>
@@ -312,7 +311,7 @@
                                                     </div>
                                                     <div>
                                                         <button type="submit"
-                                                            class="btn btn-primary me-2 waves-effect waves-light">Change
+                                                            class="btn btn-primary me-2 waves-effect waves-light">Ganti
                                                             Password</button>
                                                     </div>
                                                 </div>

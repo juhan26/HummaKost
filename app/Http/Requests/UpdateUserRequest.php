@@ -26,7 +26,6 @@ class UpdateUserRequest extends FormRequest
 
             'name' => 'required|string|max:255',
             'phone_number' => ['required','numeric',Rule::unique('users', 'phone_number')->ignore($this->user->id)],
-
         ];
     }
 

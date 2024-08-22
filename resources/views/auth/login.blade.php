@@ -167,6 +167,7 @@
                                 </button>
                             </div>
                         </form>
+                        <h7>Belum Punya Akun? <a href="{{ route('register') }}">Daftar Disini!</a></h7>
 
                     </div>
                 </div>

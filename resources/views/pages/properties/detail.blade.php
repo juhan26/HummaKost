@@ -127,15 +127,15 @@
                             background: url({{ asset('storage/' . $detailFoto->image) }});
                             background-position:center;
                             background-size:cover;
-                            "
-                        ></div>
-                    <h4 class="mt-3 mb-1">Gambar ke {{ $index + 1 }}</h4>
+                            ">
+                        </div>
+                        <h4 class="mt-3 mb-1">Gambar ke {{ $index + 1 }}</h4>
                         {{-- <img class="rounded mx-auto d-block" style="width: 15rem; height: 15rem;"
                             src="{{ $detailFoto->image ? asset('storage/' . $detailFoto->image) : asset('assets/img/image_not_available.png') }}"> --}}
                         {{-- <p class="text-muted mb-0">{{ $detailFoto->user->status }}</p> --}}
                     </div>
                 @empty
-                    <div class="text-center text-muted">Belum ada anggota</div>
+                    <div class="te  xt-center text-muted">Belum ada anggota</div>
                 @endforelse
             </div>
         </div>
@@ -303,8 +303,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Kontrakan</label>
-                            <input type="hidden"  name="property_id" id="property_id" value="{{ $property->id }}">
-                            <input type="text" disabled  value="{{ $property->name }}" class="form-control">
+                            <input type="hidden" name="property_id" id="property_id" value="{{ $property->id }}">
+                            <input type="text" disabled value="{{ $property->name }}" class="form-control">
                             @error('property_id')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
