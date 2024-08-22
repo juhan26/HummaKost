@@ -27,12 +27,14 @@
         <div class="row row-cols-1 row-cols-md-3 g-6 my-5">
             <div class="col-12 col-lg-6" style="border-radius: 15px">
                 @if ($property->image)
-                    <img class="card-img-top" style="border-radius: 15px" src="{{ asset('storage/' . $property->image) }}" alt="Card image cap" />
+                    <img class="card-img-top" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"
+                        src="{{ asset('storage/' . $property->image) }}" alt="Card image cap" />
                 @else
-                    <img class="card-img-top" style="border-radius: 15px" src="{{ asset('assets/img/image_not_available.png') }}"
-                        alt="Card image cap" />
+                    <img class="card-img-top" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"
+                        src="{{ asset('assets/img/image_not_available.png') }}" alt="Card image cap" />
                 @endif
             </div>
+
             <div class="col-12 col-lg-6 ">
                 <h1 class="text-secondary-emphasis">{{ $property->name }}</h1>
                 <div class="mb-10 w-full">
@@ -109,7 +111,8 @@
             </div>
             <div class="col-12 col-lg-12" style="margin-top: 50px">
                 <div class="card shadow-sm">
-                    <div class="card-content px-3 py-6 d-flex align-items-center " style="background-color: rgba(32, 180, 134, 0.1); border-radius: 10px;">
+                    <div class="card-content px-3 py-6 d-flex align-items-center "
+                        style="background-color: rgba(32, 180, 134, 0.1); border-radius: 10px;">
                         <h6 class="mb-0">{{ $property->description }}</h6>
                     </div>
                 </div>
@@ -165,7 +168,7 @@
         <div class="card shadow-sm">
             <div class="card-body p-0">
                 <div id="map" style="width: 100%; height: 60vh; border-radius: 10px;">
-                    
+
                 </div>
             </div>
         </div>
@@ -238,42 +241,40 @@
     <!-- Change Property Leader Modal -->
     </div>
 
-     
-<script>
-    var lat = -7.896591;
-    var lng = 112.6089657;
-    var zoomLevel = 16;
 
-    var map = L.map('map').setView([lat, lng], zoomLevel);
+    <script>
+        var lat = -7.896591;
+        var lng = 112.6089657;
+        var zoomLevel = 16;
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+        var map = L.map('map').setView([lat, lng], zoomLevel);
 
-    var waypoints = [{
-            latLng: L.latLng(<?php echo json_encode($property->langtitude); ?>, <?php echo json_encode($property->longtitude); ?>),
-            title: <?php echo json_encode($property->name); ?>,
-            address: <?php echo json_encode($property->address); ?>,
-        },
-        {
-            latLng: L.latLng(-7.900063, 112.6068816),
-            title: "Hummasoft / Hummatech (PT Humma Teknologi Indonesia)",
-            address: "Perum Permata Regency 1, Blk. 10 No.28, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152"
-        }
-    ];
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
 
-    var routingControl = L.Routing.control({
-        waypoints: waypoints.map(function(wp) {
-            return wp.latLng;
-        }),
-        routeWhileDragging: true,
-        createMarker: function(i, wp, nWps) {
-            var popupContent = waypoints[i].title + "<br><br><b>Address:</b>" + waypoints[i].address;
-            var marker = L.marker(wp.latLng).bindPopup(popupContent);
-            return marker;
-        }
-    }).addTo(map);
-    
-</script>
+        var waypoints = [{
+                latLng: L.latLng(<?php echo json_encode($property->langtitude); ?>, <?php echo json_encode($property->longtitude); ?>),
+                title: <?php echo json_encode($property->name); ?>,
+                address: <?php echo json_encode($property->address); ?>,
+            },
+            {
+                latLng: L.latLng(-7.900063, 112.6068816),
+                title: "Hummasoft / Hummatech (PT Humma Teknologi Indonesia)",
+                address: "Perum Permata Regency 1, Blk. 10 No.28, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152"
+            }
+        ];
+
+        var routingControl = L.Routing.control({
+            waypoints: waypoints.map(function(wp) {
+                return wp.latLng;
+            }),
+            routeWhileDragging: true,
+            createMarker: function(i, wp, nWps) {
+                var popupContent = waypoints[i].title + "<br><br><b>Address:</b>" + waypoints[i].address;
+                var marker = L.marker(wp.latLng).bindPopup(popupContent);
+                return marker;
+            }
+        }).addTo(map);
+    </script>
 @endsection
-  
