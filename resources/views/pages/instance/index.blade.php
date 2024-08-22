@@ -70,7 +70,7 @@
                                 <th></th>
                             </tr>
                             <tbody>
-                                @foreach ($instances as $index => $instance)
+                                @forelse ($instances as $index => $instance)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $instance->name }}</td>
@@ -83,12 +83,11 @@
                                                 <div class="dropdown-menu">
                                                     <a type="button" class="dropdown-item" data-bs-toggle="modal"
                                                         data-bs-target="#editModal{{ $instance->id }}"
-                                                        data-bs-whatever="@mdo"><i
-                                                        class="ri-pencil-line me-1"></i>Ubah</a>
+                                                        data-bs-whatever="@mdo"><i class="ri-pencil-line me-1"></i>Ubah</a>
 
                                                     <a type="button" class="dropdown-item" data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal{{ $instance->id }}"><i
-                                                        class="ri-delete-bin-line me-1"></i>
+                                                            class="ri-delete-bin-line me-1"></i>
                                                         Hapus Instansi
                                                     </a>
                                                 </div>
@@ -102,7 +101,8 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteModalLabel{{ $instance->id }}"> Hapus Instansi <span class="text-danger">{{ $instance->name }}</span>
+                                                    <h5 class="modal-title" id="deleteModalLabel{{ $instance->id }}"> Hapus
+                                                        Instansi <span class="text-danger">{{ $instance->name }}</span>
                                                     </h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
@@ -151,7 +151,7 @@
                                                             @enderror
                                                         </div>
                                                         <style>
-                                                            textarea{
+                                                            textarea {
                                                                 resize: none
                                                             }
                                                         </style>
@@ -175,24 +175,122 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Kembali</button>
-                                                            <button type="submit" class="btn btn-primary m-0">Simpan perubahan</button>
+                                                            <button type="submit" class="btn btn-primary m-0">Simpan
+                                                                perubahan</button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                @empty
+                                    <tr class="text-center">
+                                        <!-- Update colspan to match the number of columns in your table -->
+                                        <td colspan="8" class="">
+                                            <h1 class="material-symbols-outlined mt-4"
+                                                style="font-size: 3rem;color:rgba(32, 180, 134,.4);">school</h1>
+                                            <p class="card-title" style="color: rgba(0,0,0,.4)">Instansi tidak ditemukan
+                                            </p>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <div class="card-footer">
+                    @if ($instances->hasPages())
+                        <div class="pagination-container ">
+
+                            <ul class="pagination d-lg-flex justify-content-lg-between align-items-lg-center">
+                                {{-- Previous Page Link --}}
+                                <style>
+                                    li {
+                                        border-radius: none;
+                                    }
+                                </style>
+                                @if ($instances->onFirstPage())
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link px-6 text-white"
+                                            style="background-color: #63cbab">Prev</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link px-6 bg-primary text-white"
+                                            href="{{ $instances->previousPageUrl() }}" rel="prev">Prev</a>
+                                    </li>
+                                @endif
+
+                                <div class="d-sm-flex d-md-flex d-lg-none ">
+                                    <li class="page-item active" aria-disabled="true">
+                                        <span class="page-link">{{ $instances->currentPage() }}</span>
+                                    </li>
+                                </div>
+                                {{-- Pagination Elements (visible only on large screens and up) --}}
+                                <div class="d-none d-lg-flex gx-4">
+                                    @php
+                                        $currentPage = $instances->currentPage();
+                                        $totalPages = $instances->lastPage();
+                                        $visiblePages = 1; // Maximum number of page numbers to display
+                                    @endphp
+                                    {{-- First Page --}}
+                                    @if ($currentPage > $visiblePages + 1)
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $instances->url(1) }}">1</a>
+                                        </li>
+                                        @if ($currentPage > $visiblePages + 2)
+                                            <li class="page-item disabled" aria-disabled="true">
+                                                <span class="page-link">...</span>
+                                            </li>
+                                        @endif
+                                    @endif
+
+                                    {{-- Page Numbers --}}
+                                    @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                                        @if ($i == $currentPage)
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">{{ $i }}</span>
+                                            </li>
+                                        @else
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                    href="{{ $instances->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endif
+                                    @endfor
+
+                                    {{-- Last Page --}}
+                                    @if ($currentPage < $totalPages - $visiblePages)
+                                        @if ($currentPage < $totalPages - $visiblePages - 1)
+                                            <li class="page-item disabled" aria-disabled="true">
+                                                <span class="page-link">...</span>
+                                            </li>
+                                        @endif
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="{{ $instances->url($totalPages) }}">{{ $totalPages }}</a>
+                                        </li>
+                                    @endif
+                                </div>
+
+                                {{-- Next Page Link --}}
+                                @if ($instances->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link px-6 bg-primary text-white"
+                                            href="{{ $instances->nextPageUrl() }}" rel="next">Next</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link px-6 text-white"
+                                            style="background-color: #63cbab">Next</span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    @endif
+                </div>
             </div>
 
-        </div>
-        {{-- Pagination --}}
-        <div class="d-flex justify-content-center">
-            {{ $instances->links() }}
         </div>
 
 
