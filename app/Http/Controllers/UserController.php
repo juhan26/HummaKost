@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Models\Instance;
 use App\Models\User;
+use App\Models\Instance;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -148,8 +149,30 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->all());
-        return redirect()->route('user.index')->with('success', 'Pengguna berhasil di ubah');
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'instance_id' => $request->instance_id,
+            'gender' => $request->gender,
+        ]);
+
+        return redirect()->route('user.index')->with('success', 'Pengguna berhasil diubah');
+    }
+
+
+    public function deletePropertyLeader(User $user)
+     {
+
+        $lastLeader = $user->lease()->whereHas('user.roles', function ($query) {
+            $query->where('name', 'admin');
+        })->first();
+
+        if ($lastLeader) {
+            $lastLeader->user->removeRole('admin');
+            $lastLeader->user->assignRole('tenant');
+        }
+        return redirect()->route('user.index')->with('success', 'Berhasil memberhentikan Ketua Kontrakan');
     }
 
     /**
@@ -164,9 +187,8 @@ class UserController extends Controller
             $user->delete();
             return redirect()->route('user.index')->with('success', 'Pengguna berhasil di hapus');
         } catch (\Exception $e) {
-            if ($e->getCode() === '23000') {
-                return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus pengguna ini karena data memiliki data terkait di tabel lain');
-            }
+            $user->assignRole('tenant');
+            return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus pengguna ini karena pengguna memiliki kontrak');
         }
     }
 }

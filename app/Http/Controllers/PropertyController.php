@@ -165,7 +165,7 @@ class PropertyController extends Controller
     public function addPropertyLeader(Request $request)
     {
         $user = User::find($request->user_id);
-        $user->removeRole('member');
+        $user->removeRole('tenant');
         $user->assignRole('admin');
 
         return redirect()->back()->with('success', 'Berhasil Menambah Ketua Kontrakan');
@@ -180,17 +180,18 @@ class PropertyController extends Controller
 
         if ($lastLeader) {
             $lastLeader->user->removeRole('admin');
-            $lastLeader->user->assignRole('member');
+            $lastLeader->user->assignRole('tenant');
         }
 
         $newLeader = User::find($request->user_id);
-        $newLeader->removeRole('member');
+        $newLeader->removeRole('tenant');
         $newLeader->assignRole('admin');
 
 
         return redirect()->back()->with('success', 'Berhasil Mengubah Ketua Kontrakan');
     }
 
+    
     /**
      * Remove the specified resource from storage.
      */

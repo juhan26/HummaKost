@@ -1,6 +1,6 @@
 {{-- Template --}}
-<nav class="p-4 layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center" id="layout-navbar"
-    style="box-shadow:0px 0px 15px rgba(0,0,0,.05);">
+<nav class="p-4 layout-navbar container-xxl navbar shadow-sm navbar-expand-xl navbar-detached align-items-center" id="layout-navbar"
+    >
     <div class="layout-menu-toggle navbar-nav align-items-xl-center">
         <a class="nav-item nav-link" href="javascript:void(0)">
             <span class="material-symbols-outlined">
