@@ -273,6 +273,93 @@
                 </div>
             @endforelse
         </div>
+        @if ($facilities->hasPages())
+            <div class="pagination-container mt-5">
+                <ul class="pagination d-flex justify-content-between align-items-center">
+                    {{-- Previous Page Link --}}
+                    <style>
+                        li {
+                            border-radius: none;
+                        }
+                    </style>
+                    @if ($facilities->onFirstPage())
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link px-6 text-white" style="background-color: #63cbab">Prev</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link px-6 bg-primary text-white" href="{{ $facilities->previousPageUrl() }}"
+                                rel="prev">Prev</a>
+                        </li>
+                    @endif
+
+                    @php
+                        $currentPage = $facilities->currentPage();
+                        $totalPages = $facilities->lastPage();
+                        $visiblePages = 1; // Maximum number of page numbers to display
+                    @endphp
+                    <div class="d-sm-flex d-md-flex d-lg-none ">
+                        <li class="page-item active" aria-disabled="true">
+                            <span class="page-link">{{ $facilities->currentPage() }}</span>
+                        </li>
+                    </div>
+                    {{-- Pagination Elements (visible only on large screens and up) --}}
+                    <div class="d-none d-lg-flex gx-4">
+                        {{-- First Page --}}
+                        @if ($currentPage > $visiblePages + 1)
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $facilities->url(1) }}">1</a>
+                            </li>
+                            @if ($currentPage > $visiblePages + 2)
+                                <li class="page-item disabled" aria-disabled="true">
+                                    <span class="page-link">...</span>
+                                </li>
+                            @endif
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                            @if ($i == $currentPage)
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">{{ $i }}</span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $facilities->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endif
+                        @endfor
+
+                        {{-- Last Page --}}
+                        @if ($currentPage < $totalPages - $visiblePages)
+                            @if ($currentPage < $totalPages - $visiblePages - 1)
+                                <li class="page-item disabled" aria-disabled="true">
+                                    <span class="page-link">...</span>
+                                </li>
+                            @endif
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $facilities->url($totalPages) }}">{{ $totalPages }}</a>
+                            </li>
+                        @endif
+                    </div>
+
+                    {{-- Next Page Link --}}
+                    @if ($facilities->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link px-6 bg-primary text-white" href="{{ $facilities->nextPageUrl() }}"
+                                rel="next">Next</a>
+                        </li>
+                    @else
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link px-6 text-white" style="background-color: #63cbab">Next</span>
+                        </li>
+                    @endif
+                </ul>
+                <div class="d-lg-none w-100" style="color: rgba(0,0,0,.4);font-size:.75rem;">
+                    Menampilkan halaman {{ $currentPage }} / {{ $totalPages }}
+                </div>
+            </div>
+        @endif
     </div>
 
     <!-- Store Modal -->

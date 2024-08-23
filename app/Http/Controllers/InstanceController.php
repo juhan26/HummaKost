@@ -19,7 +19,11 @@ class InstanceController extends Controller
         $instances = Instance::where('name','LIKE',"%$request->search%")
         ->orWhere('address','LIKE',"%$request->search%")
         ->orderBy('name','ASC')
-        ->paginate(2);
+        ->paginate(10);
+
+        $instances->appends([
+            'search' => $request->search
+        ]);
         return view('pages.instance.index', compact('instances'));
     }
 

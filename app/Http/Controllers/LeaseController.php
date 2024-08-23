@@ -58,6 +58,11 @@ class LeaseController extends Controller
             ->latest()
             ->paginate(10);
 
+        $leases->appends([
+            'search' => $propertySearch,
+            'status' => $status,
+        ]);
+
         $properties = Property::all();
         $users = User::with(['lease'])->where('id', '!=', Auth::user()->id)->whereDoesntHave('lease')->get();
 
@@ -200,7 +205,7 @@ class LeaseController extends Controller
             $totalIuran = $totalMonths * $property->rental_price;
         }
 
-        if($request->end_date > $lease->end_date) {
+        if ($request->end_date > $lease->end_date) {
             $lease->update([
                 'end_date' => $request->end_date,
                 'status' => 'active',
@@ -213,7 +218,6 @@ class LeaseController extends Controller
                 'description' => $request->description,
                 'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
             ]);
-
         }
 
         return redirect()->route('leases.index')->with('success', 'Data kontrakan berhasil di ubah.');
