@@ -205,7 +205,7 @@ class PropertyController extends Controller
             $property->delete();
             return redirect()->route('properties.index')->with('success', 'Data Kontrakan berhasil di hapus');
         } catch (QueryException $e) {
-            return redirect()->route('properties.index')->with('success', 'Tidak dapat menghapus data kontrakan, karena data ini sedang digunakan dalam kontrak');
+            return redirect()->route('properties.index')->with('error', 'Tidak dapat menghapus data kontrakan, karena data ini sedang digunakan dalam kontrak');
         }
     }
 }
