@@ -157,14 +157,21 @@
             <h4 class="fw-bold card-title m-0">Daftar Anggota</h4>
             <div class="card shadow-sm mt-3">
 
-                <div class="card-body d-flex justify-content-center flex-wrap gap-4">
+                <div class="card-body d-flex flex-wrap gap-4">
                     @forelse ($property->leases as $lease)
                         <div class="text-center" style="width: 12rem;">
-                            <img class="rounded-circle mx-auto d-block" style="width: 5rem; height: 5rem;"
-                                src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                alt="{{ $lease->user->name }}">
+                            @if ($lease->user->photo)
+                            <img src="{{ asset('storage/' . $lease->user->photo) }}"
+                                class="rounded-circle" style="max-height: 8rem" alt="{{ $lease->user->name }}">
+                        @elseif ($lease->user->gender === 'male')
+                            <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/5.png"
+                                alt="Avatar">
+                        @elseif ($lease->user->gender === 'female')
+                            <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/10.png"
+                                alt="Avatar">
+                        @endif
                             <h4 class="mt-3 mb-1">{{ $lease->user->name }}</h4>
-                            <p class="text-muted mb-0">{{ $lease->user->status }}</p>
+                            <p class="text-muted mb-0">{{ $lease->user->phone_number }}</p>
                         </div>
                     @empty
                         <div class="text-center text-muted">Belum ada anggota</div>
@@ -178,10 +185,10 @@
         <div class="col-12 col-lg-6">
             <h4 class="fw-bold card-title m-0">Daftar Fasilitas</h4>
             <div class="card shadow-sm mt-3">
-                <div class="card-body d-flex justify-content-center flex-wrap gap-4">
+                <div class="card-body d-flex flex-wrap gap-4">
                     @forelse ($property->facilities as $facility)
                         <div class="text-center" style="width: 12rem;">
-                            <img class="mx-auto d-block" style="width: 5rem; height: 5rem;"
+                            <img class="mx-auto d-block" style="width: 8rem; height: 8rem;"
                                 src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
                                 alt="{{ $facility->name }}">
                             <h4 class="mt-3 mb-1">{{ $facility->name }}</h4>

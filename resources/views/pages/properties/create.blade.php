@@ -98,7 +98,7 @@
                             @enderror
                         </div>
                         <div class="col-12 col-lg-12 mb-3" style="max-height: 300px; overflow: auto">
-                            <label for="facility_id[]" class="form-label">Fasilitas</label>
+                            <label for="facility_id[]" class="form-label">Fasilitas <small>(Opsional)</small></label>
                             <div class="d-flex flex-wrap gap-3">
                                 @forelse ($facilities as $facility)
                                     <div class="d-flex mb-2 col-12 col-lg-2">

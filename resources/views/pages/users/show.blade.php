@@ -116,57 +116,6 @@
 
                 <!-- User Content -->
                 <div class="col-xl-7 col-lg-7 col-md-7 order-0 order-md-1">
-                    <!-- User Tabs -->
-
-                    <!--/ User Tabs -->
-
-                    <!-- Project table -->
-                    {{-- <div class="card mb-6">
-                        <div class="table-responsive">
-                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                <div class="card-header d-flex flex-wrap row-gap-5 gap-5 gap-sm-0">
-                                    <div class="project-head-label">
-                                        <h5 class="card-title mb-0">Project List</h5>
-                                    </div>
-                                    <div class=" text-end pt-0 my-n5">
-                                        <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input
-                                                    type="search" class="form-control form-control-sm ms-0"
-                                                    placeholder="Search Project"
-                                                    aria-controls="DataTables_Table_0"></label></div>
-                                    </div>
-                                </div>
-                                <table class="table datatable-project table-border-bottom-0 dataTable no-footer dtr-column"
-                                    id="DataTables_Table_0">
-                                    <thead>
-                                        <tr>
-                                            <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
-                                                style="width: 26.45px; display: none;" aria-label=""></th>
-                                            <th class="sorting sorting_desc" tabindex="0"
-                                                aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                style="width: 132.562px;" aria-sort="descending"
-                                                aria-label="Project: activate to sort column ascending">Project</th>
-                                            <th class="text-nowrap sorting" tabindex="0"
-                                                aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                style="width: 164.863px;"
-                                                aria-label="Total Task: activate to sort column ascending">Total Task</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1" style="width: 148.575px;"
-                                                aria-label="Progress: activate to sort column ascending">Progress</th>
-                                            <th class="sorting_disabled" rowspan="1" colspan="1"
-                                                style="width: 104.75px;" aria-label="Hours">Hours</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="odd">
-                                            <td valign="top" colspan="4" class="dataTables_empty">Loading...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <!-- /Project table -->
-
                     <!-- Activity Timeline -->
                     <div class="col-12">
                         <div class="card text-center mb-4">

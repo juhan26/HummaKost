@@ -99,7 +99,7 @@
                             <div class="d-flex align-items-center w-100 px-3" id="divSearchInput"
                                 style="border-radius: 15px;height: 60px;">
                                 <span class="material-symbols-outlined text-secondary ms-4">search</span>
-                                <input type="text" name="search" id="searchInput" class="form-control border-none"
+                                <input type="text" name="search" id="searchInput" class="form-control border-none" placeholder="Cari..."
                                     value="{{ request()->input('search') }}">
                                 <a href="{{ route('user.index') }}" style="display: none" id="clearSearch"
                                     class="btn-close me-4"></a>

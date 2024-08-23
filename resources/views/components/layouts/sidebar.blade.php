@@ -132,7 +132,7 @@
             <span class="menu-header-text">Kontrakan</span>
         </li>
         <li
-            class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }} || {{ request()->routeIs('properties.show') ? 'active' : '' }}">
+            class="menu-item {{ request()->routeIs('properties.index') ? 'active' : '' }} || {{ request()->routeIs('properties.show') ? 'active' : '' }} || {{ request()->routeIs('properties.edit') ? 'active' : '' }} || {{ request()->routeIs('properties.create') ? 'active' : '' }}">
             <a href="{{ url('/properties') }}" class="menu-link">
                 <div class="menu-icon"><span class="material-symbols-outlined">cottage</span></div>
                 <div>Kontrakan</div>

@@ -199,8 +199,7 @@
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit
-                                Cortana I. Sachin Tendulkar. Slash slash. Manaya AL birthday, Ayesha Aishwarya    {{ $facility->id }}
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit {{ $facility->id }}
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -225,7 +224,7 @@
                                             value="{{ $facility->name }}">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="facilityDescription" class="form-label">Deskripsi</label>
+                                        <label for="facilityDescription" class="form-label">Deskripsi <small>(Opsional & max: 50 karakter)</small></label>
                                         <textarea class="form-control" id="facilityDescription" name="description">{{ $facility->desciption }}</textarea>
                                     </div>
                                     <div class="d-flex justify-content-end">
@@ -386,10 +385,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="facilityName" class="form-label">Nama Fasilitas</label>
-                            <input type="text" class="form-control" id="facilityName" name="name" required>
+                            <input type="text" class="form-control" id="facilityName" name="name">
                         </div>
                         <div class="mb-3">
-                            <label for="facilityDescription" class="form-label">Deskripsi <small>(max: 50
+                            <label for="facilityDescription" class="form-label">Deskripsi <small>(Opsional & max: 50
                                     karakter)</small></label>
                             <textarea class="form-control" id="facilityDescription" name="description"></textarea>
                         </div>
