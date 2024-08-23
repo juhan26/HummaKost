@@ -58,27 +58,19 @@
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}">home</a>
+                            href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#search_people">properties</a>
+                            href="#properties">Kontrakan</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#loadMember">tenant</a>
+                            href="#about">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#descc">about</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#gambars">feedback</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#blog">contact</a>
+                            href="#feedback">Masukan</a>
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -119,7 +111,7 @@
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                                Logout
+                                                Keluar
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                 class="d-none">
@@ -159,11 +151,15 @@
                                                     text-muted>{{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
+                                        {{-- <li>
+                                            <a href="{{ route('dashboard') }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
+                                        </li> --}}
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                                Logout
+                                                Keluar
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                 class="d-none">
@@ -250,7 +246,7 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#search_people">properties</a>
+                    href="#loadMember">properties</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -346,7 +342,7 @@
                     <div class="2xl:pt-[150px] pt-5">
                         <div class="2xl:w-[677px] w-full">
                             <h2 class="font-display text-primary-500 font-semibold 2xl:text-2xl md:text-lg text-sm pb-2 2xl:pb-6"
-                                data-aos="fade-down" data-aos-duration="1000">Welcome To
+                                data-aos="fade-down" data-aos-duration="1000">Selamat Datang di
                             </h2>
                             <h1 class="capitalize mb-4 lg:mb-6 font-display font-semibold md:text-3xl text-2xl 2xl:text-[56px] 2xl:leading-[72px] text-primary-900"
                                 data-aos="fade-down" data-aos-duration="1000">
@@ -424,8 +420,8 @@
                 <div class="xl:w-1/4">
                     <h2
                         class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
-                        Our <span class="text-primary-500 after-svg popular" data-aos="fade-in"
-                            data-aos-duration="1000">Properties</span>
+                        <span class="text-primary-500 after-svg popular" data-aos="fade-in"
+                            data-aos-duration="1000">Properties</span> kami
                     </h2>
                 </div>
                 <div class="2xl:w-3/4">
@@ -497,7 +493,7 @@
             </div>
         </div>
     </section>
-    <!-- intructor section start -->
+    {{-- <!-- intructor section start -->
     <section id="tenant" class="section-padding instructor-section bg-secondary-50">
         <div class="container px-4 2xl:px-0">
             <form id="propertyForm" method="GET" action="#loadMember">
@@ -574,7 +570,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <script>
         // Scroll to #tenant section if the URL contains #tenant fragment
@@ -588,11 +584,11 @@
 
     <!-- intructor section end -->
 
-    <section class="section-padding achievement-section">
+    <section class="section-padding achievement-section" id="about">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                About <span class="text-primary-500 after-svg achievement">Us</span>
+                Tentang <span class="text-primary-500 after-svg achievement">Kami</span>
             </h2>
             <div class="flex flex-wrap">
                 <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
@@ -631,14 +627,14 @@
 
 
 
-    <section class="section-padding feedback-section">
+    <section class="section-padding feedback-section" id="feedback">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
                 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Tenant <span class="text-primary-500 after-svg feedback">Feedback</span>
+                Masukan <span class="text-primary-500 after-svg feedback">Penyewa</span>
             </h2>
-            <p class="text-gray-500 md:text-xl text-base">Various versions have evolved over the years, sometimes by
-                accident.</p>
+            <p class="text-gray-500 md:text-xl text-base">Kami telah meningkatkan kualitas kontrak kami berdasarkan
+                kritik dan saran dari kritik dan saran. Agar Anda sebagai penyewa merasa nyaman.</p>
             <!-- Feedback Form -->
 
 
@@ -647,26 +643,26 @@
                     <form action="{{ route('feedback.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
-                            <label for="message" class="block text-gray-700">Your Feedback</label>
+                            <label for="message" class="block text-gray-700">Kritik dan Masukan Anda!</label>
                             <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
-                                placeholder="Write your feedback here..."></textarea>
+                                placeholder="Masukan kritik dan saran anda disini..."></textarea>
                         </div>
                         <div class="mb-4">
-                            <label for="rating" class="block text-gray-700">Rating</label>
+                            <label for="rating" class="block text-gray-700">Penilaian</label>
                             <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
-                                <option value="5">5 - Excellent</option>
-                                <option value="4">4 - Good</option>
-                                <option value="3">3 - Average</option>
-                                <option value="2">2 - Poor</option>
-                                <option value="1">1 - Terrible</option>
+                                <option value="5">5 - Terbaik</option>
+                                <option value="4">4 - Bagus</option>
+                                <option value="3">3 - Rata - Rata</option>
+                                <option value="2">2 - Tidak Bagus</option>
+                                <option value="1">1 - Buruk</option>
                             </select>
                         </div>
-                        <button type="submit" class="py-2 px-4 underline text-primary-500 rounded-lg">
-                            Submit Feedback
+                        <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg">
+                            Kirim
                         </button>
                     </form>
                 @else
-                    <p class="text-gray-700">You must be logged in to submit feedback.</p>
+                    <p class="text-gray-700">Anda harus login agar bisa mengirimkan kritik dan saran</p>
                 @endauth
             </div>
 
@@ -675,14 +671,21 @@
         </div>
 
         <!-- Display Feedbacks -->
-        <div class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg">
+        <div
+            class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg sm:px-6 2xl:px-0">
             @foreach ($feedbacks as $feedback)
                 <div class="feedback-item py-2 border-b border-gray-300 relative">
                     <div class="flex items-center justify-between gap-2.5 mb-2">
                         <div class="flex items-center gap-2.5">
                             <div class="w-10 h-10 rounded-full">
-                                <img src="{{ $feedback->user_id ? asset('storage/' . $feedback->user->photo) : asset('assets/img/avatars/1.png') }}"
-                                    alt="User Profile Image" class="w-full h-full rounded-full">
+                                @if ($feedback->user->photo)
+                                    <img src="{{ asset('storage/' . $feedback->user->photo) }}" class="rounded-full"
+                                        alt="{{ $feedback->user->name }}">
+                                @elseif ($feedback->user->gender === 'male')
+                                    <img class="rounded-full" src="../../assets/img/avatars/5.png" alt="Avatar">
+                                @elseif ($feedback->user->gender === 'female')
+                                    <img class="rounded-full" src="../../assets/img/avatars/10.png" alt="Avatar">
+                                @endif
                             </div>
                             <div>
                                 <h2 class="text-base text-gray-900 font-semibold">
@@ -728,7 +731,7 @@
                                 </svg>
                             @endfor
                             <span class="ml-2 text-sm text-gray-600">
-                                {{ $feedback->rating }} Stars
+                                {{ $feedback->rating }} Bintang
                             </span>
                         </div>
                     </div>
@@ -817,12 +820,14 @@
                 <div class="max-w-[660px]" data-aos="fade-down" data-aos-duration="1000">
                     <h2
                         class="text-primary-900 font-display xl:text-[40px] xl:leading-[48px] md:text-3xl lg:text-2xl text-lg font-semibold lg:mb-6 md:mb-4 mb-3">
-                        Join <span class="text-primary-500">World's largest</span> learning platform today</h2>
-                    <p class="lg:text-2xl text-lg text-primary-900 lg:mb-[50px] font-display mb-4">Start learning by
-                        registering for free</p>
+                        Bergabunglah dengan kontrakan <span class="text-primary-500">Terbaik dan Ternyaman</span> di
+                        Kota Malang ini</h2>
+                    <p class="lg:text-2xl text-lg text-primary-900 lg:mb-[50px] font-display mb-4">Apakah Anda
+                        Tertarik?
+                        Daftar Disini</p>
                     <div>
-                        <a href="#" class="hidden xl:inline-block btn-primary">
-                            <span>Login</span>
+                        <a href="{{ route('register') }}" class="hidden xl:inline-block btn-primary">
+                            <span>Daftar</span>
                         </a>
                     </div>
                 </div>
@@ -843,11 +848,10 @@
                     </div>
                     <div class="footer-widget-content">
                         <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold lg:mb-4 mb-2">
-                            Contact Us</h2>
-                        <p class="text-base text-gray-500 mb-2">Call : <a href="#">+123 400 123</a></p>
-                        <p class="text-base text-gray-500 mb-4 ">Praesent nulla massa, hendrerit vestibulum gravida
-                            in, feugiat auctor felis.</p>
-                        <p class="text-base text-black mb-4">Email: <a href="#">example@mail.com</a></p>
+                            Kontak Kami</h2>
+                        <p class="text-base text-gray-500 mb-2">Telepon:  <a href="#">+62 823 409 666 94</a></p>
+                        <p class="text-base text-gray-500 mb-4 ">Biarkan kami menerima pesan anda.</p>
+                        <p class="text-base text-black mb-4">Email: <a href="#">Dcviriya313@mail.com</a></p>
                         <ul class="flex gap-4">
                             <li>
                                 <a href=""
@@ -936,28 +940,28 @@
                         <ul>
                             <li class="">
                                 <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Home</a>
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Beranda</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">About</a>
+                                <a href="#properties"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Kontrakan</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Course</a>
+                                <a href="#about"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Tentang</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Blog</a>
+                                <a href="#feedback"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Masukan</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Contact</a>
+                                <a href="#kontak"
+                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Kontak</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="footer-widget min-w-[160px]">
+                {{-- <div class="footer-widget min-w-[160px]">
                     <div class="footer-widget-title xl:mb-8 md:mb-5 mb-3">
                         <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Category</h2>
                     </div>
@@ -993,7 +997,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="footer-widget min-w-[320px]">
                     <div class="footer-widget-title xl:mb-8 md:mb-5 mb-3">
                         <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Subscribes
@@ -1059,13 +1063,13 @@
         });
     </script>
 
-        <script src="/assets/plugins/js/jquery.js"></script>
-        <script src="/assets/plugins/js/swipper.js"></script>
-        <script src="/assets/plugins/js/waypoint.js"></script>
-        <script src="/assets/plugins/js/counter.js"></script>
-        <script src="/assets/plugins/js/aos.js"></script>
-        <script src="/assets/js/main2.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/plugins/js/jquery.js"></script>
+    <script src="/assets/plugins/js/swipper.js"></script>
+    <script src="/assets/plugins/js/waypoint.js"></script>
+    <script src="/assets/plugins/js/counter.js"></script>
+    <script src="/assets/plugins/js/aos.js"></script>
+    <script src="/assets/js/main2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </body>

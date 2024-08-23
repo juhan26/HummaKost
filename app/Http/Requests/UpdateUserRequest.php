@@ -20,25 +20,39 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'name' => ['required'],
-            'email' => ['required', Rule::unique('users', 'email')->ignore($this->user->id)],
-            'phone_number' => ['required', 'numeric', Rule::unique('users', 'phone_number')->ignore($this->user->id)],
+
+            'name' => 'required|string|max:255',
+            'phone_number' => ['required','numeric',Rule::unique('users', 'phone_number')->ignore($this->user->id)],
         ];
     }
 
-    public function messages(): array
+    /**
+     * Get the custom validation messages for the request.
+     *
+     * @return array
+     */
+    public function messages()
     {
         return [
-            'photo.file' => 'Foto harus berupa file.',
-            'photo.mimes' => 'Foto harus berformat: jpeg, png, jpg, pdf.',
-            'photo.max' => 'Ukuran file foto maksimal 2MB.',
             'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal 255 karakter.',
             'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
-            'password.required' => 'Kata sandi wajib diisi.',
+            'phone_number.required' => 'Nomor telepon wajib diisi.',
+            'phone_number.numeric' => 'Nomor telepon harus berupa angka.',
+            'phone_number.unique' => 'Nomor telepon sudah digunakan, silakan gunakan Nomor telepon lain.',
+            'gender.required' => 'Jenis kelamin wajib diisi.',
+            'gender.in' => 'Jenis kelamin harus salah satu dari: laki-laki, perempuan.',
+            'instance_id.required' => 'Instansi wajib diisi.',
+            'instance_id.exists' => 'Instansi yang dipilih tidak valid.',
+            // 'photo.file' => 'Foto harus berupa file.',
+            // 'photo.mimes' => 'Foto harus berformat: jpeg, png, jpg, pdf.',
+            // 'photo.max' => 'Ukuran file foto maksimal 2MB.',
         ];
     }
 }

@@ -94,6 +94,10 @@
                                 $title = $filteredUsers->isNotEmpty() ? 'Penyewa' : 'Ketua kontrakan';
                             @endphp
                             <h3 class="card-title">{{ $title }}</h3>
+                            @if (request()->input('filter') === 'admin')
+                            @else
+                                <small>Daftar penyewa yang belum mempunyai kontrak</small>
+                            @endif
                         </div>
                         <div class="col-12 col-lg-4 h-100">
                             <div class="d-flex align-items-center w-100 px-3" id="divSearchInput"
@@ -182,7 +186,11 @@
                                 <th>Email</th>
                                 <th>Sekolah</th>
                                 <th>Nomor Telepon</th>
-                                <th>Status</th>
+                                @if (request()->input('filter') === 'admin')
+                                    <th>Kontrakan</th>
+                                @else
+                                    <th>Status</th>
+                                @endif
                                 <th></th>
                             </tr>
                             <tbody class="table-border-bottom-0">
@@ -253,16 +261,28 @@
                                         </td>
                                         <td>
                                             <div class="w-100 px-5">
-                                                {{ $user->instance->name }}
+                                                {{ $user->phone_number }}
                                             </div>
                                         </td>
                                         <td>
-                                            @if ($user->status === 'pending')
-                                                <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
-                                            @elseif ($user->status === 'accepted')
-                                                <span class="badge rounded-pill bg-label-primary me-1">Diterima</span>
+                                            @if (request()->input('filter') === 'admin')
+                                                @php
+                                                    $lease = \App\Models\Lease::where('user_id', $user->id)->first();
+                                                @endphp
+                                                @if ($lease !== null)
+                                                    <a class="text-decoration-underline "
+                                                        href="{{ '/properties' . '/' . $lease->property_id }}">{{ $lease->properties->name }}</a>
+                                                @else
+                                                    <span>null</span>
+                                                @endif
                                             @else
-                                                <span class="badge rounded-pill bg-label-danger me-1">Ditolak</span>
+                                                @if ($user->status === 'pending')
+                                                    <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
+                                                @elseif ($user->status === 'accepted')
+                                                    <span class="badge rounded-pill bg-label-primary me-1">Diterima</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-label-danger me-1">Ditolak</span>
+                                                @endif
                                             @endif
                                         </td>
                                         @php
@@ -291,39 +311,54 @@
                                                             </form>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
-                                                            <form action="{{ route('user.reject', $user->id) }}"
-                                                                method="POST" class="text-center w-100">
+                                                            <form action="{{ route('user.reject', $user->id) }}" method="POST" class="text-center w-100">
                                                                 @csrf
-                                                                <button type="submit"
-                                                                    class="col-12 btn btn-label-danger  p-0 m-0 "
-                                                                    style="width: fit-content">
-                                                                    <span class="material-symbols-outlined ">close</span>
+                                                                <button type="submit" class="col-12 btn btn-label-danger p-0 m-0 reject-button" style="width: fit-content">
+                                                                    <span class="material-symbols-outlined">close</span>
                                                                 </button>
                                                             </form>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        @elseif ($adminAccess === 0 && request()->input('filter') === 'admin')
+                                            @hasrole('super_admin')
+                                                <td>
+                                                    <div class="dropdown d-flex justify-content-center">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editModal{{ $user->id }}"><i
+                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#dismissModal{{ $user->id }}"><i
+                                                                    class="ri-close-circle-line me-1"></i>Berhentikan
+                                                                sebagai ketua kontrakan</a>
+
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            @endhasrole
                                         @elseif ($adminAccess === 0 && $user->status !== 'pending')
-                                            <td>
-                                                <div class="dropdown d-flex justify-content-center">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
-                                                    <div class="dropdown-menu">
-                                                        <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#editModal{{ $user->id }}"><i
-                                                                class="ri-pencil-line me-1"></i>Edit</a>
-                                                        <form action="{{ route('user.destroy', $user->id) }}"
-                                                            method="POST" class="d-inline"
-                                                            onsubmit="return confirm('Apakah kamu yakin akan menghapus data ini?')">
-                                                            @method('DELETE')
-                                                            @csrf
-                                                            <button type="submit" class="dropdown-item"><i
-                                                                    class="ri-delete-bin-7-line me-1"></i> Delete</button>
-                                                        </form>
+                                            @hasrole('super_admin')
+                                                <td>
+                                                    <div class="dropdown d-flex justify-content-center">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editModal{{ $user->id }}"><i
+                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#deleteModal{{ $user->id }}"><i
+                                                                    class="ri-delete-bin-line me-1"></i>Hapus Anggota</a>
+
+                                                        </div>
+
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            @endhasrole
                                         @elseif ($adminAccess === 1)
                                         @endif
                                     </tr>
@@ -332,8 +367,9 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Update
-                                                        User {{ $user->name }}</h5>
+                                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Ubah
+                                                        data anggota <span class="text-primary">{{ $user->name }}</span>
+                                                    </h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
@@ -341,32 +377,130 @@
                                                     <form action="{{ route('user.update', $user->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <div class="mb-3">
-                                                            <label for="editName{{ $user->id }}"
-                                                                class="form-label">Name:</label>
-                                                            <input type="text" class="form-control" name="name"
-                                                                id="editName{{ $user->id }}"
-                                                                value="{{ $user->name }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="editEmail{{ $user->id }}"
-                                                                class="form-label">Email:</label>
-                                                            <input type="email" class="form-control" name="email"
-                                                                id="editEmail{{ $user->id }}"
-                                                                value="{{ $user->email }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="editPassword{{ $user->id }}"
-                                                                class="form-label">Password:</label>
-                                                            <input type="password" class="form-control" name="password"
-                                                                id="editPassword{{ $user->id }}">
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-12">
+                                                                <div class="mb-3">
+                                                                    <label for="editName{{ $user->id }}"
+                                                                        class="form-label">Name:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="name" id="editName{{ $user->id }}"
+                                                                        value="{{ old('name', $user->name) }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-12">
+                                                                <div class="mb-3">
+                                                                    <label for="editEmail{{ $user->id }}"
+                                                                        class="form-label">Email:</label>
+                                                                    <input type="email" class="form-control"
+                                                                        name="email" id="editEmail{{ $user->id }}"
+                                                                        value="{{ old('email', $user->email) }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label for="edittel{{ $user->id }}"
+                                                                        class="form-label">Nomor Telepon:</label>
+                                                                    <input type="number" class="form-control"
+                                                                        name="phone_number"
+                                                                        id="edittel{{ $user->id }}"
+                                                                        value="{{ old('phone_number', $user->phone_number) }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label for="selectGender" class="form-label">Jenis
+                                                                        Kelamin</label>
+                                                                    <select id="selectGender" class="form-select"
+                                                                        name="gender">
+                                                                        <option value="male"
+                                                                            {{ $user->gender == 'male' ? 'selected' : '' }}>
+                                                                            Laki-laki</option>
+                                                                        <option value="female"
+                                                                            {{ $user->gender == 'female' ? 'selected' : '' }}>
+                                                                            Perempuan</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-12 mb-5 mt-lg-5">
+                                                                <label for="selectInstance"
+                                                                    class="form-label">Instansi</label>
+                                                                <select id="selectInstance" class="form-select"
+                                                                    name="instance_id">
+                                                                    @foreach ($instances as $instance)
+                                                                        <option value="{{ $instance->id }}"
+                                                                            {{ $user->instance_id == $instance->id ? 'selected' : '' }}>
+                                                                            {{ $instance->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Save
-                                                                changes</button>
+                                                                data-bs-dismiss="modal">Tutup</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan
+                                                                Perubahan</button>
                                                         </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1"
+                                        aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel{{ $user->id }}">
+                                                        Hapus anggota <span class="text-danger">{{ $user->name }}</span>
+                                                        </span>
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="card-">Apakah anda yakin akan menghapus anggota ini?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" aria-label="Close">Batal</button>
+                                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                                        class="d-inline">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger">Hapus
+                                                            Anggota</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="dismissModal{{ $user->id }}" tabindex="-1"
+                                        aria-labelledby="dismissModalLabel{{ $user->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="dismissModalLabel{{ $user->id }}">
+                                                        Berhentikan <span class="text-primary">{{ $user->name }}</span>
+                                                        </span>
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="card-">Apakah anda yakin akan memberhentikan <span
+                                                            class="text-primary">{{ $user->name }}</span> sebagai ketua
+                                                        kontrakan?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" aria-label="Close">Batal</button>
+                                                    <form action="{{ route('user.dismissHeadLease', $user->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary">simpan</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -376,9 +510,11 @@
                                 @empty
                                     <tr class="text-center">
                                         <!-- Update colspan to match the number of columns in your table -->
-                                        <td colspan="8" class="mt-4">
-                                            <span class="material-symbols-outlined">group</span>
-                                            <p class="card-title">Anggota tidak ditemukan</p>
+                                        <td colspan="8" class="">
+                                            <h1 class="material-symbols-outlined mt-4"
+                                                style="font-size: 3rem;color:rgba(32, 180, 134,.4);">group</h1>
+                                            <p class="card-title" style="color: rgba(0,0,0,.4)">Anggota tidak ditemukan
+                                            </p>
                                         </td>
                                     </tr>
                                 @endforelse
@@ -393,18 +529,19 @@
                             <ul class="pagination d-lg-flex justify-content-lg-between align-items-lg-center">
                                 {{-- Previous Page Link --}}
                                 <style>
-                                    li{
+                                    li {
                                         border-radius: none;
                                     }
                                 </style>
                                 @if ($users->onFirstPage())
                                     <li class="page-item disabled" aria-disabled="true">
-                                        <span class="page-link">Prev</span>
+                                        <span class="page-link px-6 text-white"
+                                            style="background-color: #63cbab">Prev</span>
                                     </li>
                                 @else
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ $users->previousPageUrl() }}"
-                                            rel="prev">Prev</a>
+                                        <a class="page-link px-6 bg-primary text-white"
+                                            href="{{ $users->previousPageUrl() }}" rel="prev">Prev</a>
                                     </li>
                                 @endif
 
@@ -414,7 +551,7 @@
                                     </li>
                                 </div>
                                 {{-- Pagination Elements (visible only on large screens and up) --}}
-                                <div class="d-none d-lg-flex">
+                                <div class="d-none d-lg-flex gx-4">
                                     @php
                                         $currentPage = $users->currentPage();
                                         $totalPages = $users->lastPage();
@@ -463,12 +600,13 @@
                                 {{-- Next Page Link --}}
                                 @if ($users->hasMorePages())
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ $users->nextPageUrl() }}"
-                                            rel="next">&rsaquo;</a>
+                                        <a class="page-link px-6 bg-primary text-white"
+                                            href="{{ $users->nextPageUrl() }}" rel="next">Next</a>
                                     </li>
                                 @else
                                     <li class="page-item disabled" aria-disabled="true">
-                                        <span class="page-link">&rsaquo;</span>
+                                        <span class="page-link px-6 text-white"
+                                            style="background-color: #63cbab">Next</span>
                                     </li>
                                 @endif
                             </ul>
@@ -555,4 +693,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // SweetAlert configuration for rejecting a user
+        document.querySelectorAll('.reject-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
+                const form = this.closest('form'); // Get the form related to this button
+
+                Swal.fire({
+                    title: "Yakin ingin menolak?",
+                    text: "Tindakan ini tidak dapat dibatalkan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Ya, tolak!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit the form if confirmed
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

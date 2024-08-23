@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_per_months', function (Blueprint $table) {
+        Schema::create('property_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lease_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->string('payment_month');
-            $table->string('month');
-            $table->decimal('nominal', 10, 2);
-            $table->text('description')->nullable();
+            $table->foreignId('property_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_per_months');
+        Schema::dropIfExists('property_images');
     }
 };

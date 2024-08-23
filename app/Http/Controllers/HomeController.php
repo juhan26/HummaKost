@@ -32,7 +32,10 @@ class HomeController extends Controller
         $usersCount = User::count();
         $leasesCount = Lease::count();
         $facilityCount = Facility::count();
+        $users = User::whereDoesntHave('roles', function($query) {
+            $query->where('name', 'super_admin');
+        })->get();
 
-        return view('pages.dashboard.index', compact('propertiesCount', 'usersCount', 'leasesCount', 'facilityCount'));
+        return view('pages.dashboard.index', compact('propertiesCount', 'usersCount', 'leasesCount', 'facilityCount', 'users'));
     }
 }

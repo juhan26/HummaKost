@@ -178,13 +178,13 @@
                                                 class="nav-link d-flex flex-column gap-1 waves-effect active" role="tab"
                                                 data-bs-toggle="tab" data-bs-target="#navs-profile-card"
                                                 aria-controls="navs-profile-card" aria-selected="true" tabindex="-1"><i
-                                                    class="tf-icons ri-user-3-line"></i> Profile</button>
+                                                    class="tf-icons ri-user-3-line"></i> Profil</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button type="button" class="nav-link d-flex flex-column gap-1 waves-effect"
                                                 role="tab" data-bs-toggle="tab" data-bs-target="#navs-messages-card"
                                                 aria-controls="navs-messages-card" aria-selected="false" tabindex="-1"><i
-                                                    class="tf-icons ri-message-2-line"></i> Security </button>
+                                                    class="tf-icons ri-message-2-line"></i> Keamanan </button>
                                         </li>
                                     </ul>
                                 </div>
@@ -193,19 +193,37 @@
                                 <div class="tab-content pb-0">
                                     <div class="tab-pane fade active show" id="navs-profile-card" role="tabpanel">
                                         <small
-                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">About</small>
+                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">Detail</small>
                                         <ul class="list-unstyled my-3 py-1">
                                             <li class="d-flex align-items-center mb-4"><i
                                                     class="ri-user-3-line ri-24px"></i><span class="fw-medium mx-2">
-                                                    Name:</span> <span>{{ $user->name }}</span></li>
+                                                    Nama:</span> <span>{{ $user->name }}</span></li>
+                                            <li class="d-flex align-items-center mb-4">
+                                                @if ($user->gender == 'male')
+                                                    <i class="ri-men-line ri-24px"></i>
+                                                @else
+                                                    <i class="ri-women-line ri-24px"></i>
+                                                @endif
+                                                <span class="fw-medium mx-2">
+                                                    Gender:</span> <span>
+                                                    @if ($user->gender == 'male')
+                                                        Laki-laki
+                                                    @else
+                                                        Perempuan
+                                                    @endif
+                                                </span>
+                                            </li>
                                             <li class="d-flex align-items-center mb-4"><i
                                                     class="ri-check-line ri-24px"></i><span
                                                     class="fw-medium mx-2">Status:</span>
-                                                @if ($user->status == 'accepted')
-                                                    <span
-                                                        class="badge bg-label-success rounded-pill">{{ $user->status }}</span>
+                                                @if ($user->lease)
+                                                    @if ($user->lease->status == 'active')
+                                                        <span class="badge bg-label-success rounded-pill">Aktif</span>
+                                                    @else
+                                                        <span class="badge bg-label-danger rounded-pill">Tidak Aktif</span>
+                                                    @endif
                                                 @else
-                                                    <!-- Tambahkan status lainnya jika diperlukan -->
+                                                    <span class="badge bg-label-danger rounded-pill">Tidak Aktif</span>
                                                 @endif
                                             <li class="d-flex align-items-center mb-4"><i
                                                     class="ri-star-smile-line ri-24px"></i><span
@@ -222,11 +240,11 @@
                                             </li>
                                         </ul>
                                         <small
-                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">Contacts</small>
+                                            class="card-text text-uppercase text-muted small d-flex justify-content-start">Kontak</small>
                                         <ul class="list-unstyled my-3 py-1">
                                             <li class="d-flex align-items-center mb-4"><i
-                                                    class="ri-phone-line ri-24px"></i><span
-                                                    class="fw-medium mx-2">Contact:</span>
+                                                    class="ri-phone-line ri-24px"></i><span class="fw-medium mx-2">No
+                                                    Hp:</span>
                                                 <span>{{ $user->phone_number }}</span>
                                             </li>
                                             <li class="d-flex align-items-center mb-2"><i
@@ -241,67 +259,63 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="navs-messages-card" role="tabpanel">
-                                        <div class="card mb-6">
-                                            <h5 class="card-header">Change Password</h5>
-                                            <div class="card-body">
-                                                <!-- Form action diubah menjadi POST dan menambahkan action ke route changePassword -->
-                                                <form id="formChangePassword" method="POST"
-                                                    action="{{ route('profile.changePassword') }}"
-                                                    class="fv-plugins-bootstrap5 fv-plugins-framework"
-                                                    novalidate="novalidate">
-                                                    @csrf <!-- Menambahkan CSRF token untuk keamanan -->
-                                                    <div class="alert alert-warning alert-dismissible" role="alert">
-                                                        <h5 class="alert-heading mb-1">Ensure that these requirements are
-                                                            met</h5>
-                                                        <span>Minimum 8 characters long, uppercase &amp; symbol</span>
+                                        <h5 class="card-header">Ganti Password</h5>
+                                        <div class="card-body">
+                                            <!-- Form action diubah menjadi POST dan menambahkan action ke route changePassword -->
+                                            <form id="formChangePassword" method="POST"
+                                                action="{{ route('profile.changePassword') }}"
+                                                class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+                                                @csrf <!-- Menambahkan CSRF token untuk keamanan -->
+                                                <div class="alert alert-warning alert-dismissible" role="alert">
+                                                    <h5 class="alert-heading mb-1">Untuk memastikan bahwa persyaratan ini
+                                                        terpenuhi.
+                                                        <span>Minimal 8 karakter Untuk Mematikan Bahwa Persyatan Ini Terpernuhi</span>
                                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                             aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="row gx-5">
-                                                        <div
-                                                            class="mb-3 col-12 col-sm-6 form-password-toggle fv-plugins-icon-container">
-                                                            <div class="input-group input-group-merge">
-                                                                <div class="form-floating form-floating-outline">
-                                                                    <input class="form-control" type="password"
-                                                                        id="newPassword" name="newPassword"
-                                                                        placeholder="············">
-                                                                    <label for="newPassword">New Password</label>
-                                                                </div>
-                                                                <span class="input-group-text cursor-pointer text-heading">
-                                                                    <i class="ri-eye-off-line"></i>
-                                                                </span>
+                                                </div>
+                                                <div class="row gx-5">
+                                                    <div
+                                                        class="mb-3 col-12 col-sm-6 form-password-toggle fv-plugins-icon-container">
+                                                        <div class="input-group input-group-merge">
+                                                            <div class="form-floating form-floating-outline">
+                                                                <input class="form-control" type="password"
+                                                                    id="password" name="password"
+                                                                    placeholder="············">
+                                                                <label for="password">Password Baru</label>
                                                             </div>
-                                                            <div
-                                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                                            </div>
+                                                            <span class="input-group-text cursor-pointer text-heading">
+                                                                <i id="password-icon" class=""></i>
+                                                            </span>
                                                         </div>
+                                                        <div
+                                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                        </div>
+                                                    </div>
 
-                                                        <div
-                                                            class="mb-3 col-12 col-sm-6 form-password-toggle fv-plugins-icon-container">
-                                                            <div class="input-group input-group-merge">
-                                                                <div class="form-floating form-floating-outline">
-                                                                    <input class="form-control" type="password"
-                                                                        name="confirmPassword" id="confirmPassword"
-                                                                        placeholder="············">
-                                                                    <label for="confirmPassword">Confirm New
-                                                                        Password</label>
-                                                                </div>
-                                                                <span class="input-group-text cursor-pointer text-heading">
-                                                                    <i class="ri-eye-off-line"></i>
-                                                                </span>
+                                                    <div
+                                                        class="mb-3 col-12 col-sm-6 form-password-toggle fv-plugins-icon-container">
+                                                        <div class="input-group input-group-merge">
+                                                            <div class="form-floating form-floating-outline">
+                                                                <input class="form-control" type="password"
+                                                                    name="confirmPassword" id="confirmPassword"
+                                                                    placeholder="············">
+                                                                <label for="confirmPassword">Konfirmasi Password Baru</label>
                                                             </div>
-                                                            <div
-                                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                                            </div>
+                                                            <span class="input-group-text cursor-pointer text-heading">
+                                                                <i id="password-icon" class=""></i>
+                                                            </span>
                                                         </div>
-                                                        <div>
-                                                            <button type="submit"
-                                                                class="btn btn-primary me-2 waves-effect waves-light">Change
-                                                                Password</button>
+                                                        <div
+                                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                                         </div>
                                                     </div>
-                                                </form>
-                                            </div>
+                                                    <div>
+                                                        <button type="submit"
+                                                            class="btn btn-primary me-2 waves-effect waves-light">Ganti
+                                                            Password</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
 
                                     </div>
@@ -558,10 +572,13 @@
             <!-- Modal -->
             <!-- Edit User Modal -->
             <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                <div class="modal-dialog modal-md">
                     <div class="modal-content">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="modal-body p-0">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
                             <div class="text-center mb-6">
                                 <h4 class="mb-2">Edit User Information</h4>
                                 <p class="mb-6">Updating user details will receive a privacy audit.</p>
@@ -622,7 +639,7 @@
                                         }
                                     </style>
 
-                                    <label for="modalEditUserPhoto  ">
+                                    <label for="modalEditUserPhoto">
                                         <div class="image-container" id="imgpp">
                                             <div class="overlay">
                                                 <i class="ri-edit-line"></i>
@@ -648,118 +665,44 @@
                                 <div class="col-12 fv-plugins-icon-container">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="name" name="name" class="form-control"
-                                            value="{{ $user->name }}" placeholder="{{ $user->name }}" readonly>
+                                            value="{{ old('name', $user->name) }}"
+                                            placeholder="{{ old('name', $user->name) }}">
                                         <label for="name">Name</label>
                                     </div>
                                     <div
-                                        class="fv-plugins-message-container fv-p    lugins-message-container--enabled invalid-feedback">
+                                        class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                     </div>
                                 </div>
-                                @hasrole('admin|user')
-                                    <div class="col-12 col-md-12">
-                                        <div class="form-floating form-floating-outline">
-                                            <input type="text" id="school_id" name="school_id"
-                                                class="form-control modal-edit-tax-id"
-                                                placeholder="{{ $user->instance->name }}"
-                                                value="{{ $user->instance->name }}" readonly>
-                                            <label for="school_id">Sekolah</label>
-                                        </div>
-                                    </div>
-                                @endhasrole
 
-                                <div class="col-6">
+                                <div class="col-12 col-md-12">
+
                                     <div class="input-group input-group-merge">
                                         <div class="form-floating form-floating-outline">
                                             <input type="text" id="phone_number" name="phone_number"
-                                                class="form-control phone-number-mask" value="{{ $user->phone_number }}"
-                                                placeholder="{{ $user->phone_number }}">
+                                                class="form-control phone-number-mask"
+                                                value="{{ old('phone_number', $user->phone_number) }}"
+                                                placeholder="{{ old('phone_number', $user->phone_number) }}">
                                             <label for="phone_number">Phone Number</label>
                                         </div>
                                     </div>
                                 </div>
+                                @hasrole('admin|user')
+                                    <div class="col-6">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="text" id="school_id" name="school_id" class="form-control"
+                                                placeholder="{{ $user->instance->name }}"
+                                                value="{{ $user->instance->name }}" disabled>
+                                            <label for="school_id">Sekolah</label>
+                                        </div>
+                                    </div>
+                                @endhasrole
                                 <div class="col-12 col-md-6">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="email" name="email" class="form-control"
-                                            value="{{ $user->email }}" placeholder="{{ $user->email }}" readonly>
+                                            value="{{ $user->email }}" placeholder="{{ $user->email }}" disabled>
                                         <label for="email">Email</label>
                                     </div>
                                 </div>
-                                {{-- <div class="col-12 col-md-6">
-                                    <div class="form-floating form-floating-outline">
-                                        <tags class="tagify  form-control h-auto" tabindex="-1">
-                                            <tag title="English" contenteditable="false" spellcheck="false"
-                                                tabindex="-1" class="tagify__tag tagify--noAnim" value="English">
-                                                <x title="" class="tagify__tag__removeBtn" role="button"
-                                                    aria-label="remove tag"></x>
-                                                <div><span class="tagify__tag-text">English</span></div>
-                                            </tag><span contenteditable="" tabindex="0"
-                                                data-placeholder="select language" aria-placeholder="select language"
-                                                class="tagify__input" role="textbox" aria-autocomplete="both"
-                                                aria-multiline="false"></span>
-                                            ​
-                                        </tags><input id="TagifyLanguageSuggestion" name="TagifyLanguageSuggestion"
-                                            class="form-control h-auto" placeholder="select language" value="English"
-                                            tabindex="-1">
-                                        <label for="TagifyLanguageSuggestion">Language</label>
-                                    </div>
-                                </div> --}}
-                                {{-- <div class="col-12 col-md-6">
-                                    <div class="form-floating form-floating-outline form-floating-select2">
-                                        <div class="position-relative"><select id="modalEditUserCountry"
-                                                name="modalEditUserCountry"
-                                                class="select2 form-select select2-hidden-accessible"
-                                                data-allow-clear="true" data-select2-id="modalEditUserCountry"
-                                                tabindex="-1" aria-hidden="true">
-                                                <option value="">Select</option>
-                                                <option value="Australia">Australia</option>
-                                                <option value="Bangladesh">Bangladesh</option>
-                                                <option value="Belarus">Belarus</option>
-                                                <option value="Brazil">Brazil</option>
-                                                <option value="Canada">Canada</option>
-                                                <option value="China">China</option>
-                                                <option value="France">France</option>
-                                                <option value="Germany">Germany</option>
-                                                <option value="India" selected="" data-select2-id="2">India</option>
-                                                <option value="Indonesia">Indonesia</option>
-                                                <option value="Israel">Israel</option>
-                                                <option value="Italy">Italy</option>
-                                                <option value="Japan">Japan</option>
-                                                <option value="Korea">Korea, Republic of</option>
-                                                <option value="Mexico">Mexico</option>
-                                                <option value="Philippines">Philippines</option>
-                                                <option value="Russia">Russian Federation</option>
-                                                <option value="South Africa">South Africa</option>
-                                                <option value="Thailand">Thailand</option>
-                                                <option value="Turkey">Turkey</option>
-                                                <option value="Ukraine">Ukraine</option>
-                                                <option value="United Arab Emirates">United Arab Emirates</option>
-                                                <option value="United Kingdom">United Kingdom</option>
-                                                <option value="United States">United States</option>
-                                            </select><span class="select2 select2-container select2-container--default"
-                                                dir="ltr" data-select2-id="1" style="width: auto;"><span
-                                                    class="selection"><span
-                                                        class="select2-selection select2-selection--single"
-                                                        role="combobox" aria-haspopup="true" aria-expanded="false"
-                                                        tabindex="0" aria-disabled="false"
-                                                        aria-labelledby="select2-modalEditUserCountry-container"><span
-                                                            class="select2-selection__rendered"
-                                                            id="select2-modalEditUserCountry-container" role="textbox"
-                                                            aria-readonly="true" title="India"><span
-                                                                class="select2-selection__clear" title="Remove all items"
-                                                                data-select2-id="3">×</span>India</span><span
-                                                            class="select2-selection__arrow" role="presentation"><b
-                                                                role="presentation"></b></span></span></span><span
-                                                    class="dropdown-wrapper" aria-hidden="true"></span></span></div>
-                                        <label for="modalEditUserCountry">Country</label>
-                                    </div>
-                                </div> --}}
-                                {{-- <div class="col-12">
-                                    <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="editBillingAddress">
-                                        <label for="editBillingAddress" class="text-heading">Use as a billing
-                                            address?</label>
-                                    </div>
-                                </div> --}}
                                 <div class="col-12 text-center d-flex flex-wrap justify-content-center gap-4 row-gap-4">
                                     <button type="submit"
                                         class="btn btn-primary waves-effect waves-light">Submit</button>
@@ -792,4 +735,25 @@
 
         <div class="content-backdrop fade"></div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordField = document.getElementById('password');
+            const passwordToggle = document.getElementById('password-toggle');
+            const passwordIcon = document.getElementById('password-icon');
+
+            passwordToggle.addEventListener('click', function() {
+                // Toggle password visibility
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    passwordIcon.classList.remove('ri-eye-off-line');
+                    passwordIcon.classList.add('ri-eye-line');
+                } else {
+                    passwordField.type = 'password';
+                    passwordIcon.classList.remove('ri-eye-line');
+                    passwordIcon.classList.add('ri-eye-off-line');
+                }
+            });
+        });
+    </script>
 @endsection

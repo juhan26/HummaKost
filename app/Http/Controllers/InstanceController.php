@@ -16,7 +16,10 @@ class InstanceController extends Controller
      */
     public function index(Request $request)
     {
-        $instances = Instance::where('name','LIKE',"%$request->search%")->paginate(5);
+        $instances = Instance::where('name','LIKE',"%$request->search%")
+        ->orWhere('address','LIKE',"%$request->search%")
+        ->orderBy('name','ASC')
+        ->paginate(2);
         return view('pages.instance.index', compact('instances'));
     }
 
@@ -33,7 +36,7 @@ class InstanceController extends Controller
      */
     public function store(StoreInstanceRequest $request)
     {
-        $instance = Instance::create([
+        Instance::create([
             'name' => $request->name,
             'address' => $request->address,
             'description' => $request->description

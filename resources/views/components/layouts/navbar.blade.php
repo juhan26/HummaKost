@@ -1,6 +1,6 @@
 {{-- Template --}}
-<nav class="p-4 layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center" id="layout-navbar"
-    style="box-shadow:0px 0px 15px rgba(0,0,0,.05);">
+<nav class="p-4 layout-navbar container-xxl navbar shadow-sm navbar-expand-xl navbar-detached align-items-center"
+    id="layout-navbar">
     <div class="layout-menu-toggle navbar-nav align-items-xl-center">
         <a class="nav-item nav-link" href="javascript:void(0)">
             <span class="material-symbols-outlined">
@@ -46,48 +46,31 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">
-
-                                <i class="ri-user-3-line ri-22px me-3"></i><span class="align-middle">My Profile</span>
+                                <i class="ri-user-3-line ri-22px me-3"></i><span class="align-middle">Profil Saya</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="pages-account-settings-account.html">
-                                <i class="ri-settings-4-line ri-22px me-3"></i><span class="align-middle">Settings</span>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="ri-logout-box-line ri-22px me-3"></i><span class="align-middle">Keluar</span>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="pages-account-settings-billing.html">
-                                <span class="d-flex align-items-center align-middle">
-                                    <i class="flex-shrink-0 ri-file-text-line ri-22px me-3"></i>
-                                    <span class="flex-grow-1 align-middle">Billing</span>
-                                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger">4</span>
-                                </span>
+                        {{-- <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="ri-logout-box-line ri-22px me-3"></i>
+                                <span class="align-middle">Keluar</span>
                             </a>
-                        </li>
-                        <li>
-                            <div class="dropdown-divider"></div>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="pages-pricing.html">
-                                <i class="ri-money-dollar-circle-line ri-22px me-3"></i><span
-                                    class="align-middle">Pricing</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="pages-faq.html">
-                                <i class="ri-question-line ri-22px me-3"></i><span class="align-middle">FAQ</span>
-                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </li> --}}
                         <li>
                             <div class="d-grid px-4 pt-2 pb-1">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    <i class="ri-logout-box-line"></i>
-                                    <span class="align-middle">{{ __('Logout') }}</span>
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+
                             </div>
                         </li>
                     </ul>

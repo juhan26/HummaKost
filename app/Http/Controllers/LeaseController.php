@@ -17,43 +17,53 @@ class LeaseController extends Controller
      */
     public function index(Request $request)
     {
-        $propertyFilter = $request->input('property_filter');
+        $query = Lease::with(['user', 'properties']);
+
         $propertySearch = $request->input('search');
+        $status = $request->input('status', []);
+        $property_id = $request->input('property_id', []);
 
-        $leasesQuery = Lease::query();
+        if ($propertySearch || $status || $property_id) {
+            $query->where(function ($query) use ($propertySearch, $status, $property_id) {
 
-        if ($propertyFilter && $propertyFilter != "all") {
-            $leasesQuery->where('property_id', $propertyFilter);
-        }
+                if ($propertySearch) {
+                    $query->whereHas('user', function ($query) use ($propertySearch) {
+                        $query->where('name', 'LIKE', "%{$propertySearch}%");
+                    });
 
-        if ($propertySearch) {
-            $leasesQuery->whereHas('user', function ($query) use ($propertySearch) {
-                $query->where('name', 'LIKE', "%" . $propertySearch . "%");
+                    $query->orWhereHas('properties', function ($query) use ($propertySearch) {
+                        $query->where('name', 'LIKE', "%{$propertySearch}%");
+                    });
+
+                    $query->orWhere('status', 'LIKE', "%{$propertySearch}%");
+                }
+
+                if (!empty($status)) {
+                    $query->whereIn('status', $status);
+                }
+
+                if (!empty($property_id)) {
+                    $query->whereIn('property_id', $property_id);
+                }
             });
         }
 
-        $leases = $leasesQuery->latest()->paginate(6);
-
-        $users = User::when($propertyFilter, function ($query, $propertyFilter) {
-            return $query->whereHas('lease', function ($query) use ($propertyFilter) {
-                $query->where('property_id', $propertyFilter);
-            });
-        })
-            ->orWhereDoesntHave('lease')
-            ->where(function ($query) {
-                $query->whereHas('roles', function ($query) {
-                    $query->where('name', 'tenant');
-                })->orWhereHas('roles', function ($query) {
-                    $query->where('name', 'admin');
-                });
-            })
+        $leases = $query->orderByRaw("
+        CASE
+            WHEN status = 'active' THEN 1
+            WHEN status = 'expired' THEN 2
+            ELSE 3
+        END
+    ")
             ->latest()
-            ->get();
+            ->paginate(10);
 
         $properties = Property::all();
+        $users = User::with(['lease'])->where('id', '!=', Auth::user()->id)->whereDoesntHave('lease')->get();
 
-        return view('pages.leases.index', compact('leases', 'users', 'properties', 'propertyFilter'));
+        return view('pages.leases.index', compact('leases', 'properties', 'status', 'property_id', 'users'));
     }
+
 
 
 
@@ -121,8 +131,8 @@ class LeaseController extends Controller
             Lease::create([
                 'user_id' => $request->user_id,
                 'property_id' => $request->property_id,
-                'start_date' => $startDate->format('Y-m-d'),
-                'end_date' => $endDate->format('Y-m-d'),
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
                 'description' => $request->description,
                 'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
                 'total_nominal' => 0,
@@ -151,12 +161,23 @@ class LeaseController extends Controller
         //
     }
 
+    public function done(Lease $lease)
+    {
+        if ($lease->total_nominal >= $lease->total_iuran) {
+            $lease->update([
+                'status' => 'expired',
+            ]);
+            return redirect()->route('leases.index')->with('success', 'Berhasil Menyelesaikan Kontrak.');
+        } else {
+            return redirect()->route('leases.index')->with('error', 'Tidak bisa menyelesaikan kontrak, kaarena penyewa ini belum menyelesaikan pembayaran.');
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateLeaseRequest $request, Lease $lease)
     {
-        // Ambil property berdasarkan property_id dari lease yang sedang diperbarui
         $property = Property::find($lease->properties->id);
 
         if (!$property) {
@@ -172,20 +193,30 @@ class LeaseController extends Controller
             return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
         }
 
-        // Hitung jumlah bulan penuh di antara dua tanggal
-        $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+        if ($startDate->isSameMonth($endDate)) {
+            $totalIuran = $property->rental_price;
+        } else {
+            $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+            $totalIuran = $totalMonths * $property->rental_price;
+        }
 
-        // Hitung total_iuran
-        $totalIuran = $totalMonths * $property->rental_price;
+        if($request->end_date > $lease->end_date) {
+            $lease->update([
+                'end_date' => $request->end_date,
+                'status' => 'active',
+                'description' => $request->description,
+                'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
+            ]);
+        } else {
+            $lease->update([
+                'end_date' => $request->end_date,
+                'description' => $request->description,
+                'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
+            ]);
 
-        // Update lease dengan nilai yang baru
-        $lease->update([
-            'end_date' => $endDate->format('Y-m-d'),
-            'description' => $request->description,
-            'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
-        ]);
+        }
 
-        return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di tambahkan.');
+        return redirect()->route('leases.index')->with('success', 'Data kontrakan berhasil di ubah.');
     }
 
 

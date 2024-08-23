@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FacilityImage extends Model
+class PropertyImage extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'facility_id',
+        'property_id',
         'image',
     ];
 
-    public function facility()
+    public function property()
     {
-        return $this->belongsTo(Facility::class, 'facility_id');
+        return $this->belongsTo(Property::class, 'property_id');
     }
 }

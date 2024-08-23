@@ -19,4 +19,9 @@ class Property extends Model
     {
         return $this->belongsToMany(Facility::class, 'property_facilities', 'property_id', 'facility_id');
     }
+
+    public function property_images()
+    {
+        return $this->hasMany(PropertyImage::class);
+    }
 }
