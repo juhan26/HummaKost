@@ -191,6 +191,8 @@
                 </div>
                 <!-- Image Detail Modal -->
 
+
+
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
                     aria-labelledby="updateModalLabel aria-hidden="true">
@@ -198,7 +200,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit
-                                    {{ $facility->id }}
+                                Cortana I. Sachin Tendulkar. Slash slash. Manaya AL birthday, Ayesha Aishwarya    {{ $facility->id }}
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -485,3 +487,6 @@
         })
     </script>
 @endsection
+
+
+apakah semua harus js? kebetulan kan disini saya menggunakan laravel apakah bisa di akalin menggunakan laravel?

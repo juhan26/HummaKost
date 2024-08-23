@@ -300,7 +300,7 @@
                                                                 method="POST" class="text-center w-100">
                                                                 @csrf
                                                                 <button type="submit"
-                                                                    class="col-12 btn btn-label-success p-0 m-0"
+                                                                    class="col-12 btn btn-label-success p-0 m-0 accept-button"
                                                                     style="width: fit-content;border:1px solid rgba(50, 200, 50,.2);">
                                                                     <span class="material-symbols-outlined ">check</span>
                                                                 </button>
@@ -704,8 +704,28 @@
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    cancelButtonColor: "#646464",
                     confirmButtonText: "Ya, tolak!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit the form if confirmed
+                    }
+                });
+            });
+        });
+        document.querySelectorAll('.accept-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
+                const form = this.closest('form'); // Get the form related to this button
+
+                Swal.fire({
+                    title: "Yakin ingin menerima?",
+                    text: "Tindakan ini tidak dapat dibatalkan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#20b486",
+                    cancelButtonColor: "#646464",
+                    confirmButtonText: "Ya, terima!"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit(); // Submit the form if confirmed
