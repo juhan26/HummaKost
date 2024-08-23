@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facility;
+use App\Models\Instance;
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\User;
@@ -29,6 +30,7 @@ class HomeController extends Controller
     public function index()
     {
         $propertiesCount = Property::count();
+        $instanceCount = Instance::count();
         $usersCount = User::count();
         $leasesCount = Lease::count();
         $facilityCount = Facility::count();
@@ -36,6 +38,6 @@ class HomeController extends Controller
             $query->where('name', 'super_admin');
         })->get();
 
-        return view('pages.dashboard.index', compact('propertiesCount', 'usersCount', 'leasesCount', 'facilityCount', 'users'));
+        return view('pages.dashboard.index', compact('propertiesCount', 'usersCount', 'leasesCount', 'facilityCount', 'instanceCount', 'users'));
     }
 }

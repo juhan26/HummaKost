@@ -10,8 +10,8 @@
                         <div class="icon mb-2">
                             <img src="assets/img/images/iuran.png" alt="" style="width: 70px">
                         </div>
-                        <h5 class="card-title">Total Iuran</h5>
-                        <p class="card-text">Rp. 300.000</p>
+                        <h5 class="card-title">Total Instansi</h5>
+                        <p class="card-text">{{ $instanceCount }}</p>
                     </div>
                 </div>
             </div>
