@@ -195,6 +195,20 @@
                                                 <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat(' F Y') }}
                                                 </td>
                                             </tr>
+
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                            @forelse ($lease->payments as $index => $payment)
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $payment->lease->user->name }}</td>
+                                                    <td>{{ 'Rp. ' . number_format($payment->nominal) }}
+                                                    </td>
+                                                    <td>{{ \Carbon\Carbon::parse($payment->payment_month)->translatedFormat('F Y') }}
+                                                    </td>
+                                                    <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat('F Y') }}
+                                                    </td>
+                                                </tr>
                                         @empty
                                         <tr class="text-center">
                                             <!-- Update colspan to match the number of columns in your table -->
@@ -208,6 +222,7 @@
                                         @endforelse
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                         {{-- <div class="modal-footer">

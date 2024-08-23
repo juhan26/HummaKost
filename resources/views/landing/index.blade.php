@@ -151,10 +151,12 @@
                                                     text-muted>{{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
-                                        {{-- <li>
-                                            <a href="{{ route('dashboard') }}"
-                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
-                                        </li> --}}
+                                        <li>
+                                            
+                                            <a href="{{ route('user.profile', Auth::user()->id) }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Profile' }}</span></a>
+                                        </li>
+
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"

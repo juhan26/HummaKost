@@ -16,7 +16,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('payments', PaymentPerMonthController::class);
 
-    Route::get('users/show/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('user/show/{user}', [UserController::class, 'show'])->name('user.show');
+
 
     Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.changePassword');
 });
