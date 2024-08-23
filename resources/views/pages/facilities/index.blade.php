@@ -430,6 +430,7 @@
                         } else {
                             dropzoneInstance.submitForm();
                         }
+                        // this.form.submit( route('facility.index'));
                     });
 
                     this.on("sending", function(file, xhr, formData) {
@@ -466,6 +467,7 @@
 
             if (file) {
                 reader.readAsDataURL(file);
+                
             }
         })
 
@@ -482,6 +484,7 @@
 
             if (file) {
                 reader.readAsDataURL(file);
+            
             }
         })
     </script>
