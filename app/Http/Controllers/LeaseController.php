@@ -64,7 +64,9 @@ class LeaseController extends Controller
         ]);
 
         $properties = Property::all();
-        $users = User::with(['lease'])->where('id', '!=', Auth::user()->id)->whereDoesntHave('lease')->get();
+        $users = User::with(['lease'])->whereHas('roles', function ($query) {
+            $query->where('name', '!=', 'super_admin');
+        })->whereDoesntHave('lease')->get();
 
         return view('pages.leases.index', compact('leases', 'properties', 'status', 'property_id', 'users'));
     }
