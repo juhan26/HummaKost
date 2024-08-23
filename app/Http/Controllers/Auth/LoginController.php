@@ -34,20 +34,20 @@ class LoginController extends Controller
      * @return void
      */
 
-        // protected function redirectTo()
-        // {
-        //     $user = Auth::user();
+    // protected function redirectTo()
+    // {
+    //     $user = Auth::user();
 
-        //     if ($user->hasRole('admin') || $user->hasRole('super_admin')) {
-        //         return redirect('/dashboard');
-        //     }
+    //     if ($user->hasRole('admin') || $user->hasRole('super_admin')) {
+    //         return redirect('/dashboard');
+    //     }
 
-        //     if ($user->hasRole('member') && $user->status === 'accepted') {
-        //         return redirect('/');
-        //     }
+    //     if ($user->hasRole('member') && $user->status === 'accepted') {
+    //         return redirect('/');
+    //     }
 
-        //     return redirect('/');
-        // }
+    //     return redirect('/');
+    // }
 
     public function login(Request $request)
     {
@@ -62,9 +62,8 @@ class LoginController extends Controller
                 $request->session()->flash('error', 'Akun Anda masih belum dikonfirmasi admin, silakan hubungi admin.');
 
                 return redirect()->route('login');
-            }
-            elseif ($user->roles->contains('name', 'tenant') && $user->status === 'accepted') {
-                return redirect('/dashboard');
+            } elseif ($user->roles->contains('name', 'tenant') && $user->status === 'accepted') {
+                return redirect('/');
             }
 
             return redirect()->intended('dashboard');
@@ -81,5 +80,4 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
-
 }
