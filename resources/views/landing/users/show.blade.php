@@ -39,54 +39,122 @@
                 </a>
                 <!-- Menu -->
                 <ul class="xl:flex items-center capitalize hidden">
-                    <li><a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="http://127.0.0.1:8000">Home</a></li>
-                    <li><a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#search_people">Properties</a></li>
-                    <li><a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#loadMember">Tenant</a></li>
-                    <li><a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#descc">About</a></li>
-                    <li><a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#gambars">Feedback</a></li>
-                    <li><a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#blog">Contact</a></li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}">Beranda</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}">Kontrakan</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}">Tentang</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}">Masukan</a>
+                    </li>
                 </ul>
                 <!-- Right Menu -->
                 <div class="flex items-center">
-                    <!-- Profile Menu -->
-                    <div class="relative">
-                        <button id="profile-btn"
-                            class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
-                            <img src="http://127.0.0.1:8000/assets/img/avatars/5.png" alt="User Photo"
-                                class="w-full h-full object-cover rounded-full">
-                        </button>
-                        <div id="profile-menu"
-                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10 hidden">
-                            <ul class="py-2 text-gray-700">
-                                <li class="flex justify-center items-start gap-3 px-8 py-2 border-b border-gray-200">
-                                    <img src="http://127.0.0.1:8000/assets/img/avatars/5.png" alt="User Photo"
-                                        class="w-12 h-12 object-cover rounded-full">
-                                    <div class="flex flex-col">
-                                        <span class="font-semibold">John</span>
-                                        <span class="text-gray-500">adzikrasano@gmail.com</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="http://127.0.0.1:8000/logout"
-                                        class="block px-4 py-2 text-sm hover:bg-gray-100"
-                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-                                    <form id="logout-form" action="http://127.0.0.1:8000/logout" method="POST"
-                                        class="hidden">
-                                        <input type="hidden" name="_token"
-                                            value="Gxf5IR410fiQ9jhYNYH3xLqleHTs5jBgttdNxmEI">
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
+                    <div
+                        class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
+                        <span class="flex justify-center items-center"></span>
+
+                        @php
+                            $user = Auth::user();
+                            $hasNonMemberRole = $user && $user->roles()->where('name', '!=', 'tenant')->exists();
+                        @endphp
+                        @if ($hasNonMemberRole)
+                            <div class="relative">
+                                <button id="profile-btn" onclick="a(this)"
+                                    class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
+                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                        onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
+                                    {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
+                                        onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
+                                </button>
+                                <div id="profile-menu"
+                                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
+                                    <ul class="py-2 text-gray-700">
+                                        {{-- <li class="flex items-center gap-2 px-4 py-2">
+                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                            onclick="a(this)" alt="User Photo"
+                                            class="w-7 h-7 object-cover rounded-full">
+                                        <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
+                                    </li> --}}
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100"
+                                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                Keluar
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @elseif($user && $user->roles->contains('name', 'tenant') && $user->status === 'accepted')
+                            <div class="relative">
+                                <button id="profile-btn" onclick="a(this)"
+                                    class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
+                                    <img src="
+                                    @if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
+                                    @elseif(Auth::user()->gender === 'male')
+                                    {{ asset('assets/img/avatars/5.png') }}
+                                    @elseif(Auth::user()->gender === 'female')
+                                        {{ asset('assets/img/avatars/10.png') }} @endif"
+                                        onclick="a(this)" alt="User Photo"
+                                        class="w-full h-full object-cover rounded-full">
+                                </button>
+                                <div id="profile-menu"
+                                    class="absolute right-0 mt-2 max-w-xs bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
+                                    <ul class="py-2 text-gray-700">
+                                        <li
+                                            class="flex justify-center items-start gap-3 px-8 py-2 border-b border-gray-200 overflow-hidden">
+                                            <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
+                                                    @elseif(Auth::user()->gender === 'male')
+                                                        {{ asset('assets/img/avatars/5.png') }}
+                                                    @elseif(Auth::user()->gender === 'female')
+                                                        {{ asset('assets/img/avatars/10.png') }} @endif"
+                                                alt="User Photo" class="w-12 h-12 object-cover rounded-full">
+                                            <div class="flex flex-col" style="object-fit: cover">
+                                                <span class="font-semibold">{{ Auth::user()->name }}</span>
+                                                <p class="text-gray-500 text-sm" text-muted>
+                                                    {{ Auth::user()->email }}</small>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100"
+                                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                Keluar
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @else
+                                <a href="{{ route('register') }}"
+                                    class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
+                                    style="padding:12px 16px; border-radius:8px; margin-right: 1rem"><span>{{ 'Daftar' }}</span></a>
+                                <a href="{{ route('login') }}"
+                                    class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
+                        @endif
                     </div>
+
                     <!-- Hamburger Menu -->
                     <div class="xl:hidden inline-block hamburger-btn" id="hamburger-btn">
                         <span></span>
@@ -97,6 +165,67 @@
             </div>
         </div>
     </header>
+    @if (session('success'))
+        <div id="toast-success"
+            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <div class="ml-3 text-sm font-medium text-gray-700">
+                {{ session('success') }}
+            </div>
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 hover:text-gray-900 inline-flex h-8 w-8"
+                aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span class="sr-only">Close</span>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M4.293 9.293a1 1 0 011.414 0L9 12.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+    @endif
+
+
+    @if ($errors->any())
+        <div id="toast-error"
+            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm-3.707-5.707a1 1 0 011.414 0L9 12.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            @foreach ($errors->all() as $error)
+                <div class="ml-3 text-sm font-medium text-gray-700">
+                    {{ $error }}
+                </div>
+            @endforeach
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 hover:text-gray-900 inline-flex h-8 w-8"
+                aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span class="sr-only">Close</span>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M4.293 9.293a1 1 0 011.414 0L9 12.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+    @endif
+
+
+
     <div class="min-h-screen bg-gray-100">
         <!-- Kontainer -->
         <div class="container mx-auto px-4 py-6">
