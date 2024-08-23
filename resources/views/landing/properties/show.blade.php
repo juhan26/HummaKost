@@ -294,7 +294,7 @@
             <div class="container mx-auto my-5 p-10 mb-10">
 
                 <div class="flex flex-col lg:flex-row gap-6 my-2">
-                    <div class="w-full lg:w-1/2 rounded-lg flex">
+                    <div class="w-full lg:w-1/2 rounded-lg flex" style="width: 120rem; height: 40rem">
                         @if ($property->image)
                             <img class="w-full h-auto object-cover rounded-lg"
                                 src="{{ asset('storage/' . $property->image) }}" alt="Property image" />
@@ -351,9 +351,18 @@
                                 </div>
                             @endif
 
-                            <h2 class="font-bold text-2xl text-primary-500 mt-6">
+                            <h2 class="font-bold text-2xl text-primary-500 mt-6 mb-8">
                                 {{ 'Rp. ' . number_format($property->rental_price, 0) . ' / bln' }}
                             </h2>
+
+                            <div class="w-full mt-12">
+                                <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                                    <div class="px-4 py-6 flex items-center bg-white rounded-lg">
+            
+                                        <h6 class="mb-0">{{ $property->description }}</h6>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -399,16 +408,6 @@
                         </div>
                     </div>
                 </section>
-
-                <div class="w-full mt-12">
-                    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-                        <div class="px-4 py-6 flex items-center bg-white rounded-lg">
-
-                            <h6 class="mb-0">{{ $property->description }}</h6>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </section>
 
