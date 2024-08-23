@@ -195,7 +195,7 @@
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
-                    aria-labelledby="updateModalLabel aria-hidden="true">
+                    aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -399,6 +399,3 @@
         })
     </script>
 @endsection
-
-
-apakah semua harus js? kebetulan kan disini saya menggunakan laravel apakah bisa di akalin menggunakan laravel?
