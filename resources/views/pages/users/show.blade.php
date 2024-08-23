@@ -645,7 +645,7 @@
                                         </div>
                                     </div>
                                 @endhasrole
-                                <div class="col-12 col-md-6">
+                                <div class="col-12">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="email" name="email" class="form-control"
                                             value="{{ $user->email }}" placeholder="{{ $user->email }}" disabled>

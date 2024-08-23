@@ -37,120 +37,151 @@
             </form>
         </div>
 
-        <div class="row">
+        <style>
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+                gap: 1rem;
+                /* Jarak antar kartu */
+            }
+
+            .card {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                /* Atur tinggi minimum untuk menyesuaikan dengan gambar */
+                min-height: 400px;
+            }
+
+            .card-img-top {
+                height: 100%;
+                /* Atur sesuai kebutuhan */
+                object-fit: cover;
+            }
+
+            .card-body {
+                flex: 1;
+                /* Membuat body kartu mengisi ruang yang tersisa */
+            }
+
+            .image-not-available {
+                opacity: 1;
+                /* Atur opacity sesuai kebutuhan */
+            }
+        </style>
+
+        <div class="card-grid">
             @forelse ($properties as $property)
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm position-relative" style="bo rder-radius: 20px; overflow: hidden;">
-                        <!-- Edit and Delete Icons -->
-                        <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
-                            id="card-actions-{{ $property->id }}">
+                <div class="card shadow-sm position-relative">
+                    <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
+                        id="card-actions-{{ $property->id }}">
+                        @hasrole('admin|super_admin')
+                            <button class="btn btn-white btn-text-white shadow-sm  p-2" type="button"
+                                id="propertyActionsDropdown{{ $property->id }}" data-bs-toggle="dropdown" aria-expanded="false"
+                                style="border-radius: none;border:1px solid rgba(0,0,0,.1);">
+                                <i class="ri-more-2-line ri-20px"></i>
+                            </button>
+                        @endhasrole
+                        <ul class="dropdown-menu dropdown-menu-end"
+                            aria-labelledby="propertyActionsDropdown{{ $property->id }}">
+
                             @hasrole('admin|super_admin')
-                                <button class="btn btn-white btn-text-white shadow-sm  p-2" type="button"
-                                    id="propertyActionsDropdown{{ $property->id }}" data-bs-toggle="dropdown"
-                                    aria-expanded="false" style="border-radius: none;border:1px solid rgba(0,0,0,.1);">
-                                    <i class="ri-more-2-line ri-20px"></i>
-                                </button>
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#imageDetail{{ $property->id }}"><i
+                                            class="ri-image-add-line me-2 ri-20px text-primary"></i>Tambah Foto
+                                        Detail</button>
+                                </li>
                             @endhasrole
-                            <ul class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="propertyActionsDropdown{{ $property->id }}">
 
-                                @hasrole('admin|super_admin')
-                                    <li>
-                                        <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                            data-bs-target="#imageDetail{{ $property->id }}"><i
-                                                class="ri-image-add-line me-2 ri-20px text-primary"></i>Tambah Foto
-                                            Detail</button>
-                                    </li>
-                                @endhasrole
+                            @hasrole('super_admin')
+                                <li>
+                                    <a href="{{ route('properties.edit', $property->id) }}" class="dropdown-item">
+                                        <i class="ri-edit-line me-2 text-secondary"></i>
+                                        Edit Kontrakan
+                                    </a>
+                                </li>
 
-                                @hasrole('super_admin')
-                                    <li>
-                                        <a href="{{ route('properties.edit', $property->id) }}" class="dropdown-item">
-                                            <i class="ri-edit-line me-2 text-secondary"></i>
-                                            Edit Kontrakan
-                                        </a>
-                                    </li>
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ $property->id }}">
+                                        <i class="ri-delete-bin-line me-2 text-danger"></i>
+                                        Hapus Kontrakan
+                                    </button>
+                                </li>
+                            @endhasrole
 
-                                    <li>
-                                        <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $property->id }}">
-                                            <i class="ri-delete-bin-line me-2 text-danger"></i>
-                                            Hapus Kontrakan
-                                        </button>
-                                    </li>
-                                @endhasrole
+                        </ul>
 
-                            </ul>
-
-                            <!-- Delete Modal -->
-                            <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
-                                aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel{{ $property->id }}">Hapus
-                                                {{ $property->name }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Apakah anda yakin ingin menghapus kontrakan ini?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Batal</button>
-                                            <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </form>
-                                        </div>
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
+                            aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel{{ $property->id }}">Hapus
+                                            {{ $property->name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah anda yakin ingin menghapus kontrakan ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Delete Modal -->
                         </div>
+                        <!-- Delete Modal -->
+                    </div>
 
-                        <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
-                            alt="{{ $property->name }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+                    <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
+                    alt="{{ $property->name }}"
+                    class="card-img-top"
+                    style="max-height: 400px; object-fit: cover; opacity: {{ $property->image ? '1' : '0.5' }};">
+               
 
-                        <div class="card-body">
-                            <div class="d-flex justify-content-start align-items-center mb-3 mt-3">
-                                <i class="ri-calendar-line ri-20px me-2" style="color: rgba(32,180,134,.7)"></i>
-                                <h5 class="m-0 me-auto" style="color: rgba(32,180,134,.7);font-size:1rem;">
-                                    {{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
-                                </h5>
-                                @if ($property->gender_target === 'male')
-                                    <span class="label bg-label-info" style="padding: 6px 15px; border-radius: 15px;">
-                                        Laki-Laki
-                                    </span>
-                                @else
-                                    <span class="label bg-label-danger" style="padding: 6px 15px; border-radius: 15px;">
-                                        Perempuan
-                                    </span>
-                                @endif
-                                <span class="label bg-label-primary ms-1"
-                                    style="padding: 6px 15px; border-radius: 15px;">Tersedia</span>
-                            </div>
-                            <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
-                            <p class="card-text mb-6"
-                                style="height: 80px;width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
-                                {{ $property->description ? $property->description : 'Deskripsi Kosong' }}</p>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start align-items-center mb-3 mt-3">
+                            <i class="ri-calendar-line ri-20px me-2" style="color: rgba(32,180,134,.7)"></i>
+                            <h5 class="m-0 me-auto" style="color: rgba(32,180,134,.7);font-size:1rem;">
+                                {{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
+                            </h5>
+                            @if ($property->gender_target === 'male')
+                                <span class="label bg-label-info" style="padding: 6px 15px; border-radius: 15px;">
+                                    Laki-Laki
+                                </span>
+                            @else
+                                <span class="label bg-label-danger" style="padding: 6px 15px; border-radius: 15px;">
+                                    Perempuan
+                                </span>
+                            @endif
+                            <span class="label bg-label-primary ms-1"
+                                style="padding: 6px 15px; border-radius: 15px;">Tersedia</span>
+                        </div>
+                        <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
+                        <p class="card-text mb-6"
+                            style="height: 80px;width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
+                            {{ $property->description ? $property->description : 'Deskripsi Kosong' }}</p>
 
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="m-0" style="color: rgba(32,180,134,1)">Rp.
-                                    {{ number_format($property->rental_price, 0, ',', '.') }} / bln</h5>
-                                {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="m-0" style="color: rgba(32,180,134,1)">Rp.
+                                {{ number_format($property->rental_price, 0, ',', '.') }} / bln</h5>
+                            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#propertyDetailModal{{ $property->id }}">
                                     Detail
                                 </button> --}}
-                                <a href="{{ route('properties.show', $property->id) }}" class="btn btn-primary">Detail</a>
-                            </div>
+                            <a href="{{ route('properties.show', $property->id) }}" class="btn btn-primary">Detail</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Image Detail Modal -->
                 <div class="modal fade" id="imageDetail{{ $property->id }}" tabindex="-1"
                     aria-labelledby="imageDetailModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -192,18 +223,40 @@
                         </div>
                     </div>
                 </div>
+            @empty
+                <div class="card-header flex-column flex-md-row w-100">
+                    <div class="head-label text-center">
+                        <h1 class="material-symbols-outlined mt-4" style="font-size: 3rem;color:rgba(32, 180, 134,.4);">
+                            cottage</h1>
+                        <p class="card-title" style="color: rgba(0,0,0,.4)">Kontrakan tidak ditemukan</p>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        {{-- <div class="row">
+            @forelse ($properties as $property)
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm position-relative" style="bo rder-radius: 20px; overflow: hidden;">
+                        <!-- Edit and Delete Icons -->
+                        
+                    </div>
+                </div>
+
+                <!-- Image Detail Modal -->
+                
                 <!-- Image Detail Modal -->
             @empty
                 <div class="card-header flex-column flex-md-row w-100">
                     <div class="head-label text-center">
-                        <h1 class="material-symbols-outlined mt-4"
-                            style="font-size: 3rem;color:rgba(32, 180, 134,.4);">cottage</h1>
+                        <h1 class="material-symbols-outlined mt-4" style="font-size: 3rem;color:rgba(32, 180, 134,.4);">
+                            cottage</h1>
                         <p class="card-title" style="color: rgba(0,0,0,.4)">Kontrakan tidak ditemukan
                         </p>
                     </div>
                 </div>
             @endforelse
-        </div>
+        </div> --}}
         @if ($properties->hasPages())
             <div class="pagination-container mt-5">
                 <ul class="pagination d-flex justify-content-between align-items-center">
