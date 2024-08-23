@@ -358,7 +358,7 @@
                             <div class="w-full mt-12">
                                 <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                                     <div class="px-4 py-6 flex items-center bg-white rounded-lg">
-            
+
                                         <h6 class="mb-0">{{ $property->description }}</h6>
                                     </div>
                                 </div>
@@ -398,12 +398,17 @@
                                             </div>
                                         </div>
                                     @empty
-                                        <p>Belum ada gambar-gambar kontrakan.</p>
+                                    <div class="flex justify-center items-center w-full h-[300px]">
+                                        <p class="text-center">Belum ada gambar gambar Kontrakan {{ $property->name }}.</p>
+                                    </div>
                                     @endforelse
                                 </div>
-                                <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                                <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                                <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+
+                                @if ($property->property_images->isNotEmpty())
+                                    <div class="swiper-button-next" style="background: none; color: #20B486"></div>
+                                    <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
+                                    <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -456,12 +461,16 @@
                                     </div>
                                 </div>
                             @empty
-                                <p>No users available for this user.</p>
+                            <div class="flex justify-center items-center w-full h-[300px]">
+                                <p class="text-center">Belum ada penyewa di Kontrakan {{ $property->name }} ini.</p>
+                            </div>
                             @endforelse
                         </div>
-                        <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                        <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                        <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+                        @if ($property->leases->isNotEmpty())
+                            <div class="swiper-button-next" style="background: none; color: #20B486"></div>
+                            <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
+                            <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -497,14 +506,14 @@
                                         <div class="flex flex-col justify-between w-full">
                                             <div>
                                                 <h4
-                                                    class="font-display text-gray-700 text-[20px] leading-7 font-medium hover:text-primary-500 transition duration-300 ease-linear">
+                                                    class="font-display text-gray-700 text-[20px] ms-3 leading-7 font-medium hover:text-primary-500 transition duration-300 ease-linear">
                                                     {{ $facility->name }}
                                                 </h4>
                                                 <p class="text-gray-600">{{ $facility->description }}</p>
                                             </div>
                                             <div class="flex justify-end mt-2">
-                                                <a href="#"
-                                                    class="text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a>
+                                                {{-- <a href="#"
+                                                    class="text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -515,8 +524,10 @@
                             <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
                         @endforelse
                     </div>
+                    @if ($property->facilities->isNotEmpty())
                     <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
                     <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
+                    @endif
                 </div>
 
             </div>
