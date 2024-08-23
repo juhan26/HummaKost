@@ -162,11 +162,11 @@
             type: 'doughnut',
             data: {
                 labels: ['Kontrakan : {{ $propertiesCount }}', 'Pengguna : {{ $usersCount }}',
-                    'Perabotan : {{ $facilityCount }}', 'Contoh : '
+                    'Fasilitas : {{ $facilityCount }}', 'Instansi: {{ $instanceCount }}'
                 ],
                 datasets: [{
                     data: [{{ $propertiesCount }}, {{ $usersCount }}, {{ $facilityCount }},
-                        {{ $leasesCount }}
+                        {{ $instanceCount }}
                     ],
                     backgroundColor: [
                         'rgba(255, 178, 15, 0.5)',

@@ -147,7 +147,7 @@
                                                 alt="User Photo" class="w-12 h-12 object-cover rounded-full">
                                             <div class="flex flex-col" style="object-fit: cover">
                                                 <span class="font-semibold">{{ Auth::user()->name }}</span>
-                                                <span class="text-gray-500"
+                                                <p class="text-gray-500 text-sm"
                                                     text-muted>{{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
