@@ -107,12 +107,12 @@
 
             <!--  Multi Steps Registration -->
             <div class="d-flex col-lg-8 align-items-center justify-content-center authentication-bg p-5" style="position: relative">
-                <a href="/" style="position: absolute;top:20px;left:20px;" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="500" ><i style="font-size: 40px;" class="mdi ri-arrow-left-s-line"></i></a>
+                <a href="/" style="position: absolute;top:20px;left:20px;"><i style="font-size: 40px;" class="mdi ri-arrow-left-s-line"></i></a>
                 <div class="w-px-700 mt-12 mt-lg-0 pt-lg-0 pt-4">
                     <div id="multiStepsValidation" class="bs-stepper wizard-numbered shadow-none">
                         <div class="bs-stepper-header border-bottom-0 mb-2">
                             <div class="step" data-target="#accountDetailsValidation">
-                                <button type="button" class="step-trigger ps-0" data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
+                                <button type="button" class="step-trigger ps-0">
                                     <span class="bs-stepper-circle" ><i class="ri-check-line"></i></span>
                                     <span class="bs-stepper-label">
                                         <span class="bs-stepper-number">01</span>
@@ -125,7 +125,7 @@
                             </div>
                             <div class="line" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="700"></div>
                             <div class="step" data-target="#personalInfoValidation">
-                                <button type="button" class="step-trigger" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="100">
+                                <button type="button" class="step-trigger" >
                                     <span class="bs-stepper-circle" ><i class="ri-check-line"></i></span>
                                     <span class="bs-stepper-label">
                                         <span class="bs-stepper-number">02</span>
@@ -144,8 +144,8 @@
                                 <!-- Account Details -->
                                 <div id="accountDetailsValidation" class="content">
                                     <div class="content-header mb-5">
-                                        <h4 class="mb-1" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="800">Informasi Akun</h4>
-                                        <span data-aos="fade-in" data-aos-duration="1000" data-aos-delay="900">Masukkan Detail Akunmu</span>
+                                        <h4 class="mb-1" >Informasi Akun</h4>
+                                        <span >Masukkan Detail Akunmu</span>
                                     </div>
                                     <div class="row gx-5">
                                         <div class="col-sm-6 col-lg-12 col-md-12 mb-5">
@@ -153,8 +153,8 @@
                                                 <input type="email" name="email" id="multiStepsEmail"
                                                     class="form-control @error('email') is-invalid @enderror"
                                                     placeholder="contoh@gmail.com" aria-label="john.doe"
-                                                    value="{{ old('email') }}" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900"/>
-                                                <label for="multiStepsEmail" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900">Email</label>
+                                                    value="{{ old('email') }}" />
+                                                <label for="multiStepsEmail" >Email</label>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert" >
                                                         <strong>{{ $message }}</strong>
@@ -168,10 +168,10 @@
                                                     <input type="password" id="multiStepsPass" name="password"
                                                         class="form-control @error('password') is-invalid @enderror"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="multiStepsPass2" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000"/>
-                                                    <label for="multiStepsPass" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000">Password</label>
+                                                        aria-describedby="multiStepsPass2"/>
+                                                    <label for="multiStepsPass">Password</label>
                                                 </div>
-                                                <span class="input-group-text cursor-pointer" id="multiStepsPass2" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000"><i
+                                                <span class="input-group-text cursor-pointer" id="multiStepsPass2"><i
                                                         class="ri-eye-off-line"></i></span>
                                                 @error('password')
                                                     <span class="invalid-feedback" role="alert">
@@ -186,19 +186,19 @@
                                                     <input type="password" id="multiStepsConfirmPass"
                                                         name="password_confirmation" class="form-control"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="multiStepsConfirmPass2" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1100"/>
-                                                    <label for="multiStepsConfirmPass" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1100">Konfirmasi Password</label>
+                                                        aria-describedby="multiStepsConfirmPass2"/>
+                                                    <label for="multiStepsConfirmPass" >Konfirmasi Password</label>
                                                 </div>
                                                 <span class="input-group-text cursor-pointer"
-                                                    id="multiStepsConfirmPass2" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1100"><i class="ri-eye-off-line" ></i></span>
+                                                    id="multiStepsConfirmPass2" ><i class="ri-eye-off-line" ></i></span>
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex justify-content-between">
                                             <button type="button" class="btn btn-outline-secondary btn-prev"
-                                                disabled data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1100"> <i class="ri-arrow-left-line ri-16px me-sm-1_5 me-0"></i>
+                                                disabled > <i class="ri-arrow-left-line ri-16px me-sm-1_5 me-0"></i>
                                                 <span class="align-middle d-sm-inline-block d-none">Previous</span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-next" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1100"> <span
+                                            <button type="button" class="btn btn-secondary btn-next"> <span
                                                     class="align-middle d-sm-inline-block d-none me-sm-1_5 me-0">Next</span>
                                                 <i class="ri-arrow-right-line ri-16px"></i></button>
                                         </div>
