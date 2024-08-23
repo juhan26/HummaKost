@@ -44,7 +44,7 @@
                     <div class="dropdown-menu">
                         <div class="row p-3" style="width:20rem;">
                             <div class="">
-                                <p class="card-title">Status</p>
+                                <p class="card-title">Status:</p>
                                 <label class="form-check-label custom-option-content w-100" for="activeFilter">
                                     <div class="dropdown-item">
                                         <input name="status[]" class="form-check-input me-2" id="activeFilter"
@@ -61,6 +61,7 @@
                                         <span>Expired</span>
                                     </div>
                                 </label>
+                                <p class="card-title">Kontrakan: </p>
                                 @foreach ($properties as $property)
                                     <label class="form-check-label custom-option-content w-100"
                                         for="property_idFilter{{ $property->id }}">
@@ -249,7 +250,7 @@
                     {{-- Edit Lease Modal --}}
 
                     {{-- Delete Modal --}}
-                    <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
+                    {{-- <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
                         aria-labelledby="deleteModalLabel{{ $lease->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -273,7 +274,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- Delete Modal --}}
                 @empty
                     <tr class="text-center">
