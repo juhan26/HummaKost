@@ -42,7 +42,10 @@ Route::get('/properties/show/{id}', [LandingController::class, 'show'])->name('h
 Route::middleware(['auth', 'role:tenant|admin|super_admin'])->group(function () {
 
     Route::get('users/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
+<<<<<<< HEAD
     // profile change
+=======
+>>>>>>> fe9eef93379f79face550b8edefe2c68a69722f4
     Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.changePassword');
 });
 
@@ -97,6 +100,7 @@ Route::middleware(['auth', 'role:admin|super_admin'])->group(function () {
     Route::resource('properties', PropertyController::class);
     // dashboard
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+    // profile change
     //users
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
