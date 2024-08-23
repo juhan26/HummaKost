@@ -42,10 +42,7 @@ Route::get('/properties/show/{id}', [LandingController::class, 'show'])->name('h
 Route::middleware(['auth', 'role:tenant|admin|super_admin'])->group(function () {
 
     Route::get('users/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
-<<<<<<< HEAD
     // profile change
-=======
->>>>>>> fe9eef93379f79face550b8edefe2c68a69722f4
     Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.changePassword');
 });
 
