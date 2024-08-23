@@ -24,7 +24,7 @@
             <form action="{{ route('payments.index') }}" method="GET"
                 class="d-flex flex-column flex-md-row align-items-center" style="gap: 15px; position: relative; width: 40%;">
                 @csrf
-                <input type="text" class="form-control" name="search" id="searchInput"
+                <input type="text" class="form-control" name="search" id="searchInput" placeholder="Cari..."
                     style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none;"
                     value="{{ request('search') }}">
                 {{-- <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
@@ -43,7 +43,7 @@
                     <div class="dropdown-menu">
                         <div class="row p-3" style="width:20rem;">
                             <div class="col-12">
-                                <p class="card-title">Status</p>
+                                <p class="card-title">Kontrakan</p>
                                 @foreach ($properties as $property)
                                     <label class="form-check-label custom-option-content w-100"
                                         for="propertyFilter{{ $property->id }}">
