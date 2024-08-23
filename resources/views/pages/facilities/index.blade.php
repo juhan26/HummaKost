@@ -264,11 +264,12 @@
                 </div>
                 <!-- Delete Modal -->
             @empty
-                <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
+                <div class="card-header flex-column flex-md-row  w-100">
                     <div class="head-label text-center">
-                        <h5 class="card-title mb-0">
-                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}
-                        </h5>
+                        <h1 class="material-symbols-outlined mt-4"
+                            style="font-size: 3rem;color:rgba(32, 180, 134,.4);">real_estate_agent</h1>
+                        <p class="card-title" style="color: rgba(0,0,0,.4)">Fasilitas tidak ditemukan
+                        </p>
                     </div>
                 </div>
             @endforelse

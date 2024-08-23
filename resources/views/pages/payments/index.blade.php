@@ -35,39 +35,27 @@
                 <i class="ri-search-line ri-20px" id="searchIcon"
                     style="position: absolute; top: 50%; transform: translateY(-50%); left: 3%;"></i>
 
-                <div class="dropdown d-flex align-items-center w-100 justify-content-end">
-                    <button type="button" class="btn btn-primary w-100  dropdown-toggle hide-arrow"
-                        data-bs-toggle="dropdown" style="border-radius: 15px;padding-top:.85rem;padding-bottom:.85rem">
+                <div class="dropdown d-flex align-items-center w-fit justify-content-end">
+                    <button type="button" class="btn btn-primary   dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
+                        style="border-radius: 15px;padding-top:.85rem;padding-bottom:.85rem">
                         <span class="material-symbols-outlined">filter_list</span>
                     </button>
                     <div class="dropdown-menu">
                         <div class="row p-3" style="width:20rem;">
                             <div class="col-12">
                                 <p class="card-title">Status</p>
-                                <label class="form-check-label custom-option-content w-100" for="pendingFilter">
-                                    <div class="dropdown-item">
-                                        <input name="status[]" class="form-check-input me-2" id="pendingFilter"
-                                            type="checkbox" value="pending" onclick="this.form.submit()"
-                                            @if (in_array('pending', $status)) checked @endif />
-                                        <span>Ditunggu</span>
-                                    </div>
-                                </label>
-                                <label class="form-check-label custom-option-content w-100" for="acceptedFilter">
-                                    <div class="dropdown-item">
-                                        <input name="status[]" class="form-check-input me-2" id="acceptedFilter"
-                                            type="checkbox" value="accepted" onclick="this.form.submit()"
-                                            @if (in_array('accepted', $status)) checked @endif />
-                                        <span>Diterima</span>
-                                    </div>
-                                </label>
-                                <label class="form-check-label custom-option-content w-100" for="rejectedFilter">
-                                    <div class="dropdown-item">
-                                        <input name="status[]" class="form-check-input me-2" id="rejectedFilter"
-                                            type="checkbox" value="rejected" onclick="this.form.submit()"
-                                            @if (in_array('rejected', $status)) checked @endif />
-                                        <span>Ditolak</span>
-                                    </div>
-                                </label>
+                                @foreach ($properties as $property)
+                                    <label class="form-check-label custom-option-content w-100"
+                                        for="propertyFilter{{ $property->id }}">
+                                        <div class="dropdown-item">
+                                            <input name="status[]" class="form-check-input me-2"
+                                                id="propertyFilter{{ $property->id }}" type="checkbox"
+                                                value="{{ $property->id }}" onclick="this.form.submit()"
+                                                @if (in_array($property->id, $status)) checked @endif />
+                                            <span>{{ $property->name }}</span>
+                                        </div>
+                                    </label>
+                                @endforeach
                             </div>
                         </div>
             </form>
@@ -80,6 +68,15 @@
         @forelse ($leases as $lease)
             <div class="col-md-6 col-lg-4 mb-12">
                 <div class="card h-100" style="overflow: hidden">
+                    <span
+                        style="border-radius: 15px;height: 28px;top: 10px;right:10px;{{ $lease->total_nominal >= $lease->total_iuran ? 'border:1px solid rgba(50,200,50,.4);' : 'border:1px solid rgba(200,50,50,.4);' }}"
+                        class="badge fs-6 position-absolute {{ $lease->total_nominal >= $lease->total_iuran ? 'bg-label-success' : 'bg-label-danger' }}">
+                        {{ $lease->total_nominal >= $lease->total_iuran ? 'Lunas' : 'Belum Lunas' }}
+                    </span>
+                    <span style="border-radius: 15px;height: 28px;top: 10px;left:10px;border:1px solid rgba(50,50,200,.4);"
+                        class="badge fs-6 position-absolute bg-label-warning">
+                        {{ $lease->properties->name }}
+                    </span>
                     @if ($lease->user->photo)
                         <img src="{{ asset('storage/' . $lease->user->photo) }}" class="" alt="{{ $user->name }}">
                     @elseif ($lease->user->gender === 'male')
@@ -89,14 +86,11 @@
                     @endif
                     <div class="card-body">
                         <div class="d-flex justify-content-between p-0 m-1 align-items-center">
-                            <h5 class="card-title m-0 ">{{ $lease->user->name }}</h5>
-                            <span style="border-radius: 15px;height: 28px"
-                                class="badge fs-6 {{ $lease->total_nominal >= $lease->total_iuran ? 'bg-label-success' : 'bg-label-danger' }}">
-                                {{ $lease->total_nominal >= $lease->total_iuran ? 'Lunas' : 'Belum Lunas' }}
-                            </span>
+                            <h4 class="card-title"><strong>{{ $lease->user->name }}</strong></h4>
                         </div>
                         <div style="max-height: 120px; overflow: auto">
-                            <p class="card-text">
+                            <p class="card-text"
+                                style="width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
                                 @php
                                     $startPayment = '';
                                     $lastPayment = '';
@@ -202,10 +196,15 @@
                                                 </td>
                                             </tr>
                                         @empty
-                                            <tr>
-                                                <td colspan="6" class="text-center">Belum ada
-                                                    pembayaran.</td>
-                                            </tr>
+                                        <tr class="text-center">
+                                            <!-- Update colspan to match the number of columns in your table -->
+                                            <td colspan="50" class="">
+                                                <h1 class="material-symbols-outlined mt-4"
+                                                    style="font-size: 3rem;color:rgba(32, 180, 134,.4);">group</h1>
+                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Anggota tidak ditemukan
+                                                </p>
+                                            </td>
+                                        </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -309,8 +308,12 @@
             {{-- Store Modal --}}
         @empty
             <div class="col-12">
-                <p class="text-center">
-                    {{ request('search') ? 'Pembayaran Tidak Ditemukan' : 'Belum Ada Pembayaran' }}</p>
+                <div class="text-center">
+                    <h1 class="material-symbols-outlined mt-4" style="font-size: 3rem;color:rgba(32, 180, 134,.4);">
+                        real_estate_agent</h1>
+                    <p class="card-title" style="color: rgba(0,0,0,.4)">Fasilitas tidak ditemukan
+                    </p>
+                </div>
             </div>
         @endforelse
     </div>
