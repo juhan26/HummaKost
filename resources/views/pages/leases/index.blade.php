@@ -60,7 +60,7 @@
                                         <input name="status[]" class="form-check-input me-2" id="expiredFilter"
                                             type="checkbox" value="expired" onclick="this.form.submit()"
                                             @if (in_array('expired', $status)) checked @endif />
-                                        <span>Expired</span>
+                                        <span>Tidak Aktif</span>
                                     </div>
                                 </label>
                                 <p class="card-title">Kontrakan: </p>

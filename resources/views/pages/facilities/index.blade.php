@@ -199,7 +199,8 @@
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit {{ $facility->id }}
+                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit
+                                    {{ $facility->id }}
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -224,7 +225,8 @@
                                             value="{{ $facility->name }}">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="facilityDescription" class="form-label">Deskripsi <small>(Opsional & max: 50 karakter)</small></label>
+                                        <label for="facilityDescription" class="form-label">Deskripsi <small>(Opsional &
+                                                max: 50 karakter)</small></label>
                                         <textarea class="form-control" id="facilityDescription" name="description">{{ $facility->desciption }}</textarea>
                                     </div>
                                     <div class="d-flex justify-content-end">
@@ -267,8 +269,8 @@
             @empty
                 <div class="card-header flex-column flex-md-row  w-100">
                     <div class="head-label text-center">
-                        <h1 class="material-symbols-outlined mt-4"
-                            style="font-size: 3rem;color:rgba(32, 180, 134,.4);">real_estate_agent</h1>
+                        <h1 class="material-symbols-outlined mt-4" style="font-size: 3rem;color:rgba(32, 180, 134,.4);">
+                            real_estate_agent</h1>
                         <p class="card-title" style="color: rgba(0,0,0,.4)">Fasilitas tidak ditemukan
                         </p>
                     </div>
@@ -430,7 +432,6 @@
                         } else {
                             dropzoneInstance.submitForm();
                         }
-                        // this.form.submit( route('facility.index'));
                     });
 
                     this.on("sending", function(file, xhr, formData) {
@@ -443,14 +444,24 @@
                     });
 
                     this.on("queuecomplete", function() {
-                        dropzoneInstance.submitForm();
+
+                        localStorage.setItem('uploadSuccessMessage', 'Upload gambar berhasil.');
+
+
+                        window.location.href = "{{ route('facilities.index') }}";
                     });
                 },
                 submitForm: function() {
-                    dropzoneElement.submit();
+
+                    localStorage.setItem('uploadSuccessMessage', 'Upload gambar berhasil.');
+
+
+                    window.location.href = "{{ route('facilities.index') }}";
                 }
             });
         });
+
+
 
 
 
@@ -467,7 +478,7 @@
 
             if (file) {
                 reader.readAsDataURL(file);
-                
+
             }
         })
 
@@ -484,7 +495,7 @@
 
             if (file) {
                 reader.readAsDataURL(file);
-            
+
             }
         })
     </script>
