@@ -202,10 +202,10 @@
                                                 <span>{{ $user->email }}</span>
                                             </li>
                                         </ul>
-                                        <div class="d-flex justify-content-end">
+                                        {{-- <div class="d-flex justify-content-end">
                                             <a href="javascript:;" class="btn btn-primary me-4 waves-effect waves-light"
                                                 data-bs-target="#editUser" data-bs-toggle="modal">Edit</a>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="tab-pane fade" id="navs-messages-card" role="tabpanel">
                                         <h5 class="card-header">Ganti Password</h5>

@@ -22,51 +22,89 @@ class LeaseController extends Controller
         $propertySearch = $request->input('search');
         $status = $request->input('status', []);
         $property_id = $request->input('property_id', []);
+        if (Auth::user()->hasRole('super_admin')) {
+            if ($propertySearch || $status || $property_id) {
+                $query->where(function ($query) use ($propertySearch, $status, $property_id) {
 
-        if ($propertySearch || $status || $property_id) {
-            $query->where(function ($query) use ($propertySearch, $status, $property_id) {
+                    if ($propertySearch) {
+                        $query->whereHas('user', function ($query) use ($propertySearch) {
+                            $query->where('name', 'LIKE', "%{$propertySearch}%");
+                        });
 
-                if ($propertySearch) {
-                    $query->whereHas('user', function ($query) use ($propertySearch) {
-                        $query->where('name', 'LIKE', "%{$propertySearch}%");
-                    });
+                        $query->orWhereHas('properties', function ($query) use ($propertySearch) {
+                            $query->where('name', 'LIKE', "%{$propertySearch}%");
+                        });
 
-                    $query->orWhereHas('properties', function ($query) use ($propertySearch) {
-                        $query->where('name', 'LIKE', "%{$propertySearch}%");
-                    });
+                        $query->orWhere('status', 'LIKE', "%{$propertySearch}%");
+                    }
 
-                    $query->orWhere('status', 'LIKE', "%{$propertySearch}%");
-                }
+                    if (!empty($status)) {
+                        $query->whereIn('status', $status);
+                    }
 
-                if (!empty($status)) {
-                    $query->whereIn('status', $status);
-                }
+                    if (!empty($property_id)) {
+                        $query->whereIn('property_id', $property_id);
+                    }
+                });
+            }
 
-                if (!empty($property_id)) {
-                    $query->whereIn('property_id', $property_id);
-                }
-            });
-        }
-
-        $leases = $query->orderByRaw("
+            $leases = $query->orderByRaw("
         CASE
             WHEN status = 'active' THEN 1
             WHEN status = 'expired' THEN 2
             ELSE 3
         END
     ")
-            ->latest()
-            ->paginate(10);
+                ->latest()
+                ->paginate(10);
 
-        $leases->appends([
-            'search' => $propertySearch,
-            'status' => $status,
-        ]);
+            $properties = Property::all();
+            $users = User::with(['lease'])->whereHas('roles', function ($query) {
+                $query->where('name', '!=', 'super_admin');
+            })->whereDoesntHave('lease')->get();
+        } else {
+            $query->whereHas('properties', function ($query) {
+                $query->where('id', Auth::user()->lease->property_id);
+            });
 
-        $properties = Property::all();
-        $users = User::with(['lease'])->whereHas('roles', function ($query) {
-            $query->where('name', '!=', 'super_admin');
-        })->whereDoesntHave('lease')->get();
+            if ($propertySearch || $status || $property_id) {
+                $query->where(function ($query) use ($propertySearch, $status, $property_id) {
+
+                    if ($propertySearch) {
+                        $query->whereHas('user', function ($query) use ($propertySearch) {
+                            $query->where('name', 'LIKE', "%{$propertySearch}%");
+                        });
+
+                        $query->orWhereHas('properties', function ($query) use ($propertySearch) {
+                            $query->where('name', 'LIKE', "%{$propertySearch}%");
+                        });
+
+                        $query->orWhere('status', 'LIKE', "%{$propertySearch}%");
+                    }
+
+                    if (!empty($status)) {
+                        $query->whereIn('status', $status);
+                    }
+
+                    if (!empty($property_id)) {
+                        $query->whereIn('property_id', $property_id);
+                    }
+                });
+            }
+
+            $leases = $query->orderByRaw("
+                CASE
+                    WHEN status = 'active' THEN 1
+                    WHEN status = 'expired' THEN 2
+                    ELSE 3
+                END
+            ")
+                ->latest()
+                ->paginate(10);
+
+            $properties = Property::all();
+            $users = User::all();
+        }
 
         return view('pages.leases.index', compact('leases', 'properties', 'status', 'property_id', 'users'));
     }

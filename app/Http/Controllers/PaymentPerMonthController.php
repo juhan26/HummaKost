@@ -9,6 +9,7 @@ use App\Models\Property;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentPerMonthController extends Controller
 {
@@ -18,29 +19,58 @@ class PaymentPerMonthController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $status = $request->input('status',[]);
-        if ($search || $status) {
-            $leases = Lease::with(['user', 'payments'])
-            ->whereHas('user', function ($query) use ($search) {
-                $query->where('name', 'LIKE', '%' . $search . '%');
-            })
-                ->where(function ($query) use ($status) {
-                    if (!empty($status)) {
-                        $query->whereIn('property_id', $status);
-                    };
-                })
-                ->latest()->paginate(6);
+        $status = $request->input('status', []);
+        if (Auth::user()->hasRole('super_admin')) {
+            if ($search || $status) {
+                $leases = Lease::with(['user', 'payments'])
+                    ->whereHas('user', function ($query) use ($search) {
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    })
+                    ->where(function ($query) use ($status) {
+                        if (!empty($status)) {
+                            $query->whereIn('property_id', $status);
+                        };
+                    })
+                    ->latest()->paginate(6);
+            } else {
+                $leases = Lease::with(['user', 'payments'])->latest()->paginate(6);
+            }
+            $payments = PaymentPerMonth::all();
+            $properties = Property::all();
+            $leases->appends([
+                'search' => $search,
+                'status' => $status,
+            ]);
         } else {
-            $leases = Lease::with(['user', 'payments'])->latest()->paginate(6);
-        }
-        $payments = PaymentPerMonth::all();
-        $properties = Property::all();
-        $leases->appends([
-            'search' => $search,
-            'status' => $status,
-        ]);
+            $query = Lease::with(['user', 'payments']);
 
-        return view('pages.payments.index', compact('payments', 'leases','status','properties'));
+            $query->whereHas('properties', function ($query) {
+                $query->where('id', Auth::user()->lease->property_id);
+            });
+
+            if ($search) {
+                $query->whereHas('user', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            if (!empty($status)) {
+                $query->whereIn('property_id', $status);
+            }
+
+            $leases = $query->latest()->paginate(6);
+            $leases->appends([
+                'search' => $search,
+                'status' => $status,
+            ]);
+
+            $payments = PaymentPerMonth::all();
+            $properties = Property::all();
+        }
+
+
+
+        return view('pages.payments.index', compact('payments', 'leases', 'status', 'properties'));
     }
 
 

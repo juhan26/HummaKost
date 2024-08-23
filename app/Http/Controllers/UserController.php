@@ -187,22 +187,20 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-        // Validasi input
         $request->validate([
             'password' => 'required|min:8',
             'confirmPassword' => 'required|same:password',
         ]);
 
-        // Update password
         if ($request->password === Auth::user()->password) {
             return back()->with('error', 'Password Tidak Boleh Sama');
         }
+
         $user = Auth::user();
         $user->password = Hash::make($request->password);
         $user->save();
 
-        // Redirect atau response setelah berhasil mengubah password
-        return back()->with('success', 'Password successfully changed!');
+        return redirect()->route('user.show')->with('success', 'Password successfully changed!');
     }
 
 

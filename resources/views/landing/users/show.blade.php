@@ -62,14 +62,14 @@
                                 class="w-full h-full object-cover rounded-full">
                         </button>
                         <div id="profile-menu"
-                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10 hidden">
+                            class="absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 hidden">
                             <ul class="py-2 text-gray-700">
                                 <li class="flex justify-center items-start gap-3 px-8 py-2 border-b border-gray-200">
                                     <img src="http://127.0.0.1:8000/assets/img/avatars/5.png" alt="User Photo"
                                         class="w-12 h-12 object-cover rounded-full">
                                     <div class="flex flex-col">
-                                        <span class="font-semibold">John</span>
-                                        <span class="text-gray-500">adzikrasano@gmail.com</span>
+                                        <span class="font-semibold">{{ Auth::user()->name }}</span>
+                                        <span class="text-gray-500">{{ Auth::user()->email }}</span>
                                     </div>
                                 </li>
                                 <li>
@@ -112,7 +112,7 @@
                                     <div class="user-avatar-section">
                                         <div class="flex flex-col items-center">
                                             <div class="w-96 h-96 rounded-full bg-center bg-cover"
-                                                style="background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/1.png') : asset('assets/img/avatars/10.png')) }}');">
+                                                style="background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/5.png') : asset('assets/img/avatars/10.png')) }}');">
                                             </div>
 
                                             <div class="text-center user-info">
@@ -293,7 +293,7 @@
                                         <div class="form-group">
                                             <label for="password"
                                                 class="block text-sm font-medium text-gray-700">Password Baru</label>
-                                            <input type="password" id="password" name="password"
+                                            <input type="password" id="password" name="password" min="8"
                                                 class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                                                 placeholder="············">
                                         </div>
@@ -302,6 +302,7 @@
                                                 class="block text-sm font-medium text-gray-700">Konfirmasi Password
                                                 Baru</label>
                                             <input type="password" id="confirmPassword" name="confirmPassword"
+                                                min="8"
                                                 class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                                                 placeholder="············">
                                         </div>
