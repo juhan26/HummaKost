@@ -121,7 +121,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const toastDuration = 2300; // 3 seconds
+            const toastDuration = 4000; // 3 seconds
 
             function hideToast(id) {
                 const toast = document.getElementById(id);

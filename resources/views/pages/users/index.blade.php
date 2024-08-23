@@ -366,11 +366,10 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Ubah
-                                                        data anggota <span class="text-primary">{{ $user->name }}</span>
+                                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">
+                                                        Ubah data anggota <span class="text-primary">{{ $user->name }}</span>
                                                     </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="{{ route('user.update', $user->id) }}" method="POST">
@@ -379,55 +378,42 @@
                                                         <div class="row">
                                                             <div class="col-12 col-lg-12">
                                                                 <div class="mb-3">
-                                                                    <label for="editName{{ $user->id }}"
-                                                                        class="form-label">Name:</label>
+                                                                    <label for="editName{{ $user->id }}" class="form-label">Name:</label>
                                                                     <input type="text" class="form-control"
                                                                         name="name" id="editName{{ $user->id }}"
-                                                                        value="{{ old('name', $user->name) }}">
+                                                                        value="{{ $user->name }}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-lg-12">
                                                                 <div class="mb-3">
-                                                                    <label for="editEmail{{ $user->id }}"
-                                                                        class="form-label">Email:</label>
+                                                                    <label for="editEmail{{ $user->id }}" class="form-label">Email:</label>
                                                                     <input type="email" class="form-control"
-                                                                        name="email" id="editEmail{{ $user->id }}"
-                                                                        value="{{ old('email', $user->email) }}">
+                                                                        name="email" disabled id="editEmail{{ $user->id }}"
+                                                                        value="{{ $user->email }}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="edittel{{ $user->id }}"
-                                                                        class="form-label">Nomor Telepon:</label>
+                                                                    <label for="edittel{{ $user->id }}" class="form-label">Nomor Telepon:</label>
                                                                     <input type="number" class="form-control"
-                                                                        name="phone_number"
-                                                                        id="edittel{{ $user->id }}"
-                                                                        value="{{ old('phone_number', $user->phone_number) }}">
+                                                                        name="phone_number" id="edittel{{ $user->id }}"
+                                                                        value="{{  $user->phone_number }}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="selectGender" class="form-label">Jenis
-                                                                        Kelamin</label>
-                                                                    <select id="selectGender" class="form-select"
-                                                                        name="gender">
-                                                                        <option value="male"
-                                                                            {{ $user->gender == 'male' ? 'selected' : '' }}>
-                                                                            Laki-laki</option>
-                                                                        <option value="female"
-                                                                            {{ $user->gender == 'female' ? 'selected' : '' }}>
-                                                                            Perempuan</option>
+                                                                    <label for="selectGender{{ $user->id }}" class="form-label">Jenis Kelamin</label>
+                                                                    <select id="selectGender{{ $user->id }}" class="form-select" name="gender">
+                                                                        <option value="male" {{ $user->gender == 'male' ? 'selected' : '' }}>Laki-laki</option>
+                                                                        <option value="female" {{  $user->gender == 'female' ? 'selected' : '' }}>Perempuan</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-lg-12 mb-5 mt-lg-5">
-                                                                <label for="selectInstance"
-                                                                    class="form-label">Instansi</label>
-                                                                <select id="selectInstance" class="form-select"
-                                                                    name="instance_id">
+                                                                <label for="selectInstance{{ $user->id }}" class="form-label">Instansi</label>
+                                                                <select id="selectInstance{{ $user->id }}" class="form-select" name="instance_id">
                                                                     @foreach ($instances as $instance)
-                                                                        <option value="{{ $instance->id }}"
-                                                                            {{ $user->instance_id == $instance->id ? 'selected' : '' }}>
+                                                                        <option value="{{ $instance->id }}" {{ $user->instance_id == $instance->id ? 'selected' : '' }}>
                                                                             {{ $instance->name }}
                                                                         </option>
                                                                     @endforeach
@@ -435,17 +421,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Tutup</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan
-                                                                Perubahan</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                                                         </div>
                                                     </form>
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1"
                                         aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
