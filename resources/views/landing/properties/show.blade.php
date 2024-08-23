@@ -55,11 +55,11 @@
 <body>
     <!-- header area -->
     <header id="header-sticky">
-        <div class="py-6 bg-white border-b border-gray-50">
-            <div class="container flex justify-between items-center px-4 sm:px-6 2xl:px-0">
+        <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
+            <div class="container-fluid flex justify-between items-center px-2 sm:px-2 2xl:px-0">
                 <!-- logo -->
                 <div>
-                    <a href="{{ route('home.index') }}">
+                    <a href="#">
                         <img src="/assets/images/logo.png" alt="New Logo" style="width:3rem; height:3rem;">
                     </a>
                 </div>
@@ -69,23 +69,19 @@
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}">home</a>
+                            href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#member">member</a>
+                            href="#properties">Kontrakan</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#workprocess">course</a>
+                            href="#about">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#portfolio">blog</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#blog">contact</a>
+                            href="#feedback">Masukan</a>
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -119,10 +115,6 @@
                                         <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
                                     </li> --}}
                                         <li>
-                                            <a href=""
-                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
-                                        </li>
-                                        <li>
                                             <a href="{{ route('dashboard') }}"
                                                 class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
                                         </li>
@@ -130,7 +122,7 @@
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                                Logout
+                                                Keluar
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                 class="d-none">
@@ -166,19 +158,19 @@
                                                 alt="User Photo" class="w-12 h-12 object-cover rounded-full">
                                             <div class="flex flex-col" style="object-fit: cover">
                                                 <span class="font-semibold">{{ Auth::user()->name }}</span>
-                                                <span class="text-gray-500"
+                                                <p class="text-gray-500 text-smd"
                                                     text-muted>{{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
-                                        <li>
-                                            <a href=""
-                                                class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
-                                        </li>
+                                        {{-- <li>
+                                            <a href="{{ route('dashboard') }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
+                                        </li> --}}
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                                Logout
+                                                Keluar
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                 class="d-none">
@@ -203,7 +195,7 @@
                         <span></span>
                     </div>
                 </div>
-                <!-- right menu end -->
+
                 <script>
                     document.getElementById('profile-btn').addEventListener('click', function(event) {
                         event.preventDefault(); // Prevent default action to avoid reloading
@@ -227,6 +219,8 @@
                         }
                     }
                 </script>
+
+                <!-- right menu end -->
             </div>
         </div>
     </header>
@@ -234,13 +228,14 @@
 
     <!-- Mobile Menu Area Start -->
     <div class="nav-menu" id="nav-menu">
-        <div class="flex justify-between items-center p-6 mb-8">
+        <div class="flex justify-center items-center p-6 mb-8">
             <div>
                 <a href="#">
-                    <img src="/assets/img/images/logo.png" alt="">
+                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 7rem; height: 2rem;"
+                        class="container">
                 </a>
             </div>
-            <div>
+            <div class="absolute right-6">
                 <button
                     class="hamburger-btn-close bg-[#F7F7F9] text-primary-900 hover:bg-primary-500 w-[44px] h-[44px] rounded-full flex items-center justify-center hover:text-white"
                     id="hamburger-btn-close">
@@ -262,15 +257,19 @@
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#member">member</a>
+                    href="#loadMember">properties</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#workprocess">course</a>
+                    href="#loadMember">tenant</a>
             </li>
             <li class="mb-2">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#portfolio">blog</a>
+                    href="#descc">about</a>
+            </li>
+            <li class="mb-2">
+                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
+                    href="#gambars">feedback</a>
             </li>
             <li class="">
                 <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
@@ -278,9 +277,9 @@
             </li>
         </ul>
         <div class="px-6 mb-8">
-            <a href="#" class="btn-primary">
+            {{-- <a href="#" class="btn-primary">
                 <span>Sign up for Free</span>
-            </a>
+            </a> --}}
         </div>
     </div>
     <!-- Mobile Menu Area End -->
@@ -358,7 +357,7 @@
                             <div class="w-full mt-12">
                                 <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                                     <div class="px-4 py-6 flex items-center bg-white rounded-lg">
-            
+
                                         <h6 class="mb-0">{{ $property->description }}</h6>
                                     </div>
                                 </div>
@@ -398,12 +397,17 @@
                                             </div>
                                         </div>
                                     @empty
-                                        <p>Belum ada gambar-gambar kontrakan.</p>
+                                    <div class="flex justify-center items-center w-full h-[300px]">
+                                        <p class="text-center">Belum ada gambar gambar Kontrakan {{ $property->name }}.</p>
+                                    </div>
                                     @endforelse
                                 </div>
-                                <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                                <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                                <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+
+                                @if ($property->property_images->isNotEmpty())
+                                    <div class="swiper-button-next" style="background: none; color: #20B486"></div>
+                                    <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
+                                    <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -456,12 +460,16 @@
                                     </div>
                                 </div>
                             @empty
-                                <p>No users available for this user.</p>
+                            <div class="flex justify-center items-center w-full h-[300px]">
+                                <p class="text-center">Belum ada penyewa di Kontrakan {{ $property->name }} ini.</p>
+                            </div>
                             @endforelse
                         </div>
-                        <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                        <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                        <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+                        @if ($property->leases->isNotEmpty())
+                            <div class="swiper-button-next" style="background: none; color: #20B486"></div>
+                            <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
+                            <div class="swiper-pagination" style="background: none; color: #20B486"></div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -497,14 +505,14 @@
                                         <div class="flex flex-col justify-between w-full">
                                             <div>
                                                 <h4
-                                                    class="font-display text-gray-700 text-[20px] leading-7 font-medium hover:text-primary-500 transition duration-300 ease-linear">
+                                                    class="font-display text-gray-700 text-[20px] ms-3 leading-7 font-medium hover:text-primary-500 transition duration-300 ease-linear">
                                                     {{ $facility->name }}
                                                 </h4>
                                                 <p class="text-gray-600">{{ $facility->description }}</p>
                                             </div>
                                             <div class="flex justify-end mt-2">
-                                                <a href="#"
-                                                    class="text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a>
+                                                {{-- <a href="#"
+                                                    class="text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -515,8 +523,10 @@
                             <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
                         @endforelse
                     </div>
+                    @if ($property->facilities->isNotEmpty())
                     <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
                     <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
+                    @endif
                 </div>
 
             </div>
@@ -525,13 +535,35 @@
 
         <!-- Mengimpor Swiper CSS dan JS -->
 
-        <div class="container mx-auto mt-10">
+        
+        <div class="container mx-auto mt-10 mb-10">
+            <div class="flex items-center justify-between mb-4">
+                <h2
+                    class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
+                    <span class="text-primary-500 after-svg instructor">Lokasi</span>
+                </h2>
+            </div>
             <div class="w-full bg-white shadow-lg rounded-lg overflow-hidden">
                 <div class="map-container relative" style="z-index: 0;">
                     <div style="width: 100%; height: 745px;" id="map"></div>
                 </div>
             </div>
         </div>
+
+        
+        
+        <div class="container mx-auto mt-10 mb-10">
+            <div class="w-full mt-12">
+                <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                    <div class="px-4 py-6 flex items-center bg-white rounded-lg">
+
+                        <h6 class="mb-0 text-center">Lokasi dari Kontrakan <span class="text-green-400">{{ $property->name }}</span> ke Hummasoft/Hummatech ( {{ $property->address }} )</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
     </section>
 
 
