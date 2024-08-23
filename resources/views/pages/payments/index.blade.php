@@ -161,7 +161,7 @@
                                                     </td>
                                                     <td>{{ \Carbon\Carbon::parse($payment->payment_month)->translatedFormat('F Y') }}
                                                     </td>
-                                                    <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat(' F Y') }}
+                                                    <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat('F Y') }}
                                                     </td>
                                                 </tr>
                                             @empty

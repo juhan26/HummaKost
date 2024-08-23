@@ -135,6 +135,18 @@ class UserController extends Controller
         // Mengirim data pengguna dan instance ke view
         return view('pages.users.show', compact('user', 'instances'));
     }
+    public function profile(User $user)
+    {
+        if (Auth::user()->id !== $user->id) {
+            return redirect()->route('user.index')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+        }
+
+        // Mengambil data instance untuk dropdown atau pilihan lainnya
+        $instances = Instance::orderBy('name', 'ASC')->get();
+
+        // Mengirim data pengguna dan instance ke view
+        return view('landing.users.show', compact('user', 'instances'));
+    }
 
 
     /**
@@ -179,7 +191,7 @@ class UserController extends Controller
         ]);
 
         // Update password
-        if($request->password === Auth::user()->password) {
+        if ($request->password === Auth::user()->password) {
             return back()->with('error', 'Password Tidak Boleh Sama');
         }
         $user = Auth::user();
