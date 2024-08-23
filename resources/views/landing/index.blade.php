@@ -147,7 +147,7 @@
                                                 alt="User Photo" class="w-12 h-12 object-cover rounded-full">
                                             <div class="flex flex-col" style="object-fit: cover">
                                                 <span class="font-semibold">{{ Auth::user()->name }}</span>
-                                                <p class="text-gray-500 text-sm"
+                                                <p class="text-gray-500 text-smd"
                                                     text-muted>{{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
@@ -589,12 +589,12 @@
     <section class="section-padding achievement-section" id="about">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Tentang <span class="text-primary-500 after-svg achievement">Kami</span>
+                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4" data-aos="fade-right" data-aos-duration="500">
+                Tentang <span class="text-primary-500 after-svg achievement" data-aos="fade-right" data-aos-duration="1200">Kami</span>
             </h2>
             <div class="flex flex-wrap">
                 <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
-                    <div class="flex flex-wrap gap-y-6 justify-between items-center md:mb-[62px]">
+                    <div class="flex flex-wrap gap-y-6 justify-between items-center md:mb-[62px]" data-aos="fade-up" data-aos-duration="1000">
                         <div class="flex gap-6 items-center w-full counter-card">
                         </div>
                         <p class="text-primary-900 md:text-xl text-base">
@@ -616,7 +616,7 @@
 
                 <div class="xl:w-1/2 w-full relative flex justify-center items-center">
                     <div class="inline-flex justify-center">
-                        <img src="/assets/images/kosjempol.png" alt="Achievement Image" class="">
+                        <img src="/assets/images/kosjempol.png" alt="Achievement Image" class="" style="filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));" data-tilt data-aos="fade-left" data-aos-duration="1000">
                     </div>
                 </div>
             </div>
@@ -632,10 +632,10 @@
     <section class="section-padding feedback-section" id="feedback">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                Masukan <span class="text-primary-500 after-svg feedback">Penyewa</span>
+                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4" data-aos="fade-right" data-aos-duration="1000">
+                Masukan <span class="text-primary-500 after-svg feedback" data-aos="fade-right" data-aos-duration="1000">Penyewa</span>
             </h2>
-            <p class="text-gray-500 md:text-xl text-base">Kami telah meningkatkan kualitas kontrak kami berdasarkan
+            <p class="text-gray-500 md:text-xl text-base" data-aos="fade-right" data-aos-duration="1000">Kami telah meningkatkan kualitas kontrak kami berdasarkan
                 kritik dan saran dari kritik dan saran. Agar Anda sebagai penyewa merasa nyaman.</p>
             <!-- Feedback Form -->
 
@@ -644,12 +644,12 @@
                 @auth
                     <form action="{{ route('feedback.store') }}" method="POST">
                         @csrf
-                        <div class="mb-4">
+                        <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
                             <label for="message" class="block text-gray-700">Kritik dan Masukan Anda!</label>
                             <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
                                 placeholder="Masukan kritik dan saran anda disini..."></textarea>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4" data-aos="fade-right" data-aos-duration="1300">
                             <label for="rating" class="block text-gray-700">Penilaian</label>
                             <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
                                 <option value="5">5 - Terbaik</option>
@@ -659,7 +659,7 @@
                                 <option value="1">1 - Buruk</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg">
+                        <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg" data-aos="fade-right" data-aos-duration="1400">
                             Kirim
                         </button>
                     </form>
@@ -674,9 +674,9 @@
 
         <!-- Display Feedbacks -->
         <div
-            class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg sm:px-6 2xl:px-0">
+            class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg sm:px-6 2xl:px-0" data-aos="fade-up" data-aos-duration="1600">
             @foreach ($feedbacks as $feedback)
-                <div class="feedback-item py-2 border-b border-gray-300 relative">
+                <div class="feedback-item px-4 py-4 border-b border-gray-300 relative">
                     <div class="flex items-center justify-between gap-2.5 mb-2">
                         <div class="flex items-center gap-2.5">
                             <div class="w-10 h-10 rounded-full">
@@ -845,7 +845,7 @@
                 <div class="footer-widget min-w-[320px]">
                     <div class="footer-widget-title xl:mb-6 md:mb-4 mb-3">
                         <a href="#" class="cursor-pointer">
-                            <img src="/assets/img/images/logo.png" alt="New Logo" style="width:300px; height:90px;">
+                            <img src="/assets/images/logo.png" alt="New Logo" style="width:90px; height:90px;">
                         </a>
                     </div>
                     <div class="footer-widget-content">
@@ -955,10 +955,6 @@
                             <li>
                                 <a href="#feedback"
                                     class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Masukan</a>
-                            </li>
-                            <li>
-                                <a href="#kontak"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Kontak</a>
                             </li>
                         </ul>
                     </div>
