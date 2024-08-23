@@ -85,8 +85,8 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-header">
-                    <div class="row d-flex align-items-center mt-4" style="height:fit-content">
-                        <div class="col-12 col-lg-7 h-100 justify-content-center align-items-center">
+                    <div class="row align-items-center mt-4" style="height:fit-content">
+                        <div class="col-12 col-lg-7 h-100 justify-content-center align-items-center mb-sm-5">
                             @php
                                 $filteredUsers = $users->filter(function ($user) {
                                     return $user->roles->contains('name', 'tenant');
@@ -94,12 +94,8 @@
                                 $title = $filteredUsers->isNotEmpty() ? 'Penyewa' : 'Ketua kontrakan';
                             @endphp
                             <h3 class="card-title">{{ $title }}</h3>
-                            @if (request()->input('filter') === 'admin')
-                            @else
-                                <small>Daftar penyewa yang belum mempunyai kontrak</small>
-                            @endif
                         </div>
-                        <div class="col-12 col-lg-4 h-100">
+                        <div class="col-10 col-lg-4 h-100 ms-auto">
                             <div class="d-flex align-items-center w-100 px-3" id="divSearchInput"
                                 style="border-radius: 15px;height: 60px;">
                                 <span class="material-symbols-outlined text-secondary ms-4">search</span>
@@ -129,7 +125,7 @@
                                 });
                             </script>
                         </div>
-                        <div class="col-12 col-lg-1 ">
+                        <div class="col-2 col-lg-1 ">
                             <div class="dropdown d-flex align-items-center w-100 justify-content-end">
                                 <button type="button" class="btn btn-primary w-100  dropdown-toggle hide-arrow"
                                     data-bs-toggle="dropdown"
@@ -299,25 +295,28 @@
                                             <td>
                                                 <div class="w-100 px-5">
                                                     <div class="row w-100 ">
-                                                        <div class="col-12 col-lg-6 mb-lg-1">
+                                                        <div class="col-12 col-lg-6 mb-lg-1 mb-sm-3">
                                                             <form action="{{ route('user.accept', $user->id) }}"
                                                                 method="POST" class="text-center w-100">
                                                                 @csrf
                                                                 <button type="submit"
-                                                                    class="col-12 btn btn-label-success p-0 m-0"
-                                                                    style="width: fit-content">
+                                                                    class="col-12 btn btn-label-success p-0 m-0 accept-button"
+                                                                    style="width: fit-content;border:1px solid rgba(50, 200, 50,.2);">
                                                                     <span class="material-symbols-outlined ">check</span>
                                                                 </button>
                                                             </form>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
-                                                            <form action="{{ route('user.reject', $user->id) }}" method="POST" class="text-center w-100">
+                                                            <form action="{{ route('user.reject', $user->id) }}"
+                                                                method="POST" class="text-center w-100">
                                                                 @csrf
-                                                                <button type="submit" class="col-12 btn btn-label-danger p-0 m-0 reject-button" style="width: fit-content">
+                                                                <button type="submit"
+                                                                    class="col-12 btn btn-label-danger p-0 m-0 reject-button"
+                                                                    style="width: fit-content;border:1px solid rgba(200, 50, 50,.1);">
                                                                     <span class="material-symbols-outlined">close</span>
                                                                 </button>
                                                             </form>
-                                                        </div>                                                        
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -525,8 +524,7 @@
                 <div class="card-footer">
                     @if ($users->hasPages())
                         <div class="pagination-container ">
-
-                            <ul class="pagination d-lg-flex justify-content-lg-between align-items-lg-center">
+                            <ul class="pagination d-flex justify-content-between align-items-center">
                                 {{-- Previous Page Link --}}
                                 <style>
                                     li {
@@ -545,6 +543,11 @@
                                     </li>
                                 @endif
 
+                                @php
+                                    $currentPage = $users->currentPage();
+                                    $totalPages = $users->lastPage();
+                                    $visiblePages = 1; // Maximum number of page numbers to display
+                                @endphp
                                 <div class="d-sm-flex d-md-flex d-lg-none ">
                                     <li class="page-item active" aria-disabled="true">
                                         <span class="page-link">{{ $users->currentPage() }}</span>
@@ -552,11 +555,6 @@
                                 </div>
                                 {{-- Pagination Elements (visible only on large screens and up) --}}
                                 <div class="d-none d-lg-flex gx-4">
-                                    @php
-                                        $currentPage = $users->currentPage();
-                                        $totalPages = $users->lastPage();
-                                        $visiblePages = 1; // Maximum number of page numbers to display
-                                    @endphp
                                     {{-- First Page --}}
                                     @if ($currentPage > $visiblePages + 1)
                                         <li class="page-item">
@@ -610,12 +608,11 @@
                                     </li>
                                 @endif
                             </ul>
+                            <div class="d-lg-none w-100" style="color: rgba(0,0,0,.4);font-size:.75rem;">
+                                Menampilkan halaman {{ $currentPage }} / {{ $totalPages }}
+                            </div>
                         </div>
                     @endif
-
-
-
-                    {{-- {{ $users->links() }} --}}
                 </div>
             </div>
         </div>
@@ -707,8 +704,28 @@
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    cancelButtonColor: "#646464",
                     confirmButtonText: "Ya, tolak!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit the form if confirmed
+                    }
+                });
+            });
+        });
+        document.querySelectorAll('.accept-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
+                const form = this.closest('form'); // Get the form related to this button
+
+                Swal.fire({
+                    title: "Yakin ingin menerima?",
+                    text: "Tindakan ini tidak dapat dibatalkan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#20b486",
+                    cancelButtonColor: "#646464",
+                    confirmButtonText: "Ya, terima!"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit(); // Submit the form if confirmed

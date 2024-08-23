@@ -58,6 +58,11 @@ class LeaseController extends Controller
             ->latest()
             ->paginate(10);
 
+        $leases->appends([
+            'search' => $propertySearch,
+            'status' => $status,
+        ]);
+
         $properties = Property::all();
         $users = User::with(['lease'])->whereHas('roles', function ($query) {
             $query->where('name', '!=', 'super_admin');
