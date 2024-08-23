@@ -200,7 +200,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit
-                                    {{ $facility->id }}
+                                Cortana I. Sachin Tendulkar. Slash slash. Manaya AL birthday, Ayesha Aishwarya    {{ $facility->id }}
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
