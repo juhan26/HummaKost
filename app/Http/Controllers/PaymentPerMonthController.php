@@ -18,16 +18,29 @@ class PaymentPerMonthController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if ($search) {
-            $leases = Lease::with(['user', 'payments'])->whereHas('user', function ($query) use ($search) {
+        $status = $request->input('status',[]);
+        if ($search || $status) {
+            $leases = Lease::with(['user', 'payments'])
+            ->whereHas('user', function ($query) use ($search) {
                 $query->where('name', 'LIKE', '%' . $search . '%');
-            })->latest()->paginate(6);
+            })
+                ->where(function ($query) use ($status) {
+                    if (!empty($status)) {
+                        $query->whereIn('property_id', $status);
+                    };
+                })
+                ->latest()->paginate(6);
         } else {
             $leases = Lease::with(['user', 'payments'])->latest()->paginate(6);
         }
         $payments = PaymentPerMonth::all();
+        $properties = Property::all();
+        $leases->appends([
+            'search' => $search,
+            'status' => $status,
+        ]);
 
-        return view('pages.payments.index', compact('payments', 'leases'));
+        return view('pages.payments.index', compact('payments', 'leases','status','properties'));
     }
 
 

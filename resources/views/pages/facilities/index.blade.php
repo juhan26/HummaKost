@@ -191,14 +191,16 @@
                 </div>
                 <!-- Image Detail Modal -->
 
+
+
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
-                    aria-labelledby="updateModalLabel aria-hidden="true">
+                    aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Edit
-                                    {{ $facility->id }}
+                                Cortana I. Sachin Tendulkar. Slash slash. Manaya AL birthday, Ayesha Aishwarya    {{ $facility->id }}
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -264,15 +266,103 @@
                 </div>
                 <!-- Delete Modal -->
             @empty
-                <div class="card-header flex-column flex-md-row border-top border-bottom w-100">
+                <div class="card-header flex-column flex-md-row  w-100">
                     <div class="head-label text-center">
-                        <h5 class="card-title mb-0">
-                            {{ request('search') ? 'Fasilitas Yang Anda Cari Tidak Ditemukan' : 'Belum Ada Fasilitas' }}
-                        </h5>
+                        <h1 class="material-symbols-outlined mt-4"
+                            style="font-size: 3rem;color:rgba(32, 180, 134,.4);">real_estate_agent</h1>
+                        <p class="card-title" style="color: rgba(0,0,0,.4)">Fasilitas tidak ditemukan
+                        </p>
                     </div>
                 </div>
             @endforelse
         </div>
+        @if ($facilities->hasPages())
+            <div class="pagination-container mt-5">
+                <ul class="pagination d-flex justify-content-between align-items-center">
+                    {{-- Previous Page Link --}}
+                    <style>
+                        li {
+                            border-radius: none;
+                        }
+                    </style>
+                    @if ($facilities->onFirstPage())
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link px-6 text-white" style="background-color: #63cbab">Prev</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link px-6 bg-primary text-white" href="{{ $facilities->previousPageUrl() }}"
+                                rel="prev">Prev</a>
+                        </li>
+                    @endif
+
+                    @php
+                        $currentPage = $facilities->currentPage();
+                        $totalPages = $facilities->lastPage();
+                        $visiblePages = 1; // Maximum number of page numbers to display
+                    @endphp
+                    <div class="d-sm-flex d-md-flex d-lg-none ">
+                        <li class="page-item active" aria-disabled="true">
+                            <span class="page-link">{{ $facilities->currentPage() }}</span>
+                        </li>
+                    </div>
+                    {{-- Pagination Elements (visible only on large screens and up) --}}
+                    <div class="d-none d-lg-flex gx-4">
+                        {{-- First Page --}}
+                        @if ($currentPage > $visiblePages + 1)
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $facilities->url(1) }}">1</a>
+                            </li>
+                            @if ($currentPage > $visiblePages + 2)
+                                <li class="page-item disabled" aria-disabled="true">
+                                    <span class="page-link">...</span>
+                                </li>
+                            @endif
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                            @if ($i == $currentPage)
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">{{ $i }}</span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $facilities->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endif
+                        @endfor
+
+                        {{-- Last Page --}}
+                        @if ($currentPage < $totalPages - $visiblePages)
+                            @if ($currentPage < $totalPages - $visiblePages - 1)
+                                <li class="page-item disabled" aria-disabled="true">
+                                    <span class="page-link">...</span>
+                                </li>
+                            @endif
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $facilities->url($totalPages) }}">{{ $totalPages }}</a>
+                            </li>
+                        @endif
+                    </div>
+
+                    {{-- Next Page Link --}}
+                    @if ($facilities->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link px-6 bg-primary text-white" href="{{ $facilities->nextPageUrl() }}"
+                                rel="next">Next</a>
+                        </li>
+                    @else
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link px-6 text-white" style="background-color: #63cbab">Next</span>
+                        </li>
+                    @endif
+                </ul>
+                <div class="d-lg-none w-100" style="color: rgba(0,0,0,.4);font-size:.75rem;">
+                    Menampilkan halaman {{ $currentPage }} / {{ $totalPages }}
+                </div>
+            </div>
+        @endif
     </div>
 
     <!-- Store Modal -->

@@ -22,6 +22,7 @@ class UserController extends Controller
         $query = User::query();
         $search = $request->input('search');
         $status = $request->input('status', []);
+        $filter = $request->input('filter');
 
         if ($request->has('filter') || $request->has('search') || $request->has('status')) {
             $filter = $request->input('filter');
@@ -58,12 +59,14 @@ class UserController extends Controller
             ->latest()
             ->paginate(10);
 
-        $instances = Instance::orderBy('name', 'ASC')->get();
+        $users->appends([
+            'search' => $search,
+            'filter' => $filter,
+            'status' => $status,
+        ]);
 
-        // Pass the status filter to the view
-        $isStatusFiltered = !empty($status);
-        // Return view with users data
-        return view('pages.users.index', compact('users', 'instances', 'status', 'isStatusFiltered'));
+        $instances = Instance::orderBy('name', 'ASC')->get();
+        return view('pages.users.index', compact('users', 'instances', 'status'));
     }
 
 

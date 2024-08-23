@@ -22,6 +22,10 @@ class FacilityController extends Controller
         } else {
             $facilities = Facility::latest()->paginate(6);
         }
+
+        $facilities->appends([
+            'search' => $request->search
+        ]);
         return view('pages.facilities.index', compact('facilities'));
     }
 

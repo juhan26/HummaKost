@@ -28,11 +28,13 @@
                 <input type="text" class="form-control" name="search" id="searchInput"
                     style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none;"
                     value="{{ request('search') }}" placeholder="Cari...">
-                <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
-                    data-bs-target="#createModal"
-                    style="width: 160px; padding: 15px 0; border-radius: 10px; background-color: rgba(32,180,134,1); color: white; font-size: 16px;">
-                    <i class="ri-add-line ri-20px"></i>Tambah
-                </button>
+                @hasrole('super_admin')
+                    <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+                        data-bs-target="#createModal"
+                        style="width: 160px; padding: 15px 0; border-radius: 10px; background-color: rgba(32,180,134,1); color: white; font-size: 16px;">
+                        <i class="ri-add-line ri-20px"></i>Tambah
+                    </button>
+                @endhasrole
                 <i class="ri-search-line ri-20px" id="searchIcon"
                     style="position: absolute; top: 50%; transform: translateY(-50%); left: 3%;"></i>
 
@@ -44,7 +46,7 @@
                     <div class="dropdown-menu">
                         <div class="row p-3" style="width:20rem;">
                             <div class="">
-                                <p class="card-title">Status</p>
+                                <p class="card-title">Status:</p>
                                 <label class="form-check-label custom-option-content w-100" for="activeFilter">
                                     <div class="dropdown-item">
                                         <input name="status[]" class="form-check-input me-2" id="activeFilter"
@@ -61,6 +63,7 @@
                                         <span>Expired</span>
                                     </div>
                                 </label>
+                                <p class="card-title">Kontrakan: </p>
                                 @foreach ($properties as $property)
                                     <label class="form-check-label custom-option-content w-100"
                                         for="property_idFilter{{ $property->id }}">
@@ -97,7 +100,9 @@
                 <th>Total Telah Dibayar</th>
                 <th>Status</th>
                 <th>Deskripsi</th>
-                <th>Aksi</th>
+                @hasrole('super_admin')
+                    <th>Aksi</th>
+                @endhasrole
             </tr>
             <tbody class="table-border-bottom-0">
                 @forelse ($leases as $index=>$lease)
@@ -134,21 +139,23 @@
                             </span>
                         </td>
                         <td>{{ $lease->description ? $lease->description : 'Deskripsi Kosong' }}</td>
-                        <td>
-                            @if ($lease->status === 'active')
+                        @hasrole('super_admin')
+                            <td>
+                                @if ($lease->status === 'active')
+                                    <a type="button" class="" data-bs-toggle="modal"
+                                        data-bs-target="#doneModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
+                                            style="color: #00ff37" class="menu-icon tf-icons ri-check-line"></i></a>
+                                @endif
                                 <a type="button" class="" data-bs-toggle="modal"
-                                    data-bs-target="#doneModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
-                                        style="color: #00ff37" class="menu-icon tf-icons ri-check-line"></i></a>
-                            @endif
-                            <a type="button" class="" data-bs-toggle="modal"
-                                data-bs-target="#editModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
-                                    style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
+                                    data-bs-target="#editModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
+                                        style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
 
-                            <a type="button" class="" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal{{ $lease->id }}">
-                                <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
-                            </a>
-                        </td>
+                                <a type="button" class="" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal{{ $lease->id }}">
+                                    <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
+                                </a>
+                            </td>
+                        @endhasrole
                     </tr>
 
                     {{-- Done Detail --}}
@@ -249,7 +256,7 @@
                     {{-- Edit Lease Modal --}}
 
                     {{-- Delete Modal --}}
-                    <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
+                    {{-- <div class="modal fade" id="deleteModal{{ $lease->id }}" tabindex="-1"
                         aria-labelledby="deleteModalLabel{{ $lease->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -273,7 +280,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- Delete Modal --}}
                 @empty
                     <tr class="text-center">
