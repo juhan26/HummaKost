@@ -214,8 +214,8 @@
                                             <!-- Update colspan to match the number of columns in your table -->
                                             <td colspan="50" class="">
                                                 <h1 class="material-symbols-outlined mt-4"
-                                                    style="font-size: 3rem;color:rgba(32, 180, 134,.4);">group</h1>
-                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Belum Pernah Melakukan Pembayaran
+                                                    style="font-size: 3rem;color:rgba(32, 180, 134,.4);">payments</h1>
+                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Pembayaran tidak ditemukan
                                                 </p>
                                             </td>
                                         </tr>
