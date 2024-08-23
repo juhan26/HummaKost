@@ -1,8 +1,6 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
+@include('components.layouts.head')
+<div class="container d-flex justify-content-center align-items-start" style="height: 100vh">
+    <div class="row justify-content-center w-75" style="margin: 12% 0px 0px 0px">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
@@ -44,4 +42,4 @@
         </div>
     </div>
 </div>
-@endsection
+@include('components.layouts.script')

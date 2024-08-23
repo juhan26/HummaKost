@@ -46,21 +46,28 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">
-
-                                <i class="ri-user-3-line ri-22px me-3"></i><span class="align-middle">My Profile</span>
+                                <i class="ri-user-3-line ri-22px me-3"></i><span class="align-middle">Profil Saya</span>
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                <i class="ri-logout-box-line"></i>
-                                <span class="align-middle">{{ __('Logout') }}</span>
+                                <i class="ri-logout-box-line ri-22px me-3"></i><span class="align-middle">Keluar</span>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
                         </li>
-                        {{--  --}}
+                        {{-- <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="ri-logout-box-line ri-22px me-3"></i>
+                                <span class="align-middle">Keluar</span>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li> --}}
                         <li>
                             <div class="d-grid px-4 pt-2 pb-1">
 
