@@ -145,7 +145,7 @@
 
             </a>
         </li>
-        @hasrole('super_admin')
+        @hasrole('admin|super_admin')
             <li class="menu-item {{ request()->routeIs('leases.index') ? 'active' : '' }}">
                 <a href="{{ url('leases') }}" class="menu-link">
                     <div class="menu-icon"><span class="material-symbols-outlined">contract</span></div>
