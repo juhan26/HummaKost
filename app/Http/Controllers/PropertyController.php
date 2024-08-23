@@ -28,7 +28,9 @@ class PropertyController extends Controller
             $properties = Property::latest()->paginate(6);
         }
 
-
+        $properties->appends([
+            'search' => $request->search
+        ]);
 
         return view('pages.properties.index', compact('properties',));
     }
