@@ -150,10 +150,10 @@
                                     data-bs-target="#editModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
                                         style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
 
-                                <a type="button" class="" data-bs-toggle="modal"
+                                {{-- <a type="button" class="" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal{{ $lease->id }}">
                                     <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
-                                </a>
+                                </a> --}}
                             </td>
                         @endhasrole
                     </tr>
