@@ -200,7 +200,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('user.show')->with('success', 'Password successfully changed!');
+        return redirect()->back()->with('success', 'Password Berhasil Diubah');
     }
 
 

@@ -331,10 +331,10 @@
                                     </li>
                                 </ul>
 
-                                <div class="mt-4 flex justify-end">
+                                {{-- <div class="mt-4 flex justify-end">
                                     <button class="bg-blue-500 text-white py-2 px-4 rounded-lg" data-bs-toggle="modal"
                                         data-bs-target="#editUser">Edit</button>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <!-- Keamanan Tab -->
