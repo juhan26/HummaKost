@@ -141,7 +141,7 @@
                                                     <input name="status[]" class="form-check-input me-2" id="pendingFilter"
                                                         type="checkbox" value="pending" onclick="this.form.submit()"
                                                         @if (in_array('pending', $status)) checked @endif />
-                                                    <span>Ditunggu</span>
+                                                    <span>Tertunda</span>
                                                 </div>
                                             </label>
                                             <label class="form-check-label custom-option-content w-100"
