@@ -143,10 +143,9 @@
                     </div>
 
                     <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
-                    alt="{{ $property->name }}"
-                    class="card-img-top"
-                    style="max-height: 400px; object-fit: cover; opacity: {{ $property->image ? '1' : '0.5' }};">
-               
+                        alt="{{ $property->name }}" class="card-img-top"
+                        style="max-height: 400px; object-fit: cover; opacity: {{ $property->image ? '1' : '0.5' }};">
+
 
                     <div class="card-body">
                         <div class="d-flex justify-content-start align-items-center mb-3 mt-3">
@@ -239,12 +238,12 @@
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm position-relative" style="bo rder-radius: 20px; overflow: hidden;">
                         <!-- Edit and Delete Icons -->
-                        
+
                     </div>
                 </div>
 
                 <!-- Image Detail Modal -->
-                
+
                 <!-- Image Detail Modal -->
             @empty
                 <div class="card-header flex-column flex-md-row w-100">
@@ -259,6 +258,19 @@
         </div> --}}
         @if ($properties->hasPages())
             <div class="pagination-container mt-5">
+                @php
+                    $currentPage = $properties->currentPage();
+                    $totalPages = $properties->lastPage();
+                    $visiblePages = 1;
+
+                    $totalData = \App\Models\Property::count();
+                    $dataPerPage = $properties->perPage();
+                    $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                    $endItem = min($currentPage * $dataPerPage, $totalData);
+                @endphp
+                <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                    Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                </div>
                 <ul class="pagination d-flex justify-content-between align-items-center">
                     {{-- Previous Page Link --}}
                     <style>
@@ -277,11 +289,7 @@
                         </li>
                     @endif
 
-                    @php
-                        $currentPage = $properties->currentPage();
-                        $totalPages = $properties->lastPage();
-                        $visiblePages = 1; // Maximum number of page numbers to display
-                    @endphp
+
                     <div class="d-sm-flex d-md-flex d-lg-none ">
                         <li class="page-item active" aria-disabled="true">
                             <span class="page-link">{{ $properties->currentPage() }}</span>
