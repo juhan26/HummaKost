@@ -24,7 +24,7 @@
             <form action="{{ route('payments.index') }}" method="GET"
                 class="d-flex flex-column flex-md-row align-items-center" style="gap: 15px; position: relative; width: 40%;">
                 @csrf
-                <input type="text" class="form-control" name="search" id="searchInput" placeholder="Cari..."
+                <input type="text" class="form-control" name="search" id="searchInput"
                     style="border: 0; background-color: rgba(32,180,134,0.1); border-radius: 15px; height: 60px; outline: none;"
                     value="{{ request('search') }}">
                 {{-- <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
@@ -195,34 +195,20 @@
                                                 <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat(' F Y') }}
                                                 </td>
                                             </tr>
-
-                                        </thead>
-                                        <tbody class="table-border-bottom-0">
-                                            @forelse ($lease->payments as $index => $payment)
-                                                <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $payment->lease->user->name }}</td>
-                                                    <td>{{ 'Rp. ' . number_format($payment->nominal) }}
-                                                    </td>
-                                                    <td>{{ \Carbon\Carbon::parse($payment->payment_month)->translatedFormat('F Y') }}
-                                                    </td>
-                                                    <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat('F Y') }}
-                                                    </td>
-                                                </tr>
                                         @empty
-                                        <tr class="text-center">
-                                            <!-- Update colspan to match the number of columns in your table -->
-                                            <td colspan="50" class="">
-                                                <h1 class="material-symbols-outlined mt-4"
-                                                    style="font-size: 3rem;color:rgba(32, 180, 134,.4);">payments</h1>
-                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Pembayaran tidak ditemukan
-                                                </p>
-                                            </td>
-                                        </tr>
+                                            <tr class="text-center">
+                                                <!-- Update colspan to match the number of columns in your table -->
+                                                <td colspan="50" class="">
+                                                    <h1 class="material-symbols-outlined mt-4"
+                                                        style="font-size: 3rem;color:rgba(32, 180, 134,.4);">group</h1>
+                                                    <p class="card-title" style="color: rgba(0,0,0,.4)">Belum Pernah
+                                                        Melakukan Pembayaran
+                                                    </p>
+                                                </td>
+                                            </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                         {{-- <div class="modal-footer">
@@ -334,6 +320,19 @@
     </div>
     @if ($leases->hasPages())
         <div class="pagination-container mt-5">
+            @php
+                $currentPage = $leases->currentPage();
+                $totalPages = $leases->lastPage();
+                $visiblePages = 1;
+
+                $totalData = \App\Models\Lease::count();
+                $dataPerPage = $leases->perPage();
+                $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                $endItem = min($currentPage * $dataPerPage, $totalData);
+            @endphp
+            <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+            </div>
             <ul class="pagination d-flex justify-content-between align-items-center">
                 {{-- Previous Page Link --}}
                 <style>
@@ -352,11 +351,6 @@
                     </li>
                 @endif
 
-                @php
-                    $currentPage = $leases->currentPage();
-                    $totalPages = $leases->lastPage();
-                    $visiblePages = 1; // Maximum number of page numbers to display
-                @endphp
                 <div class="d-sm-flex d-md-flex d-lg-none ">
                     <li class="page-item active" aria-disabled="true">
                         <span class="page-link">{{ $leases->currentPage() }}</span>

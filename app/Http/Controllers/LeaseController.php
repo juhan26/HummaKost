@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLeaseRequest;
 use App\Http\Requests\UpdateLeaseRequest;
 use App\Models\Lease;
+use App\Models\PaymentPerMonth;
 use App\Models\Property;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,44 +20,50 @@ class LeaseController extends Controller
     {
         $query = Lease::with(['user', 'properties']);
 
+        // Get input values
         $propertySearch = $request->input('search');
         $status = $request->input('status', []);
         $property_id = $request->input('property_id', []);
+
+        // Common query filters based on input
+        if ($propertySearch || $status || $property_id) {
+            $query->where(function ($query) use ($propertySearch, $status, $property_id) {
+                if ($propertySearch) {
+                    $query->whereHas('user', function ($query) use ($propertySearch) {
+                        $query->where('name', 'LIKE', "%{$propertySearch}%");
+                    })
+                        ->orWhereHas('properties', function ($query) use ($propertySearch) {
+                            $query->where('name', 'LIKE', "%{$propertySearch}%");
+                        })
+                        ->orWhere('status', 'LIKE', "%{$propertySearch}%");
+                }
+
+                if (!empty($status)) {
+                    $query->whereIn('status', $status);
+                }
+
+                if (!empty($property_id)) {
+                    $query->whereIn('property_id', $property_id);
+                }
+            });
+        }
+
+        // Check user role and apply role-based filters
         if (Auth::user()->hasRole('super_admin')) {
-            if ($propertySearch || $status || $property_id) {
-                $query->where(function ($query) use ($propertySearch, $status, $property_id) {
-
-                    if ($propertySearch) {
-                        $query->whereHas('user', function ($query) use ($propertySearch) {
-                            $query->where('name', 'LIKE', "%{$propertySearch}%");
-                        });
-
-                        $query->orWhereHas('properties', function ($query) use ($propertySearch) {
-                            $query->where('name', 'LIKE', "%{$propertySearch}%");
-                        });
-
-                        $query->orWhere('status', 'LIKE', "%{$propertySearch}%");
-                    }
-
-                    if (!empty($status)) {
-                        $query->whereIn('status', $status);
-                    }
-
-                    if (!empty($property_id)) {
-                        $query->whereIn('property_id', $property_id);
-                    }
-                });
-            }
-
             $leases = $query->orderByRaw("
-        CASE
-            WHEN status = 'active' THEN 1
-            WHEN status = 'expired' THEN 2
-            ELSE 3
-        END
-    ")
+            CASE
+                WHEN status = 'active' THEN 1
+                WHEN status = 'expired' THEN 2
+                ELSE 3
+                END
+                ")
                 ->latest()
-                ->paginate(10);
+                ->paginate(1);
+                $leases->appends([
+                    'search' => $propertySearch,
+                    'status' => $status,
+                    'property_id' => $property_id,
+                ]);
 
             $properties = Property::all();
             $users = User::with(['lease'])->whereHas('roles', function ($query) {
@@ -67,40 +74,22 @@ class LeaseController extends Controller
                 $query->where('id', Auth::user()->lease->property_id);
             });
 
-            if ($propertySearch || $status || $property_id) {
-                $query->where(function ($query) use ($propertySearch, $status, $property_id) {
-
-                    if ($propertySearch) {
-                        $query->whereHas('user', function ($query) use ($propertySearch) {
-                            $query->where('name', 'LIKE', "%{$propertySearch}%");
-                        });
-
-                        $query->orWhereHas('properties', function ($query) use ($propertySearch) {
-                            $query->where('name', 'LIKE', "%{$propertySearch}%");
-                        });
-
-                        $query->orWhere('status', 'LIKE', "%{$propertySearch}%");
-                    }
-
-                    if (!empty($status)) {
-                        $query->whereIn('status', $status);
-                    }
-
-                    if (!empty($property_id)) {
-                        $query->whereIn('property_id', $property_id);
-                    }
-                });
-            }
-
             $leases = $query->orderByRaw("
-                CASE
-                    WHEN status = 'active' THEN 1
-                    WHEN status = 'expired' THEN 2
-                    ELSE 3
-                END
-            ")
+            CASE
+                WHEN status = 'active' THEN 1
+                WHEN status = 'expired' THEN 2
+                ELSE 3
+            END
+        ")
                 ->latest()
-                ->paginate(10);
+                ->paginate(1);
+
+            // Append query parameters to pagination links
+            $leases->appends([
+                'search' => $propertySearch,
+                'status' => $status,
+                'property_id' => $property_id,
+            ]);
 
             $properties = Property::all();
             $users = User::all();
@@ -108,6 +97,7 @@ class LeaseController extends Controller
 
         return view('pages.leases.index', compact('leases', 'properties', 'status', 'property_id', 'users'));
     }
+
 
 
 
@@ -125,16 +115,14 @@ class LeaseController extends Controller
      */
     public function store(StoreLeaseRequest $request)
     {
-        // Cek apakah user sudah memiliki lease yang aktif
         $existingLease = Lease::where('user_id', $request->user_id)
-            ->where('end_date', '>', now()) // Memeriksa lease yang aktif
+            ->where('end_date', '>', now())
             ->first();
 
         if ($existingLease) {
             return redirect()->route('leases.index')->with('error', 'Pengguna sudah memiliki sewa.');
         }
 
-        // Ambil property berdasarkan property_id
         $property = Property::find($request->property_id);
 
         if (!$property) {
@@ -173,7 +161,7 @@ class LeaseController extends Controller
                 $property->update(['status' => 'available']);
             }
 
-            Lease::create([
+            $lease = Lease::create([
                 'user_id' => $request->user_id,
                 'property_id' => $request->property_id,
                 'start_date' => $request->start_date,
@@ -181,6 +169,27 @@ class LeaseController extends Controller
                 'description' => $request->description,
                 'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
                 'total_nominal' => 0,
+            ]);
+
+            $nominal = $request->first_paid_month;
+            $totalNominal = $lease->total_nominal + $nominal;
+            $startDate = \Carbon\Carbon::parse($lease->start_date);
+            $totalMonthsPaid = floor($lease->total_nominal / $lease->properties->rental_price);
+            $monthsToAdd = floor($nominal / $lease->properties->rental_price);
+            $startPaymentMonth = $startDate->copy()->addMonths($totalMonthsPaid);
+            $paymentMonth = $startDate->copy()->addMonths($totalMonthsPaid + $monthsToAdd);
+            $startPaymentMonthFormatted = $startPaymentMonth->format('F Y');
+            $paymentMonthFormatted = $paymentMonth->format('F Y');
+
+            PaymentPerMonth::create([
+                'lease_id' => $lease->id,
+                'payment_month' =>  $startPaymentMonthFormatted,
+                'month' => $paymentMonthFormatted,
+                'nominal' => $request->first_paid_month,
+            ]);
+
+            $lease->update([
+                'total_nominal' => $totalNominal,
             ]);
 
             return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');

@@ -99,8 +99,8 @@
                             <div class="d-flex align-items-center w-100 px-3" id="divSearchInput"
                                 style="border-radius: 15px;height: 60px;">
                                 <span class="material-symbols-outlined text-secondary ms-4">search</span>
-                                <input type="text" name="search" id="searchInput" class="form-control border-none" placeholder="Cari..."
-                                    value="{{ request()->input('search') }}">
+                                <input type="text" name="search" id="searchInput" class="form-control border-none"
+                                    placeholder="Cari..." value="{{ request()->input('search') }}">
                                 <a href="{{ route('user.index') }}" style="display: none" id="clearSearch"
                                     class="btn-close me-4"></a>
                             </div>
@@ -141,7 +141,7 @@
                                                     <input name="status[]" class="form-check-input me-2" id="pendingFilter"
                                                         type="checkbox" value="pending" onclick="this.form.submit()"
                                                         @if (in_array('pending', $status)) checked @endif />
-                                                    <span>Ditunggu</span>
+                                                    <span>Tertunda</span>
                                                 </div>
                                             </label>
                                             <label class="form-check-label custom-option-content w-100"
@@ -367,9 +367,11 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="editModalLabel{{ $user->id }}">
-                                                        Ubah data anggota <span class="text-primary">{{ $user->name }}</span>
+                                                        Ubah data anggota <span
+                                                            class="text-primary">{{ $user->name }}</span>
                                                     </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="{{ route('user.update', $user->id) }}" method="POST">
@@ -378,7 +380,10 @@
                                                         <div class="row">
                                                             <div class="col-12 col-lg-12">
                                                                 <div class="mb-3">
-                                                                    <label for="editName{{ $user->id }}" class="form-label">Name:</label>
+                                                                    <label for="editName{{ $user->id }}"
+                                                                        class="form-label">Name:</label>
+                                                                    <input type="hidden" class="form-control"
+                                                                        name="memberMenu" value="y">
                                                                     <input type="text" class="form-control"
                                                                         name="name" id="editName{{ $user->id }}"
                                                                         value="{{ $user->name }}">
@@ -386,34 +391,47 @@
                                                             </div>
                                                             <div class="col-12 col-lg-12">
                                                                 <div class="mb-3">
-                                                                    <label for="editEmail{{ $user->id }}" class="form-label">Email:</label>
+                                                                    <label for="editEmail{{ $user->id }}"
+                                                                        class="form-label">Email:</label>
                                                                     <input type="email" class="form-control"
-                                                                        name="email" disabled id="editEmail{{ $user->id }}"
+                                                                        name="email" disabled
+                                                                        id="editEmail{{ $user->id }}"
                                                                         value="{{ $user->email }}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="edittel{{ $user->id }}" class="form-label">Nomor Telepon:</label>
+                                                                    <label for="edittel{{ $user->id }}"
+                                                                        class="form-label">Nomor Telepon:</label>
                                                                     <input type="number" class="form-control"
-                                                                        name="phone_number" id="edittel{{ $user->id }}"
-                                                                        value="{{  $user->phone_number }}">
+                                                                        name="phone_number"
+                                                                        id="edittel{{ $user->id }}"
+                                                                        value="{{ $user->phone_number }}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="selectGender{{ $user->id }}" class="form-label">Jenis Kelamin</label>
-                                                                    <select id="selectGender{{ $user->id }}" class="form-select" name="gender">
-                                                                        <option value="male" {{ $user->gender == 'male' ? 'selected' : '' }}>Laki-laki</option>
-                                                                        <option value="female" {{  $user->gender == 'female' ? 'selected' : '' }}>Perempuan</option>
+                                                                    <label for="selectGender{{ $user->id }}"
+                                                                        class="form-label">Jenis Kelamin</label>
+                                                                    <select id="selectGender{{ $user->id }}"
+                                                                        class="form-select" name="gender">
+                                                                        <option value="male"
+                                                                            {{ $user->gender == 'male' ? 'selected' : '' }}>
+                                                                            Laki-laki</option>
+                                                                        <option value="female"
+                                                                            {{ $user->gender == 'female' ? 'selected' : '' }}>
+                                                                            Perempuan</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-lg-12 mb-5 mt-lg-5">
-                                                                <label for="selectInstance{{ $user->id }}" class="form-label">Instansi</label>
-                                                                <select id="selectInstance{{ $user->id }}" class="form-select" name="instance_id">
+                                                                <label for="selectInstance{{ $user->id }}"
+                                                                    class="form-label">Instansi</label>
+                                                                <select id="selectInstance{{ $user->id }}"
+                                                                    class="form-select" name="instance_id" disabled>
                                                                     @foreach ($instances as $instance)
-                                                                        <option value="{{ $instance->id }}" {{ $user->instance_id == $instance->id ? 'selected' : '' }}>
+                                                                        <option value="{{ $instance->id }}"
+                                                                            {{ $user->instance_id == $instance->id ? 'selected' : '' }}>
                                                                             {{ $instance->name }}
                                                                         </option>
                                                                     @endforeach
@@ -421,8 +439,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Tutup</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan
+                                                                Perubahan</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -508,6 +528,19 @@
                 <div class="card-footer">
                     @if ($users->hasPages())
                         <div class="pagination-container ">
+                            @php
+                                $currentPage = $users->currentPage();
+                                $totalPages = $users->lastPage();
+                                $visiblePages = 1;
+
+                                $totalData = \App\Models\User::count();
+                                $dataPerPage = $users->perPage();
+                                $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                                $endItem = min($currentPage * $dataPerPage, $totalData);
+                            @endphp
+                            <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                                Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                            </div>
                             <ul class="pagination d-flex justify-content-between align-items-center">
                                 {{-- Previous Page Link --}}
                                 <style>
@@ -527,11 +560,7 @@
                                     </li>
                                 @endif
 
-                                @php
-                                    $currentPage = $users->currentPage();
-                                    $totalPages = $users->lastPage();
-                                    $visiblePages = 1; // Maximum number of page numbers to display
-                                @endphp
+
                                 <div class="d-sm-flex d-md-flex d-lg-none ">
                                     <li class="page-item active" aria-disabled="true">
                                         <span class="page-link">{{ $users->currentPage() }}</span>

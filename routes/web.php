@@ -42,6 +42,7 @@ Route::get('/properties/show/{id}', [LandingController::class, 'show'])->name('h
 Route::middleware(['auth', 'role:tenant|admin|super_admin'])->group(function () {
 
     Route::get('users/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
+    Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
     // profile change
     Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.changePassword');
 });
@@ -80,7 +81,7 @@ Route::middleware(['auth', 'role:admin|super_admin'])->group(function () {
     // payments
     Route::resource('payments', PaymentPerMonthController::class);
     // users
-    Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
+
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
     Route::post('/user/accept/{user}', [UserController::class, 'accept'])->name('user.accept');
     Route::post('/user/reject/{user}', [UserController::class, 'reject'])->name('user.reject');

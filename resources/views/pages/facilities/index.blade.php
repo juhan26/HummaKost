@@ -279,6 +279,19 @@
         </div>
         @if ($facilities->hasPages())
             <div class="pagination-container mt-5">
+                @php
+                    $currentPage = $facilities->currentPage();
+                    $totalPages = $facilities->lastPage();
+                    $visiblePages = 1;
+
+                    $totalData = \App\Models\Facility::count();
+                    $dataPerPage = $facilities->perPage();
+                    $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                    $endItem = min($currentPage * $dataPerPage, $totalData);
+                @endphp
+                <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                    Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                </div>
                 <ul class="pagination d-flex justify-content-between align-items-center">
                     {{-- Previous Page Link --}}
                     <style>
@@ -296,12 +309,6 @@
                                 rel="prev">Prev</a>
                         </li>
                     @endif
-
-                    @php
-                        $currentPage = $facilities->currentPage();
-                        $totalPages = $facilities->lastPage();
-                        $visiblePages = 1; // Maximum number of page numbers to display
-                    @endphp
                     <div class="d-sm-flex d-md-flex d-lg-none ">
                         <li class="page-item active" aria-disabled="true">
                             <span class="page-link">{{ $facilities->currentPage() }}</span>

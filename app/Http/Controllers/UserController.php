@@ -30,7 +30,8 @@ class UserController extends Controller
                 $query->where('name', $filter);
             })->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
-                    ->orWhere('email', 'LIKE', "%$search%");
+                    ->orWhere('email', 'LIKE', "%$search%")
+                    ->orWhereRelation('instance', 'name', 'LIKE', "%$search%");
             })->where(function ($query) use ($status) {
                 if (!empty($status)) {
                     $query->whereIn('status', $status);
@@ -165,7 +166,25 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update([$request->all()]);
+        if ($request->hasFile('photo')) {
+            // Hapus foto lama jika ada
+            if ($user->photo) {
+                Storage::delete('public/' . $user->photo);
+            }
+
+            // Simpan foto baru
+            $photoPath = $request->file('photo')->store('photos', 'public');
+            $user->photo = $photoPath;
+        }
+
+        $user->name = $request->input('name');
+        $user->phone_number = $request->input('phone_number');
+
+        if ($request->memberMenu === "y") {
+            $user->gender = $request->input('gender');
+        }
+
+        $user->save();
 
         return redirect()->back()->with('success', 'Pengguna berhasil diubah');
     }
@@ -200,7 +219,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('user.show')->with('success', 'Password successfully changed!');
+        return redirect()->back()->with('success', 'Password Berhasil Diubah');
     }
 
 

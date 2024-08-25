@@ -132,8 +132,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button type="button" class="nav-link d-flex flex-column gap-1 waves-effect"
                                                 role="tab" data-bs-toggle="tab" data-bs-target="#navs-messages-card"
-                                                aria-controls="navs-messages-card" aria-selected="false" tabindex="-1"><i
-                                                    class="tf-icons ri-message-2-line"></i> Keamanan </button>
+                                                aria-controls="navs-messages-card" aria-selected="false" tabindex="-1"><i class="ri-shield-keyhole-line"></i> Keamanan </button>
                                         </li>
                                     </ul>
                                 </div>
@@ -174,8 +173,7 @@
                                                 @else
                                                     <span class="badge bg-label-danger rounded-pill">Tidak Aktif</span>
                                                 @endif
-                                            <li class="d-flex align-items-center mb-4"><i
-                                                    class="ri-star-smile-line ri-24px"></i><span
+                                            <li class="d-flex align-items-center mb-4"><i class="ri-shield-user-line"></i><span
                                                     class="fw-medium mx-2">Role:</span>
                                                 @foreach ($user->getRoleNames() as $role)
                                                     @if ($role == 'admin')
@@ -202,10 +200,10 @@
                                                 <span>{{ $user->email }}</span>
                                             </li>
                                         </ul>
-                                        {{-- <div class="d-flex justify-content-end">
+                                        <div class="d-flex justify-content-end">
                                             <a href="javascript:;" class="btn btn-primary me-4 waves-effect waves-light"
                                                 data-bs-target="#editUser" data-bs-toggle="modal">Edit</a>
-                                        </div> --}}
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="navs-messages-card" role="tabpanel">
                                         <h5 class="card-header">Ganti Password</h5>
@@ -529,8 +527,8 @@
                         </div>
                         <div class="modal-body">
                             <div class="text-center mb-6">
-                                <h4 class="mb-2">Edit User Information</h4>
-                                <p class="mb-6">Updating user details will receive a privacy audit.</p>
+                                <h4 class="mb-2">Ubah informasi pengguna</h4>
+                                <p class="mb-6">Memperbarui detail pengguna akan menerima audit privasi.</p>
                             </div>
                             <!-- Menampilkan Foto Pengguna -->
                             <form action="{{ route('user.update', $user->id) }}" method="post"
@@ -616,7 +614,7 @@
                                         <input type="text" id="name" name="name" class="form-control"
                                             value="{{ old('name', $user->name) }}"
                                             placeholder="{{ old('name', $user->name) }}">
-                                        <label for="name">Name</label>
+                                        <label for="name">Nama</label>
                                     </div>
                                     <div
                                         class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
@@ -631,17 +629,17 @@
                                                 class="form-control phone-number-mask"
                                                 value="{{ old('phone_number', $user->phone_number) }}"
                                                 placeholder="{{ old('phone_number', $user->phone_number) }}">
-                                            <label for="phone_number">Phone Number</label>
+                                            <label for="phone_number">Nomor telepon</label>
                                         </div>
                                     </div>
                                 </div>
                                 @hasrole('admin|user')
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <div class="form-floating form-floating-outline">
                                             <input type="text" id="school_id" name="school_id" class="form-control"
                                                 placeholder="{{ $user->instance->name }}"
                                                 value="{{ $user->instance->name }}" disabled>
-                                            <label for="school_id">Sekolah</label>
+                                            <label for="school_id">Instansi</label>
                                         </div>
                                     </div>
                                 @endhasrole
@@ -656,7 +654,7 @@
                                     <button type="submit"
                                         class="btn btn-primary waves-effect waves-light">Submit</button>
                                     <button type="reset" class="btn btn-outline-secondary waves-effect"
-                                        data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                        data-bs-dismiss="modal" aria-label="Close">Batal</button>
                                 </div>
                                 <input type="hidden">
                             </form>

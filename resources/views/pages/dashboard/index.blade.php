@@ -32,7 +32,7 @@
                         <div class="icon mb-2">
                             <img src="assets/img/images/perabotan.png" alt="" style="width: 70px">
                         </div>
-                        <h5 class="card-title">Perabotan</h5>
+                        <h5 class="card-title">Fasilitas</h5>
                         <p class="card-text">{{ $facilityCount }}</p>
                     </div>
                 </div>
@@ -51,9 +51,50 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="row h-100">
-                    <div class="col-12 mb-4">
+                    @php
+                        // Mengambil semua user yang memiliki status pending
+                        $pendingUsers = \App\Models\User::where('status', 'pending')->get();
+                    @endphp
+
+                    <div class="col-12 mb-6">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <div class="card-title">Anggota Tertunda</div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($pendingUsers as $user)
+                                            <tr>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>
+                                                    <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <td colspan="3" class="text-center">Belum Ada Calon Penyewa</td>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3 mb-5 me-4">
+                                <!-- Menambahkan filter ke route agar hanya menampilkan pengguna dengan status pending -->
+                                <a href="{{ route('user.index') }}" class="btn btn-primary">Lihat Anggota</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 ">
 
                         <div class="card h-100">
                             <div class="card-header">
@@ -94,53 +135,11 @@
                             </div>
                         </div>
                     </div>
-
-                    @php
-                        // Mengambil semua user yang memiliki status pending
-                        $pendingUsers = \App\Models\User::where('status', 'pending')->get();
-                    @endphp
-
-                    <div class="col-12">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <div class="card-title">Anggota Pending</div>
-                            </div>
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nama</th>
-                                            <th>Email</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($pendingUsers as $user)
-                                            <tr>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>
-                                                    <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
-                                                </td>
-                                            </tr>
-                                            @empty
-                                            <td colspan="3" class="text-center">Belum Ada Calon Penyewa</td>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="d-flex justify-content-end mt-3 mb-5 me-4">
-                                <!-- Menambahkan filter ke route agar hanya menampilkan pengguna dengan status pending -->
-                                <a href="{{ route('user.index') }}" class="btn btn-primary">Lihat Anggota</a>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
             <!-- Chart Section -->
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Chart</div>

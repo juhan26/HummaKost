@@ -152,7 +152,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            
+
                                             <a href="{{ route('user.profile', Auth::user()->id) }}"
                                                 class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Profile' }}</span></a>
                                         </li>
@@ -169,7 +169,7 @@
                                             </form>
                                         </li>
                                     </ul>
-                                </div>
+                            </div>
                             @else
                                 <a href="{{ route('register') }}"
                                     class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
