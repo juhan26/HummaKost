@@ -28,6 +28,9 @@ class UserController extends Controller
             $filter = $request->input('filter');
             $query->whereHas('roles', function ($query) use ($filter) {
                 $query->where('name', $filter);
+            })
+            ->orWhereHas('instance', function ($query) use ($search){
+                $query->where('name', $search);
             })->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%");
