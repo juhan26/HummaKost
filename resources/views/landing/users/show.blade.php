@@ -256,7 +256,7 @@
                 {{ session('success') }}
             </div>
             <button type="button"
-                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 hover:text-gray-900 inline-flex h-8 w-8"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5  inline-flex h-8 w-8"
                 aria-label="Close" onclick="this.parentElement.style.display='none';">
                 <span class="sr-only">Close</span>
                 <span class="material-icons">
