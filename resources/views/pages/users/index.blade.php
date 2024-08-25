@@ -382,6 +382,8 @@
                                                                 <div class="mb-3">
                                                                     <label for="editName{{ $user->id }}"
                                                                         class="form-label">Name:</label>
+                                                                    <input type="hidden" class="form-control"
+                                                                        name="memberMenu" value="y">
                                                                     <input type="text" class="form-control"
                                                                         name="name" id="editName{{ $user->id }}"
                                                                         value="{{ $user->name }}">
@@ -426,7 +428,7 @@
                                                                 <label for="selectInstance{{ $user->id }}"
                                                                     class="form-label">Instansi</label>
                                                                 <select id="selectInstance{{ $user->id }}"
-                                                                    class="form-select" name="instance_id">
+                                                                    class="form-select" name="instance_id" disabled>
                                                                     @foreach ($instances as $instance)
                                                                         <option value="{{ $instance->id }}"
                                                                             {{ $user->instance_id == $instance->id ? 'selected' : '' }}>

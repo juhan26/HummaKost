@@ -177,11 +177,13 @@ class UserController extends Controller
             $user->photo = $photoPath;
         }
 
-        // Update data pengguna
         $user->name = $request->input('name');
         $user->phone_number = $request->input('phone_number');
 
-        // Simpan perubahan
+        if ($request->memberMenu === "y") {
+            $user->gender = $request->input('gender');
+        }
+
         $user->save();
 
         return redirect()->back()->with('success', 'Pengguna berhasil diubah');

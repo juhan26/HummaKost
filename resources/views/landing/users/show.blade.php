@@ -355,7 +355,7 @@
                                                     class="mb-0 px-4 py-2 text-center bg-blue-200 text-blue-500 py-2 rounded-full font-semibold">
                                                     Kontrakan
                                                 </h5>
-                                                <span>{{ $user->properties ? $user->properties->name : 'Sekolah Tidak ditemukan' }}</span>
+                                                <span>{{ $user->properties ? $user->properties->name : 'Kontrakan Tidak ditemukan' }}</span>
                                             </div>
                                         </div>
                                         @hasrole('admin|tenant')
@@ -423,11 +423,11 @@
                         <div id="tab-content">
                             <!-- Profil Tab -->
                             <div class="tab-content active" id="profile-content">
-                                <div class="text-lg font-semibold mb-2">Detail</div>
-                                <ul class="list-none space-y-4">
+                                <div class="text-lg font-semibold mb-2 font-bold">Detail</div>
+                                <ul class="list-none space-y-1">
                                     <li class="flex items-center">
                                         <i class="ri-user-3-line text-2xl"></i>
-                                        <span class="ml-2 font-medium">Nama:</span>
+                                        <span class="ml-2 font-medium me-1">Nama: </span>
                                         <span>{{ $user->name }}</span>
                                     </li>
                                     <li class="flex items-center">
@@ -436,12 +436,12 @@
                                         @else
                                             <i class="ri-women-line text-2xl"></i>
                                         @endif
-                                        <span class="ml-2 font-medium">Gender:</span>
+                                        <span class="ml-2 font-medium me-1">Gender:</span>
                                         <span>{{ $user->gender == 'male' ? 'Laki-laki' : 'Perempuan' }}</span>
                                     </li>
                                     <li class="flex items-center">
                                         <i class="ri-check-line text-2xl"></i>
-                                        <span class="ml-2 font-medium">Status:</span>
+                                        <span class="ml-2 font-medium me-1">Status:</span>
                                         @if ($user->lease)
                                             <span class="bg-green-200 text-green-800 py-1 px-2 rounded-full">
                                                 {{ $user->lease->status == 'active' ? 'Aktif' : 'Tidak Aktif' }}
@@ -453,7 +453,7 @@
                                     </li>
                                     <li class="flex items-center">
                                         <i class="ri-star-smile-line text-2xl"></i>
-                                        <span class="ml-2 font-medium">Role:</span>
+                                        <span class="ml-2 font-medium me-1">Role:</span>
                                         @foreach ($user->getRoleNames() as $role)
                                             <span>
                                                 @if ($role == 'admin')
@@ -467,16 +467,16 @@
                                         @endforeach
                                     </li>
                                 </ul>
-                                <div class="text-lg font-semibold mt-4">Kontak</div>
-                                <ul class="list-none space-y-4">
+                                <div class="text-lg font-semibold my-4 font-bold">Kontak</div>
+                                <ul class="list-none space-y-1">
                                     <li class="flex items-center">
                                         <i class="ri-phone-line text-2xl"></i>
-                                        <span class="ml-2 font-medium">No Hp:</span>
+                                        <span class="ml-2 font-medium me-1">No Hp:</span>
                                         <span>{{ $user->phone_number }}</span>
                                     </li>
                                     <li class="flex items-center">
                                         <i class="ri-mail-open-line text-2xl"></i>
-                                        <span class="ml-2 font-medium">Email:</span>
+                                        <span class="ml-2 font-medium me-1">Email:</span>
                                         <span>{{ $user->email }}</span>
                                     </li>
                                 </ul>
@@ -678,8 +678,8 @@
                     </div>
                     <div class="col-12">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                            <div class="flex flex-col items-center">
-                                <h5 class="text-center text-lg font-semibold">Total Yang Sudah Dibayar</h5>
+                            <div class="flex flex-col items-start">
+                                <h5 class="text-center text-lg font-weight-light mb-3">Total Yang Sudah Dibayar</h5>
                                 <div
                                     class="bg-green-100 text-green-800 p-4 rounded-lg shadow-md w-full max-w-md text-center">
                                     <div class="card-content">
@@ -691,8 +691,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex flex-col items-center">
-                                <h5 class="text-center text-lg font-semibold">Total Yang Harus Dibayar</h5>
+                            <div class="flex flex-col items-start">
+                                <h5 class="text- text-lg font-weight-light mb-3">Total Yang Harus Dibayar</h5>
                                 <div
                                     class="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow-md w-full max-w-md text-center">
                                     <div class="card-content">
