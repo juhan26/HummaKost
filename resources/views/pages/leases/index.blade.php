@@ -150,10 +150,10 @@
                                     data-bs-target="#editModal{{ $lease->id }}" data-bs-whatever="@mdo"><i
                                         style="color: #e3a805" class="menu-icon tf-icons ri-edit-2-line"></i></a>
 
-                                <a type="button" class="" data-bs-toggle="modal"
+                                {{-- <a type="button" class="" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal{{ $lease->id }}">
                                     <i style="color: red" class="menu-icon tf-icons ri-delete-bin-line"></i>
-                                </a>
+                                </a> --}}
                             </td>
                         @endhasrole
                     </tr>
@@ -401,10 +401,6 @@
                     <form action="{{ route('leases.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <img src="" style="max-width: 250px;border-radius:50%;object-fit: cover;"
-                                alt="" id="imgUserCreateModal">
-                        </div>
-                        <div class="mb-3">
                             <label for="userIdSelect" class="form-label">Nama Penyewa</label>
                             <select class="form-select" name="user_id" id="userIdSelect">
                                 @forelse ($users as $user)
@@ -422,11 +418,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Kontrakan</label>
-                            <select class="form-select" name="property_id" id="property_id">
+                            <select class="form-select" id="propertySelect" name="property_id" id="property_id">
+                                <option value="" disabled selected>Pilih Kontrakan</option>
                                 @forelse ($properties as $property)
-                                    <option value="{{ $property->id }}"
+                                    <option value="{{ $property->id }}" data-price="{{ $property->rental_price }}"
                                         {{ old('property_id') == $property->id ? 'selected' : '' }}>
-                                        {{ $property->name }}
+                                        {{ $property->name }} - {{ 'Rp. ' . number_format($property->rental_price) }} /
+                                        bln
                                     </option>
                                 @empty
                                     <option value="">Kontrakan Tidak Ditemukan</option>
@@ -453,21 +451,9 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            {{-- <label for="createStatus" class="form-label">Status:</label>
-                            <select class="form-select" name="status" id="createStatus">
-                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
-                            </select>
-                            @error('status')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror --}}
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Deskripsi <small>(Opsional)</small></label>
-                            <textarea class="form-control" name="description" id="description">{{ old('description') }}</textarea>
-                            @error('description')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <label for="rental_price" class="form-label">Pembayaran Bulan Pertama</label>
+                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month">
+                            <input type="text" class="form-control" id="showPrice" disabled placeholder="Rp. ">
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary"><i
@@ -479,4 +465,15 @@
         </div>
     </div>
     {{-- Create Lease Modal --}}
+
+    <script>
+        document.getElementById('propertySelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let price = selectedOption.getAttribute('data-price');
+            document.getElementById('hiddenPrice').value = price;
+            document.getElementById('showPrice').value = 'Rp. ' + parseInt(price).toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ".");
+        })
+    </script>
 @endsection
