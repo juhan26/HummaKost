@@ -320,6 +320,19 @@
     </div>
     @if ($leases->hasPages())
         <div class="pagination-container mt-5">
+            @php
+                $currentPage = $leases->currentPage();
+                $totalPages = $leases->lastPage();
+                $visiblePages = 1;
+
+                $totalData = \App\Models\Lease::count();
+                $dataPerPage = $leases->perPage();
+                $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                $endItem = min($currentPage * $dataPerPage, $totalData);
+            @endphp
+            <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+            </div>
             <ul class="pagination d-flex justify-content-between align-items-center">
                 {{-- Previous Page Link --}}
                 <style>
@@ -338,11 +351,6 @@
                     </li>
                 @endif
 
-                @php
-                    $currentPage = $leases->currentPage();
-                    $totalPages = $leases->lastPage();
-                    $visiblePages = 1; // Maximum number of page numbers to display
-                @endphp
                 <div class="d-sm-flex d-md-flex d-lg-none ">
                     <li class="page-item active" aria-disabled="true">
                         <span class="page-link">{{ $leases->currentPage() }}</span>
