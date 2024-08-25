@@ -283,10 +283,12 @@
                     </div> --}}
                     {{-- Delete Modal --}}
                 @empty
-                    <tr class="text-center">
-                        <td colspan="10" class="mt-4">
-                            <span class="material-symbols-outlined">contract</span>
-                            <p class="card-title m-0">Kontrak Tidak Ditemukan</p>
+                <tr class="text-center">
+                    <td colspan="10" class="mt-4">
+                            <h1 class="material-symbols-outlined mt-4"
+                                style="font-size: 3rem;color:rgba(32, 180, 134,.4);">contract</h1>
+                            <p class="card-title" style="color: rgba(0,0,0,.4)">Kontrak Tidak Ditemukan
+                            </p>
                         </td>
                     </tr>
                 @endforelse
