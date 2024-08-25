@@ -253,7 +253,7 @@
                             <ul class="flex border-b border-gray-200">
                                 <li class="mr-1">
                                     <button
-                                        class="px-4 py-2 text-gray-600 hover:text-blue-600 focus:outline-none border-b-2 border-transparent focus:border-blue-600"
+                                        class="px-4 py-2 active text-gray-600 hover:text-blue-600 focus:outline-none border-b-2 border-transparent focus:border-blue-600"
                                         id="profile-tab" type="button">
                                         <i class="ri-user-3-line text-lg"></i> Profil
                                     </button>
@@ -271,7 +271,7 @@
                         <!-- Tab Content -->
                         <div id="tab-content">
                             <!-- Profil Tab -->
-                            <div class="tab-content hidden" id="profile-content">
+                            <div class="tab-content active" id="profile-content">
                                 <div class="text-lg font-semibold mb-2">Detail</div>
                                 <ul class="list-none space-y-4">
                                     <li class="flex items-center">
@@ -316,7 +316,6 @@
                                         @endforeach
                                     </li>
                                 </ul>
-
                                 <div class="text-lg font-semibold mt-4">Kontak</div>
                                 <ul class="list-none space-y-4">
                                     <li class="flex items-center">
@@ -331,13 +330,243 @@
                                     </li>
                                 </ul>
 
-                                {{-- <div class="mt-4 flex justify-end">
+                                <!-- Modal toggle -->
+                                <button data-modal-target="default-modal" data-modal-toggle="default-modal"
+                                    class="block text-black bg-red-800 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="button" style="background-color: blue">
+                                    Edit
+                                </button>
+
+                                <!-- Main modal -->
+                                <div id="default-modal" tabindex="-1" aria-hidden="true"
+                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative p-4 w-full max-w-2xl max-h-full">
+                                        <!-- Modal content -->
+                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                            <!-- Modal header -->
+                                            <div
+                                                class="flex items-center justify-between p-4 md:p-5 rounded-t dark:border-gray-600">
+                                                <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-modal-hide="default-modal">
+                                                    <svg class="w-3 h-3" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 14 14">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="text-center mb-6">
+                                                <h4 class="mb-2 fs-[30px]">Ubah informasi pengguna</h4>
+                                                <p class="mb-6 text-gray-500 dark:text-gray-400">Memperbarui detail
+                                                    pengguna akan menerima audit privasi.</p>
+                                            </div>
+                                            <div class="p-4 md:p-5 space-y-4">
+                                                <label for="modalEditUserPhoto">
+                                                    <div class="image-container " id="imgpp">
+                                                        <div class="overlay">
+                                                            <i class="ri-edit-line"></i>
+                                                        </div>
+                                                        <input accept=".jpeg" type="file" id="modalEditUserPhoto"
+                                                            name="photo" class="form-control" hidden
+                                                            onchange="previewImage(event)">
+                                                    </div>
+                                                </label>
+
+                                                <script>
+                                                    function previewImage(event) {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function() {
+                                                            var output = document.getElementById('imgpp');
+                                                            output.style.backgroundImage = 'url(' + reader.result + ')';
+                                                        }
+                                                        reader.readAsDataURL(event.target.files[0]);
+                                                    }
+                                                </script>
+                                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    The European Union’s General Data Protection Regulation (G.D.P.R.)
+                                                    goes into effect on May 25 and is meant to ensure a common set of
+                                                    data rights in the European Union. It requires organizations to
+                                                    notify users as soon as possible of high-risk data breaches that
+                                                    could personally affect them.
+                                                </p>
+                                            </div>
+                                            <!-- Modal footer -->
+                                            <div
+                                                class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                                <button data-modal-hide="default-modal" type="button"
+                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
+                                                    accept</button>
+                                                <button data-modal-hide="default-modal" type="button"
+                                                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 flex justify-end">
                                     <button class="bg-blue-500 text-white py-2 px-4 rounded-lg" data-bs-toggle="modal"
                                         data-bs-target="#editUser">Edit</button>
-                                </div> --}}
-                            </div>
+                                </div>
+                                <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true"
+                                    style="display: none;">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="text-center mb-6">
+                                                    <h4 class="mb-2">Edit User Information</h4>
+                                                    <p class="mb-6">Updating user details will receive a privacy
+                                                        audit.</p>
+                                                </div>
+                                                <!-- Menampilkan Foto Pengguna -->
+                                                <form action="{{ route('user.update', $user->id) }}" method="post"
+                                                    enctype="multipart/form-data" id="editUserForm"
+                                                    class="row g-5 fv-plugins-bootstrap5 fv-plugins-framework justify-content-center">
+                                                    @csrf
+                                                    @method('PUT')
 
-                            <!-- Keamanan Tab -->
+
+                                                    <div class="col-12 col-md-6 d-flex flex-column align-items-center">
+                                                        <style>
+                                                            /* Container untuk gambar dan ikon */
+                                                            .image-container {
+                                                                position: relative;
+                                                                display: inline-block;
+                                                                width: 200px;
+                                                                height: 200px;
+                                                                border-radius: 50%;
+                                                                background-position: center;
+                                                                background-size: cover;
+                                                                background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/1.png') : asset('assets/img/avatars/10.png')) }}');
+                                                            }
+
+                                                            /* Layer hitam dengan opacity */
+                                                            .overlay {
+                                                                position: absolute;
+                                                                top: 0;
+                                                                left: 0;
+                                                                width: 100%;
+                                                                height: 100%;
+                                                                background-color: rgba(0, 0, 0, 0.3);
+                                                                border-radius: 50%;
+                                                                opacity: 0;
+                                                                transition: opacity 0.3s ease-in-out;
+                                                                display: flex;
+                                                                align-items: center;
+                                                                justify-content: center;
+                                                                cursor: pointer;
+                                                            }
+
+                                                            /* Ikon pensil di tengah */
+                                                            .overlay i {
+                                                                color: white;
+                                                                font-size: 24px;
+                                                                visibility: hidden;
+                                                            }
+
+                                                            /* Efek hover */
+                                                            .image-container:hover .overlay {
+                                                                opacity: 1;
+                                                            }
+
+                                                            .image-container:hover .overlay i {
+                                                                visibility: visible;
+                                                            }
+                                                        </style>
+
+                                                        <label for="modalEditUserPhoto">
+                                                            <div class="image-container" id="imgpp">
+                                                                <div class="overlay">
+                                                                    <i class="ri-edit-line"></i>
+                                                                </div>
+                                                                <input accept=".jpeg" type="file"
+                                                                    id="modalEditUserPhoto" name="photo"
+                                                                    class="form-control" hidden
+                                                                    onchange="previewImage(event)">
+                                                            </div>
+                                                        </label>
+
+                                                        <script>
+                                                            function previewImage(event) {
+                                                                var reader = new FileReader();
+                                                                reader.onload = function() {
+                                                                    var output = document.getElementById('imgpp');
+                                                                    output.style.backgroundImage = 'url(' + reader.result + ')';
+                                                                }
+                                                                reader.readAsDataURL(event.target.files[0]);
+                                                            }
+                                                        </script>
+
+
+                                                    </div>
+                                                    <div class="col-12 fv-plugins-icon-container">
+                                                        <div class="form-floating form-floating-outline">
+                                                            <input type="text" id="name" name="name"
+                                                                class="form-control"
+                                                                value="{{ old('name', $user->name) }}"
+                                                                placeholder="{{ old('name', $user->name) }}">
+                                                            <label for="name">Name</label>
+                                                        </div>
+                                                        <div
+                                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-12">
+
+                                                        <div class="input-group input-group-merge">
+                                                            <div class="form-floating form-floating-outline">
+                                                                <input type="text" id="phone_number"
+                                                                    name="phone_number"
+                                                                    class="form-control phone-number-mask"
+                                                                    value="{{ old('phone_number', $user->phone_number) }}"
+                                                                    placeholder="{{ old('phone_number', $user->phone_number) }}">
+                                                                <label for="phone_number">Phone Number</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @hasrole('admin|user')
+                                                        <div class="col-6">
+                                                            <div class="form-floating form-floating-outline">
+                                                                <input type="text" id="school_id" name="school_id"
+                                                                    class="form-control"
+                                                                    placeholder="{{ $user->instance->name }}"
+                                                                    value="{{ $user->instance->name }}" disabled>
+                                                                <label for="school_id">Sekolah</label>
+                                                            </div>
+                                                        </div>
+                                                    @endhasrole
+                                                    <div class="col-12">
+                                                        <div class="form-floating form-floating-outline">
+                                                            <input type="text" id="email" name="email"
+                                                                class="form-control" value="{{ $user->email }}"
+                                                                placeholder="{{ $user->email }}" disabled>
+                                                            <label for="email">Email</label>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 text-center d-flex flex-wrap justify-content-center gap-4 row-gap-4">
+                                                        <button type="submit"
+                                                            class="btn btn-primary waves-effect waves-light">Submit</button>
+                                                        <button type="reset"
+                                                            class="btn btn-outline-secondary waves-effect"
+                                                            data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                    </div>
+                                                    <input type="hidden">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="tab-content hidden" id="security-content">
                                 <h5 class="text-lg font-semibold mb-4">Ganti Password</h5>
                                 <form id="formChangePassword" method="POST"
@@ -379,10 +608,8 @@
                                     </div>
                                 </form>
                             </div>
-
                             <div class="col-12">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                                    <!-- Total Yang Sudah Dibayar -->
                                     <div class="flex flex-col items-center">
                                         <h5 class="text-center text-lg font-semibold">Total Yang Sudah Dibayar</h5>
                                         <div
@@ -396,8 +623,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Total Yang Harus Dibayar -->
                                     <div class="flex flex-col items-center">
                                         <h5 class="text-center text-lg font-semibold">Total Yang Harus Dibayar</h5>
                                         <div
@@ -413,21 +638,14 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-
-
-
-                <!-- Script JavaScript untuk mengontrol tab -->
                 <script>
                     document.getElementById('profile-tab').addEventListener('click', function() {
                         document.getElementById('profile-content').classList.remove('hidden');
                         document.getElementById('security-content').classList.add('hidden');
                     });
-
                     document.getElementById('security-tab').addEventListener('click', function() {
                         document.getElementById('profile-content').classList.add('hidden');
                         document.getElementById('security-content').classList.remove('hidden');
@@ -437,77 +655,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-    <!-- Edit Profile Modal -->
-    <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg w-full max-w-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold">Edit Profile</h2>
-                <button class="text-gray-600 hover:text-gray-800" onclick="closeEditModal()">&times;</button>
-            </div>
-            <form action="{{ route('user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700">Name</label>
-                    <input type="text" name="name" id="name" value="{{ $user->name }}"
-                        class="w-full mt-1 p-2 border rounded">
-                </div>
-
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700">Email</label>
-                    <input type="email" name="email" id="email" value="{{ $user->email }}"
-                        class="w-full mt-1 p-2 border rounded">
-                </div>
-
-                <div class="mb-4">
-                    <label for="phone" class="block text-gray-700">Phone</label>
-                    <input type="text" name="phone" id="phone" value="{{ $user->phone }}"
-                        class="w-full mt-1 p-2 border rounded">
-                </div>
-
-                <div class="mb-4">
-                    <label for="photo" class="block text-gray-700">Profile Photo</label>
-                    <input type="file" name="photo" id="photo" class="w-full mt-1 p-2 border rounded">
-                </div>
-
-                <div class="flex justify-end">
-                    <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-600"
-                        onclick="closeEditModal()">Cancel</button>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save
-                        Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function openEditModal() {
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').classList.add('hidden');
-        }
-
-        document.getElementById('profile-btn').addEventListener('click', function() {
-            document.getElementById('profile-menu').classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', function(event) {
-            const isClickInsideProfile = document.getElementById('profile-menu').contains(event.target);
-            const isClickInsideButton = document.getElementById('profile-btn').contains(event.target);
-
-            if (!isClickInsideProfile && !isClickInsideButton) {
-                document.getElementById('profile-menu').classList.add('hidden');
-            }
-        });
-    </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 </body>

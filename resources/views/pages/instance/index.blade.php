@@ -201,7 +201,19 @@
                 <div class="card-footer">
                     @if ($instances->hasPages())
                         <div class="pagination-container ">
+                            @php
+                                $currentPage = $instances->currentPage();
+                                $totalPages = $instances->lastPage();
+                                $visiblePages = 1;
 
+                                $totalData = \App\Models\Instance::count();
+                                $dataPerPage = $instances->perPage();
+                                $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                                $endItem = min($currentPage * $dataPerPage, $totalData);
+                            @endphp
+                            <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                                Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                            </div>
                             <ul class="pagination d-lg-flex justify-content-lg-between align-items-lg-center">
                                 {{-- Previous Page Link --}}
                                 <style>
@@ -228,11 +240,6 @@
                                 </div>
                                 {{-- Pagination Elements (visible only on large screens and up) --}}
                                 <div class="d-none d-lg-flex gx-4">
-                                    @php
-                                        $currentPage = $instances->currentPage();
-                                        $totalPages = $instances->lastPage();
-                                        $visiblePages = 1; // Maximum number of page numbers to display
-                                    @endphp
                                     {{-- First Page --}}
                                     @if ($currentPage > $visiblePages + 1)
                                         <li class="page-item">

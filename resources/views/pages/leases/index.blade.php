@@ -293,6 +293,100 @@
             </tbody>
         </table>
     </div>
+    @if ($leases->hasPages())
+            <div class="pagination-container mt-5">
+                @php
+                    $currentPage = $leases->currentPage();
+                    $totalPages = $leases->lastPage();
+                    $visiblePages = 1;
+
+                    $totalData = \App\Models\Lease::count();
+                    $dataPerPage = $leases->perPage();
+                    $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                    $endItem = min($currentPage * $dataPerPage, $totalData);
+                @endphp
+                <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                    Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                </div>
+                <ul class="pagination d-flex justify-content-between align-items-center">
+                    {{-- Previous Page Link --}}
+                    <style>
+                        li {
+                            border-radius: none;
+                        }
+                    </style>
+                    @if ($leases->onFirstPage())
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link px-6 text-white" style="background-color: #63cbab">Prev</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link px-6 bg-primary text-white" href="{{ $leases->previousPageUrl() }}"
+                                rel="prev">Prev</a>
+                        </li>
+                    @endif
+                    <div class="d-sm-flex d-md-flex d-lg-none ">
+                        <li class="page-item active" aria-disabled="true">
+                            <span class="page-link">{{ $leases->currentPage() }}</span>
+                        </li>
+                    </div>
+                    {{-- Pagination Elements (visible only on large screens and up) --}}
+                    <div class="d-none d-lg-flex gx-4">
+                        {{-- First Page --}}
+                        @if ($currentPage > $visiblePages + 1)
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $leases->url(1) }}">1</a>
+                            </li>
+                            @if ($currentPage > $visiblePages + 2)
+                                <li class="page-item disabled" aria-disabled="true">
+                                    <span class="page-link">...</span>
+                                </li>
+                            @endif
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                            @if ($i == $currentPage)
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">{{ $i }}</span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $leases->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endif
+                        @endfor
+
+                        {{-- Last Page --}}
+                        @if ($currentPage < $totalPages - $visiblePages)
+                            @if ($currentPage < $totalPages - $visiblePages - 1)
+                                <li class="page-item disabled" aria-disabled="true">
+                                    <span class="page-link">...</span>
+                                </li>
+                            @endif
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $leases->url($totalPages) }}">{{ $totalPages }}</a>
+                            </li>
+                        @endif
+                    </div>
+
+                    {{-- Next Page Link --}}
+                    @if ($leases->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link px-6 bg-primary text-white" href="{{ $leases->nextPageUrl() }}"
+                                rel="next">Next</a>
+                        </li>
+                    @else
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link px-6 text-white" style="background-color: #63cbab">Next</span>
+                        </li>
+                    @endif
+                </ul>
+                <div class="d-lg-none w-100" style="color: rgba(0,0,0,.4);font-size:.75rem;">
+                    Menampilkan halaman {{ $currentPage }} / {{ $totalPages }}
+                </div>
+            </div>
+        @endif
 
 
     {{-- Create Lease Modal --}}
