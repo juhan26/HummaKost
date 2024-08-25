@@ -634,7 +634,7 @@
                                     </div>
                                 </div>
                                 @hasrole('admin|user')
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <div class="form-floating form-floating-outline">
                                             <input type="text" id="school_id" name="school_id" class="form-control"
                                                 placeholder="{{ $user->instance->name }}"
