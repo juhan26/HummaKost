@@ -209,6 +209,11 @@ class UserController extends Controller
         $request->validate([
             'password' => 'required|min:8',
             'confirmPassword' => 'required|same:password',
+        ], [
+            'password.required' => 'Password Tidak Boleh Kosong',
+            'password.min' => 'Password Minimal Harus Terdiri Dari 8 Karakter',
+            'confirmPassword.required' => 'Konfirmasi Password Tidak Boleh Kosong',
+            'confirmPassword.same' => 'Password Harus Sama Dengan Konfirmasi Password',
         ]);
 
         if ($request->password === Auth::user()->password) {
