@@ -89,7 +89,7 @@
                     text: @json(session('error')),
                     showConfirmButton: false,
                     icon: 'info',
-                    footer: '<a href="/login" class="btn btn-primary">Tutup</a>'
+                    footer: '<a href="/" class="btn btn-primary">Home</a>'
                 });
             });
         </script>
