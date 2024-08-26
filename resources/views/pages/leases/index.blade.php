@@ -92,6 +92,7 @@
                 <th>No</th>
                 <th>Foto</th>
                 <th>Nama Penyewa</th>
+                <th>Jenis Kelamin</th>
                 <th>Kontrakan</th>
                 <th>Tanggal Mulai</th>
                 <th>Tanggal Selesai</th>
@@ -119,6 +120,7 @@
                             @endif
                         </td>
                         <td>{{ $lease->user->name }}</td>
+                        <td>{{ $lease->user->gender }}</td>
                         <td>{{ $lease->properties->name }}</td>
                         <td>{{ Carbon\Carbon::parse($lease->start_date)->locale('id')->translatedFormat('d F Y') }}</td>
                         <td>{{ Carbon\Carbon::parse($lease->end_date)->locale('id')->translatedFormat('d F Y') }}</td>

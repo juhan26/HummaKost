@@ -64,7 +64,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone_number' => ['required', 'string', 'unique:users', 'min:12'],
+            'phone_number' => ['required', 'string', 'unique:users', 'min:12', 'max:15', 'not_regex:/-/'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
             'name.required' => 'Nama harus diisi.',
@@ -80,7 +80,9 @@ class RegisterController extends Controller
             'phone_number.required' => 'Nomor telepon harus diisi.',
             'phone_number.string' => 'Nomor telepon harus berupa teks.',
             'phone_number.unique' => 'Nomor telepon sudah digunakan.',
-            'phone_number.min' => 'Nomor telepon minimal memiliki 12 karakter',
+            'phone_number.min' => 'Nomor telepon minimal harus memiliki 12 karakter',
+            'phone_number.max' => 'Nomor telepon maksimal memiliki 15 karakter',
+            'phone_number.not_regex' => 'Nomor telepon tidak boleh terdapat minus',
 
             'password.required' => 'Kata sandi harus diisi.',
             'password.string' => 'Kata sandi harus berupa teks.',

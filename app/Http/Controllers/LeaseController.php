@@ -116,86 +116,92 @@ class LeaseController extends Controller
      */
     public function store(StoreLeaseRequest $request)
     {
-        $existingLease = Lease::where('user_id', $request->user_id)
-            ->where('end_date', '>', now())
-            ->first();
+        $user = User::findOrFail($request->user_id);
+        $property = User::findOrFail($request->property_id);
+        if ($user->gender == $property->gender_target) {
+            $existingLease = Lease::where('user_id', $request->user_id)
+                ->where('end_date', '>', now())
+                ->first();
 
-        if ($existingLease) {
-            return redirect()->route('leases.index')->with('error', 'Pengguna sudah memiliki sewa.');
-        }
-
-        $property = Property::find($request->property_id);
-
-        if (!$property) {
-            return redirect()->route('leases.index')->with('error', 'Kontrakan tidak di temukan.');
-        }
-
-        // Menggunakan Carbon untuk menangani tanggal
-        $startDate = \Carbon\Carbon::parse($request->start_date);
-        $endDate = \Carbon\Carbon::parse($request->end_date);
-
-        // Cek apakah end_date lebih awal dari start_date
-        if ($endDate->lt($startDate)) {
-            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
-        }
-
-        // Cek apakah start_date dan end_date berada di bulan yang sama
-        if ($startDate->isSameMonth($endDate)) {
-            // Hitung total_iuran menggunakan rental_price dari property
-            $totalIuran = $property->rental_price;
-        } else {
-            // Hitung jumlah bulan penuh di antara dua tanggal
-            $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
-
-            // Hitung total_iuran
-            $totalIuran = $totalMonths * $property->rental_price;
-        }
-
-        // Cek kapasitas dan status property
-        $capacity = $property->capacity;
-
-        if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() < $capacity) {
-
-            if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() == ($capacity - 1)) {
-                $property->update(['status' => 'full']);
-            } else {
-                $property->update(['status' => 'available']);
+            if ($existingLease) {
+                return redirect()->route('leases.index')->with('error', 'Pengguna sudah memiliki sewa.');
             }
 
-            $lease = Lease::create([
-                'user_id' => $request->user_id,
-                'property_id' => $request->property_id,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'description' => $request->description,
-                'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
-                'total_nominal' => 0,
-            ]);
+            $property = Property::find($request->property_id);
 
-            $nominal = $request->first_paid_month;
-            $totalNominal = $lease->total_nominal + $nominal;
-            $startDate = \Carbon\Carbon::parse($lease->start_date);
-            $totalMonthsPaid = floor($lease->total_nominal / $lease->properties->rental_price);
-            $monthsToAdd = floor($nominal / $lease->properties->rental_price);
-            $startPaymentMonth = $startDate->copy()->addMonths($totalMonthsPaid);
-            $paymentMonth = $startDate->copy()->addMonths($totalMonthsPaid + $monthsToAdd);
-            $startPaymentMonthFormatted = $startPaymentMonth->format('F Y');
-            $paymentMonthFormatted = $paymentMonth->format('F Y');
+            if (!$property) {
+                return redirect()->route('leases.index')->with('error', 'Kontrakan tidak di temukan.');
+            }
 
-            PaymentPerMonth::create([
-                'lease_id' => $lease->id,
-                'payment_month' =>  $startPaymentMonthFormatted,
-                'month' => $paymentMonthFormatted,
-                'nominal' => $request->first_paid_month,
-            ]);
+            // Menggunakan Carbon untuk menangani tanggal
+            $startDate = \Carbon\Carbon::parse($request->start_date);
+            $endDate = \Carbon\Carbon::parse($request->end_date);
 
-            $lease->update([
-                'total_nominal' => $totalNominal,
-            ]);
+            // Cek apakah end_date lebih awal dari start_date
+            if ($endDate->lt($startDate)) {
+                return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
+            }
 
-            return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
+            // Cek apakah start_date dan end_date berada di bulan yang sama
+            if ($startDate->isSameMonth($endDate)) {
+                // Hitung total_iuran menggunakan rental_price dari property
+                $totalIuran = $property->rental_price;
+            } else {
+                // Hitung jumlah bulan penuh di antara dua tanggal
+                $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+
+                // Hitung total_iuran
+                $totalIuran = $totalMonths * $property->rental_price;
+            }
+
+            // Cek kapasitas dan status property
+            $capacity = $property->capacity;
+
+            if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() < $capacity) {
+
+                if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() == ($capacity - 1)) {
+                    $property->update(['status' => 'full']);
+                } else {
+                    $property->update(['status' => 'available']);
+                }
+
+                $lease = Lease::create([
+                    'user_id' => $request->user_id,
+                    'property_id' => $request->property_id,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date,
+                    'description' => $request->description,
+                    'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
+                    'total_nominal' => 0,
+                ]);
+
+                $nominal = $request->first_paid_month;
+                $totalNominal = $lease->total_nominal + $nominal;
+                $startDate = \Carbon\Carbon::parse($lease->start_date);
+                $totalMonthsPaid = floor($lease->total_nominal / $lease->properties->rental_price);
+                $monthsToAdd = floor($nominal / $lease->properties->rental_price);
+                $startPaymentMonth = $startDate->copy()->addMonths($totalMonthsPaid);
+                $paymentMonth = $startDate->copy()->addMonths($totalMonthsPaid + $monthsToAdd);
+                $startPaymentMonthFormatted = $startPaymentMonth->format('F Y');
+                $paymentMonthFormatted = $paymentMonth->format('F Y');
+
+                PaymentPerMonth::create([
+                    'lease_id' => $lease->id,
+                    'payment_month' =>  $startPaymentMonthFormatted,
+                    'month' => $paymentMonthFormatted,
+                    'nominal' => $request->first_paid_month,
+                ]);
+
+                $lease->update([
+                    'total_nominal' => $totalNominal,
+                ]);
+
+                return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
+            } else {
+                return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
+            }
         } else {
-            return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
+            return redirect()->back()->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
         }
     }
 

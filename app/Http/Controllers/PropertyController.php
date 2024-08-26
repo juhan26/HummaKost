@@ -129,7 +129,6 @@ class PropertyController extends Controller
         if ($request->capacity < $property->leases->count()) {
             return redirect()->route('properties.edit', $property->id)->with('error', 'Jumlah kapasitas yang anda masukkan kurang dari yang jumlah orang yang terdapat di dalam kontrakan.');
         } else {
-
             if ($request->image) {
 
                 if ($property->image) {
