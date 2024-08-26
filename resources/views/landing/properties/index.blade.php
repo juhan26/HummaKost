@@ -414,18 +414,18 @@
             
                 <!-- Properties Section -->
                 <div class="w-3/4 mx-auto">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 py-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 py-4">
                         @foreach ($properties->unique('id') as $property)
                             <div
                                 class="course-card max-w-lg h-[400px] flex flex-col bg-gray-white rounded-xl overflow-hidden">
                                 @if ($property->status === 'available')
                                     <span
-                                        class="label bg-green-100 text-green-400 w-27 px-4 py-1 rounded-xl top-3 left-3 font-semibold mx-auto mt-3 text-center">
+                                        class="label bg-green-100 text-green-400 w-25    px-4 py-1 rounded-xl font-semibold mt-3 ml-3 text-center">
                                         Tersedia
                                     </span>
                                 @else
                                     <span
-                                        class="label bg-red-100 text-red-400 px-4 w-27 py-1 rounded-xl top-3 left-3 font-semibold mx-auto mt-3 text-center">
+                                        class="label bg-red-100 text-red-400 px-4 py-1 rounded-xl font-semibold mx-auto mt-3 ml-3 text-center">
                                         Full
                                     </span>
                                 @endif
@@ -445,8 +445,8 @@
                                         </div>
                                     </div>
                                     <div class="flex justify-between items-center mt-4">
+                                        <i class="ri-calendar-line ri-20px me-2" style="color: rgba(32,180,134,.7)"></i>
                                         <div>
-                                            <i class="ri-calendar-line ri-20px me-2" style="color: rgba(32,180,134,.7)"></i>
                                             <h5 class="m-0" style="color: rgba(32,180,134,.7); font-size:1rem;">
                                                 {{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
                                             </h5>
@@ -495,8 +495,6 @@
                     </div>
                 </div>
             </div>
-            
-            
     </section>
 
 
