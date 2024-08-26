@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreFacilityRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class StoreFacilityRequest extends FormRequest
     {
         return [
             'photo' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
-            'name' => 'required|string|max:50',
+            'name' => ['required', 'string', 'max:50', Rule::unique('facilities', 'name')->ignore($this->facility->id)],
             'description' => 'nullable|string|max:50',
         ];
     }
@@ -37,7 +38,7 @@ class StoreFacilityRequest extends FormRequest
             'name.required' => 'Nama wajib diisi.',
             'name.string' => 'Nama harus berupa teks.',
             'name.max' => 'Nama maksimal 50 karakter.',
-            'name.unique' => 'Nama sudah digunakan, silakan pilih nama lain.',
+            'name.unique' => 'Fasilitas telah ada, silakan buat fasilitas lain.',
             'description.string' => 'Deskripsi harus berupa teks.',
             'description.max' => 'Deskripsi maksimal 50 karakter.',
         ];

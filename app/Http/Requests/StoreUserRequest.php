@@ -27,7 +27,7 @@ class StoreUserRequest extends FormRequest
             'division' => ['nullable', 'string'],
             'gender'   => ['required', 'string', 'in:male,female'],
             'email' => ['required', 'unique:users,email'],
-            'phone_number' => ['required', 'numeric', 'min_digits:4', 'max_digits:20','min:1'],
+            'phone_number' => ['required', 'numeric', 'not_regex:/-/', 'min:12', 'max:15'],
         ];
     }
 
@@ -42,9 +42,9 @@ class StoreUserRequest extends FormRequest
             'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
             'phone_number.required' => 'Nomor telepon wajib diisi.',
             'phone_number.numeric' => 'Nomor telepon harus berupa angka.',
-            'phone_number.min_digits' => 'Nomor telepon minimal harus terdiri dari 8 digit.',
-            'phone_number.max_digits' => 'Nomor telepon maksimal harus terdiri dari 20 digit.',
-            'phone_number.min' => 'Nomor telepon tidak boleh minus',
+            'phone_number.min' => 'Nomor telepon minimal harus memiliki 12 karakter',
+            'phone_number.max' => 'Nomor telepon maksimal memiliki 15 karakter',
+            'phone_number.not_regex' => 'Nomor telepon tidak boleh terdapat minus',
             'division.string'   => 'divisi harus berupa teks.',
             'gender.required'   => 'Jenis kelamin harus diisi.',
             'gender.string'     => 'Jenis kelamin harus berupa teks.',
