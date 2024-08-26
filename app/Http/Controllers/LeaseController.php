@@ -58,7 +58,8 @@ class LeaseController extends Controller
                 END
                 ")
                 ->latest()
-                ->paginate(1);
+
+                ->paginate(10);
             $leases->appends([
                 'search' => $propertySearch,
                 'status' => $status,
@@ -82,7 +83,7 @@ class LeaseController extends Controller
             END
         ")
                 ->latest()
-                ->paginate(1);
+                ->paginate(10);
 
             // Append query parameters to pagination links
             $leases->appends([
