@@ -454,8 +454,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="rental_price" class="form-label">Pembayaran Bulan Pertama</label>
-                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month">
-                            <input type="text" class="form-control" id="showPrice" disabled placeholder="Rp. ">
+                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month" value="{{ old('first_paid_month') }}">
+                            <input type="text" class="form-control" id="showPrice" disabled placeholder="Rp. {{ number_format(old('first_paid_month'),0) }}">
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi <small>(Opsional)</small></label>
