@@ -77,8 +77,8 @@
                                 Kontrakan: {{ $lease->user->name }}</strong></span>
 
                             @hasrole('super_admin')
-                                <a data-bs-toggle="modal" class="btn btn-primary ms-1" data-bs-target="#editPropertyLeaderModal"
-                                    style="text-decoration; color: white;">+</a>
+                                <a data-bs-toggle="modal" class="btn btn-warning ms-1" data-bs-target="#editPropertyLeaderModal"
+                                    style="text-decoration; color: white;"><i class="ri-edit-line"></i></a>
                             @endhasrole
                             @php
                                 $status = true;
