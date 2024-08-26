@@ -68,6 +68,7 @@
 
     <link rel="stylesheet" href="sweetalert2.min.css">
     <!-- Page CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <!-- Page -->
     <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
 
@@ -102,10 +103,18 @@
     <!-- Content -->
 
     <div class="position-relative">
+
         <div class="authentication-wrapper authentication-basic container-p-y p-4 p-sm-0">
             <div class="authentication-inner py-6">
                 <!-- Login -->
                 <div class="card p-md-7 p-1">
+                    <div class="position-absolute" style="top: 10px;left:10px;">
+                        <a href="/" class="d-flex align-items-center">
+                            <span class="material-symbols-outlined">
+                                arrow_back
+                                </span>
+                        </a>
+                    </div>
                     <!-- Logo -->
                     <div class="app-brand justify-content-center mt-5">
                         <a href="#" class="app-brand-link gap-2">

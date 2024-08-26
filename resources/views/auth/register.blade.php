@@ -56,7 +56,8 @@
     <link rel="stylesheet" href="../../assets/vendor/libs/%40form-validation/form-validation.css" />
 
     <!-- Page CSS -->
-
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Page -->
     <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -77,7 +78,7 @@
                 Swal.fire({
                     title: "Pendaftaran Berhasil",
                     text: @json(session('success')),
-                    showConfirmButton:false,
+                    showConfirmButton: false,
                     footer: '<a href="/login" class="btn btn-primary">Tutup</a>'
                 });
             });
@@ -90,8 +91,8 @@
     <!-- Content -->
     <div class="authentication-wrapper authentication-cover">
         <!-- Logo -->
-        <a href="/" class="auth-cover-brand d-flex align-items-center gap-2"
-        data-aos="fade-right" data-aos-duration="1000" >
+        <a href="/" class="auth-cover-brand d-flex align-items-center gap-2" data-aos="fade-right"
+            data-aos-duration="1000">
             <span class="app-brand-text demo text-heading fw-semibold">HummaKost</span>
         </a>
         <!-- /Logo -->
@@ -106,14 +107,18 @@
             <!-- /Left Text -->
 
             <!--  Multi Steps Registration -->
-            <div class="d-flex col-lg-8 align-items-center justify-content-center authentication-bg p-5" style="position: relative">
-                <a href="/" style="position: absolute;top:20px;left:20px;"><i style="font-size: 40px;" class="mdi ri-arrow-left-s-line"></i></a>
+            <div class="d-flex col-lg-8 align-items-center justify-content-center authentication-bg p-5"
+                style="position: relative">
+                <a href="/" style="position: absolute;top:20px;left:20px;"><span class="material-symbols-outlined"
+                        style="font-size: 40px">
+                        arrow_back
+                    </span></a>
                 <div class="w-px-700 mt-12 mt-lg-0 pt-lg-0 pt-4">
                     <div id="multiStepsValidation" class="bs-stepper wizard-numbered shadow-none">
                         <div class="bs-stepper-header border-bottom-0 mb-2">
                             <div class="step" data-target="#accountDetailsValidation">
                                 <button type="button" class="step-trigger ps-0">
-                                    <span class="bs-stepper-circle" ><i class="ri-check-line"></i></span>
+                                    <span class="bs-stepper-circle"><i class="ri-check-line"></i></span>
                                     <span class="bs-stepper-label">
                                         <span class="bs-stepper-number">01</span>
                                         <span class="d-flex flex-column ms-2">
@@ -123,10 +128,11 @@
                                     </span>
                                 </button>
                             </div>
-                            <div class="line" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="700"></div>
+                            <div class="line" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="700">
+                            </div>
                             <div class="step" data-target="#personalInfoValidation">
-                                <button type="button" class="step-trigger" >
-                                    <span class="bs-stepper-circle" ><i class="ri-check-line"></i></span>
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-circle"><i class="ri-check-line"></i></span>
                                     <span class="bs-stepper-label">
                                         <span class="bs-stepper-number">02</span>
                                         <span class="d-flex flex-column ms-2">
@@ -138,14 +144,15 @@
                             </div>
                         </div>
                         <div class="bs-stepper-content">
-                            <form action="{{ route('register') }}" id="multiStepsForm" method="post">
+                            <form action="{{ route('register') }}" id="multiStepsForm" method="post"
+                                class="position-relative">
                                 @method('POST')
                                 @csrf
                                 <!-- Account Details -->
                                 <div id="accountDetailsValidation" class="content">
                                     <div class="content-header mb-5">
-                                        <h4 class="mb-1" >Informasi Akun</h4>
-                                        <span >Masukkan Detail Akunmu</span>
+                                        <h4 class="mb-1">Informasi Akun</h4>
+                                        <span>Masukkan Detail Akunmu</span>
                                     </div>
                                     <div class="row gx-5">
                                         <div class="col-sm-6 col-lg-12 col-md-12 mb-5">
@@ -154,9 +161,9 @@
                                                     class="form-control @error('email') is-invalid @enderror"
                                                     placeholder="contoh@gmail.com" aria-label="john.doe"
                                                     value="{{ old('email') }}" />
-                                                <label for="multiStepsEmail" >Email</label>
+                                                <label for="multiStepsEmail">Email</label>
                                                 @error('email')
-                                                    <span class="invalid-feedback" role="alert" >
+                                                    <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
@@ -168,7 +175,7 @@
                                                     <input type="password" id="multiStepsPass" name="password"
                                                         class="form-control @error('password') is-invalid @enderror"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="multiStepsPass2"/>
+                                                        aria-describedby="multiStepsPass2" />
                                                     <label for="multiStepsPass">Password</label>
                                                 </div>
                                                 <span class="input-group-text cursor-pointer" id="multiStepsPass2"><i
@@ -186,16 +193,16 @@
                                                     <input type="password" id="multiStepsConfirmPass"
                                                         name="password_confirmation" class="form-control"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="multiStepsConfirmPass2"/>
-                                                    <label for="multiStepsConfirmPass" >Konfirmasi Password</label>
+                                                        aria-describedby="multiStepsConfirmPass2" />
+                                                    <label for="multiStepsConfirmPass">Konfirmasi Password</label>
                                                 </div>
                                                 <span class="input-group-text cursor-pointer"
-                                                    id="multiStepsConfirmPass2" ><i class="ri-eye-off-line" ></i></span>
+                                                    id="multiStepsConfirmPass2"><i class="ri-eye-off-line"></i></span>
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex justify-content-between">
                                             <button type="button" class="btn btn-outline-secondary btn-prev"
-                                                disabled > <i class="ri-arrow-left-line ri-16px me-sm-1_5 me-0"></i>
+                                                disabled> <i class="ri-arrow-left-line ri-16px me-sm-1_5 me-0"></i>
                                                 <span class="align-middle d-sm-inline-block d-none">Previous</span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-next"> <span
@@ -215,8 +222,9 @@
                                             <div class="form-floating form-floating-outline">
                                                 <input type="text" id="multiStepsFirstName" name="name"
                                                     class="form-control @error('name') is-invalid @enderror"
-                                                    placeholder="John" value="{{ old('name') }}" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1100"/>
-                                                <label for="multiStepsFirstName" >Nama Lengkap</label>
+                                                    placeholder="John" value="{{ old('name') }}" data-aos="fade-up"
+                                                    data-aos-duration="1000" data-aos-delay="1100" />
+                                                <label for="multiStepsFirstName">Nama Lengkap</label>
                                                 @error('name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -260,10 +268,14 @@
                                                 <select id="multiStepsState" class="select2 form-select"
                                                     data-allow-clear="true" name="instance_id">
                                                     @php
-                                                         $instances = \App\Models\Instance::orderBy('name','ASC')->get();
+                                                        $instances = \App\Models\Instance::orderBy(
+                                                            'name',
+                                                            'ASC',
+                                                        )->get();
                                                     @endphp
                                                     @foreach ($instances as $instance)
-                                                    <option value="{{ $instance->id }}">{{ $instance->name }}</option>
+                                                        <option value="{{ $instance->id }}">{{ $instance->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                                 <label for="multiStepsState">Instansi</label>
@@ -284,12 +296,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div style="position: absolute;bottom:-15%;left:0;">
+                                    Sudah punya akun?
+                                    <a href="{{ route('login') }}" class="text-primary">
+                                        Login
+                                    </a>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- / Multi Steps Registration -->
+
         </div>
     </div>
 
