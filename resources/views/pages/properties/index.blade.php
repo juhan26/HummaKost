@@ -73,7 +73,7 @@
         <div class="card-grid">
             @forelse ($properties as $property)
                 <div class="card shadow-sm position-relative">
-                    <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;"
+                    <div class="position-absolute top-0 end-0 p-2 d-flex gap-2" style="display: none;z-index: 999;"
                         id="card-actions-{{ $property->id }}">
                         @hasrole('admin|super_admin')
                             <button class="btn btn-white btn-text-white shadow-sm  p-2" type="button"
