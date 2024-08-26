@@ -36,6 +36,7 @@ Route::post('/submit-feedback', [FeedbackController::class, 'submit'])->name('fe
 Auth::routes();
 
 Route::get('/', [LandingController::class, 'index'])->name('home.index');
+Route::get('/properties/home', [LandingController::class, 'home'])->name('home.properties'); // aa
 Route::get('/properties/show/{id}', [LandingController::class, 'show'])->name('home.show');
 
 
