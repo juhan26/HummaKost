@@ -24,7 +24,7 @@ class StoreFacilityRequest extends FormRequest
     {
         return [
             'photo' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
-            'name' => ['required', 'string', 'max:50', Rule::unique('facilities', 'name')->ignore($this->facility->id)],
+            'name' => ['required', 'string', 'max:50', 'unique:facilities,name'],
             'description' => 'nullable|string|max:50',
         ];
     }
