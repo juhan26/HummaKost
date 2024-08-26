@@ -39,7 +39,7 @@
             border-radius: 50%;
             background-position: center;
             background-size: cover;
-            background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/1.png') : asset('assets/img/avatars/10.png')) }}');
+            background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/5.png') : asset('assets/img/avatars/10.png')) }}');
         }
 
         /* Layer hitam dengan opacity */
@@ -119,7 +119,7 @@
                             <div class="relative">
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
-                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/5.png') }}"
                                         onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
                                     {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
                                         onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
@@ -128,7 +128,7 @@
                                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
                                     <ul class="py-2 text-gray-700">
                                         {{-- <li class="flex items-center gap-2 px-4 py-2">
-                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/5.png') }}"
                                             onclick="a(this)" alt="User Photo"
                                             class="w-7 h-7 object-cover rounded-full">
                                         <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
@@ -311,7 +311,7 @@
                                     <div class="user-avatar-section">
                                         <div class="flex flex-col items-center">
                                             <div class="w-96 h-96 rounded-full bg-center bg-cover"
-                                                style="background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/1.png') : asset('assets/img/avatars/10.png')) }}');">
+                                                style="background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/5.png') : asset('assets/img/avatars/10.png')) }}');">
                                             </div>
 
                                             <div class="text-center user-info">
