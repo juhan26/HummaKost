@@ -69,7 +69,7 @@ class LeaseController extends Controller
             $properties = Property::all();
             $users = User::with(['lease'])->whereHas('roles', function ($query) {
                 $query->where('name', '!=', 'super_admin');
-            })->whereDoesntHave('lease')->get();
+            })->where('status', 'accepted')->whereDoesntHave('lease')->get();
         } else {
             $query->whereHas('properties', function ($query) {
                 $query->where('id', Auth::user()->lease->property_id);
@@ -93,7 +93,9 @@ class LeaseController extends Controller
             ]);
 
             $properties = Property::all();
-            $users = User::all();
+            $users = User::with(['lease'])->whereHas('roles', function ($query) {
+                $query->where('name', '!=', 'super_admin');
+            })->where('status', 'accepted')->whereDoesntHave('lease')->get();
         }
 
         return view('pages.leases.index', compact('leases', 'properties', 'status', 'property_id', 'users'));
@@ -117,7 +119,7 @@ class LeaseController extends Controller
     public function store(StoreLeaseRequest $request)
     {
         $user = User::findOrFail($request->user_id);
-        $property = User::findOrFail($request->property_id);
+        $property = Property::findOrFail($request->property_id);
         if ($user->gender == $property->gender_target) {
             $existingLease = Lease::where('user_id', $request->user_id)
                 ->where('end_date', '>', now())
@@ -196,12 +198,12 @@ class LeaseController extends Controller
                     'total_nominal' => $totalNominal,
                 ]);
 
-                return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
+                return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di tambahkan.');
             } else {
-                return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
+                return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
             }
         } else {
-            return redirect()->back()->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
+            return redirect()->route('leases.index')->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
         }
     }
 
