@@ -144,7 +144,7 @@
 
                     <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('/assets/img/image_not_available.png') }}"
                         alt="{{ $property->name }}" class="card-img-top"
-                        style="max-height: 400px; object-fit: cover; opacity: {{ $property->image ? '1' : '0.5' }};">
+                        style="max-height: 400px; object-fit: cover; opacity:  '1';">
 
 
                     <div class="card-body">
