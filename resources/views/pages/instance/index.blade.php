@@ -75,7 +75,7 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $instance->name }}</td>
                                         <td>{{ $instance->address }}</td>
-                                        <td>{{ $instance->description }}</td>
+                                        <td>{{ $instance->description ? $instance->description : "Deskripsi Kosong" }}</td>
                                         <td>
                                             <div class="dropdown d-flex justify-content-center">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -166,7 +166,7 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="editDescription{{ $instance->id }}"
-                                                                class="form-label">Deskripsi:</label>
+                                                                class="form-label">Deskripsi:(opsional)</label>
                                                             <textarea class="form-control" name="description" id="editDescription{{ $instance->id }}">{{ old('description', $instance->description) }}</textarea>
                                                             @error('description')
                                                                 <div class="text-danger">{{ $message }}</div>
@@ -327,7 +327,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="createProperty" class="form-label">Deskripsi:</label>
+                                <label for="createProperty" class="form-label">Deskripsi:(opsional)</label>
                                 <textarea name="description" class="form-control max-w-full max-h-[50px]" id="" cols="20"
                                     rows="3">{{ old('description') }}</textarea>
                                 @error('description')

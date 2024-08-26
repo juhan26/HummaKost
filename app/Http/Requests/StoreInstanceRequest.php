@@ -31,8 +31,8 @@ class StoreInstanceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nama.required' => 'nama sekolah tidak boleh kosong',
-            'nama.unique' => 'nama sekolah sudah terdaftar',
+            'name.required' => 'nama sekolah tidak boleh kosong',
+            'name.unique' => 'nama sekolah sudah terdaftar',
             'address.required' => 'alamat tidak boleh kosong',
             'address.min' => 'karakter tidak boleh kurang dari 20',
             'address.max' => 'karakter tidak boleh lebih dari 255 karakter',
