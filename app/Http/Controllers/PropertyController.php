@@ -94,10 +94,8 @@ class PropertyController extends Controller
             ->where(function ($query) {
                 $query->whereHas('roles', function ($query) {
                     $query->where('name', 'tenant');
-                })->orWhereHas('roles', function ($query) {
-                    $query->where('name', 'admin');
                 });
-            })
+            })->where('status', 'accepted')
             ->latest()
             ->get();
         $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
@@ -127,43 +125,49 @@ class PropertyController extends Controller
     public function update(UpdatePropertyRequest $request, Property $property)
     {
         $facilities = $request->facility_id;
-        if ($request->image) {
 
-            if ($property->image) {
-                Storage::delete('public/' . $property->image);
+        if ($request->capacity < $property->leases->count()) {
+            return redirect()->route('properties.edit', $property->id)->with('error', 'Jumlah kapasitas yang anda masukkan kurang dari yang jumlah orang yang terdapat di dalam kontrakan.');
+        } else {
+
+            if ($request->image) {
+
+                if ($property->image) {
+                    Storage::delete('public/' . $property->image);
+                }
+
+                $newImage = $request->image->store('propertyImages', 'public');
+
+                $property->update([
+                    'name' => $request->name,
+                    'image' => $newImage,
+                    'rental_price' => $request->rental_price,
+                    'description' => $request->description,
+                    'address' => $request->address,
+                    'capacity' => $request->capacity,
+                    'gender_target' => $request->gender_target,
+                    'langtitude' => $request->langtitude,
+                    'longtitude' => $request->longtitude,
+                ]);
+            } else {
+                $property->update([
+                    'name' => $request->name,
+                    'rental_price' => $request->rental_price,
+                    'description' => $request->description,
+                    'address' => $request->address,
+                    'capacity' => $request->capacity,
+                    'gender_target' => $request->gender_target,
+                    'langtitude' => $request->langtitude,
+                    'longtitude' => $request->longtitude,
+                ]);
             }
 
-            $newImage = $request->image->store('propertyImages', 'public');
+            if ($facilities) {
+                $property->facilities()->sync($facilities);
+            }
 
-            $property->update([
-                'name' => $request->name,
-                'image' => $newImage,
-                'rental_price' => $request->rental_price,
-                'description' => $request->description,
-                'address' => $request->address,
-                'capacity' => $request->capacity,
-                'gender_target' => $request->gender_target,
-                'langtitude' => $request->langtitude,
-                'longtitude' => $request->longtitude,
-            ]);
-        } else {
-            $property->update([
-                'name' => $request->name,
-                'rental_price' => $request->rental_price,
-                'description' => $request->description,
-                'address' => $request->address,
-                'capacity' => $request->capacity,
-                'gender_target' => $request->gender_target,
-                'langtitude' => $request->langtitude,
-                'longtitude' => $request->longtitude,
-            ]);
+            return redirect()->route('properties.index')->with('success', 'Data berhasil diubah');
         }
-
-        if ($facilities) {
-            $property->facilities()->sync($facilities);
-        }
-
-        return redirect()->route('properties.index')->with('success', 'data berhasil diubah');
     }
 
     public function addPropertyLeader(Request $request)
