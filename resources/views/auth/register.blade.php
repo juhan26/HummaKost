@@ -78,7 +78,7 @@
                     title: "Pendaftaran Berhasil",
                     text: @json(session('success')),
                     showConfirmButton:false,
-                    footer: '<a href="/" class="btn btn-primary">Home</a>'
+                    footer: '<a href="/login" class="btn btn-primary">Tutup</a>'
                 });
             });
         </script>
