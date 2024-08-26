@@ -27,7 +27,7 @@ class PaymentPerMonthController extends Controller
                         $query->where('name', 'LIKE', '%' . $search . '%');
                     })
                     ->where(function ($query) use ($status) {
-                        if (!empty($status)) {
+                        if (!empty($status)) {  
                             $query->whereIn('property_id', $status);
                         };
                     })

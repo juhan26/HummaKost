@@ -14,6 +14,38 @@ class LandingController extends Controller
 {
     // app/Http/Controllers/YourController.php
     // app/Http/Controllers/YourController.php
+
+    public function home(Request $request)
+    {
+
+        $properties = Property::latest()->paginate(6);
+
+        $selectedPropertyId = $request->input('property_id', $properties->first()->id ?? null);
+
+        // Ambil semua properti dengan pagination
+
+        // Query untuk leases berdasarkan property_id yang dipilih
+        $leasesQuery = Lease::query();
+        if ($selectedPropertyId) {
+            $leasesQuery->where('property_id', $selectedPropertyId);
+        }
+        // Muat relasi 'users' dengan leases
+        $leases = $leasesQuery->with('user')->get();
+
+        // Ambil pengguna berdasarkan property_id yang dipilih dari le  ases
+        $userIds = $leases->pluck('user.id')->unique();
+        $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
+
+        $facilities = Facility::all();
+        $feedbacks = Feedback::with('user')->get();
+
+
+        // Kirim data ke view
+        return view('landing.properties.index', compact('facilities', 'leases', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
+    
+    }
+
+
     public function index(Request $request)
     {
         // Ambil property_id yang dipilih dari query string
@@ -61,5 +93,4 @@ class LandingController extends Controller
         // Kembalikan view dengan data yang dibutuhkan
         return view('landing.properties.show', compact('property', 'properties', 'users', 'leases'));
     }
-
 }
