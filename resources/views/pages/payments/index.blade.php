@@ -78,7 +78,8 @@
                         {{ $lease->properties->name }}
                     </span>
                     @if ($lease->user->photo)
-                        <img src="{{ asset('storage/' . $lease->user->photo) }}" class="" alt="{{ $user->name }}">
+                        <img src="{{ asset('storage/' . $lease->user->photo) }}" class=""
+                            alt="{{ $lease->user->name }}">
                     @elseif ($lease->user->gender === 'male')
                         <img class="" src="../../assets/img/avatars/5.png" alt="Avatar">
                     @elseif ($lease->user->gender === 'female')
