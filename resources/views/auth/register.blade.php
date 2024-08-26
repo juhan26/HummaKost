@@ -6,13 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Multi Steps Sign-up - Pages | Materialize - Material Design HTML Admin Template</title>
+    <title>Pendaftaran - HummaKost</title>
     <meta name="description"
         content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
     <meta name="keywords"
         content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://1.envato.market/materialize_admin">
     <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -29,8 +27,6 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-5J3LMKC');
     </script>
-    <link rel="icon" type="image/x-icon"
-        href="https://demos.pixinvent.com/materialize-html-admin-template/assets/img/favicon/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
@@ -72,6 +68,23 @@
 </head>
 
 <body>
+    @if ($errors->any())
+        <div id="toast-error" class="bs-toast toast toast-ex animate__animated my-2 fade show" role="alert"
+            aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+            <div class="toast-header">
+                <i class="ri-error-warning-line me-2 text-danger"></i>
+                <div class="me-auto fw-medium">Error</div>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
     @if (session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -179,7 +192,7 @@
                                                     <label for="multiStepsPass">Password</label>
                                                 </div>
                                                 <span class="input-group-text cursor-pointer" id="multiStepsPass2"><i
-                                                        class="ri-eye-off-line"></i></span>
+                                                        class="ri-eye-off-line" id="multiStepsPassIcon"></i></span>
                                                 @error('password')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -190,16 +203,43 @@
                                         <div class="col-sm-6 form-password-toggle mb-5">
                                             <div class="input-group input-group-merge">
                                                 <div class="form-floating form-floating-outline">
-                                                    <input type="password" id="multiStepsConfirmPass"
-                                                        name="password_confirmation" class="form-control"
+                                                    <input type="password" id="multiStepsConfirmPass" name="password_confirmation"
+                                                        class="form-control"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                                         aria-describedby="multiStepsConfirmPass2" />
                                                     <label for="multiStepsConfirmPass">Konfirmasi Password</label>
                                                 </div>
-                                                <span class="input-group-text cursor-pointer"
-                                                    id="multiStepsConfirmPass2"><i class="ri-eye-off-line"></i></span>
+                                                <span class="input-group-text cursor-pointer" id="multiStepsConfirmPass2"><i
+                                                        class="ri-eye-off-line" id="multiStepsConfirmPassIcon"></i></span>
                                             </div>
                                         </div>
+                                        
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                // Mengatur toggle visibility untuk password field
+                                                const togglePasswordVisibility = (fieldId, iconId) => {
+                                                    const passwordField = document.getElementById(fieldId);
+                                                    const passwordIcon = document.getElementById(iconId);
+                                        
+                                                    passwordIcon.addEventListener('click', function() {
+                                                        if (passwordField.type === 'password') {
+                                                            passwordField.type = 'text';
+                                                            passwordIcon.classList.remove('ri-eye-off-line');
+                                                            passwordIcon.classList.add('ri-eye-line');
+                                                        } else {
+                                                            passwordField.type = 'password';
+                                                            passwordIcon.classList.remove('ri-eye-line');
+                                                            passwordIcon.classList.add('ri-eye-off-line');
+                                                        }
+                                                    });
+                                                };
+                                        
+                                                // Mengatur toggle untuk password dan konfirmasi password
+                                                togglePasswordVisibility('multiStepsPass', 'multiStepsPassIcon');
+                                                togglePasswordVisibility('multiStepsConfirmPass', 'multiStepsConfirmPassIcon');
+                                            });
+                                        </script>
+                                        
                                         <div class="col-12 d-flex justify-content-between">
                                             <button type="button" class="btn btn-outline-secondary btn-prev"
                                                 disabled> <i class="ri-arrow-left-line ri-16px me-sm-1_5 me-0"></i>
@@ -311,6 +351,8 @@
 
         </div>
     </div>
+
+    
 
 
     <!-- Core JS -->
