@@ -145,7 +145,7 @@
                                                                 class="form-label">Nama
                                                                 instansi</label>
                                                             <input type="text" class="form-control" name="name"
-                                                                value="{{ old('name', $instance->name) }}">
+                                                                value="{{  $instance->name }}">
                                                             @error('description')
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror
@@ -159,7 +159,7 @@
                                                             <label for="editDescription{{ $instance->id }}"
                                                                 class="form-label">Alamat
                                                                 Instansi</label>
-                                                            <textarea class="form-control" name="address" id="editDescription{{ $instance->id }}">{{ old('address', $instance->address) }}</textarea>
+                                                            <textarea class="form-control" name="address" id="editDescription{{ $instance->id }}">{{ $instance->address }}</textarea>
                                                             @error('description')
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror
@@ -167,7 +167,7 @@
                                                         <div class="mb-3">
                                                             <label for="editDescription{{ $instance->id }}"
                                                                 class="form-label">Deskripsi:(opsional)</label>
-                                                            <textarea class="form-control" name="description" id="editDescription{{ $instance->id }}">{{ old('description', $instance->description) }}</textarea>
+                                                            <textarea class="form-control" name="description" id="editDescription{{ $instance->id }}">{{  $instance->description }}</textarea>
                                                             @error('description')
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror
