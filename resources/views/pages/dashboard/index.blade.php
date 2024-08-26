@@ -122,7 +122,11 @@
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
                                                     </td>
-                                                    <td>{{ $user->status === 'pending' ? 'Tertunda' : ($user->status === 'accepted' ? 'Diterima' : 'Ditolak') }}
+                                                    <td>
+                                                        <span class="px-2 py-1 rounded-lg 
+                                                            {{ $user->status === 'accepted' ? 'badge rounded-pill bg-label-primary' : 'badge rounded-pill bg-label-danger' }}">
+                                                            {{ $user->status === 'accepted' ? 'Diterima' : 'Ditolak' }}
+                                                        </span>                                                    
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -160,7 +164,7 @@
         const dashboardChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Kontrakan : {{ $propertiesCount }}', 'Pengguna : {{ $usersCount }}',
+                labels: ['Kontrakan : {{ $propertiesCount }}', 'Anggota : {{ $usersCount }}',
                     'Fasilitas : {{ $facilityCount }}', 'Instansi: {{ $instanceCount }}'
                 ],
                 datasets: [{
