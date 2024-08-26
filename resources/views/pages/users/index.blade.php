@@ -125,50 +125,57 @@
                                 });
                             </script>
                         </div>
-                        <div class="col-2 col-lg-1 ">
-                            <div class="dropdown d-flex align-items-center w-100 justify-content-end">
-                                <button type="button" class="btn btn-primary w-100  dropdown-toggle hide-arrow"
-                                    data-bs-toggle="dropdown"
-                                    style="border-radius: 15px;padding-top:.85rem;padding-bottom:.85rem">
-                                    <span class="material-symbols-outlined">filter_list</span>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <div class="row p-3" style="width:20rem;">
-                                        <div class="col-12">
-                                            <p class="card-title">Status</p>
-                                            <label class="form-check-label custom-option-content w-100" for="pendingFilter">
-                                                <div class="dropdown-item">
-                                                    <input name="status[]" class="form-check-input me-2" id="pendingFilter"
-                                                        type="checkbox" value="pending" onclick="this.form.submit()"
-                                                        @if (in_array('pending', $status)) checked @endif />
-                                                    <span>Tertunda</span>
-                                                </div>
-                                            </label>
-                                            <label class="form-check-label custom-option-content w-100"
-                                                for="acceptedFilter">
-                                                <div class="dropdown-item">
-                                                    <input name="status[]" class="form-check-input me-2" id="acceptedFilter"
-                                                        type="checkbox" value="accepted" onclick="this.form.submit()"
-                                                        @if (in_array('accepted', $status)) checked @endif />
-                                                    <span>Diterima</span>
-                                                </div>
-                                            </label>
-                                            <label class="form-check-label custom-option-content w-100"
-                                                for="rejectedFilter">
-                                                <div class="dropdown-item">
-                                                    <input name="status[]" class="form-check-input me-2" id="rejectedFilter"
-                                                        type="checkbox" value="rejected" onclick="this.form.submit()"
-                                                        @if (in_array('rejected', $status)) checked @endif />
-                                                    <span>Ditolak</span>
-                                                </div>
-                                            </label>
+                        @if (request()->input('filter') === 'admin')
+                        @else
+                            <div class="col-2 col-lg-1 ">
+                                <div class="dropdown d-flex align-items-center w-100 justify-content-end">
+                                    <button type="button" class="btn btn-primary w-100  dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown"
+                                        style="border-radius: 15px;padding-top:.85rem;padding-bottom:.85rem">
+                                        <span class="material-symbols-outlined">filter_list</span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="row p-3" style="width:20rem;">
+                                            <div class="col-12">
+                                                <p class="card-title">Status</p>
+                                                <label class="form-check-label custom-option-content w-100"
+                                                    for="pendingFilter">
+                                                    <div class="dropdown-item">
+                                                        <input name="status[]" class="form-check-input me-2"
+                                                            id="pendingFilter" type="checkbox" value="pending"
+                                                            onclick="this.form.submit()"
+                                                            @if (in_array('pending', $status)) checked @endif />
+                                                        <span>Tertunda</span>
+                                                    </div>
+                                                </label>
+                                                <label class="form-check-label custom-option-content w-100"
+                                                    for="acceptedFilter">
+                                                    <div class="dropdown-item">
+                                                        <input name="status[]" class="form-check-input me-2"
+                                                            id="acceptedFilter" type="checkbox" value="accepted"
+                                                            onclick="this.form.submit()"
+                                                            @if (in_array('accepted', $status)) checked @endif />
+                                                        <span>Diterima</span>
+                                                    </div>
+                                                </label>
+                                                <label class="form-check-label custom-option-content w-100"
+                                                    for="rejectedFilter">
+                                                    <div class="dropdown-item">
+                                                        <input name="status[]" class="form-check-input me-2"
+                                                            id="rejectedFilter" type="checkbox" value="rejected"
+                                                            onclick="this.form.submit()"
+                                                            @if (in_array('rejected', $status)) checked @endif />
+                                                        <span>Ditolak</span>
+                                                    </div>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    </form>
+                                        </form>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body">
