@@ -58,6 +58,7 @@ class LeaseController extends Controller
                 END
                 ")
                 ->latest()
+
                 ->paginate(10);
             $leases->appends([
                 'search' => $propertySearch,
@@ -194,7 +195,7 @@ class LeaseController extends Controller
 
             return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
         } else {
-            return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
+            return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
         }
     }
 

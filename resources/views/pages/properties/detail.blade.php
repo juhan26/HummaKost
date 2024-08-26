@@ -161,15 +161,15 @@
                     @forelse ($property->leases as $lease)
                         <div class="text-center" style="width: 12rem;">
                             @if ($lease->user->photo)
-                            <img src="{{ asset('storage/' . $lease->user->photo) }}"
-                                class="rounded-circle" style="max-height: 8rem" alt="{{ $lease->user->name }}">
-                        @elseif ($lease->user->gender === 'male')
-                            <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/5.png"
-                                alt="Avatar">
-                        @elseif ($lease->user->gender === 'female')
-                            <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/10.png"
-                                alt="Avatar">
-                        @endif
+                                <img src="{{ asset('storage/' . $lease->user->photo) }}" class="rounded-circle"
+                                    style="max-height: 8rem" alt="{{ $lease->user->name }}">
+                            @elseif ($lease->user->gender === 'male')
+                                <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/5.png"
+                                    alt="Avatar">
+                            @elseif ($lease->user->gender === 'female')
+                                <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/10.png"
+                                    alt="Avatar">
+                            @endif
                             <h4 class="mt-3 mb-1">{{ $lease->user->name }}</h4>
                             <p class="text-muted mb-0">{{ $lease->user->phone_number }}</p>
                         </div>
@@ -281,6 +281,7 @@
     </div>
     <!-- Change Property Leader Modal -->
     </div>
+
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -291,10 +292,6 @@
                 <div class="modal-body">
                     <form action="{{ route('leases.store') }}" method="POST">
                         @csrf
-                        <div class="mb-3">
-                            <img src="" style="max-width: 250px;border-radius:50%;object-fit: cover;"
-                                alt="" id="imgUserCreateModal">
-                        </div>
                         <div class="mb-3">
                             <label for="userIdSelect" class="form-label">Nama Penyewa</label>
                             <select class="form-select" name="user_id" id="userIdSelect">
@@ -313,8 +310,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Kontrakan</label>
-                            <input type="hidden" name="property_id" id="property_id" value="{{ $property->id }}">
-                            <input type="text" disabled value="{{ $property->name }}" class="form-control">
+                            <select class="form-select" id="propertySelect" name="property_id" id="property_id">
+                                <option value="" disabled selected>Pilih Kontrakan</option>
+                                <option value="{{ $property->id }}" data-price="{{ $property->rental_price }}"
+                                    {{ old('property_id') == $property->id ? 'selected' : '' }}>
+                                    {{ $property->name }} - {{ 'Rp. ' . number_format($property->rental_price) }} /
+                                    bln
+                                </option>
+                            </select>
                             @error('property_id')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -336,21 +339,9 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            {{-- <label for="createStatus" class="form-label">Status:</label>
-                            <select class="form-select" name="status" id="createStatus">
-                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
-                            </select>
-                            @error('status')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror --}}
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Deskripsi <small>(Opsional)</small></label>
-                            <textarea class="form-control" name="description" id="description">{{ old('description') }}</textarea>
-                            @error('description')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <label for="rental_price" class="form-label">Pembayaran Bulan Pertama</label>
+                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month">
+                            <input type="text" class="form-control" id="showPrice" disabled placeholder="Rp. ">
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary"><i
@@ -361,6 +352,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('propertySelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let price = selectedOption.getAttribute('data-price');
+            document.getElementById('hiddenPrice').value = price;
+            document.getElementById('showPrice').value = 'Rp. ' + parseInt(price).toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ".");
+        })
+    </script>
 
     <script>
         var lat = -7.896591;
