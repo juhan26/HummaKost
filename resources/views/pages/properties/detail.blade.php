@@ -310,14 +310,9 @@
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Kontrakan</label>
-                            <select class="form-select" id="propertySelect" name="property_id" id="property_id">
-                                <option value="" disabled selected>Pilih Kontrakan</option>
-                                <option value="{{ $property->id }}" data-price="{{ $property->rental_price }}"
-                                    {{ old('property_id') == $property->id ? 'selected' : '' }}>
-                                    {{ $property->name }} - {{ 'Rp. ' . number_format($property->rental_price) }} /
-                                    bln
-                                </option>
-                            </select>
+                            <input type="hidden" class="form-control" id="property_id" name="property_id" value="{{$property->id}}">
+                            <input type="text" class="form-control" id="property_id" disabled
+                                placeholder="{{ $property->name }}">
                             @error('property_id')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -340,8 +335,9 @@
                         </div>
                         <div class="mb-3">
                             <label for="rental_price" class="form-label">Pembayaran Bulan Pertama</label>
-                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month">
-                            <input type="text" class="form-control" id="showPrice" disabled placeholder="Rp. ">
+                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month" value="{{$property->rental_price}}">
+                            <input type="text" class="form-control" id="showPrice"  disabled placeholder=""
+                                value=" Rp. {{ number_format($property->rental_price) }}">
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary"><i
