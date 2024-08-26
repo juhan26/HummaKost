@@ -310,7 +310,7 @@
             <div class="w-1/4 bg-white p-6 rounded-xl shadow-md">
 
                 <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Filter dari kategori</h2>
+                    <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
                     <div class="mb-4">
                         <button
                             class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
@@ -336,7 +336,7 @@
                     </div>
                 </div>
                 <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Urut Berdasarkan</h2>
+                    <h2 class="text-lg font-bold mb-4">Urut berdasarkan: </h2>
                     <div class="mb-4">
                         <button
                             class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
@@ -355,7 +355,7 @@
                     </div>
                 </div>
                 <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Berdasarkan Jenis Kelamin</h2>
+                    <h2 class="text-lg font-bold mb-4">Berdasarkan Jenis Kelamin:</h2>
                     <div class="mb-4">
                         <button
                             class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
@@ -372,7 +372,7 @@
                     </div>
                 </div>
                 <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Berdasarkan Harga</h2>
+                    <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
                     <div class="mb-4">
                         <button
                             class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
