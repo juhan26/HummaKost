@@ -59,11 +59,11 @@ class LeaseController extends Controller
                 ")
                 ->latest()
                 ->paginate(1);
-                $leases->appends([
-                    'search' => $propertySearch,
-                    'status' => $status,
-                    'property_id' => $property_id,
-                ]);
+            $leases->appends([
+                'search' => $propertySearch,
+                'status' => $status,
+                'property_id' => $property_id,
+            ]);
 
             $properties = Property::all();
             $users = User::with(['lease'])->whereHas('roles', function ($query) {
@@ -194,7 +194,7 @@ class LeaseController extends Controller
 
             return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
         } else {
-            return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
+            return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
         }
     }
 
