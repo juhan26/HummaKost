@@ -50,13 +50,12 @@ class LeaseController extends Controller
 
         // Check user role and apply role-based filters
         if (Auth::user()->hasRole('super_admin')) {
-            $leases = $query->orderByRaw("
-            CASE
-                WHEN status = 'active' THEN 1
-                WHEN status = 'expired' THEN 2
-                ELSE 3
-                END
-                ")
+            $leases = $query->orderByRaw("CASE
+                    WHEN status = 'active' AND total_nominal < total_iuran THEN 1
+                    WHEN status = 'active' AND total_nominal >= total_iuran THEN 2
+                    WHEN status = 'expired' AND total_nominal < total_iuran THEN 3
+                    ELSE 4
+                  END")
                 ->latest()
 
                 ->paginate(10);
@@ -75,13 +74,12 @@ class LeaseController extends Controller
                 $query->where('id', Auth::user()->lease->property_id);
             });
 
-            $leases = $query->orderByRaw("
-            CASE
-                WHEN status = 'active' THEN 1
-                WHEN status = 'expired' THEN 2
-                ELSE 3
-            END
-        ")
+            $leases = $query->orderByRaw("CASE
+                    WHEN status = 'active' AND total_nominal < total_iuran THEN 1
+                    WHEN status = 'active' AND total_nominal >= total_iuran THEN 2
+                    WHEN status = 'expired' AND total_nominal < total_iuran THEN 3
+                    ELSE 4
+                  END")
                 ->latest()
                 ->paginate(10);
 

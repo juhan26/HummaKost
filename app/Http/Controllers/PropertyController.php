@@ -25,7 +25,7 @@ class PropertyController extends Controller
                 ->orWhere('description', 'LIKE', "%($request->input('search'))%")
                 ->paginate(6);
         } else {
-            $properties = Property::orderByRaw("CASE WHEN status = 'available' THEN 1 ELSE 0 END")->latest()->paginate(6);
+            $properties = Property::latest()->paginate(6);
         }
 
         $properties->appends([
@@ -94,10 +94,18 @@ class PropertyController extends Controller
             ->where(function ($query) {
                 $query->whereHas('roles', function ($query) {
                     $query->where('name', 'tenant');
+                })->orWhereHas('roles', function ($query) {
+                    $query->where('name', 'admin');
                 });
-            })->where('status', 'accepted')
+            })
             ->latest()
             ->get();
+
+        $property_member = User::whereHas('lease', function ($query) use ($property) {
+            $query->where('property_id', $property->id)
+                ->where('status', 'active');
+        })->get();
+
         $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
         $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
             $query->whereDoesntHave('roles', function ($query) {
@@ -106,7 +114,7 @@ class PropertyController extends Controller
         })->get();
 
         $properties = Property::all();
-        return view('pages.properties.detail', compact('property', 'properties', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
+        return view('pages.properties.detail', compact('property_member', 'property', 'properties', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
     }
 
     /**
@@ -129,6 +137,7 @@ class PropertyController extends Controller
         if ($request->capacity < $property->leases->count()) {
             return redirect()->route('properties.edit', $property->id)->with('error', 'Jumlah kapasitas yang anda masukkan kurang dari yang jumlah orang yang terdapat di dalam kontrakan.');
         } else {
+
             if ($request->image) {
 
                 if ($property->image) {

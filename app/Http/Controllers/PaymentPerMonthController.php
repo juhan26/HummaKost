@@ -38,7 +38,7 @@ class PaymentPerMonthController extends Controller
                     })->whereHas('payments', function ($query) use ($paymentMonth) {
                         $query->where('payment_month', $paymentMonth);
                     })
-                    ->latest()->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest()->paginate(6);
+                    ->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest()->paginate(6);
             } else {
                 $leases = Lease::with(['user', 'payments'])->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest()->paginate(6);
             }
@@ -51,11 +51,10 @@ class PaymentPerMonthController extends Controller
                 'year' => $year,
             ]);
         } else {
-            $query = Lease::with(['user', 'payments']);
-
-            $query->whereHas('properties', function ($query) {
-                $query->where('id', Auth::user()->lease->property_id);
-            });
+            $query = Lease::with(['user', 'payments'])
+                ->whereHas('properties', function ($query) {
+                    $query->where('id', Auth::user()->lease->property_id);
+                });
 
             if ($search) {
                 $query->whereHas('user', function ($query) use ($search) {
@@ -67,7 +66,10 @@ class PaymentPerMonthController extends Controller
                 $query->whereIn('property_id', $status);
             }
 
-            $leases = $query->latest()->paginate(6);
+            $leases = $query->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")
+                ->latest()
+                ->paginate(6);
+
             $leases->appends([
                 'search' => $search,
                 'status' => $status,

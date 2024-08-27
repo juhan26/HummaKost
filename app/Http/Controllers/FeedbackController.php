@@ -72,7 +72,8 @@ class FeedbackController extends Controller
      */
     public function update(UpdateFeedbackRequest $request, Feedback $feedback)
     {
-        //
+        $feedback->update($request->all());
+        return redirect()->back()->with('success', 'Feedback berhasil diubah!');
     }
 
     /**

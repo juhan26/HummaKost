@@ -52,8 +52,8 @@ class UserController extends Controller
         $users = $query->orderByRaw("
         CASE
             WHEN status = 'pending' THEN 1
-            WHEN status = 'rejected' THEN 2
-            WHEN status = 'accepted' THEN 3
+            WHEN status = 'accepted' THEN 2
+            WHEN status = 'rejected' THEN 3
             ELSE 4
         END
     ")
@@ -178,7 +178,7 @@ class UserController extends Controller
         }
 
         $user->name = $request->input('name');
-        $user->phone_number = $request->input('phone_number');
+        $user->phone_number = $request->phone_number;
 
         if ($request->memberMenu === "y") {
             $user->gender = $request->input('gender');
