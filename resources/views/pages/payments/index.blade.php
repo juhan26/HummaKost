@@ -57,6 +57,54 @@
                                     </label>
                                 @endforeach
                             </div>
+                            <div class="col-12">
+                                <p class="card-title">Bulan</p>
+                                <div class="dropdown-item">
+                                    <select name="month" class="form-select" onchange="this.form.submit()">
+                                        <option value="">Pilih Bulan</option>
+                                        <option value="January" @if (request('month') == 'January') selected @endif>Januari
+                                        </option>
+                                        <option value="February" @if (request('month') == 'February') selected @endif>Februari
+                                        </option>
+                                        <option value="March" @if (request('month') == 'March') selected @endif>Maret
+                                        </option>
+                                        <option value="April" @if (request('month') == 'April') selected @endif>April
+                                        </option>
+                                        <option value="May" @if (request('month') == 'May') selected @endif>Mei
+                                        </option>
+                                        <option value="June" @if (request('month') == 'June') selected @endif>Juni
+                                        </option>
+                                        <option value="July" @if (request('month') == 'July') selected @endif>Juli
+                                        </option>
+                                        <option value="August" @if (request('month') == 'August') selected @endif>Agustus
+                                        </option>
+                                        <option value="September" @if (request('month') == 'September') selected @endif>
+                                            September
+                                        </option>
+                                        <option value="October" @if (request('month') == 'October') selected @endif>Oktober
+                                        </option>
+                                        <option value="November" @if (request('month') == 'November') selected @endif>
+                                            November
+                                        </option>
+                                        <option value="December" @if (request('month') == 'December') selected @endif>
+                                            Desember
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <p class="card-title">Tahun</p>
+                                <div class="dropdown-item">
+                                    <select name="year" class="form-select" onchange="this.form.submit()">
+                                        <option value="">Pilih Tahun</option>
+                                        @for ($i = 2024; $i <= 2500; $i++)
+                                            <option value="{{ $i }}"
+                                                @if (old('year', request('year', date('Y'))) == $i) selected @endif>{{ $i }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
                         </div>
             </form>
 
@@ -137,7 +185,8 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="detailModalLabel{{ $lease->id }}">Detail
                                 Pembayaran</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row gy-3">
