@@ -76,11 +76,11 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
-                    <li class="">  
+                    <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
-                    
+
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -348,23 +348,26 @@
                         </button>
                     </div>
                 </div>
-                <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Berdasarkan Jenis Kelamin:</h2>
-                    <div class="mb-4">
-                        <button
-                            class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                            Semua
-                        </button>
-                        <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                            Laki Laki
-                        </button>
-                        <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                            Perempuan
-                        </button>
+                <form action method="get">
+                    @csrf
+                    <div class="mb-8">
+                        <h2 class="text-lg font-bold mb-4">Berdasarkan Jenis Kelamin:</h2>
+                        <div class="mb-4">
+                            <button type="submit" name="gender" value="all"
+                                class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                Semua
+                            </button>
+                            <button type="submit" name="gender" value="male"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
+                                Laki Laki
+                            </button>
+                            <button type="submit" name="gender" value="female"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                                Perempuan
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="mb-8">
                     <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
                     <div class="mb-4">
@@ -408,7 +411,7 @@
                         {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
                     </div>
                 </form>
-            
+
                 <!-- Properties Section -->
                 <div class="w-3/4 mx-auto" data-aos="fade-left" data-aos-duration="1350">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 py-4">
