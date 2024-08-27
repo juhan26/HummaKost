@@ -19,7 +19,6 @@ class LandingController extends Controller
     {
         $query = Property::with('property_images');
 
-        // Search Filter
         if ($request->input('search')) {
             $query->where('name', 'LIKE', "%{$request->input('search')}%")
                 ->orWhere('description', 'LIKE', "%{$request->input('search')}%");
