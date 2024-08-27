@@ -114,7 +114,7 @@
                         </ul>
 
                         <!-- Delete Modal -->
-                        
+
                         <!-- Delete Modal -->
                     </div>
 
@@ -138,8 +138,13 @@
                                     Perempuan
                                 </span>
                             @endif
+                            @if ($property->status == 'available')
                             <span class="label bg-label-primary ms-1"
                                 style="padding: 6px 15px; border-radius: 15px;">Tersedia</span>
+                                @else
+                                <span class="label bg-label-danger ms-1"
+                                    style="padding: 6px 15px; border-radius: 15px;">Full</span>
+                            @endif
                         </div>
                         <h4 class="card-title"><strong>{{ $property->name }}</strong></h4>
                         <p class="card-text mb-6"
@@ -212,8 +217,7 @@
                                 Apakah anda yakin ingin menghapus kontrakan ini?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                 <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
