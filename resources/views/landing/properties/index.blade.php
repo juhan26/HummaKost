@@ -52,6 +52,57 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
+        <style>
+            .btn {
+                display: flex;
+                align-items: center;
+                font-weight: 600;
+                padding: 0.5rem 1rem;
+                border-radius: 0.375rem;
+                width: 100%;
+                margin-bottom: 0.5rem;
+                border: 1px solid transparent;
+                /* Border default, diatur menjadi transparan untuk tombol aktif */
+                transition: background-color 0.3s, color 0.3s;
+                /* Transisi smooth untuk perubahan warna */
+            }
+    
+            .btn-newest {
+                background-color: #d1fae5;
+                /* Background hijau muda */
+                color: #374151;
+                /* Teks abu-abu gelap */
+            }
+    
+            .btn-oldest {
+                background-color: #f9fafb;
+                /* Background putih */
+                color: #374151;
+                /* Teks abu-abu gelap */
+            }
+    
+            .btn-active {
+                background-color: #34d399;
+                /* Background hijau */
+                color: #ffffff;
+                /* Teks putih */
+                border: none;
+                /* Menghilangkan border untuk tombol aktif */
+            }
+    
+            .btn:hover {
+                background-color: #20b486;
+                /* Background hijau lebih gelap saat hover */
+                color: #ffffff;
+                /* Teks putih saat hover */
+            }
+    
+            .btn-active:hover {
+                background-color: #20b486;
+                /* Background hijau lebih gelap saat hover untuk tombol aktif */
+            }
+        </style>
 </head>
 
 <body>
@@ -70,16 +121,15 @@
                 <!-- menu -->
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.properties') }}">Kontrakan</a>
-                    </li>
-
+                    <li class="{{ Route::currentRouteName() === 'home.index' ? 'active' : '' }}">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}">Kontrakan</a>
                     </li>
                 </ul>
+                
                 <!-- menu end -->
 
                 <!-- right menu -->
