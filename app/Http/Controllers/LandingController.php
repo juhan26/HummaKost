@@ -18,56 +18,54 @@ class LandingController extends Controller
     public function home(Request $request)
     {
         $query = Property::with('property_images');
+        $search = $request->input('search');
+        $gender = $request->input('gender');
+        $price_range = $request->input('price_range');
+        $sort = $request->input('sort');
+        $availability = $request->input('availability');
 
-        if ($request->input('search')) {
-            $query->where('name', 'LIKE', "%{$request->input('search')}%")
-                ->orWhere('description', 'LIKE', "%{$request->input('search')}%");
+        if ($search || $gender || $availability || $price_range || $sort) {
+        
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%");
+            })->where(function ($query) use ($gender) {
+                if ($gender !== 'all') {
+                    $query->where('gender_target', $gender);
+                }
+            })->where(function ($query) use ($availability) {
+                if ($availability !== 'all') {
+                    $query->where('status', $availability);
+                } else if ($availability == 'available') {
+                    $query->where('status', $availability);
+                } else if ($availability == 'full') {
+                    $query->where('status', $availability);
+                }
+            })->where(function ($query) use ($price_range) {
+                switch ($price_range) {
+                    case '0-300':
+                        $query->whereBetween('rental_price', [0, 300000]);
+                        break;
+                    case '301-700':
+                        $query->whereBetween('rental_price', [300001, 700000]);
+                        break;
+                    case '701-1500':
+                        $query->whereBetween('rental_price', [700001, 1500000]);
+                        break;
+                }
+            })->where(function ($query) use ($sort) {
+                if ( $sort === 'newest') {
+                    $query->orderBy('created_at', 'desc');
+                } elseif ($sort === 'oldest') {
+                    $query->orderBy('created_at', 'asc');
+                } 
+            });
+            
         }
 
-        // Gender Filter
-        if ($request->input('gender')) {
-            $gender = $request->input('gender');
-            if ($gender !== 'all') {
-                $query->where('gender_target', $gender);
-            }
-        }
 
-        // Availability Filter
-        if ($request->input('availability')) {
-            $availability = $request->input('availability');
-            if ($availability !== 'all') {
-                $query->where('status', $availability);
-            } else if ($availability == 'available') {
-                $query->where('status', $availability);
-            } else if ($availability == 'full') {
-                $query->where('status', $availability);
-            }
-        }
-        // Price Filter
-        if ($request->input('price_range')) {
-            $priceRange = $request->input('price_range');
-
-            switch ($priceRange) {
-                case '0-300':
-                    $query->whereBetween('rental_price', [0, 300000]);
-                    break;
-                case '301-700':
-                    $query->whereBetween('rental_price', [300001, 700000]);
-                    break;
-                case '701-1500':
-                    $query->whereBetween('rental_price', [700001, 1500000]);
-                    break;
-            }
-        }
 
         // Sorting by price (ascending order)
-        if ($request->input('sort') === 'newest') {
-            $query->orderBy('created_at', 'desc');
-        } elseif ($request->input('sort') === 'oldest') {
-            $query->orderBy('created_at', 'asc');
-        } elseif ($request->input('price_range')    ) {
-            $query->orderBy('rental_price', 'asc');
-        }
+        
 
         // Pagination
         $properties = $query->paginate(1);
