@@ -97,7 +97,7 @@ class PropertyController extends Controller
                 })->orWhereHas('roles', function ($query) {
                     $query->where('name', 'admin');
                 });
-            })
+            })->where('status', 'accepted')
             ->latest()
             ->get();
 
