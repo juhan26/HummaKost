@@ -323,25 +323,22 @@
                         </div>
                     </div>
                 </form>
-                <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Urut berdasarkan: </h2>
-                    <div class="mb-4">
-                        <button
-                            class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                            </svg> --}}
-                            Terbaru
-                        </button>
-                        <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M8.25 6H18V15.75" />
-                            </svg> --}}
-                            Terlama
-                        </button>
+                <form action="" method="get">
+                    @csrf
+                    <div class="mb-8">
+                        <h2 class="text-lg font-bold mb-4">Urut berdasarkan:</h2>
+                        <div class="mb-4">
+                            <button type="submit" name="sort" value="newest"
+                                class="flex items-center {{ request()->input('sort') === 'newest' ? 'bg-green-200 text-gray-800' : 'bg-green-100 text-gray-700' }} font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                Terbaru
+                            </button>
+                            <button type="submit" name="sort" value="oldest"
+                                class="flex items-center {{ request()->input('sort') === 'oldest' ? 'bg-green-200 text-gray-800' : 'bg-white text-gray-700' }} font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                                Terlama
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
 
                 <form action method="get">
                     @csrf
@@ -371,14 +368,6 @@
                             class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
                             Semua
                         </a>
-                        <a href="?price_range=0-100"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                            0-100
-                        </a>
-                        <a href="?price_range=100-200"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                            100-200
-                        </a>
                         <a href="?price_range=200-500"
                             class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
                             200-500
@@ -389,12 +378,14 @@
                         </a>
                     </div>
                 </div>
-            </form>
-                <div class="flex justify-center">
-                    <button class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
-                        Reset Filter
-                    </button>
-                </div>
+
+                <form method="get">
+                    <div class="flex justify-center">
+                        <button class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
+                            Reset Filter
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <div class="2xl:w-3/4 mx-auto">

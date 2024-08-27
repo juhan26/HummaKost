@@ -32,14 +32,16 @@ class LandingController extends Controller
                 $query->where('gender_target', $gender);
             }
         }
+
+        // Availability Filter
         if ($request->input('availability')) {
-            $availablity = $request->input('availability');
-            if ($availablity !== 'all') {
-                $query->where('status', $availablity);
-            } else if ($availablity == 'available') {
-                $query->where('status', $availablity);
-            } else if ($availablity == 'full') {
-                $query->where('status', $availablity);
+            $availability = $request->input('availability');
+            if ($availability !== 'all') {
+                $query->where('status', $availability);
+            } else if ($availability == 'available') {
+                $query->where('status', $availability);
+            } else if ($availability == 'full') {
+                $query->where('status', $availability);
             }
         }
 
@@ -48,51 +50,23 @@ class LandingController extends Controller
             $priceRange = $request->input('price_range');
 
             switch ($priceRange) {
-                case '0-100':
-                    $query->where('rental_price', '<=', 100000); // Adjusted to 100,000
-                    break;
-                case '100-200':
-                    $query->whereBetween('rental_price', [100000, 200000]); // Adjusted to 100,000 - 200,000
-                    break;
                 case '200-500':
-                    $query->whereBetween('rental_price', [200000, 500000]); // Adjusted to 200,000 - 500,000
+                    $query->whereBetween('rental_price', [200000, 500000]);
                     break;
                 case '500-1000':
-                    $query->whereBetween('rental_price', [500000, 1000000]); // Adjusted to values greater than 500,000
+                    $query->whereBetween('rental_price', [500000, 1000000]);
                     break;
             }
         }
 
+        // Sorting by price (ascending order)
         if ($request->input('sort') === 'newest') {
             $query->orderBy('created_at', 'desc');
         } elseif ($request->input('sort') === 'oldest') {
             $query->orderBy('created_at', 'asc');
+        } elseif ($request->input('price_range')    ) {
+            $query->orderBy('rental_price', 'asc');
         }
-
-        $properties = $query->latest()->paginate(6);
-
-       // Price Filter
-if ($request->input('price_range')) {
-    $priceRange = $request->input('price_range');
-
-    switch ($priceRange) {
-        case '0-100':
-            $query->where('rental_price', '<=', 100000); // Adjusted to 100,000
-            break;
-        case '100-200':
-            $query->whereBetween('rental_price', [100000, 200000]); // Adjusted to 100,000 - 200,000
-            break;
-        case '200-500':
-            $query->whereBetween('rental_price', [200000, 500000]); // Adjusted to 200,000 - 500,000
-            break;
-        case '500-1000':
-            $query->whereBetween('rental_price', [500000, 1000000]); // Adjusted to values greater than 500,000
-            break;
-    }
-}
-
-        // Sorting (e.g., by latest)
-        $query->latest();
 
         // Pagination
         $properties = $query->paginate(6);
@@ -101,14 +75,15 @@ if ($request->input('price_range')) {
         $properties->appends([
             'search' => $request->input('search'),
             'gender' => $request->input('gender'),
-            'availability' => $request->input('gender'),
+            'availability' => $request->input('availability'),
             'sort' => $request->input('sort'),
-            'price_range' => $request->input('price_range'),  // Append price range
+            'price_range' => $request->input('price_range'),
         ]);
 
         // Return view with filtered properties
         return view('landing.properties.index', compact('properties'));
     }
+
 
 
 
