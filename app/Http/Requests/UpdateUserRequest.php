@@ -24,7 +24,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phone_number' => ['required', 'numeric', 'min:12', 'max:15', 'not_regex:/-/', Rule::unique('users', 'phone_number')->ignore($this->user->id)],
+            'phone_number' => ['required', 'numeric',  'digits_between:12,15', 'not_regex:/-/', Rule::unique('users', 'phone_number')->ignore($this->user->id)],
         ];
     }
 
@@ -45,8 +45,7 @@ class UpdateUserRequest extends FormRequest
             'phone_number.required' => 'Nomor telepon wajib diisi.',
             'phone_number.numeric' => 'Nomor telepon harus berupa angka.',
             'phone_number.unique' => 'Nomor telepon sudah digunakan, silakan gunakan Nomor telepon lain.',
-            'phone_number.min' => 'Nomor telepon minimal harus memiliki 12 karakter',
-            'phone_number.max' => 'Nomor telepon maksimal memiliki 15 karakter',
+            'phone_number.digits_between' => 'Nomor telepon harus memiliki antara 12 hingga 15 digit.',
             'phone_number.not_regex' => 'Nomor telepon tidak boleh terdapat minus',
             'gender.required' => 'Jenis kelamin wajib diisi.',
             'gender.in' => 'Jenis kelamin harus salah satu dari: laki-laki, perempuan.',
