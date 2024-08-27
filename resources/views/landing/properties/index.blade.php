@@ -126,7 +126,7 @@
                     </li>
                     <li class="{{ Route::currentRouteName() === 'home.index' ? 'active' : '' }}">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}">Kontrakan</a>
+                            href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
                 </ul>
 
@@ -454,12 +454,12 @@
                 <!-- Properties Section -->
                 <div class="w-3/4 mx-auto" data-aos="fade-left" data-aos-duration="1350">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 py-4">
-                        @foreach ($properties->unique('id') as $property)
+                        @forelse ($properties->unique('id') as $property)
                             <div
                                 class="course-card max-w-lg h-[400px] flex flex-col bg-gray-white rounded-xl overflow-hidden">
                                 @if ($property->status === 'available')
                                     <span
-                                        class="label bg-green-100 text-green-400 w-25    px-4 py-1 rounded-xl font-semibold mt-3 ml-3 text-center">
+                                        class="label bg-green-100 text-green-400 w-25 px-4 py-1 rounded-xl font-semibold mt-3 ml-3 text-center">
                                         Tersedia
                                     </span>
                                 @else
@@ -480,9 +480,6 @@
                                     </a>
                                     <div class="overflow-hidden rounded-lg inline-block relative">
                                         <a href="{{ route('home.show', $property->id) }}" class="inline-block"></a>
-                                        <div
-                                            class="absolute top-[7px] left-2 z-20 text-base text-gray-black rounded-md ml-1 mt-2">
-                                        </div>
                                     </div>
                                     <div class="flex justify-between items-center mt-4">
                                         <i class="ri-calendar-line ri-20px me-2"
@@ -532,7 +529,14 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="flex flex-col items-center">
+                                <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
+                                    class="w-64 h-64 object-cover mb-4">
+                                <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
+                            </div>
+                        @endforelse
+
                     </div>
                 </div>
             </div>
