@@ -53,56 +53,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-        <style>
-            .btn {
-                display: flex;
-                align-items: center;
-                font-weight: 600;
-                padding: 0.5rem 1rem;
-                border-radius: 0.375rem;
-                width: 100%;
-                margin-bottom: 0.5rem;
-                border: 1px solid transparent;
-                /* Border default, diatur menjadi transparan untuk tombol aktif */
-                transition: background-color 0.3s, color 0.3s;
-                /* Transisi smooth untuk perubahan warna */
-            }
-    
-            .btn-newest {
-                background-color: #d1fae5;
-                /* Background hijau muda */
-                color: #374151;
-                /* Teks abu-abu gelap */
-            }
-    
-            .btn-oldest {
-                background-color: #f9fafb;
-                /* Background putih */
-                color: #374151;
-                /* Teks abu-abu gelap */
-            }
-    
-            .btn-active {
-                background-color: #34d399;
-                /* Background hijau */
-                color: #ffffff;
-                /* Teks putih */
-                border: none;
-                /* Menghilangkan border untuk tombol aktif */
-            }
-    
-            .btn:hover {
-                background-color: #20b486;
-                /* Background hijau lebih gelap saat hover */
-                color: #ffffff;
-                /* Teks putih saat hover */
-            }
-    
-            .btn-active:hover {
-                background-color: #20b486;
-                /* Background hijau lebih gelap saat hover untuk tombol aktif */
-            }
-        </style>
+    <style>
+        .btn {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            border: 1px solid transparent;
+            /* Border default, diatur menjadi transparan untuk tombol aktif */
+            transition: background-color 0.3s, color 0.3s;
+            /* Transisi smooth untuk perubahan warna */
+        }
+
+        .btn-newest {
+            background-color: #d1fae5;
+            /* Background hijau muda */
+            color: #374151;
+            /* Teks abu-abu gelap */
+        }
+
+        .btn-oldest {
+            background-color: #f9fafb;
+            /* Background putih */
+            color: #374151;
+            /* Teks abu-abu gelap */
+        }
+
+        .btn-active {
+            background-color: #34d399;
+            /* Background hijau */
+            color: #ffffff;
+            /* Teks putih */
+            border: none;
+            /* Menghilangkan border untuk tombol aktif */
+        }
+
+        .btn:hover {
+            background-color: #20b486;
+            /* Background hijau lebih gelap saat hover */
+            color: #ffffff;
+            /* Teks putih saat hover */
+        }
+
+        .btn-active:hover {
+            background-color: #20b486;
+            /* Background hijau lebih gelap saat hover untuk tombol aktif */
+        }
+    </style>
 </head>
 
 <body>
@@ -129,7 +129,7 @@
                             href="{{ route('home.index') }}">Kontrakan</a>
                     </li>
                 </ul>
-                
+
                 <!-- menu end -->
 
                 <!-- right menu -->

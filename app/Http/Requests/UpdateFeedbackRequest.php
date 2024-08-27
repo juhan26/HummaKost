@@ -11,7 +11,7 @@ class UpdateFeedbackRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateFeedbackRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'message' => ['required', 'max:255'],
+            'rating' => ['required', 'integer', 'between:1,5'],
         ];
     }
 }

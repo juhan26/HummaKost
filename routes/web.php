@@ -32,6 +32,7 @@ Route::get('/register', function () {
 // routes/web.php
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/submit-feedback', [FeedbackController::class, 'submit'])->name('feedback.submit');
+Route::put('/feedback/{feedback}', [FeedbackController::class, 'update'])->name('feedback.update');
 
 Auth::routes();
 
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'role:tenant|admin|super_admin'])->group(function () 
     Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
     // profile change
     Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.changePassword');
+
 });
 
 
