@@ -33,6 +33,7 @@ Route::get('/register', function () {
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/submit-feedback', [FeedbackController::class, 'submit'])->name('feedback.submit');
 Route::put('/feedback/{feedback}', [FeedbackController::class, 'update'])->name('feedback.update');
+Route::delete('/feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
 
 Auth::routes();
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFeedbackRequest;
 use App\Http\Requests\UpdateFeedbackRequest;
 use App\Models\Feedback;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,7 +83,12 @@ class FeedbackController extends Controller
      */
     public function destroy(Feedback $feedback)
     {
-        //
+        try{
+            $feedback->delete();
+            return back()->with('success', 'Berhasil menghapus Feedback');
+        }catch(Exception $e) {
+            return back()->with('error', 'Gagal menghapus Feedback');
+        }
     }
 
     public function submit(Request $request)
