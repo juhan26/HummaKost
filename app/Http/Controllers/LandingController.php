@@ -18,30 +18,20 @@ class LandingController extends Controller
     public function home(Request $request)
     {
 
-        $properties = Property::latest()->paginate(6);
-
-        $selectedPropertyId = $request->input('property_id', $properties->first()->id ?? null);
-
-        // Ambil semua properti dengan pagination
-
-        // Query untuk leases berdasarkan property_id yang dipilih
-        $leasesQuery = Lease::query();
-        if ($selectedPropertyId) {
-            $leasesQuery->where('property_id', $selectedPropertyId);
+        if ($request->input('search')) {
+            $properties = Property::with('property_images')->where('name', 'LIKE', "%{$request->input('search')}%")
+                ->orWhere('description', 'LIKE', "%($request->input('search'))%")
+                ->paginate(6);
+        } else {
+            $properties = Property::latest()->paginate(6);
         }
-        // Muat relasi 'users' dengan leases
-        $leases = $leasesQuery->with('user')->get();
 
-        // Ambil pengguna berdasarkan property_id yang dipilih dari le  ases
-        $userIds = $leases->pluck('user.id')->unique();
-        $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
-
-        $facilities = Facility::all();
-        $feedbacks = Feedback::with('user')->get();
-
-
+        $properties->appends([
+            'search' => $request->search
+        ]);
+    
         // Kirim data ke view
-        return view('landing.properties.index', compact('facilities', 'leases', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
+        return view('landing.properties.index', compact('properties'));
     
     }
 

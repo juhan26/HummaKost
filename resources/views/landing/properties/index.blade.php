@@ -76,17 +76,11 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
-                    <li class="">
+                    <li class="">  
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#about">Tentang</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#feedback">Masukan</a>
+                    
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -292,7 +286,7 @@
     <!-- header area end -->
 
     <section
-        class="mx-auto 2xl:w-3/4 pl-5 bg-primary-50/70 rounded-2xl shadow-md flex items-center justify-between mx-5 mt-5">
+        class="mx-auto 2xl:w-3/4 pl-5 bg-primary-50/70 rounded-2xl shadow-md flex items-center justify-between mx-5 mt-5" data-aos="fade-down" data-aos-duration="1000">
         <div class="flex-1">
             <h1 class="text-3xl font-bold text-gray-800">List Kontrakan</h1>
             <p class="text-gray-600 mt-2">Kontrakan | Pilihan Terbaik Bulan Ini</p>
@@ -307,7 +301,7 @@
     <section class="section mt-5 bg-white">
         <div class="2xl:w-3/4 mx-auto flex gap-8">
             <!-- Filter Section -->
-            <div class="w-1/4 bg-white p-6 rounded-xl shadow-md">
+            <div class="w-1/4 bg-white p-6 rounded-xl shadow-md" data-aos="fade-right" data-aos-duration="1100">
 
                 <div class="mb-8">
                     <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
@@ -362,7 +356,7 @@
                             Semua
                         </button>
                         <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
                             Laki Laki
                         </button>
                         <button
@@ -379,15 +373,15 @@
                             Semua
                         </button>
                         <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
                             0-100
                         </button>
                         <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
                             100-200
                         </button>
                         <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
                             200-500
                         </button>
                         <button
@@ -405,15 +399,18 @@
 
             <div class="2xl:w-3/4 mx-auto">
                 <!-- Search Bar -->
-                <div class="flex justify-end mb-4">
-                    <input type="text"
-                        class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
-                        placeholder="Cari kontrakan..." style="height: 50px;">
-                    {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
-                </div>
+                <form action="" method="get">
+                    @csrf
+                    <div class="flex justify-end mb-4" data-aos="fade-down" data-aos-duration="1250">
+                        <input type="text" name="search" value="{{ request()->input('search') }}" autocomplete="off"
+                            class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
+                            placeholder="Cari kontrakan..." style="height: 50px;">
+                        {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
+                    </div>
+                </form>
             
                 <!-- Properties Section -->
-                <div class="w-3/4 mx-auto">
+                <div class="w-3/4 mx-auto" data-aos="fade-left" data-aos-duration="1350">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 py-4">
                         @foreach ($properties->unique('id') as $property)
                             <div
