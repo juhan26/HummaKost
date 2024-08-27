@@ -301,32 +301,28 @@
             <!-- Filter Section -->
             <div class="w-1/4 bg-white p-6 rounded-xl shadow-md" data-aos="fade-right" data-aos-duration="1100">
 
-                <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
-                    <div class="mb-4">
-                        <button
-                            class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                            </svg> --}}
-                            Semua
-                        </button>
-                        <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border border-gray-200">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
-                            </svg> --}}
-                            Tersedia
-                        </button>
-                        <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M8.25 6H18V15.75" />
-                            </svg> --}}
-                            Tidak Tersedia
-                        </button>
+
+                <form method="get">
+                    @csrf
+
+                    <div class="mb-8">
+                        <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
+                        <div class="mb-4">
+                            <button type="submit" name="availability" value="all"
+                                class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                Semua
+                            </button>
+                            <button type="submit" name="availability" value="available"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border border-gray-200">
+                                Tersedia
+                            </button>
+                            <button type="submit" name="availability" value="full"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                                Tidak Tersedia
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <form action="" method="get">
                     @csrf
                     <div class="mb-8">
@@ -343,7 +339,6 @@
                         </div>
                     </div>
                 </form>
-
 
                 <form action method="get">
                     @csrf
@@ -364,32 +359,25 @@
                             </button>
                         </div>
                     </div>
-                    <div class="mb-8">
-                        <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
-                        <div class="mb-4">
-                            <a href="?price_range=all"
-                                class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                Semua
-                            </a>
-                            <a href="?price_range=0-100"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                                0-100
-                            </a>
-                            <a href="?price_range=100-200"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                                100-200
-                            </a>
-                            <a href="?price_range=200-500"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                                200-500
-                            </a>
-                            <a href="?price_range=500-1000"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                                500-1jt
-                            </a>
-                        </div>
-                    </div>
                 </form>
+
+                <div class="mb-8">
+                    <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
+                    <div class="mb-4">
+                        <a href="?price_range=all"
+                            class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                            Semua
+                        </a>
+                        <a href="?price_range=200-500"
+                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
+                            200-500
+                        </a>
+                        <a href="?price_range=500-1000"
+                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                            500-1jt
+                        </a>
+                    </div>
+                </div>
 
                 <form method="get">
                     <div class="flex justify-center">
@@ -398,7 +386,6 @@
                         </button>
                     </div>
                 </form>
-                
             </div>
 
             <div class="2xl:w-3/4 mx-auto">
