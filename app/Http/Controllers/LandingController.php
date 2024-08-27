@@ -17,23 +17,30 @@ class LandingController extends Controller
 
     public function home(Request $request)
     {
+        $query = Property::with('property_images');
 
         if ($request->input('search')) {
-            $properties = Property::with('property_images')->where('name', 'LIKE', "%{$request->input('search')}%")
-                ->orWhere('description', 'LIKE', "%($request->input('search'))%")
-                ->paginate(6);
-        } else {
-            $properties = Property::latest()->paginate(6);
+            $query->where('name', 'LIKE', "%{$request->input('search')}%")
+            ->orWhere('description', 'LIKE', "%{$request->input('search')}%");
         }
 
+        if ($request->input('gender')) {
+            $gender = $request->input('gender');
+            if ($gender !== 'all') {
+                $query->where('gender_target', $gender);
+            }
+        }
+
+        $properties = $query->latest()->paginate(6);
+
         $properties->appends([
-            'search' => $request->search
+            'search' => $request->input('search'),
+            'gender' => $request->input('gender'),
         ]);
-    
-        // Kirim data ke view
+
         return view('landing.properties.index', compact('properties'));
-    
     }
+
 
 
     public function index(Request $request)
