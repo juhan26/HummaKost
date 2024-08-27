@@ -68,14 +68,21 @@
                 <!-- menu -->
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.properties') }}">Kontrakan</a>
+                            href="{{ route('home.index') }}">Kontrakan</a>
                     </li>
-                  
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}#ppk">Tentang</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}#mmk">Masukan</a>
+                    </li>
                 </ul>
 
                 <!-- menu end -->
@@ -392,9 +399,10 @@
                                             </div>
                                         </div>
                                     @empty
-                                    <div class="flex justify-center items-center w-full h-[300px]">
-                                        <p class="text-center">Belum ada gambar gambar Kontrakan {{ $property->name }}.</p>
-                                    </div>
+                                        <div class="flex justify-center items-center w-full h-[300px]">
+                                            <p class="text-center">Belum ada gambar gambar Kontrakan
+                                                {{ $property->name }}.</p>
+                                        </div>
                                     @endforelse
                                 </div>
 
@@ -455,9 +463,10 @@
                                     </div>
                                 </div>
                             @empty
-                            <div class="flex justify-center items-center w-full h-[300px]">
-                                <p class="text-center">Belum ada penyewa di Kontrakan {{ $property->name }} ini.</p>
-                            </div>
+                                <div class="flex justify-center items-center w-full h-[300px]">
+                                    <p class="text-center">Belum ada penyewa di Kontrakan {{ $property->name }} ini.
+                                    </p>
+                                </div>
                             @endforelse
                         </div>
                         @if ($property->leases->isNotEmpty())
@@ -519,8 +528,8 @@
                         @endforelse
                     </div>
                     @if ($property->facilities->isNotEmpty())
-                    <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
-                    <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
+                        <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
+                        <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
                     @endif
                 </div>
 
@@ -530,7 +539,7 @@
 
         <!-- Mengimpor Swiper CSS dan JS -->
 
-        
+
         <div class="container mx-auto mt-10 mb-10">
             <div class="flex items-center justify-between mb-4">
                 <h2
@@ -545,20 +554,22 @@
             </div>
         </div>
 
-        
-        
+
+
         <div class="container mx-auto mt-10 mb-10">
             <div class="w-full mt-12">
                 <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                     <div class="px-4 py-6 flex items-center bg-white rounded-lg">
 
-                        <h6 class="mb-0 text-center">Lokasi dari Kontrakan <span class="text-green-400">{{ $property->name }}</span> ke Hummasoft/Hummatech ( {{ $property->address }} )</h6>
+                        <h6 class="mb-0 text-center">Lokasi dari Kontrakan <span
+                                class="text-green-400">{{ $property->name }}</span> ke Hummasoft/Hummatech (
+                            {{ $property->address }} )</h6>
                     </div>
                 </div>
             </div>
         </div>
 
-        
+
     </section>
 
 
