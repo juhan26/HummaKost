@@ -486,7 +486,7 @@
 
                 <!-- Properties Section -->
                 <div class="w-3/4 mx-auto" data-aos="fade-left" data-aos-duration="1350">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 py-4">
+                    <div class="grid grid-cols-1 {{ $properties->isNotEmpty() ? "sm:grid-cols-2" : "sm:grid-cols-1" }} gap-1 py-4">
                         @forelse ($properties->unique('id') as $property)
                             <div
                                 class="course-card max-w-lg h-[400px] flex flex-col bg-gray-white rounded-xl overflow-hidden">
@@ -563,11 +563,11 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="flex flex-col items-center">
-                                <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
-                                    class="w-64 h-64 object-cover mb-4">
-                                <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
-                            </div>
+                        <div class="flex flex-col items-center w-full">
+                            <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
+                                class="w-64 h-64 object-cover mb-4">
+                            <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
+                        </div>
                         @endforelse
 
                     </div>
