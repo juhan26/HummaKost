@@ -68,22 +68,16 @@
                 <!-- menu -->
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#properties">Kontrakan</a>
+                            href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#about">Tentang</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#feedback">Masukan</a>
-                    </li>
+                  
                 </ul>
+
                 <!-- menu end -->
 
                 <!-- right menu -->
@@ -158,8 +152,8 @@
                                                 alt="User Photo" class="w-12 h-12 object-cover rounded-full">
                                             <div class="flex flex-col" style="object-fit: cover">
                                                 <span class="font-semibold">{{ Auth::user()->name }}</span>
-                                                <p class="text-gray-500 text-smd"
-                                                    text-muted>{{ Auth::user()->email }}</small>
+                                                <p class="text-gray-500 text-smd" text-muted>
+                                                    {{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
                                         {{-- <li>
@@ -224,6 +218,7 @@
             </div>
         </div>
     </header>
+
 
 
     <!-- Mobile Menu Area Start -->

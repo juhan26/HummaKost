@@ -420,8 +420,8 @@
                     </h2>
                     <div class="mt-10">   
                         <a href="{{ route('home.properties') }}"
-                        class="btn bg-green-500 text-white p-3 rounded-lg my-2 align-items-center text-center">Lihat
-                        Kontrakan..</a>
+                        class="btn bg-green-500 text-white p-3 px-4 rounded-lg my-2 align-items-center text-center">Lihat
+                        Kontrakan </a>
                     </div>
                 </div>
                 <div class="2xl:w-3/4">
