@@ -53,56 +53,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-        <style>
-            .btn {
-                display: flex;
-                align-items: center;
-                font-weight: 600;
-                padding: 0.5rem 1rem;
-                border-radius: 0.375rem;
-                width: 100%;
-                margin-bottom: 0.5rem;
-                border: 1px solid transparent;
-                /* Border default, diatur menjadi transparan untuk tombol aktif */
-                transition: background-color 0.3s, color 0.3s;
-                /* Transisi smooth untuk perubahan warna */
-            }
-    
-            .btn-newest {
-                background-color: #d1fae5;
-                /* Background hijau muda */
-                color: #374151;
-                /* Teks abu-abu gelap */
-            }
-    
-            .btn-oldest {
-                background-color: #f9fafb;
-                /* Background putih */
-                color: #374151;
-                /* Teks abu-abu gelap */
-            }
-    
-            .btn-active {
-                background-color: #34d399;
-                /* Background hijau */
-                color: #ffffff;
-                /* Teks putih */
-                border: none;
-                /* Menghilangkan border untuk tombol aktif */
-            }
-    
-            .btn:hover {
-                background-color: #20b486;
-                /* Background hijau lebih gelap saat hover */
-                color: #ffffff;
-                /* Teks putih saat hover */
-            }
-    
-            .btn-active:hover {
-                background-color: #20b486;
-                /* Background hijau lebih gelap saat hover untuk tombol aktif */
-            }
-        </style>
+    <style>
+        .btn {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            border: 1px solid transparent;
+            /* Border default, diatur menjadi transparan untuk tombol aktif */
+            transition: background-color 0.3s, color 0.3s;
+            /* Transisi smooth untuk perubahan warna */
+        }
+
+        .btn-newest {
+            background-color: #d1fae5;
+            /* Background hijau muda */
+            color: #374151;
+            /* Teks abu-abu gelap */
+        }
+
+        .btn-oldest {
+            background-color: #f9fafb;
+            /* Background putih */
+            color: #374151;
+            /* Teks abu-abu gelap */
+        }
+
+        .btn-active {
+            background-color: #34d399;
+            /* Background hijau */
+            color: #ffffff;
+            /* Teks putih */
+            border: none;
+            /* Menghilangkan border untuk tombol aktif */
+        }
+
+        .btn:hover {
+            background-color: #20b486;
+            /* Background hijau lebih gelap saat hover */
+            color: #ffffff;
+            /* Teks putih saat hover */
+        }
+
+        .btn-active:hover {
+            background-color: #20b486;
+            /* Background hijau lebih gelap saat hover untuk tombol aktif */
+        }
+    </style>
 </head>
 
 <body>
@@ -129,7 +129,7 @@
                             href="{{ route('home.index') }}">Kontrakan</a>
                     </li>
                 </ul>
-                
+
                 <!-- menu end -->
 
                 <!-- right menu -->
@@ -350,105 +350,129 @@
         <div class="2xl:w-3/4 mx-auto flex gap-8">
             <!-- Filter Section -->
             <div class="w-1/4 bg-white p-6 rounded-xl shadow-md" data-aos="fade-right" data-aos-duration="1100">
-
-
                 <form method="get">
                     @csrf
-
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
                         <div class="mb-4">
-                            <button type="submit" name="availability" value="all"
-                                class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                Semua
-                            </button>
-                            <button type="submit" name="availability" value="available"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border border-gray-200">
-                                Tersedia
-                            </button>
-                            <button type="submit" name="availability" value="full"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                                Tidak Tersedia
-                            </button>
+                            <label for="availability1"
+                                class="flex items-center cursor-pointer {{ request()->input('availability') === 'all' || request()->input('availability') === null ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border-gray-200">
+                                <input type="radio" id="availability1" name="availability" value="all"
+                                    {{ request()->input('availability') === 'all' || request()->input('availability') === null ? 'checked' : '' }}
+                                    hidden onclick="this.form.submit()">
+                                <span>Semua</span>
+                            </label>
+                            <label for="availability2"
+                                class="flex items-center cursor-pointer {{ request()->input('availability') === 'available' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border-gray-200">
+                                <input type="radio" id="availability2" name="availability" value="available"
+                                    {{ request()->input('availability') === 'available' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>Tersedia</span>
+                            </label>
+                            <label for="availability3"
+                                class="flex items-center cursor-pointer {{ request()->input('availability') === 'full' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border-gray-200">
+                                <input type="radio" id="availability3" name="availability" value="full"
+                                    {{ request()->input('availability') === 'full' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>Tidak Tersedia</span>
+                            </label>
                         </div>
                     </div>
-                </form>
-                <form action="" method="get">
-                    @csrf
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Urut berdasarkan:</h2>
                         <div class="mb-4">
-                            <button type="submit" name="sort" value="newest"
-                                class="flex items-center {{ request()->input('sort') === 'newest' ? 'bg-green-200 text-gray-800' : 'bg-green-100 text-gray-700' }} font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                Terbaru
-                            </button>
-                            <button type="submit" name="sort" value="oldest"
-                                class="flex items-center {{ request()->input('sort') === 'oldest' ? 'bg-green-200 text-gray-800' : 'bg-white text-gray-700' }} font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                                Terlama
-                            </button>
+                            <label for="createdAt"
+                                class="flex items-center cursor-pointer {{ request()->input('sort') === 'newest' || request()->input('sort') === null ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="createdAt" name="sort" value="newest"
+                                    {{ request()->input('sort') === 'newest' || request()->input('sort') === null ? 'checked' : '' }}
+                                    hidden onclick="this.form.submit()">
+                                <span>Terbaru</span>
+                            </label>
+                            <label for="createdAt2"
+                                class="flex items-center cursor-pointer {{ request()->input('sort') === 'oldest' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="createdAt2" name="sort" value="oldest"
+                                    {{ request()->input('sort') === 'oldest' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>Terlama</span>
+                            </label>
                         </div>
                     </div>
-                </form>
-
-                <form action method="get">
-                    @csrf
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Berdasarkan Jenis Kelamin:</h2>
                         <div class="mb-4">
-                            <button type="submit" name="gender" value="all"
-                                class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                Semua
-                            </button>
-                            <button type="submit" name="gender" value="male"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                                Laki Laki
-                            </button>
-                            <button type="submit" name="gender" value="female"
-                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                                Perempuan
-                            </button>
+                            <label for="gender"
+                                class="flex items-center cursor-pointer {{ request()->input('gender') === 'all' || request()->input('gender') === null ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="gender" name="gender" value="all"
+                                    {{ request()->input('gender') === 'all' || request()->input('gender') === null ? 'checked' : '' }}
+                                    hidden onclick="this.form.submit()">
+                                <span>Semua</span>
+                            </label>
+                            <label for="gender2"
+                                class="flex items-center cursor-pointer {{ request()->input('gender') === 'male' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="gender2" name="gender" value="male"
+                                    {{ request()->input('gender') === 'male' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>Laki-laki</span>
+                            </label>
+                            <label for="gender3"
+                                class="flex items-center cursor-pointer {{ request()->input('gender') === 'female' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="gender3" name="gender" value="female"
+                                    {{ request()->input('gender') === 'female' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>Perempuan</span>
+                            </label>
                         </div>
                     </div>
-                </form>
+                    <div class="mb-8">
+                        <h2 class="text-lg font-bold mb-4">Berdasarkan Harga (Rupiah):</h2>
+                        <div class="mb-4">
+                            <label for="price_range"
+                                class="flex items-center cursor-pointer {{ request()->input('price_range') === 'all' || request()->input('price_range') === null ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="price_range" name="price_range" value="all"
+                                    {{ request()->input('price_range') === 'all' || request()->input('price_range') === null ? 'checked' : '' }}
+                                    hidden onclick="this.form.submit()">
+                                <span>Semua</span>
+                            </label>
+                            <label for="price_range1"
+                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '0-300' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="price_range1" name="price_range" value="0-300"
+                                    {{ request()->input('price_range') === '0-300' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>0 - 300.000</span>
+                            </label>
+                            <label for="price_range2"
+                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '301-700' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="price_range2" name="price_range" value="301-700"
+                                    {{ request()->input('price_range') === '301-700' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>300.001 - 700.000</span>
+                            </label>
+                            <label for="price_range3"
+                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '701-1500' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                <input type="radio" id="price_range3" name="price_range" value="701-1500"
+                                    {{ request()->input('price_range') === '701-1500' ? 'checked' : '' }} hidden
+                                    onclick="this.form.submit()">
+                                <span>700.001 - 1.500.000</span>
+                            </label>
+                        </div>
 
-                <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
-                    <div class="mb-4">
-                        <a href="?price_range=all"
-                            class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                            Semua
-                        </a>
-                        <a href="?price_range=200-500"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                            200-500
-                        </a>
-                        <a href="?price_range=500-1000"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                            500-1jt
-                        </a>
                     </div>
-                </div>
-
-                <form method="get">
                     <div class="flex justify-center">
-                        <button class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
+                        <a href="/properties/home" class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
                             Reset Filter
-                        </button>
+                        </a>
                     </div>
-                </form>
             </div>
 
             <div class="2xl:w-3/4 mx-auto">
                 <!-- Search Bar -->
-                <form action="" method="get">
-                    @csrf
-                    <div class="flex justify-end mb-4" data-aos="fade-down" data-aos-duration="1250">
-                        <input type="text" name="search" value="{{ request()->input('search') }}"
-                            autocomplete="off"
-                            class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
-                            placeholder="Cari kontrakan..." style="height: 50px;">
-                        {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
-                    </div>
+                <div class="flex justify-end mb-4" data-aos="fade-down" data-aos-duration="1250">
+                    <input type="text" name="search" value="{{ request()->input('search') }}"
+                        autocomplete="off"
+                        class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
+                        placeholder="Cari kontrakan..." style="height: 50px;">
+                    {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
+                </div>
                 </form>
 
                 <!-- Properties Section -->
@@ -534,6 +558,106 @@
                             </div>
                         @endforeach
                     </div>
+                    @if ($properties->hasPages())
+                        <div class="pagination-container mt-5">
+                            @php
+                                $currentPage = $properties->currentPage();
+                                $totalPages = $properties->lastPage();
+                                $visiblePages = 1;
+
+                                $totalData = \App\Models\Property::count();
+                                $dataPerPage = $properties->perPage();
+                                $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                                $endItem = min($currentPage * $dataPerPage, $totalData);
+                            @endphp
+                            <div class="w-100 my-3" style="color: rgba(0,0,0,.6); font-size:.75rem;">
+                                Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                            </div>
+                            <ul class="pagination d-flex justify-content-between align-items-center">
+                                {{-- Previous Page Link --}}
+                                <style>
+                                    li {
+                                        border-radius: none;
+                                    }
+                                </style>
+                                @if ($properties->onFirstPage())
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link px-6 text-white"
+                                            style="background-color: #63cbab">Prev</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link px-6 bg-primary text-white"
+                                            href="{{ $properties->previousPageUrl() }}" rel="prev">Prev</a>
+                                    </li>
+                                @endif
+
+
+                                <div class="d-sm-flex d-md-flex d-lg-none ">
+                                    <li class="page-item active" aria-disabled="true">
+                                        <span class="page-link">{{ $properties->currentPage() }}</span>
+                                    </li>
+                                </div>
+                                {{-- Pagination Elements (visible only on large screens and up) --}}
+                                <div class="d-none d-lg-flex gx-4">
+                                    {{-- First Page --}}
+                                    @if ($currentPage > $visiblePages + 1)
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $properties->url(1) }}">1</a>
+                                        </li>
+                                        @if ($currentPage > $visiblePages + 2)
+                                            <li class="page-item disabled" aria-disabled="true">
+                                                <span class="page-link">...</span>
+                                            </li>
+                                        @endif
+                                    @endif
+
+                                    {{-- Page Numbers --}}
+                                    @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                                        @if ($i == $currentPage)
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">{{ $i }}</span>
+                                            </li>
+                                        @else
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                    href="{{ $properties->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endif
+                                    @endfor
+
+                                    {{-- Last Page --}}
+                                    @if ($currentPage < $totalPages - $visiblePages)
+                                        @if ($currentPage < $totalPages - $visiblePages - 1)
+                                            <li class="page-item disabled" aria-disabled="true">
+                                                <span class="page-link">...</span>
+                                            </li>
+                                        @endif
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="{{ $properties->url($totalPages) }}">{{ $totalPages }}</a>
+                                        </li>
+                                    @endif
+                                </div>
+
+                                {{-- Next Page Link --}}
+                                @if ($properties->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link px-6 bg-primary text-white"
+                                            href="{{ $properties->nextPageUrl() }}" rel="next">Next</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link px-6 text-white"
+                                            style="background-color: #63cbab">Next</span>
+                                    </li>
+                                @endif
+                            </ul>
+                            <div class="d-lg-none w-100" style="color: rgba(0,0,0,.4);font-size:.75rem;">
+                                Menampilkan halaman {{ $currentPage }} / {{ $totalPages }}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
     </section>
