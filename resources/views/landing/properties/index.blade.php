@@ -477,7 +477,7 @@
 
                 <!-- Properties Section -->
                 <div class="w-3/4 mx-auto" data-aos="fade-left" data-aos-duration="1350">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 py-4">
+                    <div class="grid grid-cols-1 {{ $properties->isNotEmpty() ? "sm:grid-cols-2" : "sm:grid-cols-1" }} gap-1 py-4">
                         @forelse ($properties->unique('id') as $property)
                             <div
                                 class="course-card max-w-lg h-[400px] flex flex-col bg-gray-white rounded-xl overflow-hidden">
@@ -554,109 +554,109 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="flex flex-col items-center">
-                                <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
-                                    class="w-64 h-64 object-cover mb-4">
-                                <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
-                            </div>
+                        <div class="flex flex-col items-center w-full">
+                            <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
+                                class="w-64 h-64 object-cover mb-4">
+                            <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
+                        </div>
                         @endforelse
 
                     </div>
-                        @if ($properties->hasPages())
-                            <div class="pagination-container mt-5">
-                                @php
-                                    $currentPage = $properties->currentPage();
-                                    $totalPages = $properties->lastPage();
-                                    $visiblePages = 1;
+                    @if ($properties->hasPages())
+                        <div class="pagination-container mt-5">
+                            @php
+                                $currentPage = $properties->currentPage();
+                                $totalPages = $properties->lastPage();
+                                $visiblePages = 1;
 
-                                    $totalData = \App\Models\Property::count();
-                                    $dataPerPage = $properties->perPage();
-                                    $startItem = ($currentPage - 1) * $dataPerPage + 1;
-                                    $endItem = min($currentPage * $dataPerPage, $totalData);
-                                @endphp
+                                $totalData = \App\Models\Property::count();
+                                $dataPerPage = $properties->perPage();
+                                $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                                $endItem = min($currentPage * $dataPerPage, $totalData);
+                            @endphp
 
-                                <div class="w-100 my-3 text-sm text-gray-600 text-right">
-                                    Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
-                                </div>
+                            <div class="w-100 my-3 text-sm text-gray-600 text-right">
+                                Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                            </div>
 
-                                <nav class="flex justify-end items-center">
-                                    <ul class="inline-flex items-center -space-x-px">
-                                        {{-- Previous Page Link --}}
-                                        @if ($properties->onFirstPage())
+                            <nav class="flex justify-end items-center">
+                                <ul class="inline-flex items-center -space-x-px">
+                                    {{-- Previous Page Link --}}
+                                    @if ($properties->onFirstPage())
+                                        <li>
+                                            <span
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-gray-100 rounded-l-lg cursor-not-allowed">Prev</span>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ $properties->previousPageUrl() }}"
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-l-lg">Prev</a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pagination Elements --}}
+                                    @if ($currentPage > $visiblePages + 1)
+                                        <li>
+                                            <a href="{{ $properties->url(1) }}"
+                                                class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
+                                        </li>
+                                        @if ($currentPage > $visiblePages + 2)
                                             <li>
                                                 <span
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-gray-100 rounded-l-lg cursor-not-allowed">Prev</span>
+                                                    class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300">...</span>
+                                            </li>
+                                        @endif
+                                    @endif
+
+                                    {{-- Page Numbers --}}
+                                    @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                                        @if ($i == $currentPage)
+                                            <li>
+                                                <span
+                                                    class="px-3 py-2 leading-tight text-gray-500 bg-green-200 border border-gray-300">{{ $i }}</span>
                                             </li>
                                         @else
                                             <li>
-                                                <a href="{{ $properties->previousPageUrl() }}"
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-l-lg">Prev</a>
+                                                <a href="{{ $properties->url($i) }}"
+                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $i }}</a>
                                             </li>
                                         @endif
+                                    @endfor
 
-                                        {{-- Pagination Elements --}}
-                                        @if ($currentPage > $visiblePages + 1)
-                                            <li>
-                                                <a href="{{ $properties->url(1) }}"
-                                                    class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
-                                            </li>
-                                            @if ($currentPage > $visiblePages + 2)
-                                                <li>
-                                                    <span
-                                                        class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300">...</span>
-                                                </li>
-                                            @endif
-                                        @endif
-
-                                        {{-- Page Numbers --}}
-                                        @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
-                                            @if ($i == $currentPage)
-                                                <li>
-                                                    <span
-                                                        class="px-3 py-2 leading-tight text-gray-500 bg-green-200 border border-gray-300">{{ $i }}</span>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <a href="{{ $properties->url($i) }}"
-                                                        class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $i }}</a>
-                                                </li>
-                                            @endif
-                                        @endfor
-
-                                        {{-- Last Page --}}
-                                        @if ($currentPage < $totalPages - $visiblePages)
-                                            @if ($currentPage < $totalPages - $visiblePages - 1)
-                                                <li>
-                                                    <span
-                                                        class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">...</span>
-                                                </li>
-                                            @endif
-                                            <li>
-                                                <a href="{{ $properties->url($totalPages) }}"
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $totalPages }}</a>
-                                            </li>
-                                        @endif
-
-                                        {{-- Next Page Link --}}
-                                        @if ($properties->hasMorePages())
-                                            <li>
-                                                <a href="{{ $properties->nextPageUrl() }}"
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg">Next</a>
-                                            </li>
-                                        @else
+                                    {{-- Last Page --}}
+                                    @if ($currentPage < $totalPages - $visiblePages)
+                                        @if ($currentPage < $totalPages - $visiblePages - 1)
                                             <li>
                                                 <span
-                                                    class="px-3 py-2 leading-tight text-gray-400 bg-gray-100 rounded-r-lg cursor-not-allowed">Next</span>
+                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">...</span>
                                             </li>
                                         @endif
-                                    </ul>
-                                </nav>
-                                {{-- <div class="text-sm text-gray-600 mt-2 text-right">
+                                        <li>
+                                            <a href="{{ $properties->url($totalPages) }}"
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $totalPages }}</a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Next Page Link --}}
+                                    @if ($properties->hasMorePages())
+                                        <li>
+                                            <a href="{{ $properties->nextPageUrl() }}"
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg">Next</a>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <span
+                                                class="px-3 py-2 leading-tight text-gray-400 bg-gray-100 rounded-r-lg cursor-not-allowed">Next</span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                            {{-- <div class="text-sm text-gray-600 mt-2 text-right">
                                     Menampilkan halaman {{ $currentPage }} dari {{ $totalPages }}
                                 </div> --}}
 
-                            </div>
-                        @endif
+                        </div>
+                    @endif
 
                 </div>
             </div>

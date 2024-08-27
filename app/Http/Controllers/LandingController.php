@@ -25,7 +25,7 @@ class LandingController extends Controller
         $availability = $request->input('availability');
 
         if ($search || $gender || $availability || $price_range || $sort) {
-        
+
             $query->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%{$search}%");
             })->where(function ($query) use ($gender) {
@@ -57,18 +57,18 @@ class LandingController extends Controller
                     $query->orderBy('created_at', 'desc');
                 } elseif ($sort === 'oldest') {
                     $query->orderBy('created_at', 'asc');
-                } 
+                }
             });
-            
+
         }
 
 
 
         // Sorting by price (ascending order)
-        
+
 
         // Pagination
-        $properties = $query->paginate(6);
+        $properties = $query->paginate(1);
 
         // Append all query parameters to pagination links
         $properties->appends([
