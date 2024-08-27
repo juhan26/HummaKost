@@ -33,6 +33,15 @@ class LandingController extends Controller
             }
         }
 
+
+        if ($request->input('sort') === 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->input('sort') === 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
+        $properties = $query->latest()->paginate(6);
+
        // Price Filter
 if ($request->input('price_range')) {
     $priceRange = $request->input('price_range');
@@ -63,6 +72,7 @@ if ($request->input('price_range')) {
         $properties->appends([
             'search' => $request->input('search'),
             'gender' => $request->input('gender'),
+            'sort' => $request->input('sort'),
             'price_range' => $request->input('price_range'),  // Append price range
         ]);
 
