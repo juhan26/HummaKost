@@ -60,8 +60,11 @@ class LoginController extends Controller
             if ($user->roles->contains('name', 'tenant') && $user->status === 'pending') {
                 Auth::logout();
                 $request->session()->flash('error', 'Akun Anda masih belum dikonfirmasi admin, silakan hubungi admin.');
-
                 return redirect()->route('login');
+            } elseif ($user->roles->contains('name', 'tenant') && $user->status === 'rejected') {
+                Auth::logout();
+                $request->session()->flash('error', 'Akun anda ditolak oleh admin, silakan hubungi admin.');
+                return redirect('/');
             } elseif ($user->roles->contains('name', 'tenant') && $user->status === 'accepted') {
                 return redirect('/');
             }
