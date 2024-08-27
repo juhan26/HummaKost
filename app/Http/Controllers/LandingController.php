@@ -19,17 +19,20 @@ class LandingController extends Controller
     {
         $query = Property::with('property_images');
 
+        // Search Filter
         if ($request->input('search')) {
             $query->where('name', 'LIKE', "%{$request->input('search')}%")
-            ->orWhere('description', 'LIKE', "%{$request->input('search')}%");
+                ->orWhere('description', 'LIKE', "%{$request->input('search')}%");
         }
 
+        // Gender Filter
         if ($request->input('gender')) {
             $gender = $request->input('gender');
             if ($gender !== 'all') {
                 $query->where('gender_target', $gender);
             }
         }
+
 
         if ($request->input('sort') === 'newest') {
             $query->orderBy('created_at', 'desc');
@@ -39,12 +42,41 @@ class LandingController extends Controller
 
         $properties = $query->latest()->paginate(6);
 
+       // Price Filter
+if ($request->input('price_range')) {
+    $priceRange = $request->input('price_range');
+
+    switch ($priceRange) {
+        case '0-100':
+            $query->where('rental_price', '<=', 100000); // Adjusted to 100,000
+            break;
+        case '100-200':
+            $query->whereBetween('rental_price', [100000, 200000]); // Adjusted to 100,000 - 200,000
+            break;
+        case '200-500':
+            $query->whereBetween('rental_price', [200000, 500000]); // Adjusted to 200,000 - 500,000
+            break;
+        case '500-1000':
+            $query->whereBetween('rental_price', [500000, 1000000]); // Adjusted to values greater than 500,000
+            break;
+    }
+}
+
+        // Sorting (e.g., by latest)
+        $query->latest();
+
+        // Pagination
+        $properties = $query->paginate(6);
+
+        // Append all query parameters to pagination links
         $properties->appends([
             'search' => $request->input('search'),
             'gender' => $request->input('gender'),
-            'sort' => $request->input('sort')
+            'sort' => $request->input('sort'),
+            'price_range' => $request->input('price_range'),  // Append price range
         ]);
 
+        // Return view with filtered properties
         return view('landing.properties.index', compact('properties'));
     }
 
