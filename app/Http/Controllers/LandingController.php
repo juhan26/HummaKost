@@ -30,12 +30,23 @@ class LandingController extends Controller
                 $query->where('gender_target', $gender);
             }
         }
+        if ($request->input('availability')) {
+            $availablity = $request->input('availability');
+            if ($availablity !== 'all') {
+                $query->where('status', $availablity);
+            } else if ($availablity == 'available') {
+                $query->where('status', $availablity);
+            } else if ($availablity == 'full') {
+                $query->where('status', $availablity);
+            }
+        }
 
         $properties = $query->latest()->paginate(6);
 
         $properties->appends([
             'search' => $request->input('search'),
             'gender' => $request->input('gender'),
+            'availability' => $request->input('gender'),
         ]);
 
         return view('landing.properties.index', compact('properties'));

@@ -12,10 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
@@ -286,7 +283,8 @@
     <!-- header area end -->
 
     <section
-        class="mx-auto 2xl:w-3/4 pl-5 bg-primary-50/70 rounded-2xl shadow-md flex items-center justify-between mx-5 mt-5" data-aos="fade-down" data-aos-duration="1000">
+        class="mx-auto 2xl:w-3/4 pl-5 bg-primary-50/70 rounded-2xl shadow-md flex items-center justify-between mx-5 mt-5"
+        data-aos="fade-down" data-aos-duration="1000">
         <div class="flex-1">
             <h1 class="text-3xl font-bold text-gray-800">List Kontrakan</h1>
             <p class="text-gray-600 mt-2">Kontrakan | Pilihan Terbaik Bulan Ini</p>
@@ -303,32 +301,28 @@
             <!-- Filter Section -->
             <div class="w-1/4 bg-white p-6 rounded-xl shadow-md" data-aos="fade-right" data-aos-duration="1100">
 
-                <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
-                    <div class="mb-4">
-                        <button
-                            class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                            </svg> --}}
-                            Semua
-                        </button>
-                        <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border border-gray-200">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
-                            </svg> --}}
-                            Tersedia
-                        </button>
-                        <button
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                            {{-- <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M8.25 6H18V15.75" />
-                            </svg> --}}
-                            Tidak Tersedia
-                        </button>
+
+                <form method="get">
+                    @csrf
+
+                    <div class="mb-8">
+                        <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
+                        <div class="mb-4">
+                            <button type="submit" name="availability" value="all"
+                                class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                Semua
+                            </button>
+                            <button type="submit" name="availability" value="available"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2 border border-gray-200">
+                                Tersedia
+                            </button>
+                            <button type="submit" name="availability" value="full"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                                Tidak Tersedia
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="mb-8">
                     <h2 class="text-lg font-bold mb-4">Urut berdasarkan: </h2>
                     <div class="mb-4">
@@ -348,6 +342,7 @@
                         </button>
                     </div>
                 </div>
+
                 <form action method="get">
                     @csrf
                     <div class="mb-8">
@@ -368,6 +363,7 @@
                         </div>
                     </div>
                 </form>
+
                 <div class="mb-8">
                     <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
                     <div class="mb-4">
@@ -405,7 +401,8 @@
                 <form action="" method="get">
                     @csrf
                     <div class="flex justify-end mb-4" data-aos="fade-down" data-aos-duration="1250">
-                        <input type="text" name="search" value="{{ request()->input('search') }}" autocomplete="off"
+                        <input type="text" name="search" value="{{ request()->input('search') }}"
+                            autocomplete="off"
                             class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
                             placeholder="Cari kontrakan..." style="height: 50px;">
                         {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
@@ -441,11 +438,13 @@
                                     </a>
                                     <div class="overflow-hidden rounded-lg inline-block relative">
                                         <a href="{{ route('home.show', $property->id) }}" class="inline-block"></a>
-                                        <div class="absolute top-[7px] left-2 z-20 text-base text-gray-black rounded-md ml-1 mt-2">
+                                        <div
+                                            class="absolute top-[7px] left-2 z-20 text-base text-gray-black rounded-md ml-1 mt-2">
                                         </div>
                                     </div>
                                     <div class="flex justify-between items-center mt-4">
-                                        <i class="ri-calendar-line ri-20px me-2" style="color: rgba(32,180,134,.7)"></i>
+                                        <i class="ri-calendar-line ri-20px me-2"
+                                            style="color: rgba(32,180,134,.7)"></i>
                                         <div>
                                             <h5 class="m-0" style="color: rgba(32,180,134,.7); font-size:1rem;">
                                                 {{ \Carbon\Carbon::parse($property->created_at)->locale('id')->translatedFormat('j F Y') }}
