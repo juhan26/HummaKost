@@ -322,24 +322,79 @@
                             </button>
                         </div>
                     </div>
+
+                </div>
+         
+
+
                 </form>
+                
+                 <style>
+                    .btn {
+                        display: flex;
+                        align-items: center;
+                        font-weight: 600;
+                        padding: 0.5rem 1rem;
+                        border-radius: 0.375rem;
+                        width: 100%;
+                        margin-bottom: 0.5rem;
+                        border: 1px solid transparent;
+                        /* Border default, diatur menjadi transparan untuk tombol aktif */
+                        transition: background-color 0.3s, color 0.3s;
+                        /* Transisi smooth untuk perubahan warna */
+                    }
+
+                    .btn-newest {
+                        background-color: #d1fae5;
+                        /* Background hijau muda */
+                        color: #374151;
+                        /* Teks abu-abu gelap */
+                    }
+
+                    .btn-oldest {
+                        background-color: #f9fafb;
+                        /* Background putih */
+                        color: #374151;
+                        /* Teks abu-abu gelap */
+                    }
+
+                    .btn-active {
+                        background-color: #34d399;
+                        /* Background hijau */
+                        color: #ffffff;
+                        /* Teks putih */
+                        border: none;
+                        /* Menghilangkan border untuk tombol aktif */
+                    }
+
+                    .btn:hover {
+                        background-color: #20b486;
+                        /* Background hijau lebih gelap saat hover */
+                        color: #ffffff;
+                        /* Teks putih saat hover */
+                    }
+
+                    .btn-active:hover {
+                        background-color: #20b486;
+                        /* Background hijau lebih gelap saat hover untuk tombol aktif */
+                    }
+                </style>
                 <form action="" method="get">
                     @csrf
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Urut berdasarkan:</h2>
                         <div class="mb-4">
                             <button type="submit" name="sort" value="newest"
-                                class="flex items-center {{ request()->input('sort') === 'newest' ? 'bg-green-200 text-gray-800' : 'bg-green-100 text-gray-700' }} font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                class="btn btn-newest border border-gray-200 {{ request()->input('sort') === 'newest' ? 'btn-active' : '' }}">
                                 Terbaru
                             </button>
                             <button type="submit" name="sort" value="oldest"
-                                class="flex items-center {{ request()->input('sort') === 'oldest' ? 'bg-green-200 text-gray-800' : 'bg-white text-gray-700' }} font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                                class="btn btn-oldest border border-gray-200 {{ request()->input('sort') === 'oldest' ? 'btn-active' : '' }}">
                                 Terlama
                             </button>
                         </div>
                     </div>
                 </form>
-
                 <form action method="get">
                     @csrf
                     <div class="mb-8">
@@ -386,6 +441,7 @@
                         </button>
                     </div>
                 </form>
+
             </div>
 
             <div class="2xl:w-3/4 mx-auto">
