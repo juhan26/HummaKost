@@ -31,11 +31,18 @@ class LandingController extends Controller
             }
         }
 
+        if ($request->input('sort') === 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->input('sort') === 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
         $properties = $query->latest()->paginate(6);
 
         $properties->appends([
             'search' => $request->input('search'),
             'gender' => $request->input('gender'),
+            'sort' => $request->input('sort')
         ]);
 
         return view('landing.properties.index', compact('properties'));
