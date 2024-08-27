@@ -41,25 +41,16 @@ class LandingController extends Controller
                     $query->where('status', $availability);
                 }
             })->where(function ($query) use ($price_range) {
-                switch ($price_range) {
-                    case '0-300':
-                        $query->whereBetween('rental_price', [0, 300000]);
-                        break;
-                    case '301-700':
-                        $query->whereBetween('rental_price', [300001, 700000]);
-                        break;
-                    case '701-1500':
-                        $query->whereBetween('rental_price', [700001, 1500000]);
-                        break;
+                if ($price_range) {
+                    $query->whereBetween('rental_price', [0, $price_range]);
                 }
             })->where(function ($query) use ($sort) {
-                if ( $sort === 'newest') {
+                if ($sort === 'newest') {
                     $query->orderBy('created_at', 'desc');
                 } elseif ($sort === 'oldest') {
                     $query->orderBy('created_at', 'asc');
                 }
             });
-
         }
 
 
@@ -68,7 +59,7 @@ class LandingController extends Controller
 
 
         // Pagination
-        $properties = $query->paginate(1);
+        $properties = $query->paginate(6);
 
         // Append all query parameters to pagination links
         $properties->appends([
@@ -80,7 +71,7 @@ class LandingController extends Controller
         ]);
 
         // Return view with filtered properties
-        return view('landing.properties.index', compact('properties'));
+        return view('landing.properties.index', compact('properties', 'price_range'));
     }
 
 

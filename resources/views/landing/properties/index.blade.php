@@ -434,127 +434,150 @@
                     </div>
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Berdasarkan Harga (Rupiah):</h2>
-                        <div class="mb-4">
+                        <div class="pt-0">
+                            <style>
+                                .range-slider {
+                                    -webkit-appearance: none;
+                                    appearance: none;
+                                    width: 100%;
+                                    height: 10px;
+                                    background-color: transparent;
+                                    cursor: pointer;
+                                    border-radius: 5px;
+                                    background: linear-gradient(to right, #20b486 0%, #20b486 0%, #d3d3d3 0%, #d3d3d3 100%);
+                                    transition: background 0.3s ease;
+                                    background: #20b486;
+                                }
+                                .range-slider:focus {
+                                    outline: none;
+                                }
+
+                                .range-slider::-webkit-slider-runnable-track {
+                                    width: 100%;
+                                    height: 10px;
+                                    cursor: pointer;
+                                    background: transparent;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-webkit-slider-thumb {
+                                    -webkit-appearance: none;
+                                    appearance: none;
+                                    width: 20px;
+                                    height: 20px;
+                                    padding: 0;
+                                    margin: 0;
+                                    background: #20b486;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                                    transition: background 0.3s ease, transform 0.3s ease;
+                                }
+
+                                .range-slider::-webkit-slider-thumb:hover {
+                                    background: #16a085;
+                                    transform: scale(1.1);
+                                }
+
+                                .range-slider::-moz-range-track {
+                                    width: 100%;
+                                    height: 10px;
+                                    background: transparent;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-moz-range-progress {
+                                    background: #20b486;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-moz-range-thumb {
+                                    -webkit-appearance: none;
+                                    width: 20px;
+                                    height: 20px;
+                                    background-color: #20b486;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                                    transition: background 0.3s ease, transform 0.3s ease;
+                                }
+
+                                .range-slider::-moz-range-thumb:hover {
+                                    background: #16a085;
+                                    transform: scale(1.1);
+                                }
+
+                                .range-slider::-ms-track {
+                                    width: 100%;
+                                    height: 10px;
+                                    background: transparent;
+                                    border-color: transparent;
+                                    border-width: 6px 0;
+                                    color: transparent;
+                                }
+
+                                .range-slider::-ms-fill-lower {
+                                    background: #20b486;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-ms-fill-upper {
+                                    background: #d3d3d3;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-ms-thumb {
+                                    width: 20px;
+                                    height: 20px;
+                                    background: #20b486;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                                    -webkit-appearance: none;
+                                    transition: background 0.3s ease, transform 0.3s ease;
+                                }
+
+                                .range-slider::-ms-thumb:hover {
+                                    background: #16a085;
+                                    transform: scale(1.1);
+                                }
+                            </style>
+
                             <input id="harga" type="range" min="0" max="2000000" step="100000"
-                                value="0" class="range-slider w-full cursor-pointer" />
-                            <p>Harga: Rp. <output id="value">0</output></p>
+                                value="{{ request()->input('price_range') ? $price_range : '0' }}"
+                                class="range-slider w-full cursor-pointer" name="price_range"
+                                onchange="this.form.submit()" />
+                            <p class="mt-4">Harga: Rp. <output
+                                    id="value">{{ request()->input('price_range') ? number_format($price_range, 0) : '0' }}</output>
+                            </p>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const slider = document.getElementById("harga");
+                                    const output = document.getElementById("value");
+
+                                    function updateSlider() {
+                                        const value = slider.value;
+                                        output.textContent = parseInt(value).toLocaleString();
+
+                                        const percentage = (value / slider.max) * 100;
+                                        slider.style.background =
+                                            `linear-gradient(to right, #20b486 ${percentage}%, #d3d3d3 ${percentage}%)`;
+                                    }
+
+                                    slider.addEventListener("input", updateSlider);
+
+                                    // Set the initial style when the page loads
+                                    updateSlider();
+                                });
+                            </script>
+
                         </div>
                     </div>
-                    
-                    <style>
-                        .range-slider {
-                            -webkit-appearance: none;
-                            appearance: none;
-                            width: 100%;
-                            height: 10px;
-                            background-color: transparent;
-                            cursor: pointer;
-                            border-radius: 5px;
-                            background: linear-gradient(to right, #20b486 0%, #20b486 0%, #d3d3d3 0%, #d3d3d3 100%);
-                            transition: background 0.3s ease;
-                        }
-                    
-                        .range-slider::-webkit-slider-runnable-track {
-                            width: 100%;
-                            height: 10px;
-                            cursor: pointer;
-                            background: transparent;
-                            border-radius: 5px;
-                        }
-                    
-                        .range-slider::-webkit-slider-thumb {
-                            -webkit-appearance: none;
-                            appearance: none;
-                            width: 20px;
-                            height: 20px;
-                            background: #20b486;
-                            border-radius: 50%;
-                            cursor: pointer;
-                            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-                            transition: background 0.3s ease, transform 0.3s ease;
-                        }
-                    
-                        .range-slider::-webkit-slider-thumb:hover {
-                            background: #16a085;
-                            transform: scale(1.1);
-                        }
-                    
-                        .range-slider::-moz-range-track {
-                            width: 100%;
-                            height: 10px;
-                            background: transparent;
-                            border-radius: 5px;
-                        }
-                    
-                        .range-slider::-moz-range-progress {
-                            background: #20b486;
-                            border-radius: 5px;
-                        }
-                    
-                        .range-slider::-moz-range-thumb {
-                            width: 20px;
-                            height: 20px;
-                            background: #20b486;
-                            border-radius: 50%;
-                            cursor: pointer;
-                            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-                            transition: background 0.3s ease, transform 0.3s ease;
-                        }
-                    
-                        .range-slider::-moz-range-thumb:hover {
-                            background: #16a085;
-                            transform: scale(1.1);
-                        }
-                    
-                        .range-slider::-ms-track {
-                            width: 100%;
-                            height: 10px;
-                            background: transparent;
-                            border-color: transparent;
-                            border-width: 6px 0;
-                            color: transparent;
-                        }
-                    
-                        .range-slider::-ms-fill-lower {
-                            background: #20b486;
-                            border-radius: 5px;
-                        }
-                    
-                        .range-slider::-ms-fill-upper {
-                            background: #d3d3d3;
-                            border-radius: 5px;
-                        }
-                    
-                        .range-slider::-ms-thumb {
-                            width: 20px;
-                            height: 20px;
-                            background: #20b486;
-                            border-radius: 50%;
-                            cursor: pointer;
-                            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-                            transition: background 0.3s ease, transform 0.3s ease;
-                        }
-                    
-                        .range-slider::-ms-thumb:hover {
-                            background: #16a085;
-                            transform: scale(1.1);
-                        }
-                    </style>
-                    
-                    <script>
-                        const slider = document.getElementById("harga");
-                        const output = document.getElementById("value");
-                    
-                        slider.addEventListener("input", function () {
-                            const value = slider.value;
-                            output.textContent = parseInt(value).toLocaleString();
-                    
-                            const percentage = (value / slider.max) * 100;
-                            slider.style.background = `linear-gradient(to right, #20b486 ${percentage}%, #d3d3d3 ${percentage}%)`;
-                        });
-                    </script>
-                    
-                    
+
+
+
+
 
                     <div class="flex justify-center">
                         <a href="/properties/home" class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
