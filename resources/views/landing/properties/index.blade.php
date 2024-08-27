@@ -122,7 +122,7 @@
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index')}}">Beranda</a>
+                            href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
@@ -435,37 +435,127 @@
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Berdasarkan Harga (Rupiah):</h2>
                         <div class="mb-4">
-                            <label for="price_range"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === 'all' || request()->input('price_range') === null ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range" name="price_range" value="all"
-                                    {{ request()->input('price_range') === 'all' || request()->input('price_range') === null ? 'checked' : '' }}
-                                    hidden onclick="this.form.submit()">
-                                <span>Semua</span>
-                            </label>
-                            <label for="price_range1"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '0-300' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range1" name="price_range" value="0-300"
-                                    {{ request()->input('price_range') === '0-300' ? 'checked' : '' }} hidden
-                                    onclick="this.form.submit()">
-                                <span>0 - 300.000</span>
-                            </label>
-                            <label for="price_range2"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '301-700' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range2" name="price_range" value="301-700"
-                                    {{ request()->input('price_range') === '301-700' ? 'checked' : '' }} hidden
-                                    onclick="this.form.submit()">
-                                <span>300.001 - 700.000</span>
-                            </label>
-                            <label for="price_range3"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '701-1500' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range3" name="price_range" value="701-1500"
-                                    {{ request()->input('price_range') === '701-1500' ? 'checked' : '' }} hidden
-                                    onclick="this.form.submit()">
-                                <span>700.001 - 1.500.000</span>
-                            </label>
+                            <input id="harga" type="range" min="0" max="2000000" step="100000"
+                                value="0" class="range-slider w-full cursor-pointer" />
+                            <p>Harga: Rp. <output id="value">0</output></p>
                         </div>
-
                     </div>
+                    
+                    <style>
+                        .range-slider {
+                            -webkit-appearance: none;
+                            appearance: none;
+                            width: 100%;
+                            height: 10px;
+                            background-color: transparent;
+                            cursor: pointer;
+                            border-radius: 5px;
+                            background: linear-gradient(to right, #20b486 0%, #20b486 0%, #d3d3d3 0%, #d3d3d3 100%);
+                            transition: background 0.3s ease;
+                        }
+                    
+                        .range-slider::-webkit-slider-runnable-track {
+                            width: 100%;
+                            height: 10px;
+                            cursor: pointer;
+                            background: transparent;
+                            border-radius: 5px;
+                        }
+                    
+                        .range-slider::-webkit-slider-thumb {
+                            -webkit-appearance: none;
+                            appearance: none;
+                            width: 20px;
+                            height: 20px;
+                            background: #20b486;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                            transition: background 0.3s ease, transform 0.3s ease;
+                        }
+                    
+                        .range-slider::-webkit-slider-thumb:hover {
+                            background: #16a085;
+                            transform: scale(1.1);
+                        }
+                    
+                        .range-slider::-moz-range-track {
+                            width: 100%;
+                            height: 10px;
+                            background: transparent;
+                            border-radius: 5px;
+                        }
+                    
+                        .range-slider::-moz-range-progress {
+                            background: #20b486;
+                            border-radius: 5px;
+                        }
+                    
+                        .range-slider::-moz-range-thumb {
+                            width: 20px;
+                            height: 20px;
+                            background: #20b486;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                            transition: background 0.3s ease, transform 0.3s ease;
+                        }
+                    
+                        .range-slider::-moz-range-thumb:hover {
+                            background: #16a085;
+                            transform: scale(1.1);
+                        }
+                    
+                        .range-slider::-ms-track {
+                            width: 100%;
+                            height: 10px;
+                            background: transparent;
+                            border-color: transparent;
+                            border-width: 6px 0;
+                            color: transparent;
+                        }
+                    
+                        .range-slider::-ms-fill-lower {
+                            background: #20b486;
+                            border-radius: 5px;
+                        }
+                    
+                        .range-slider::-ms-fill-upper {
+                            background: #d3d3d3;
+                            border-radius: 5px;
+                        }
+                    
+                        .range-slider::-ms-thumb {
+                            width: 20px;
+                            height: 20px;
+                            background: #20b486;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                            transition: background 0.3s ease, transform 0.3s ease;
+                        }
+                    
+                        .range-slider::-ms-thumb:hover {
+                            background: #16a085;
+                            transform: scale(1.1);
+                        }
+                    </style>
+                    
+                    <script>
+                        const slider = document.getElementById("harga");
+                        const output = document.getElementById("value");
+                    
+                        slider.addEventListener("input", function () {
+                            const value = slider.value;
+                            output.textContent = parseInt(value).toLocaleString();
+                    
+                            const percentage = (value / slider.max) * 100;
+                            slider.style.background = `linear-gradient(to right, #20b486 ${percentage}%, #d3d3d3 ${percentage}%)`;
+                        });
+                    </script>
+                    
+                    
+
                     <div class="flex justify-center">
                         <a href="/properties/home" class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
                             Reset Filter
@@ -486,7 +576,8 @@
 
                 <!-- Properties Section -->
                 <div class="w-3/4 mx-auto" data-aos="fade-left" data-aos-duration="1350">
-                    <div class="grid grid-cols-1 {{ $properties->isNotEmpty() ? "sm:grid-cols-2" : "sm:grid-cols-1" }} gap-1 py-4">
+                    <div
+                        class="grid grid-cols-1 {{ $properties->isNotEmpty() ? 'sm:grid-cols-2' : 'sm:grid-cols-1' }} gap-1 py-4">
                         @forelse ($properties->unique('id') as $property)
                             <div
                                 class="course-card max-w-lg h-[400px] flex flex-col bg-gray-white rounded-xl overflow-hidden">
@@ -563,11 +654,11 @@
                                 </div>
                             </div>
                         @empty
-                        <div class="flex flex-col items-center w-full">
-                            <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
-                                class="w-64 h-64 object-cover mb-4">
-                            <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
-                        </div>
+                            <div class="flex flex-col items-center w-full">
+                                <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
+                                    class="w-64 h-64 object-cover mb-4">
+                                <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
+                            </div>
                         @endforelse
 
                     </div>
