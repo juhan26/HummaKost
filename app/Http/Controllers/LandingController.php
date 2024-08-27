@@ -68,7 +68,7 @@ class LandingController extends Controller
         
 
         // Pagination
-        $properties = $query->paginate(1);
+        $properties = $query->paginate(6);
 
         // Append all query parameters to pagination links
         $properties->appends([
