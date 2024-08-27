@@ -25,7 +25,7 @@ class PropertyController extends Controller
                 ->orWhere('description', 'LIKE', "%($request->input('search'))%")
                 ->paginate(6);
         } else {
-            $properties = Property::latest()->paginate(6);
+            $properties = Property::orderByRaw("CASE WHEN status = 'available' THEN 1 ELSE 0 END")->latest()->paginate(6);
         }
 
         $properties->appends([

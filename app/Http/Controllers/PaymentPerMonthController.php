@@ -6,6 +6,7 @@ use App\Http\Requests\StorePaymentRequest;
 use App\Models\Lease;
 use App\Models\PaymentPerMonth;
 use App\Models\Property;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -19,27 +20,35 @@ class PaymentPerMonthController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $month = $request->month;
+        $year = $request->year;
+        $paymentMonth = $month . ' ' . $year;
+
         $status = $request->input('status', []);
         if (Auth::user()->hasRole('super_admin')) {
-            if ($search || $status) {
+            if ($search || $status || $month) {
                 $leases = Lease::with(['user', 'payments'])
                     ->whereHas('user', function ($query) use ($search) {
                         $query->where('name', 'LIKE', '%' . $search . '%');
                     })
                     ->where(function ($query) use ($status) {
-                        if (!empty($status)) {  
+                        if (!empty($status)) {
                             $query->whereIn('property_id', $status);
                         };
+                    })->whereHas('payments', function ($query) use ($paymentMonth) {
+                        $query->where('payment_month', $paymentMonth);
                     })
-                    ->latest()->paginate(6);
+                    ->latest()->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest()->paginate(6);
             } else {
-                $leases = Lease::with(['user', 'payments'])->latest()->paginate(6);
+                $leases = Lease::with(['user', 'payments'])->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest()->paginate(6);
             }
             $payments = PaymentPerMonth::all();
             $properties = Property::all();
             $leases->appends([
                 'search' => $search,
                 'status' => $status,
+                'month' => $month,
+                'year' => $year,
             ]);
         } else {
             $query = Lease::with(['user', 'payments']);
@@ -67,8 +76,6 @@ class PaymentPerMonthController extends Controller
             $payments = PaymentPerMonth::all();
             $properties = Property::all();
         }
-
-
 
         return view('pages.payments.index', compact('payments', 'leases', 'status', 'properties'));
     }
