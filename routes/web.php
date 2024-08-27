@@ -68,7 +68,6 @@ Route::middleware(['auth', 'role:tenant|admin|super_admin'])->group(function () 
 // });
 
 
-
 Route::middleware(['auth', 'role:admin|super_admin'])->group(function () {
     // properties add leader
     Route::post('/properties/addPropertyLeader',  [PropertyController::class, 'addPropertyLeader'])->name('properties.addPropertyLeader');
