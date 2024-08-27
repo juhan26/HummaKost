@@ -158,20 +158,20 @@
             <div class="card shadow-sm mt-3">
 
                 <div class="card-body d-flex flex-wrap gap-4">
-                    @forelse ($property->leases as $lease)
+                    @forelse ($property_member as $member)
                         <div class="text-center" style="width: 12rem;">
-                            @if ($lease->user->photo)
-                                <img src="{{ asset('storage/' . $lease->user->photo) }}" class="rounded-circle"
-                                    style="max-height: 8rem" alt="{{ $lease->user->name }}">
-                            @elseif ($lease->user->gender === 'male')
+                            @if ($member->photo)
+                                <img src="{{ asset('storage/' . $member->photo) }}" class="rounded-circle"
+                                    style="max-height: 8rem" alt="{{ $member->name }}">
+                            @elseif ($member->gender === 'male')
                                 <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/5.png"
                                     alt="Avatar">
-                            @elseif ($lease->user->gender === 'female')
+                            @elseif ($member->gender === 'female')
                                 <img class="rounded-circle" style="max-height: 8rem" src="../../assets/img/avatars/10.png"
                                     alt="Avatar">
                             @endif
-                            <h4 class="mt-3 mb-1">{{ $lease->user->name }}</h4>
-                            <p class="text-muted mb-0">{{ $lease->user->phone_number }}</p>
+                            <h4 class="mt-3 mb-1">{{ $member->name }}</h4>
+                            <p class="text-muted mb-0">{{ $member->phone_number }}</p>
                         </div>
                     @empty
                         <div class="text-center text-muted">Belum ada anggota</div>
@@ -310,7 +310,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="property_id" class="form-label">Kontrakan</label>
-                            <input type="hidden" class="form-control" id="property_id" name="property_id" value="{{$property->id}}">
+                            <input type="hidden" class="form-control" id="property_id" name="property_id"
+                                value="{{ $property->id }}">
                             <input type="text" class="form-control" id="property_id" disabled
                                 placeholder="{{ $property->name }}">
                             @error('property_id')
@@ -335,8 +336,9 @@
                         </div>
                         <div class="mb-3">
                             <label for="rental_price" class="form-label">Pembayaran Bulan Pertama</label>
-                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month" value="{{$property->rental_price}}">
-                            <input type="text" class="form-control" id="showPrice"  disabled placeholder=""
+                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month"
+                                value="{{ $property->rental_price }}">
+                            <input type="text" class="form-control" id="showPrice" disabled placeholder=""
                                 value=" Rp. {{ number_format($property->rental_price) }}">
                         </div>
                         <div class="d-flex justify-content-end">
