@@ -63,6 +63,34 @@ class LandingController extends Controller
             }
         }
 
+        if ($request->input('sort') === 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->input('sort') === 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
+        $properties = $query->latest()->paginate(6);
+
+       // Price Filter
+if ($request->input('price_range')) {
+    $priceRange = $request->input('price_range');
+
+    switch ($priceRange) {
+        case '0-100':
+            $query->where('rental_price', '<=', 100000); // Adjusted to 100,000
+            break;
+        case '100-200':
+            $query->whereBetween('rental_price', [100000, 200000]); // Adjusted to 100,000 - 200,000
+            break;
+        case '200-500':
+            $query->whereBetween('rental_price', [200000, 500000]); // Adjusted to 200,000 - 500,000
+            break;
+        case '500-1000':
+            $query->whereBetween('rental_price', [500000, 1000000]); // Adjusted to values greater than 500,000
+            break;
+    }
+}
+
         // Sorting (e.g., by latest)
         $query->latest();
 
@@ -74,6 +102,7 @@ class LandingController extends Controller
             'search' => $request->input('search'),
             'gender' => $request->input('gender'),
             'availability' => $request->input('gender'),
+            'sort' => $request->input('sort'),
             'price_range' => $request->input('price_range'),  // Append price range
         ]);
 
