@@ -10,6 +10,7 @@
     <title>HummaKost</title>
     <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 
     <!-- favicon -->
@@ -28,6 +29,8 @@
     <link href="/assets/css/tailwind.css" rel="stylesheet">
     <link href="/assets/css/styles.css" rel="stylesheet">
     <link href="/assets/css/responsive.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+
 
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -269,6 +272,48 @@
     <!-- Mobile Menu Area End -->
     <div class="overlay" id="overlay"></div>
     <!-- header area end -->
+    @if (session('success'))
+        <div id="toast-success"
+            class="fixed top-8 right-0 mr-1 mt-1 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
+                <i class="ri-checkbox-circle-line"></i>
+            </div>
+            <div class="ml-3 text-sm font-medium text-gray-700">
+                {{ session('success') }}
+            </div>
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5  inline-flex h-8 w-8"
+                aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span class="sr-only">Close</span>
+                X
+            </button>
+        </div>
+    @endif
+
+
+    @if ($errors->any())
+        <div id="toast-error"
+            class="fixed top-8 right-0 mr-1 mt-1 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
+                <i class="ri-error-warning-line"></i>
+            </div>
+            @foreach ($errors->all() as $error)
+                <div class="ml-3 text-sm font-medium text-gray-700">
+                    {{ $error }}
+                </div>
+            @endforeach
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 hover:text-gray-900 inline-flex h-8 w-8"
+                aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span class="sr-only">Close</span>
+                X
+            </button>
+        </div>
+    @endif
 
     <!-- banner area  -->
     <section class="bg-white relative">
@@ -418,10 +463,10 @@
                             data-aos-duration="1000">Properties</span> kami
 
                     </h2>
-                    <div class="mt-10">   
+                    <div class="mt-10">
                         <a href="{{ route('home.properties') }}"
-                        class="btn bg-green-500 text-white p-3 rounded-lg my-2 align-items-center text-center">Lihat
-                        Kontrakan..</a>
+                            class="btn bg-green-500 text-white p-3 rounded-lg my-2 align-items-center text-center">Lihat
+                            Kontrakan..</a>
                     </div>
                 </div>
                 <div class="2xl:w-3/4">
@@ -718,6 +763,13 @@
                             <!-- Dropdown menu -->
                             <div id="dropdown-{{ $feedback->id }}"
                                 class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                                @if (auth()->check() && $feedback->user_id === auth()->id())
+                                    <button data-modal-target="edit-feedback-modal-{{ $feedback->id }}"
+                                        data-modal-toggle="edit-feedback-modal-{{ $feedback->id }}"
+                                        class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Edit
+                                    </button>
+                                @endif
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     Report/Laporkan
                                 </a>
@@ -743,8 +795,76 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal for Editing Feedback -->
+                <div id="edit-feedback-modal-{{ $feedback->id }}" tabindex="-1" aria-hidden="true"
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <!-- Modal header -->
+                            <div
+                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Edit Masukan
+                                </h3>
+                                <button type="button"
+                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-toggle="edit-feedback-modal-{{ $feedback->id }}">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <!-- Modal body -->
+                            <form action="{{ route('feedback.update', $feedback->id) }}" method="POST"
+                                class="p-4 md:p-5">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="grid gap-4 mb-4 grid-cols-2">
+                                    <div class="col-span-2">
+                                        <label for="message"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Masukan</label>
+                                        <textarea id="message" name="message" rows="4"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Write your feedback message here">{{ $feedback->message }}</textarea>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label for="rating"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rating</label>
+                                        <select id="rating" name="rating"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ $i == $feedback->rating ? 'selected' : '' }}>
+                                                    {{ $i }} Bintang
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" style="background: #20b486"
+                                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    Update Feedback
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             @endforeach
         </div>
+
 
         <script>
             function toggleDropdown(dropdownId) {
@@ -1073,6 +1193,7 @@
     <script src="/assets/plugins/js/aos.js"></script>
     <script src="/assets/js/main2.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 
 
 </body>
