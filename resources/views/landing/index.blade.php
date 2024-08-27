@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,15 +62,7 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#properties">Kontrakan</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#about">Tentang</a>
-                    </li>
-                    <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#feedback">Masukan</a>
+                            href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -147,8 +139,8 @@
                                                 alt="User Photo" class="w-12 h-12 object-cover rounded-full">
                                             <div class="flex flex-col" style="object-fit: cover">
                                                 <span class="font-semibold">{{ Auth::user()->name }}</span>
-                                                <p class="text-gray-500 text-smd"
-                                                    text-muted>{{ Auth::user()->email }}</small>
+                                                <p class="text-gray-500 text-smd" text-muted>
+                                                    {{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
                                         <li>
@@ -169,7 +161,7 @@
                                             </form>
                                         </li>
                                     </ul>
-                            </div>
+                                </div>
                             @else
                                 <a href="{{ route('register') }}"
                                     class="hidden xl:inline-block border hover:bg-primary-500 hover:text-white transition duration-500 text-primary-500"
@@ -421,10 +413,16 @@
             <div class="xl:flex items-center">
                 <div class="xl:w-1/4">
                     <h2
-                        class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900">
+                        class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900 ">
                         <span class="text-primary-500 after-svg popular" data-aos="fade-in"
                             data-aos-duration="1000">Properties</span> kami
+
                     </h2>
+                    <div class="mt-10">   
+                        <a href="{{ route('home.properties') }}"
+                        class="btn bg-green-500 text-white p-3 rounded-lg my-2 align-items-center text-center">Lihat
+                        Kontrakan..</a>
+                    </div>
                 </div>
                 <div class="2xl:w-3/4">
                     <div class="swiper courseSwipper relative">
@@ -588,13 +586,15 @@
 
     <section class="section-padding achievement-section" id="about">
         <div class="container px-4 sm:px-6 2xl:px-0">
-            <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4" data-aos="fade-right" data-aos-duration="500">
-                Tentang <span class="text-primary-500 after-svg achievement" data-aos="fade-right" data-aos-duration="1200">Kami</span>
+            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4"
+                data-aos="fade-right" data-aos-duration="500">
+                Tentang <span class="text-primary-500 after-svg achievement" data-aos="fade-right"
+                    data-aos-duration="1200">Kami</span>
             </h2>
             <div class="flex flex-wrap">
                 <div class="xl:w-1/2 w-full lg:px-[200px] md:px-[100px] xl:px-0">
-                    <div class="flex flex-wrap gap-y-6 justify-between items-center md:mb-[62px]" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="flex flex-wrap gap-y-6 justify-between items-center md:mb-[62px]" data-aos="fade-up"
+                        data-aos-duration="1000">
                         <div class="flex gap-6 items-center w-full counter-card">
                         </div>
                         <p class="text-primary-900 md:text-xl text-base">
@@ -616,7 +616,9 @@
 
                 <div class="xl:w-1/2 w-full relative flex justify-center items-center">
                     <div class="inline-flex justify-center">
-                        <img src="/assets/images/kosjempol.png" alt="Achievement Image" class="" style="filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));" data-tilt data-aos="fade-left" data-aos-duration="1000">
+                        <img src="/assets/images/kosjempol.png" alt="Achievement Image" class=""
+                            style="filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.4));" data-tilt
+                            data-aos="fade-left" data-aos-duration="1000">
                     </div>
                 </div>
             </div>
@@ -631,11 +633,13 @@
 
     <section class="section-padding feedback-section" id="feedback">
         <div class="container px-4 sm:px-6 2xl:px-0">
-            <h2
-                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4" data-aos="fade-right" data-aos-duration="1000">
-                Masukan <span class="text-primary-500 after-svg feedback" data-aos="fade-right" data-aos-duration="1000">Penyewa</span>
+            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4"
+                data-aos="fade-right" data-aos-duration="1000">
+                Masukan <span class="text-primary-500 after-svg feedback" data-aos="fade-right"
+                    data-aos-duration="1000">Penyewa</span>
             </h2>
-            <p class="text-gray-500 md:text-xl text-base" data-aos="fade-right" data-aos-duration="1000">Kami telah meningkatkan kualitas kontrak kami berdasarkan
+            <p class="text-gray-500 md:text-xl text-base" data-aos="fade-right" data-aos-duration="1000">Kami telah
+                meningkatkan kualitas kontrak kami berdasarkan
                 kritik dan saran dari kritik dan saran. Agar Anda sebagai penyewa merasa nyaman.</p>
             <!-- Feedback Form -->
 
@@ -659,7 +663,8 @@
                                 <option value="1">1 - Buruk</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg" data-aos="fade-right" data-aos-duration="1400">
+                        <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg"
+                            data-aos="fade-right" data-aos-duration="1400">
                             Kirim
                         </button>
                     </form>
@@ -673,8 +678,8 @@
         </div>
 
         <!-- Display Feedbacks -->
-        <div
-            class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg sm:px-6 2xl:px-0" data-aos="fade-up" data-aos-duration="1600">
+        <div class="feedback-container container mt-10 overflow-y-auto h-96 px-4 border border-gray-300 rounded-lg sm:px-6 2xl:px-0"
+            data-aos="fade-up" data-aos-duration="1600">
             @foreach ($feedbacks as $feedback)
                 <div class="feedback-item px-4 py-4 border-b border-gray-300 relative">
                     <div class="flex items-center justify-between gap-2.5 mb-2">
@@ -851,7 +856,7 @@
                     <div class="footer-widget-content">
                         <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold lg:mb-4 mb-2">
                             Kontak Kami</h2>
-                        <p class="text-base text-gray-500 mb-2">Telepon:  <a href="#">+62 823 409 666 94</a></p>
+                        <p class="text-base text-gray-500 mb-2">Telepon: <a href="#">+62 823 409 666 94</a></p>
                         <p class="text-base text-gray-500 mb-4 ">Biarkan kami menerima pesan anda.</p>
                         <p class="text-base text-black mb-4">Email: <a href="#">Dcviriya313@mail.com</a></p>
                         <ul class="flex gap-4">
