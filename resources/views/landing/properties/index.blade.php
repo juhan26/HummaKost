@@ -364,37 +364,41 @@
                             </button>
                         </div>
                     </div>
-                <div class="mb-8">
-                    <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
-                    <div class="mb-4">
-                        <a href="?price_range=all"
-                            class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                            Semua
-                        </a>
-                        <a href="?price_range=0-100"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                            0-100
-                        </a>
-                        <a href="?price_range=100-200"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                            100-200
-                        </a>
-                        <a href="?price_range=200-500"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
-                            200-500
-                        </a>
-                        <a href="?price_range=500-1000"
-                            class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
-                            500-1jt
-                        </a>
+                    <div class="mb-8">
+                        <h2 class="text-lg font-bold mb-4">Berdasarkan Harga:</h2>
+                        <div class="mb-4">
+                            <a href="?price_range=all"
+                                class="flex items-center bg-green-100 text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
+                                Semua
+                            </a>
+                            <a href="?price_range=0-100"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
+                                0-100
+                            </a>
+                            <a href="?price_range=100-200"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
+                                100-200
+                            </a>
+                            <a href="?price_range=200-500"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200 mb-2">
+                                200-500
+                            </a>
+                            <a href="?price_range=500-1000"
+                                class="flex items-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-full border border-gray-200">
+                                500-1jt
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </form>
-                <div class="flex justify-center">
-                    <button class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
-                        Reset Filter
-                    </button>
-                </div>
+                </form>
+
+                <form method="get">
+                    <div class="flex justify-center">
+                        <button class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
+                            Reset Filter
+                        </button>
+                    </div>
+                </form>
+                
             </div>
 
             <div class="2xl:w-3/4 mx-auto">
