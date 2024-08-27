@@ -43,17 +43,19 @@ class LandingController extends Controller
                 $query->where('status', $availability);
             }
         }
-
         // Price Filter
         if ($request->input('price_range')) {
             $priceRange = $request->input('price_range');
 
             switch ($priceRange) {
-                case '200-500':
-                    $query->whereBetween('rental_price', [200000, 500000]);
+                case '0-300':
+                    $query->whereBetween('rental_price', [0, 300000]);
                     break;
-                case '500-1000':
-                    $query->whereBetween('rental_price', [500000, 1000000]);
+                case '301-700':
+                    $query->whereBetween('rental_price', [300001, 700000]);
+                    break;
+                case '701-1500':
+                    $query->whereBetween('rental_price', [700001, 1500000]);
                     break;
             }
         }
@@ -68,7 +70,7 @@ class LandingController extends Controller
         }
 
         // Pagination
-        $properties = $query->paginate(6);
+        $properties = $query->paginate(1);
 
         // Append all query parameters to pagination links
         $properties->appends([
