@@ -50,10 +50,12 @@ class PaymentPerMonthController extends Controller
                 'year' => $year,
             ]);
         } else {
-            $query = Lease::with(['user', 'payments'])
-                ->whereHas('properties', function ($query) {
+            $query = Lease::with(['user', 'payments']);
+            if (Auth::user()->lease) {
+                $query->whereHas('properties', function ($query) {
                     $query->where('id', Auth::user()->lease->property_id);
                 });
+            }
 
             if ($search) {
                 $query->whereHas('user', function ($query) use ($search) {

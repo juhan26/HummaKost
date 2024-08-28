@@ -45,6 +45,58 @@
 </head>
 
 <body>
+    <style>
+        #loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen img {
+            width: 150px;
+            height: auto;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+    
+    <div id="loading-screen">
+        <img src="/assets/images/logo.png" alt="Loading..." />
+    </div>
+    <script>
+         window.addEventListener("load", function() {
+            const loadingScreen = document.getElementById("loading-screen");
+
+            // Simulate a delay for the loading screen
+            setTimeout(function() {
+                loadingScreen.classList.add("hidden"); // Tambahkan kelas hidden untuk fade out
+            }, 1000); // Durasi 2 detik sebelum fade out
+        });
+    </script>
+
     <!-- header area -->
     <header id="header-sticky">
         <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
@@ -66,6 +118,14 @@
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.properties') }}">Kontrakan</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="#ppk">Tentang</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="#mmk">Masukan</a>
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -273,8 +333,8 @@
     <div class="overlay" id="overlay"></div>
     <!-- header area end -->
     @if (session('success'))
-        <div id="toast-success"
-            class="fixed top-8 right-0 mr-1 mt-1 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+        <div style="z-index: 99999" id="toast-success"
+            class="fixed top-8 right-0 mr-1 mt-10 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
             role="alert" aria-live="assertive" aria-atomic="true">
             <div
                 class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
@@ -294,8 +354,8 @@
 
 
     @if ($errors->any())
-        <div id="toast-error"
-            class="fixed top-8 right-0 mr-1 mt-1 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+        <div style="z-index: 99999" id="toast-error"
+            class="fixed top-8 right-0 mr-1 mt-10 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
             role="alert" aria-live="assertive" aria-atomic="true">
             <div
                 class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
@@ -460,20 +520,20 @@
                     <h2
                         class="capitalize font-display font-semibold text-2xl xl:text-[56px] xl:leading-[72px] text-primary-900 ">
                         <span class="text-primary-500 after-svg popular" data-aos="fade-in"
-                            data-aos-duration="1000">Properties</span> kami
+                            data-aos-duration="1000">Kontrakan</span> kami
 
                     </h2>
                     <div class="mt-10">
                         <a href="{{ route('home.properties') }}"
-                        class="btn bg-green-500 text-white p-3 px-4 rounded-lg my-2 align-items-center text-center">Lihat
-                        Kontrakan </a>
+                            class="btn bg-green-500 text-white p-3 rounded-lg my-2 align-items-center text-center">Lihat
+                            Kontrakan..</a>
                     </div>
                 </div>
                 <div class="2xl:w-3/4">
                     <div class="swiper courseSwipper relative">
                         <div class="swiper-wrapper py-4 2xl:pr-[29.3%]">
                             @foreach ($properties->unique('id') as $property)
-                                <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
+                                <div class="swiper-slide" data-aos="fade-in" data-aos-duration="1000">
                                     <div
                                         class="course-card max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg min-h-[400px] flex flex-col">
                                         <div class="bg-gray-white rounded-xl flex flex-col h-full">
@@ -531,7 +591,7 @@
 
 
                         <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-prev" id="ppk"></div>
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
@@ -631,7 +691,8 @@
 
     <section class="section-padding achievement-section" id="about">
         <div class="container px-4 sm:px-6 2xl:px-0">
-            <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4"
+            <h2 id=""
+                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4"
                 data-aos="fade-right" data-aos-duration="500">
                 Tentang <span class="text-primary-500 after-svg achievement" data-aos="fade-right"
                     data-aos-duration="1200">Kami</span>
@@ -667,6 +728,7 @@
                     </div>
                 </div>
             </div>
+            <div id="mmk"></div>
         </div>
     </section>
 
@@ -675,8 +737,7 @@
 
 
 
-
-    <section class="section-padding feedback-section" id="feedback">
+    <section class="section-padding feedback-section">
         <div class="container px-4 sm:px-6 2xl:px-0">
             <h2 class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4"
                 data-aos="fade-right" data-aos-duration="1000">

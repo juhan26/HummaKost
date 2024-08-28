@@ -106,6 +106,58 @@
 </head>
 
 <body>
+    <style>
+        #loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen img {
+            width: 150px;
+            height: auto;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+    
+    <div id="loading-screen">
+        <img src="/assets/images/logo.png" alt="Loading..." />
+    </div>
+    <script>
+         window.addEventListener("load", function() {
+            const loadingScreen = document.getElementById("loading-screen");
+
+            // Simulate a delay for the loading screen
+            setTimeout(function() {
+                loadingScreen.classList.add("hidden"); // Tambahkan kelas hidden untuk fade out
+            }, 1000); // Durasi 2 detik sebelum fade out
+        });
+    </script>
+
     <!-- header area -->
     <header id="header-sticky">
         <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
@@ -124,11 +176,20 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
-                    <li class="{{ Route::currentRouteName() === 'home.index' ? 'active' : '' }}">
+                    <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}#ppk">Tentang</a>
+                    </li>
+                    <li class="">
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                            href="{{ route('home.index') }}#mmk">Masukan</a>
+                    </li>
                 </ul>
+
 
                 <!-- menu end -->
 
@@ -425,38 +486,151 @@
                     </div>
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Berdasarkan Harga (Rupiah):</h2>
-                        <div class="mb-4">
-                            <label for="price_range"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === 'all' || request()->input('price_range') === null ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range" name="price_range" value="all"
-                                    {{ request()->input('price_range') === 'all' || request()->input('price_range') === null ? 'checked' : '' }}
-                                    hidden onclick="this.form.submit()">
-                                <span>Semua</span>
-                            </label>
-                            <label for="price_range1"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '0-300' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range1" name="price_range" value="0-300"
-                                    {{ request()->input('price_range') === '0-300' ? 'checked' : '' }} hidden
-                                    onclick="this.form.submit()">
-                                <span>0 - 300.000</span>
-                            </label>
-                            <label for="price_range2"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '301-700' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range2" name="price_range" value="301-700"
-                                    {{ request()->input('price_range') === '301-700' ? 'checked' : '' }} hidden
-                                    onclick="this.form.submit()">
-                                <span>300.001 - 700.000</span>
-                            </label>
-                            <label for="price_range3"
-                                class="flex items-center cursor-pointer {{ request()->input('price_range') === '701-1500' ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 rounded-lg w-full mb-2">
-                                <input type="radio" id="price_range3" name="price_range" value="701-1500"
-                                    {{ request()->input('price_range') === '701-1500' ? 'checked' : '' }} hidden
-                                    onclick="this.form.submit()">
-                                <span>700.001 - 1.500.000</span>
-                            </label>
-                        </div>
+                        <div class="pt-0">
+                            <style>
+                                .range-slider {
+                                    -webkit-appearance: none;
+                                    appearance: none;
+                                    width: 100%;
+                                    height: 10px;
+                                    background-color: transparent;
+                                    cursor: pointer;
+                                    border-radius: 5px;
+                                    background: linear-gradient(to right, #20b486 0%, #20b486 0%, #d3d3d3 0%, #d3d3d3 100%);
+                                    transition: background 0.3s ease;
+                                    background: #20b486;
+                                }
+                                .range-slider:focus {
+                                    outline: none;
+                                }
 
+                                .range-slider::-webkit-slider-runnable-track {
+                                    width: 100%;
+                                    height: 10px;
+                                    cursor: pointer;
+                                    background: transparent;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-webkit-slider-thumb {
+                                    -webkit-appearance: none;
+                                    appearance: none;
+                                    width: 20px;
+                                    height: 20px;
+                                    padding: 0;
+                                    margin: 0;
+                                    background: #20b486;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                                    transition: background 0.3s ease, transform 0.3s ease;
+                                }
+
+                                .range-slider::-webkit-slider-thumb:hover {
+                                    background: #16a085;
+                                    transform: scale(1.1);
+                                }
+
+                                .range-slider::-moz-range-track {
+                                    width: 100%;
+                                    height: 10px;
+                                    background: transparent;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-moz-range-progress {
+                                    background: #20b486;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-moz-range-thumb {
+                                    -webkit-appearance: none;
+                                    width: 20px;
+                                    height: 20px;
+                                    background-color: #20b486;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                                    transition: background 0.3s ease, transform 0.3s ease;
+                                }
+
+                                .range-slider::-moz-range-thumb:hover {
+                                    background: #16a085;
+                                    transform: scale(1.1);
+                                }
+
+                                .range-slider::-ms-track {
+                                    width: 100%;
+                                    height: 10px;
+                                    background: transparent;
+                                    border-color: transparent;
+                                    border-width: 6px 0;
+                                    color: transparent;
+                                }
+
+                                .range-slider::-ms-fill-lower {
+                                    background: #20b486;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-ms-fill-upper {
+                                    background: #d3d3d3;
+                                    border-radius: 5px;
+                                }
+
+                                .range-slider::-ms-thumb {
+                                    width: 20px;
+                                    height: 20px;
+                                    background: #20b486;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                                    -webkit-appearance: none;
+                                    transition: background 0.3s ease, transform 0.3s ease;
+                                }
+
+                                .range-slider::-ms-thumb:hover {
+                                    background: #16a085;
+                                    transform: scale(1.1);
+                                }
+                            </style>
+
+                            <input id="harga" type="range" min="0" max="2000000" step="100000"
+                                value="{{ request()->input('price_range') ? $price_range : '0' }}"
+                                class="range-slider w-full cursor-pointer" name="price_range"
+                                onchange="this.form.submit()" />
+                            <p class="mt-4">Harga: Rp.0 - Rp. <output
+                                    id="value">{{ request()->input('price_range') ? number_format($price_range, 0) : '0' }}</output>
+                            </p>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const slider = document.getElementById("harga");
+                                    const output = document.getElementById("value");
+
+                                    function updateSlider() {
+                                        const value = slider.value;
+                                        output.textContent = parseInt(value).toLocaleString();
+
+                                        const percentage = (value / slider.max) * 100;
+                                        slider.style.background =
+                                            `linear-gradient(to right, #20b486 ${percentage}%, #d3d3d3 ${percentage}%)`;
+                                    }
+
+                                    slider.addEventListener("input", updateSlider);
+
+                                    // Set the initial style when the page loads
+                                    updateSlider();
+                                });
+                            </script>
+
+                        </div>
                     </div>
+
+
+
+
+
                     <div class="flex justify-center">
                         <a href="/properties/home" class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg">
                             Reset Filter
@@ -471,13 +645,14 @@
                         autocomplete="off"
                         class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
                         placeholder="Cari kontrakan..." style="height: 50px;">
-                    {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
+                    <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button>
                 </div>
                 </form>
 
                 <!-- Properties Section -->
                 <div class="w-3/4 mx-auto" data-aos="fade-left" data-aos-duration="1350">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 py-4">
+                    <div
+                        class="grid grid-cols-1 {{ $properties->isNotEmpty() ? 'sm:grid-cols-2' : 'sm:grid-cols-1' }} gap-1 py-4">
                         @forelse ($properties->unique('id') as $property)
                             <div
                                 class="course-card max-w-lg h-[400px] flex flex-col bg-gray-white rounded-xl overflow-hidden">
@@ -554,7 +729,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="flex flex-col items-center">
+                            <div class="flex flex-col items-center w-full">
                                 <img src="{{ asset('assets/img/image_not_available.png') }}" alt="No Data"
                                     class="w-64 h-64 object-cover mb-4">
                                 <p class="text-gray-600 text-lg">Tidak ada data kontrakan.</p>
@@ -562,101 +737,101 @@
                         @endforelse
 
                     </div>
-                        @if ($properties->hasPages())
-                            <div class="pagination-container mt-5">
-                                @php
-                                    $currentPage = $properties->currentPage();
-                                    $totalPages = $properties->lastPage();
-                                    $visiblePages = 1;
+                    @if ($properties->hasPages())
+                        <div class="pagination-container mt-5">
+                            @php
+                                $currentPage = $properties->currentPage();
+                                $totalPages = $properties->lastPage();
+                                $visiblePages = 1;
 
-                                    $totalData = \App\Models\Property::count();
-                                    $dataPerPage = $properties->perPage();
-                                    $startItem = ($currentPage - 1) * $dataPerPage + 1;
-                                    $endItem = min($currentPage * $dataPerPage, $totalData);
-                                @endphp
+                                $totalData = \App\Models\Property::count();
+                                $dataPerPage = $properties->perPage();
+                                $startItem = ($currentPage - 1) * $dataPerPage + 1;
+                                $endItem = min($currentPage * $dataPerPage, $totalData);
+                            @endphp
 
-                                <div class="w-100 my-3 text-sm text-gray-600 text-right">
-                                    Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
-                                </div>
+                            <div class="w-100 my-3 text-sm text-gray-600 text-right">
+                                Menampilkan data {{ $startItem }} - {{ $endItem }} dari {{ $totalData }}
+                            </div>
 
-                                <nav class="flex justify-end items-center">
-                                    <ul class="inline-flex items-center -space-x-px">
-                                        {{-- Previous Page Link --}}
-                                        @if ($properties->onFirstPage())
+                            <nav class="flex justify-end items-center">
+                                <ul class="inline-flex items-center -space-x-px">
+                                    {{-- Previous Page Link --}}
+                                    @if ($properties->onFirstPage())
+                                        <li>
+                                            <span
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-gray-100 rounded-l-lg cursor-not-allowed">Prev</span>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ $properties->previousPageUrl() }}"
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-l-lg">Prev</a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pagination Elements --}}
+                                    @if ($currentPage > $visiblePages + 1)
+                                        <li>
+                                            <a href="{{ $properties->url(1) }}"
+                                                class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
+                                        </li>
+                                        @if ($currentPage > $visiblePages + 2)
                                             <li>
                                                 <span
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-gray-100 rounded-l-lg cursor-not-allowed">Prev</span>
+                                                    class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300">...</span>
+                                            </li>
+                                        @endif
+                                    @endif
+
+                                    {{-- Page Numbers --}}
+                                    @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
+                                        @if ($i == $currentPage)
+                                            <li>
+                                                <span
+                                                    class="px-3 py-2 leading-tight text-gray-500 bg-green-200 border border-gray-300">{{ $i }}</span>
                                             </li>
                                         @else
                                             <li>
-                                                <a href="{{ $properties->previousPageUrl() }}"
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-l-lg">Prev</a>
+                                                <a href="{{ $properties->url($i) }}"
+                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $i }}</a>
                                             </li>
                                         @endif
+                                    @endfor
 
-                                        {{-- Pagination Elements --}}
-                                        @if ($currentPage > $visiblePages + 1)
-                                            <li>
-                                                <a href="{{ $properties->url(1) }}"
-                                                    class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
-                                            </li>
-                                            @if ($currentPage > $visiblePages + 2)
-                                                <li>
-                                                    <span
-                                                        class="px-3 py-2 leading-tight text-white bg-green-400 border border-gray-300">...</span>
-                                                </li>
-                                            @endif
-                                        @endif
-
-                                        {{-- Page Numbers --}}
-                                        @for ($i = max(1, $currentPage - $visiblePages); $i <= min($totalPages, $currentPage + $visiblePages); $i++)
-                                            @if ($i == $currentPage)
-                                                <li>
-                                                    <span
-                                                        class="px-3 py-2 leading-tight text-gray-500 bg-green-200 border border-gray-300">{{ $i }}</span>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <a href="{{ $properties->url($i) }}"
-                                                        class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $i }}</a>
-                                                </li>
-                                            @endif
-                                        @endfor
-
-                                        {{-- Last Page --}}
-                                        @if ($currentPage < $totalPages - $visiblePages)
-                                            @if ($currentPage < $totalPages - $visiblePages - 1)
-                                                <li>
-                                                    <span
-                                                        class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">...</span>
-                                                </li>
-                                            @endif
-                                            <li>
-                                                <a href="{{ $properties->url($totalPages) }}"
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $totalPages }}</a>
-                                            </li>
-                                        @endif
-
-                                        {{-- Next Page Link --}}
-                                        @if ($properties->hasMorePages())
-                                            <li>
-                                                <a href="{{ $properties->nextPageUrl() }}"
-                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg">Next</a>
-                                            </li>
-                                        @else
+                                    {{-- Last Page --}}
+                                    @if ($currentPage < $totalPages - $visiblePages)
+                                        @if ($currentPage < $totalPages - $visiblePages - 1)
                                             <li>
                                                 <span
-                                                    class="px-3 py-2 leading-tight text-gray-400 bg-gray-100 rounded-r-lg cursor-not-allowed">Next</span>
+                                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">...</span>
                                             </li>
                                         @endif
-                                    </ul>
-                                </nav>
-                                {{-- <div class="text-sm text-gray-600 mt-2 text-right">
+                                        <li>
+                                            <a href="{{ $properties->url($totalPages) }}"
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ $totalPages }}</a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Next Page Link --}}
+                                    @if ($properties->hasMorePages())
+                                        <li>
+                                            <a href="{{ $properties->nextPageUrl() }}"
+                                                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg">Next</a>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <span
+                                                class="px-3 py-2 leading-tight text-gray-400 bg-gray-100 rounded-r-lg cursor-not-allowed">Next</span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                            {{-- <div class="text-sm text-gray-600 mt-2 text-right">
                                     Menampilkan halaman {{ $currentPage }} dari {{ $totalPages }}
                                 </div> --}}
 
-                            </div>
-                        @endif
+                        </div>
+                    @endif
 
                 </div>
             </div>

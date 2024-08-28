@@ -70,9 +70,11 @@ class LeaseController extends Controller
                 $query->where('name', '!=', 'super_admin');
             })->where('status', 'accepted')->whereDoesntHave('lease')->get();
         } else {
-            $query->whereHas('properties', function ($query) {
-                $query->where('id', Auth::user()->lease->property_id);
-            });
+            if (Auth::user()->lease) {
+                $query->whereHas('properties', function ($query) {
+                    $query->where('id', Auth::user()->lease->property_id);
+                });
+            }
 
             $leases = $query->orderByRaw("CASE
                     WHEN status = 'active' AND total_nominal < total_iuran THEN 1
