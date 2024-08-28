@@ -143,6 +143,7 @@
             }
         }
     </style>
+    
     <div id="loading-screen">
         <img src="/assets/images/logo.png" alt="Loading..." />
     </div>
@@ -156,6 +157,7 @@
             }, 1000); // Durasi 2 detik sebelum fade out
         });
     </script>
+
     <!-- header area -->
     <header id="header-sticky">
         <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
