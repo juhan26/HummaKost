@@ -165,23 +165,40 @@
                         aria-labelledby="doneModalLabel{{ $lease->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="doneModalLabel{{ $lease->id }}">
-                                        Selesaikan Kontrak
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Apakah ada ingin menyelesaikan kontrak ini?
-                                </div>
-                                <div class="modal-footer">
-                                    <form action="{{ route('leases.done', $lease->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-primary">Selesai</button>
-                                    </form>
-                                </div>
+                                <form action="{{ route('leases.done', $lease->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="doneModalLabel{{ $lease->id }}">
+                                            Selesaikan Kontrak
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    @if ($lease->total_iuran > $lease->total_nominal)
+                                        <div class="modal-body">
+                                            <p>Penyewa ini <span style="color:red">belum menyelesaikan pembayaran.</span>
+                                            </p>
+                                            <div>
+                                                <textarea class="form-control" name="description" id="description" placeholder="Berikan alasan..."></textarea>
+                                                @error('description')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="modal-body">
+                                            Apakah anda ingin menyelesaikan kontrak ini?
+                                        </div>
+                                    @endif
+                                    <div class="modal-footer">
+                                        @if ($lease->total_iuran > $lease->total_nominal)
+                                            <button type="submit" class="btn btn-danger">Selesaikan Paksa</button>
+                                        @else
+                                            <button type="submit" class="btn btn-primary">Selesai</button>
+                                        @endif
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -238,14 +255,14 @@
                                             @enderror
                                         </div>
 
-                                        <div class="mb-3">
+                                        {{-- <div class="mb-3">
                                             <label for="description" class="form-label">Deskripsi
                                                 <small>(Opsional)</small></label>
                                             <textarea class="form-control" name="description" id="description">{{ $lease->description }}</textarea>
                                             @error('description')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         <div class="d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary"><i
                                                     class="ri-save-line ri-20px"></i>Simpan</button>
@@ -427,8 +444,8 @@
                                 @forelse ($properties as $property)
                                     <option value="{{ $property->id }}" data-price="{{ $property->rental_price }}"
                                         {{ old('property_id') == $property->id ? 'selected' : '' }}>
-                                        {{ $property->name }} - {{ 'Rp. ' . number_format($property->rental_price) }} /
-                                        bln
+                                        {{ $property->name }} - {{ 'Rp. ' . number_format($property->rental_price) }}/bln
+                                        - {{ $property->gender_target == 'male' ? 'Laki Laki' : 'Perempuan' }}
                                     </option>
                                 @empty
                                     <option value="">Kontrakan Tidak Ditemukan</option>
@@ -456,16 +473,18 @@
                         </div>
                         <div class="mb-3">
                             <label for="rental_price" class="form-label">Pembayaran Bulan Pertama</label>
-                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month" value="{{ old('first_paid_month') }}">
-                            <input type="text" class="form-control" id="showPrice" disabled placeholder="Rp. {{ number_format(old('first_paid_month'),0) }}">
+                            <input type="hidden" class="form-control" id="hiddenPrice" name="first_paid_month"
+                                value="{{ old('first_paid_month') }}">
+                            <input type="text" class="form-control" id="showPrice" disabled
+                                placeholder="Rp. {{ number_format(old('first_paid_month'), 0) }}">
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi <small>(Opsional)</small></label>
                             <textarea class="form-control" name="description" id="description">{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary"><i
                                     class="ri-add-line ri-20px"></i>Tambah</button>

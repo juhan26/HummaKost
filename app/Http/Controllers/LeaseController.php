@@ -224,15 +224,20 @@ class LeaseController extends Controller
         //
     }
 
-    public function done(Lease $lease)
+    public function done(Lease $lease, Request $request)
     {
         if ($lease->total_nominal >= $lease->total_iuran) {
             $lease->update([
                 'status' => 'expired',
+                'description' => 'Kontrak Telah Usai'
             ]);
             return redirect()->route('leases.index')->with('success', 'Berhasil Menyelesaikan Kontrak.');
         } else {
-            return redirect()->route('leases.index')->with('error', 'Tidak bisa menyelesaikan kontrak, kaarena penyewa ini belum menyelesaikan pembayaran.');
+            $lease->update([
+                'status' => 'expired',
+                'description' => $request->description
+            ]);
+            return redirect()->route('leases.index')->with('success', 'Berhasil Menyelesaikan Paksa Kontrak.');
         }
     }
 

@@ -13,23 +13,23 @@ class FeedbackSeeder extends Seeder
      */
     public function run()
     {
-        Feedback::truncate();  // Optional: Clear the table first
+        Feedback::truncate();
 
         Feedback::create([
-            'user_id' => 3,  // Assuming a user with ID 1 exists
-            'message' => 'Great place, very comfortable!',
+            'user_id' => 3,
+            'message' => 'Tempatnya Nyaman!',
             'rating' => 5,
         ]);
 
         Feedback::create([
-            'user_id' => 4,  // Assuming a user with ID 2 exists
-            'message' => 'Good value for money.',
+            'user_id' => 4,
+            'message' => 'Untuk kenyamanan yang didapat dengan harga lumayan lah.',
             'rating' => 4,
         ]);
 
         Feedback::create([
-            'user_id' => 5,  // Anonymous feedback
-            'message' => 'Could improve the cleanliness.',
+            'user_id' => 5,
+            'message' => 'Perlu ditingkatkan kebersihannya.',
             'rating' => 3,
         ]);
     }
