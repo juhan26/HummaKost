@@ -655,7 +655,8 @@
                             }
                         </style>
                         <button type="button" class="text-white px-4 py-2 rounded-xl ml-2"
-                            style="background: #20b486; height: 50px" id="dropdownButton">Filter</button>
+                            style="background: #20b486; height: 50px" id="dropdownButton">
+                            <i class="ri-filter-3-line"></i></button>
 
                         <!-- Dropdown menu -->
                         <div id="dropdownMenu"
