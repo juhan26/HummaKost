@@ -23,7 +23,6 @@ class PaymentPerMonthController extends Controller
         $month = $request->month;
         $year = $request->year;
         $paymentMonth = $month . ' ' . $year;
-
         $status = $request->input('status', []);
         if (Auth::user()->hasRole('super_admin')) {
             if ($search || $status || $month) {
