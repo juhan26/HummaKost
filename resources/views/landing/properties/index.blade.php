@@ -593,7 +593,7 @@
                         autocomplete="off"
                         class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
                         placeholder="Cari kontrakan..." style="height: 50px;">
-                    {{-- <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button> --}}
+                    <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button>
                 </div>
                 </form>
 
