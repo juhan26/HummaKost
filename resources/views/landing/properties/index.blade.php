@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <meta name="description" content="Kontrakan Las Vegas" />
+    <meta name="description" content="HummaKost" />
 
-    <title>Kontrakan Las Vegas</title>
+    <title>HummaKost - Kontrakan</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -143,12 +143,12 @@
             }
         }
     </style>
-    
+
     <div id="loading-screen">
         <img src="/assets/images/logo.png" alt="Loading..." />
     </div>
     <script>
-         window.addEventListener("load", function() {
+        window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
 
             // Simulate a delay for the loading screen
@@ -439,7 +439,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="mb-8">
+                    {{-- <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Urut berdasarkan:</h2>
                         <div class="mb-4">
                             <label for="createdAt"
@@ -457,7 +457,7 @@
                                 <span>Terlama</span>
                             </label>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Berdasarkan Jenis Kelamin:</h2>
                         <div class="mb-4">
@@ -500,6 +500,7 @@
                                     transition: background 0.3s ease;
                                     background: #20b486;
                                 }
+
                                 .range-slider:focus {
                                     outline: none;
                                 }
@@ -645,7 +646,49 @@
                         autocomplete="off"
                         class="w-full lg:w-2/3 px-4 py-2 border rounded-2xl shadow-sm focus:outline-none focus:ring focus:border-blue-300 bg-primary-50/70"
                         placeholder="Cari kontrakan..." style="height: 50px;">
-                    <button class="text-white px-4 py-2 rounded-xl ml-2" style="background: #20b486">Cari</button>
+
+                    <div class="relative inline-block text-left">
+
+                        <style>
+                            .hiddens {
+                                display: none;
+                            }
+                        </style>
+                        <button type="button" class="text-white px-4 py-2 rounded-xl ml-2"
+                            style="background: #20b486; height: 50px" id="dropdownButton">Filter</button>
+
+                        <!-- Dropdown menu -->
+                        <div id="dropdownMenu"
+                            class="hiddens absolute right-0 mt-2 w-60 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5" style="z-index: 10">
+                            {{-- <div class="bg-gray-100"> --}}
+                                <p class="py-2 px-3 ">Urut berdasarkan:</p>
+                            {{-- </div> --}}
+                            <form method="GET" action="">
+                                <label for="createdAt"
+                                    class="flex items-center cursor-pointer {{ request()->input('sort') === 'newest' || request()->input('sort') === null ? 'bg-green-100' : 'bg-white' }} text-gray-700 font-semibold py-2 px-4 w-full">
+                                    <input type="radio" id="createdAt" name="sort" value="newest"
+                                        {{ request()->input('sort') === 'newest' || request()->input('sort') === null ? 'checked' : '' }}
+                                        hidden onclick="this.form.submit()">
+                                    <span>Terbaru</span>
+                                </label>
+                                <label for="createdAt2"
+                                    class="flex items-center cursor-pointer {{ request()->input('sort') === 'oldest' ? 'bg-green-100' : 'bg-white' }} text-gray-700 rounded-md font-semibold py-2 px-4 w-full">
+                                    <input type="radio" id="createdAt2" name="sort" value="oldest"
+                                        {{ request()->input('sort') === 'oldest' ? 'checked' : '' }} hidden
+                                        onclick="this.form.submit()">
+                                    <span>Terlama</span>
+                                </label>
+                            </form>
+                        </div>
+
+                        <script>
+                            document.getElementById('dropdownButton').addEventListener('click', function() {
+                                var dropdown = document.getElementById('dropdownMenu');
+                                dropdown.classList.toggle('hiddens');
+                            });
+                        </script>
+                    </div>
+
                 </div>
                 </form>
 
