@@ -150,8 +150,23 @@
                                 @endphp
 
                                 @if ($lastPayment)
-                                    Telah membayar kontrakan dari Bulan <strong>{{ $startPayment }}</strong> sampai
-                                    Bulan <strong>{{ $lastPayment }}</strong>
+                                    @php
+                                        $lastPaid = \Carbon\Carbon::createFromFormat('F Y', $lastPayment);
+                                        $lastPaidSubMonth = $lastPaid->subMonth(1);
+                                        $formatedLastPaid = $lastPaidSubMonth->month;
+
+                                        $currentMonth = \Carbon\Carbon::today()->month;
+                                    @endphp
+                                    @if ($formatedLastPaid >= $currentMonth)
+                                    <p class="text-primary">
+                                        Telah membayar kontrakan pada Bulan <strong>{{ $startPayment }}</strong> sampai akhir sebelum pembayaran selanjutnya pada bulan <strong>{{ $lastPayment }}</strong>
+                                    </p>
+                                    @else
+                                        <p style="color: red">
+                                            Belum membayar uang kontrakan, terakhir membayar pada bulan
+                                            <strong>{{ $lastPaidSubMonth->format('F Y') }}</strong>
+                                        </p>
+                                    @endif
                                 @else
                                     Belum pernah melakukan pembayaran
                                 @endif

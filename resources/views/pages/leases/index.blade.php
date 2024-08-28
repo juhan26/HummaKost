@@ -99,7 +99,7 @@
                 <th>Total Iuran</th>
                 <th>Status Penyewa</th>
                 <th>Total Telah Dibayar</th>
-                <th>Status</th>
+                <th>Status Pembayaran</th>
                 <th>Deskripsi</th>
                 @hasrole('super_admin')
                     <th>Aksi</th>
@@ -180,7 +180,7 @@
                                             <p>Penyewa ini <span style="color:red">belum menyelesaikan pembayaran.</span>
                                             </p>
                                             <div>
-                                                <textarea class="form-control" name="description" id="description" placeholder="Berikan alasan..."></textarea>
+                                                <textarea class="form-control" name="description" id="forceDoneDescription" placeholder="Berikan alasan..."></textarea>
                                                 @error('description')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -193,7 +193,9 @@
                                     @endif
                                     <div class="modal-footer">
                                         @if ($lease->total_iuran > $lease->total_nominal)
-                                            <button type="submit" class="btn btn-danger">Selesaikan Paksa</button>
+                                            <button type="submit" class="btn btn-danger" id="forceDoneBtn"
+                                                disabled>Selesaikan
+                                                Paksa</button>
                                         @else
                                             <button type="submit" class="btn btn-primary">Selesai</button>
                                         @endif
@@ -497,6 +499,19 @@
     {{-- Create Lease Modal --}}
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const descriptionField = document.getElementById('forceDoneDescription');
+            const doneButton = document.getElementById('forceDoneBtn');
+
+            descriptionField.addEventListener('input', function() {
+                if (descriptionField.value.trim() === "") {
+                    doneButton.disabled = true;
+                } else {
+                    doneButton.disabled = false;
+                }
+            });
+        });
+
         document.getElementById('propertySelect').addEventListener('change', function() {
             let selectedOption = this.options[this.selectedIndex];
             let price = selectedOption.getAttribute('data-price');
