@@ -34,7 +34,11 @@
                 transform: translateX(0);
             }
         }
+    </style>
+</head>
 
+<body>
+    <style>
         #loading-screen {
             position: fixed;
             width: 100%;
@@ -71,16 +75,19 @@
             }
         }
     </style>
-</head>
-
-<body>
     <div id="loading-screen">
         <img src="/assets/images/logo.png" alt="Loading..." />
     </div>
+    <script>
+         window.addEventListener("load", function() {
+            const loadingScreen = document.getElementById("loading-screen");
 
-    <style>
-
-    </style>
+            // Simulate a delay for the loading screen
+            setTimeout(function() {
+                loadingScreen.classList.add("hidden"); // Tambahkan kelas hidden untuk fade out
+            }, 1000); // Durasi 2 detik sebelum fade out
+        });
+    </script>
 
     <div class="layout-wrapper layout-content-navbar bg-white">
         <div class="layout-container">
@@ -192,14 +199,7 @@
         });
 
 
-        window.addEventListener("load", function() {
-            const loadingScreen = document.getElementById("loading-screen");
-
-            // Simulate a delay for the loading screen
-            setTimeout(function() {
-                loadingScreen.classList.add("hidden"); // Tambahkan kelas hidden untuk fade out
-            }, 1000); // Durasi 2 detik sebelum fade out
-        });
+        
     </script>
 </body>
 
