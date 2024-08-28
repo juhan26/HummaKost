@@ -82,7 +82,7 @@
             }
         }
     </style>
-    
+
     <div id="loading-screen">
         <img src="/assets/images/logo.png" alt="Loading..." />
     </div>
@@ -121,11 +121,11 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#ppk">Tentang</a>
+                            href="#tentang">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#mmk">Masukan</a>
+                            href="#masukan">Masukan</a>
                     </li>
                 </ul>
                 <!-- menu end -->
@@ -591,7 +591,7 @@
 
 
                         <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev" id="ppk"></div>
+                        <div class="swiper-button-prev" id="tentang"></div>
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
@@ -728,7 +728,7 @@
                     </div>
                 </div>
             </div>
-            <div id="mmk"></div>
+            <div id="masukan"></div>
         </div>
     </section>
 
