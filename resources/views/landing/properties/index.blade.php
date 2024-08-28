@@ -547,7 +547,7 @@
                                 value="{{ request()->input('price_range') ? $price_range : '0' }}"
                                 class="range-slider w-full cursor-pointer" name="price_range"
                                 onchange="this.form.submit()" />
-                            <p class="mt-4">Harga: Rp. <output
+                            <p class="mt-4">Harga: Rp.0 - Rp. <output
                                     id="value">{{ request()->input('price_range') ? number_format($price_range, 0) : '0' }}</output>
                             </p>
 
