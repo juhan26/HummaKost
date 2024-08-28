@@ -45,6 +45,58 @@
 </head>
 
 <body>
+    <style>
+        #loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen img {
+            width: 150px;
+            height: auto;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+    
+    <div id="loading-screen">
+        <img src="/assets/images/logo.png" alt="Loading..." />
+    </div>
+    <script>
+         window.addEventListener("load", function() {
+            const loadingScreen = document.getElementById("loading-screen");
+
+            // Simulate a delay for the loading screen
+            setTimeout(function() {
+                loadingScreen.classList.add("hidden"); // Tambahkan kelas hidden untuk fade out
+            }, 1000); // Durasi 2 detik sebelum fade out
+        });
+    </script>
+
     <!-- header area -->
     <header id="header-sticky">
         <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
