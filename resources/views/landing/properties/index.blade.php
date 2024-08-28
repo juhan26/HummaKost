@@ -441,7 +441,7 @@
                         </div>
                     </div>
                     
-                    <style>
+                    <style>6
                         .range-slider {
                             -webkit-appearance: none;
                             appearance: none;
