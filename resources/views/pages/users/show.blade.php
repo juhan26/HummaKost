@@ -616,8 +616,8 @@
                                 <div class="col-12 fv-plugins-icon-container">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="name" name="name" class="form-control"
-                                            value="{{ old('name', $user->name) }}"
-                                            placeholder="{{ old('name', $user->name) }}">
+                                            value="{{ $user->name }}"
+                                            placeholder="{{ $user->name }}">
                                         <label for="name">Nama</label>
                                     </div>
                                     <div
@@ -631,8 +631,8 @@
                                         <div class="form-floating form-floating-outline">
                                             <input type="text" id="phone_number" name="phone_number"
                                                 class="form-control phone-number-mask"
-                                                value="{{ old('phone_number', $user->phone_number) }}"
-                                                placeholder="{{ old('phone_number', $user->phone_number) }}">
+                                                value="{{$user->phone_number}}""
+                                                placeholder="{{$user->phone_number}}">
                                             <label for="phone_number">Nomor telepon</label>
                                         </div>
                                     </div>

@@ -601,27 +601,27 @@
                                                             <input type="text" name="name" id="name"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                                 placeholder="Name"
-                                                                value="{{ old('name', $user->name) }}">
+                                                                value="{{$user->name}}">
                                                         </div>
                                                         <div class="col-span-1">
                                                             <input type="number" name="phone_number"
                                                                 id="phone_number"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                                 placeholder="No Hp"
-                                                                value="{{ old('phone_number', $user->phone_number) }}">
+                                                                value="{{ $user->phone_number }}">
                                                         </div>
                                                         <div class="col-span-1">
                                                             <input type="text" name="instance" id="instance"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                                 placeholder="No Hp"
-                                                                value="{{ old('instance', $user->instance->name) }}"
+                                                                value="{{$user->instance->name }}"
                                                                 disabled>
                                                         </div>
                                                         <div class="col-span-1">
                                                             <input type="text" name="email" id="email"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                                 placeholder="Name"
-                                                                value="{{ old('email', $user->email) }}" disabled>
+                                                                value="{{ $user->email }}" disabled>
                                                         </div>
 
                                                     </div>
