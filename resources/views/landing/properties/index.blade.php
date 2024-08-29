@@ -27,6 +27,7 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
 
@@ -656,7 +657,9 @@
                         </style>
                         <button type="button" class="text-white px-4 py-2 rounded-xl ml-2"
                             style="background: #20b486; height: 50px" id="dropdownButton">
-                            <i class="ri-filter-3-line"></i></button>
+                            <span class="material-symbols-outlined">
+                                filter_list
+                                </span></button>
 
                         <!-- Dropdown menu -->
                         <div id="dropdownMenu"
