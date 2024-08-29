@@ -44,7 +44,7 @@ class LandingController extends Controller
                 if ($price_range) {
                     $query->whereBetween('rental_price', [0, $price_range]);
                 }
-            })->where(function ($query) use ($sort) {
+            })->when(function ($query) use ($sort) {
                 if ($sort === 'newest') {
                     $query->orderBy('created_at', 'desc');
                 } elseif ($sort === 'oldest') {
