@@ -140,7 +140,7 @@
                         <div class="d-flex justify-content-between p-0 m-1 align-items-center">
                             <h4 class="card-title"><strong>{{ $lease->user->name }}</strong></h4>
                         </div>
-                        <div style="max-height: 120px; overflow: auto">
+                        <div style="height:fit-content;">
                             <p class="card-text"
                                 style="width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
                                 @php
