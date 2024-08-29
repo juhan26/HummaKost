@@ -421,7 +421,7 @@
                                                                     <label for="selectGender{{ $user->id }}"
                                                                         class="form-label">Jenis Kelamin</label>
                                                                     <select id="selectGender{{ $user->id }}"
-                                                                        class="form-select" name="gender">
+                                                                        class="form-select" name="gender" disabled>
                                                                         <option value="male"
                                                                             {{ $user->gender == 'male' ? 'selected' : '' }}>
                                                                             Laki-laki</option>

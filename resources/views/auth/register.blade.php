@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Pendaftaran - HummaKost</title>
+    <title>HummaKost - Daftar Akun anda</title>
     <meta name="description"
         content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
     <meta name="keywords"
@@ -59,6 +59,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
     <script src="../../assets/vendor/js/template-customizer.js"></script>
@@ -106,8 +107,12 @@
         <!-- Logo -->
         <a href="/" class="auth-cover-brand d-flex align-items-center gap-2" data-aos="fade-right"
             data-aos-duration="1000">
-            <span class="app-brand-text demo text-heading fw-semibold">HummaKost</span>
+            <img style="width: 30px" src="/assets/images/logo.png" alt="">
+            <div class="app-brand-text demo text-heading fw-semibold" style="font-family: 'Poppins';">
+                <span style="color:#E99A06;">Humma</span><span style="color:#20B486;">Kost</span>
+            </div>
         </a>
+
         <!-- /Logo -->
         <div class="authentication-inner row m-0">
 
@@ -203,24 +208,25 @@
                                         <div class="col-sm-6 form-password-toggle mb-5">
                                             <div class="input-group input-group-merge">
                                                 <div class="form-floating form-floating-outline">
-                                                    <input type="password" id="multiStepsConfirmPass" name="password_confirmation"
-                                                        class="form-control"
+                                                    <input type="password" id="multiStepsConfirmPass"
+                                                        name="password_confirmation" class="form-control"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                                         aria-describedby="multiStepsConfirmPass2" />
                                                     <label for="multiStepsConfirmPass">Konfirmasi Password</label>
                                                 </div>
-                                                <span class="input-group-text cursor-pointer" id="multiStepsConfirmPass2"><i
-                                                        class="ri-eye-off-line" id="multiStepsConfirmPassIcon"></i></span>
+                                                <span class="input-group-text cursor-pointer"
+                                                    id="multiStepsConfirmPass2"><i class="ri-eye-off-line"
+                                                        id="multiStepsConfirmPassIcon"></i></span>
                                             </div>
                                         </div>
-                                        
+
                                         <script>
                                             document.addEventListener('DOMContentLoaded', function() {
                                                 // Mengatur toggle visibility untuk password field
                                                 const togglePasswordVisibility = (fieldId, iconId) => {
                                                     const passwordField = document.getElementById(fieldId);
                                                     const passwordIcon = document.getElementById(iconId);
-                                        
+
                                                     passwordIcon.addEventListener('click', function() {
                                                         if (passwordField.type === 'password') {
                                                             passwordField.type = 'text';
@@ -233,13 +239,13 @@
                                                         }
                                                     });
                                                 };
-                                        
+
                                                 // Mengatur toggle untuk password dan konfirmasi password
                                                 togglePasswordVisibility('multiStepsPass', 'multiStepsPassIcon');
                                                 togglePasswordVisibility('multiStepsConfirmPass', 'multiStepsConfirmPassIcon');
                                             });
                                         </script>
-                                        
+
                                         <div class="col-12 d-flex justify-content-between">
                                             <button type="button" class="btn btn-outline-secondary btn-prev"
                                                 disabled> <i class="ri-arrow-left-line ri-16px me-sm-1_5 me-0"></i>
@@ -352,7 +358,7 @@
         </div>
     </div>
 
-    
+
 
 
     <!-- Core JS -->
