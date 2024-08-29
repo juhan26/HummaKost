@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             "name" => "super_admin",
-            "gender" => "other",
+            "gender" => "male",
             "email" => "super_admin@gmail.com",
             "phone_number" => "0897654321",
             "status" => "accepted",

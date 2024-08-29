@@ -92,7 +92,7 @@
                             <div class="relative">
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
-                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                    <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo)}} @elseif(Auth::user()->gender === 'male') {{ asset('assets/img/avatars/1.png') }}@else {{  asset('assets/img/avatars/10.png')}} @endif"
                                         onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
                                     {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
                                         onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
@@ -129,7 +129,7 @@
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
                                     <img src="
-                                    @if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
+                                    @if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo)}}
                                     @elseif(Auth::user()->gender === 'male')
                                     {{ asset('assets/img/avatars/5.png') }}
                                     @elseif(Auth::user()->gender === 'female')
@@ -717,10 +717,12 @@
                                 <option value="1">1 - Buruk</option>
                             </select>
                         </div>
+                        @hasrole('admin|tenant')
                         <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg"
                             data-aos="fade-right" data-aos-duration="1400">
                             Kirim
                         </button>
+                        @endhasrole
                     </form>
                 @else
                     <p class="text-gray-700">Anda harus login agar bisa mengirimkan kritik dan saran</p>

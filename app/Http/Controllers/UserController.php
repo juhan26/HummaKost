@@ -180,7 +180,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->phone_number = $request->phone_number;
 
-        if ($request->memberMenu === "y") {
+        if ($request->memberMenu === "y" || $user->hasRole('super_admin')) {
             $user->gender = $request->input('gender');
         }
 
