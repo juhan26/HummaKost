@@ -184,8 +184,8 @@ class LeaseController extends Controller
                 $monthsToAdd = floor($nominal / $lease->properties->rental_price);
                 $startPaymentMonth = $startDate->copy()->addMonths($totalMonthsPaid);
                 $paymentMonth = $startDate->copy()->addMonths($totalMonthsPaid + $monthsToAdd);
-                $startPaymentMonthFormatted = $startPaymentMonth->format('F Y');
-                $paymentMonthFormatted = $paymentMonth->format('F Y');
+                $startPaymentMonthFormatted = $startPaymentMonth->format('d F Y');
+                $paymentMonthFormatted = $paymentMonth->format('d F Y');
 
                 PaymentPerMonth::create([
                     'lease_id' => $lease->id,

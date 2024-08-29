@@ -25,32 +25,42 @@ class PaymentPerMonthController extends Controller
         $paymentMonth = $month . ' ' . $year;
         $status = $request->input('status', []);
         if (Auth::user()->hasRole('super_admin')) {
-            if ($search || $status || $month) {
-                $leases = Lease::with(['user', 'payments'])
-                    ->whereHas('user', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    })
-                    ->where(function ($query) use ($status) {
-                        if (!empty($status)) {
-                            $query->whereIn('property_id', $status);
-                        };
-                    })->whereHas('payments', function ($query) use ($paymentMonth) {
-                        $query->where('payment_month', $paymentMonth);
-                    })
-                    ->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest()->paginate(6);
-            } else {
-                $leases = Lease::with(['user', 'payments'])->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest()->paginate(6);
+            $query = Lease::with(['user', 'payments']);
+
+            if ($search) {
+                $query->whereHas('user', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                })->orWhereHas('properties', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                });
             }
-            $payments = PaymentPerMonth::all();
-            $properties = Property::all();
+
+            if (!empty($status)) {
+                $query->whereIn('property_id', $status);
+            }
+
+            if ($month && $year) {
+                $query->whereHas('payments', function ($query) use ($paymentMonth) {
+                    $query->where('payment_month', 'LIKE', "%" . $paymentMonth . "%");
+                });
+            }
+
+            $query->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")->latest();
+
+            $leases = $query->paginate(6);
+
             $leases->appends([
                 'search' => $search,
                 'status' => $status,
                 'month' => $month,
                 'year' => $year,
             ]);
+
+            $payments = PaymentPerMonth::all();
+            $properties = Property::all();
         } else {
             $query = Lease::with(['user', 'payments']);
+
             if (Auth::user()->lease) {
                 $query->whereHas('properties', function ($query) {
                     $query->where('id', Auth::user()->lease->property_id);
@@ -63,8 +73,14 @@ class PaymentPerMonthController extends Controller
                 });
             }
 
-            if (!empty($status)) {
-                $query->whereIn('property_id', $status);
+            // if (!empty($status)) {
+            //     $query->whereIn('property_id', $status);
+            // }
+
+            if ($month && $year) {
+                $query->whereHas('payments', function ($query) use ($paymentMonth) {
+                    $query->where('payment_month', 'LIKE', "%" . $paymentMonth . "%");
+                });
             }
 
             $leases = $query->orderByRaw("CASE WHEN total_nominal >= total_iuran THEN 1 ELSE 0 END")
@@ -121,8 +137,8 @@ class PaymentPerMonthController extends Controller
 
         $paymentMonth = $startDate->copy()->addMonths($totalMonthsPaid + $monthsToAdd);
 
-        $startPaymentMonthFormatted = $startPaymentMonth->format('F Y');
-        $paymentMonthFormatted = $paymentMonth->format('F Y');
+        $startPaymentMonthFormatted = $startPaymentMonth->format('d F Y');
+        $paymentMonthFormatted = $paymentMonth->format('d F Y');
 
         PaymentPerMonth::create([
             'lease_id' => $request->lease_id,

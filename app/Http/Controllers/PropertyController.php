@@ -106,12 +106,15 @@ class PropertyController extends Controller
                 ->where('status', 'active');
         })->get();
 
-        $addUserPropertyLeader = Lease::where('property_id', $property->id)->get();
+        $addUserPropertyLeader = Lease::where('property_id', $property->id)
+            ->where('status', 'active')
+            ->get();
+
         $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
             $query->whereDoesntHave('roles', function ($query) {
                 $query->where('name', 'admin');
             });
-        })->get();
+        })->where('status', 'active')->get();
 
         $properties = Property::all();
         return view('pages.properties.detail', compact('property_member', 'property', 'properties', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));

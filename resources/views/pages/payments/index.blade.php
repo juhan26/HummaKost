@@ -42,22 +42,25 @@
                     </button>
                     <div class="dropdown-menu">
                         <div class="row p-3" style="width:20rem;">
-                            <div class="col-12">
-                                <p class="card-title">Kontrakan</p>
-                                @foreach ($properties as $property)
-                                    <label class="form-check-label custom-option-content w-100"
-                                        for="propertyFilter{{ $property->id }}">
-                                        <div class="dropdown-item">
-                                            <input name="status[]" class="form-check-input me-2"
-                                                id="propertyFilter{{ $property->id }}" type="checkbox"
-                                                value="{{ $property->id }}" onclick="this.form.submit()"
-                                                @if (in_array($property->id, $status)) checked @endif />
-                                            <span>{{ $property->name }}</span>
-                                        </div>
-                                    </label>
-                                @endforeach
-                            </div>
-                            <div class="col-12">
+                            @hasrole('super_admin')
+                                <div class="col-12">
+                                    <p class="card-title">Kontrakan</p>
+                                    @foreach ($properties as $property)
+                                        <label class="form-check-label custom-option-content w-100"
+                                            for="propertyFilter{{ $property->id }}">
+                                            <div class="dropdown-item">
+                                                <input name="status[]" class="form-check-input me-2"
+                                                    id="propertyFilter{{ $property->id }}" type="checkbox"
+                                                    value="{{ $property->id }}" onclick="this.form.submit()"
+                                                    @if (in_array($property->id, $status)) checked @endif />
+                                                <span>{{ $property->name }}</span>
+                                            </div>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            @endhasrole
+                            <strong>Yang Sudah Membayar Pada: </strong>
+                            <div class="col-12 mt-3 ">
                                 <p class="card-title">Bulan</p>
                                 <div class="dropdown-item">
                                     <select name="month" class="form-select" onchange="this.form.submit()">
@@ -151,20 +154,26 @@
 
                                 @if ($lastPayment)
                                     @php
-                                        $lastPaid = \Carbon\Carbon::createFromFormat('F Y', $lastPayment);
-                                        $lastPaidSubMonth = $lastPaid->subMonth(1);
-                                        $formatedLastPaid = $lastPaidSubMonth->month;
-
-                                        $currentMonth = \Carbon\Carbon::today()->month;
+                                        $lastPaid = \Carbon\Carbon::createFromFormat('d F Y', $lastPayment);
+                                        $currentMonth = \Carbon\Carbon::today();
+                                        $lastPaymentMinusOneDay = $lastPaid->copy()->subDays(1);
                                     @endphp
-                                    @if ($formatedLastPaid >= $currentMonth)
-                                    <p class="text-primary">
-                                        Telah membayar kontrakan pada Bulan <strong>{{ $startPayment }}</strong> sampai akhir sebelum pembayaran selanjutnya pada bulan <strong>{{ $lastPayment }}</strong>
-                                    </p>
+                                    @if ($lastPaid >= $currentMonth)
+                                        <p class="text-primary">
+                                            Telah membayar kontrakan pada tanggal <strong>{{ $startPayment }}</strong>
+                                            sampai
+                                            tanggal <strong>{{ $lastPaymentMinusOneDay->format('d F Y') }}</strong>
+                                        </p>
+                                        @if ($lease->total_nominal < $lease->total_iuran && $lease->status == 'active')
+                                            <p>
+                                                Pembayaran selanjutnya pada tanggal
+                                                <strong style="color: red">{{ $lastPaid->format('d F Y') }}</strong>
+                                            </p>
+                                        @endif
                                     @else
                                         <p style="color: red">
                                             Belum membayar uang kontrakan, terakhir membayar pada bulan
-                                            <strong>{{ $lastPaidSubMonth->format('F Y') }}</strong>
+                                            <strong>{{ $lastPaid->format('d F Y') }}</strong>
                                         </p>
                                     @endif
                                 @else
@@ -175,7 +184,7 @@
                     </div>
                     <div class="modal-footer d-flex justify-content-end gap-2 align-items-center px-5 mb-5">
                         <div>
-                            @if ($lease->total_nominal < $lease->total_iuran)
+                            @if ($lease->total_nominal < $lease->total_iuran && $lease->status == 'active')
                                 <button type="button" class="btn btn-primary" style="border-radius: 50px;"
                                     data-bs-toggle="modal" data-bs-target="#createModal{{ $lease->id }}">
                                     Bayar
@@ -244,8 +253,8 @@
                                             <th>No</th>
                                             <th>Nama</th>
                                             <th>Nominal</th>
-                                            <th>Pembayaran Untuk Bulan</th>
-                                            <th>Pembayaran Sampai Bulan</th>
+                                            <th>Pembayaran Pada Tanggal</th>
+                                            <th>Pembayaran Sampai Tanggal</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -255,9 +264,9 @@
                                                 <td>{{ $payment->lease->user->name }}</td>
                                                 <td>{{ 'Rp. ' . number_format($payment->nominal) }}
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($payment->payment_month)->translatedFormat('F Y') }}
+                                                <td>{{ \Carbon\Carbon::parse($payment->payment_month)->translatedFormat('d F Y') }}
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($payment->month)->translatedFormat(' F Y') }}
+                                                <td>{{ \Carbon\Carbon::parse($payment->month)->subDays(1)->translatedFormat('d F Y') }}
                                                 </td>
                                             </tr>
                                         @empty
