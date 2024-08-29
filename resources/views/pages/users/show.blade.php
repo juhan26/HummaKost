@@ -161,6 +161,7 @@
                                                     @endif
                                                 </span>
                                             </li>
+                                            @hasrole('admin|tenant')
                                             <li class="d-flex align-items-center mb-4"><i
                                                     class="ri-check-line ri-24px"></i><span
                                                     class="fw-medium mx-2">Status:</span>
@@ -173,6 +174,8 @@
                                                 @else
                                                     <span class="badge bg-label-danger rounded-pill">Tidak Aktif</span>
                                                 @endif
+                                            </li>
+                                            @endhasrole
                                             <li class="d-flex align-items-center mb-4"><i class="ri-shield-user-line"></i><span
                                                     class="fw-medium mx-2">Role:</span>
                                                 @foreach ($user->getRoleNames() as $role)
@@ -513,6 +516,7 @@
                     </div> --}}
                     <!-- /Invoice table -->
                 </div>
+
                 <!--/ User Content -->
             </div>
 
@@ -643,6 +647,17 @@
                                         </div>
                                     </div>
                                 @endhasrole
+                                @hasrole('super_admin')
+                                    <div class="col-12">
+                                        <div class="form-floating form-floating-outline">
+                                            <select name="gender" id="gender" class="form-select">
+                                                <option value="male" {{ $user->gender === "male" ? "selected" : "" }}>Laki-laki</option>
+                                                <option value="female" {{ $user->gender === "female" ? "selected" : "" }}>Perempuan</option>
+                                            </select>
+                                            <label for="gender">Jenis Kelamin</label>
+                                        </div>
+                                    </div>
+                                @endhasrole
                                 <div class="col-12">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="email" name="email" class="form-control"
@@ -663,6 +678,7 @@
                 </div>
             </div>
             <!--/ Edit User Modal -->
+
 
             <!-- Upgrade Plan -->
 
