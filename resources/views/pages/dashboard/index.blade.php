@@ -199,7 +199,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Pemasukan Per Bulan</div>
+                        <div class="card-title">Pemasukan Perbulan</div>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-center">
@@ -214,6 +214,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var data = @json($leasesPerMonth);
+        var currentMonth = new Date().getMonth();
+
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var categories = months.slice(0, currentMonth + 1);
         var options = {
             series: data,
             chart: {
@@ -236,7 +240,7 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                categories: categories,
             },
             // yaxis: {
             //     title: {
@@ -304,7 +308,7 @@
             }
         });
 
-        var monthlyTotals = @json($incomeMonthlyTotals);
+        var incomeMonthlyTotals = @json($incomeMonthlyTotals);
         const lineCtx = document.getElementById('lineChart').getContext('2d');
         const lineChart = new Chart(lineCtx, {
             type: 'line',
@@ -313,8 +317,8 @@
                     'Dec'
                 ],
                 datasets: [{
-                    label: 'Dataset Contoh',
-                    data: Object.values(monthlyTotals),
+                    label: 'Pemasukan Perbulan',
+                    data: Object.values(incomeMonthlyTotals),
                     fill: false,
                     borderColor: 'rgb(75, 192, 192)',
                     tension: 0.1
