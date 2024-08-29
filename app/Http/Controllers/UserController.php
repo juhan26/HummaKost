@@ -11,6 +11,8 @@ use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Lease;
+use App\Models\PaymentPerMonth;
 
 class UserController extends Controller
 {
@@ -243,5 +245,19 @@ class UserController extends Controller
             $user->assignRole('tenant');
             return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus pengguna ini karena pengguna memiliki kontrak');
         }
+    }
+
+    public function history($user)
+    {
+        // Mendapatkan ID pengguna yang sedang login
+        $user = Auth::user()->id;
+
+        // Mendapatkan lease yang terkait dengan pengguna yang sedang login beserta data pembayaran
+        $leases = Lease::where('user_id', $user)
+            ->with('payments')
+            ->get();
+
+        // Mengirim data ke view
+        return view('landing.users.history', compact('leases'));
     }
 }

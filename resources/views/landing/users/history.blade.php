@@ -1,98 +1,84 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <meta name="description" content="Kontrakan Las Vegas" />
 
     <title>HummaKost - Kontrakan ideal dengan harga yang terjangkau</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- favicon -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    {{-- leafletjs --}}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
-
-
-
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" sizes="128x128 " href="/assets/images/logo.png" style="">
-    <!-- <link rel="icon" type="image/x-icon" href="./img/favicon-16x16.png"> -->
-    <!-- <link rel="shortcut icon" type="image/jpg" href="./img/favicon-16x16.png" /> -->
-    <!-- favicon -->
-
-
-    <!-- css link -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" sizes="128x128" href="/assets/images/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet">
     <link href="/assets/plugins/css/animate.css" rel="stylesheet">
     <link href="/assets/plugins/css/swipper.css" rel="stylesheet">
     <link href="/assets/plugins/css/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-icons/4.6.0/react-icons.min.css">
     <link href="/assets/css/tailwind.css" rel="stylesheet">
     <link href="/assets/css/styles.css" rel="stylesheet">
     <link href="/assets/css/responsive.css" rel="stylesheet">
-
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"  />
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+    </style>
+    {{-- <style>
+        /* Container untuk gambar dan ikon */
+        .image-container {
+            position: relative;
+            display: inline-block;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-position: center;
+            background-size: cover;
+            background-image: url('{{ $user->photo ? asset('storage/' . $user->photo) : ($user->gender === 'male' ? asset('assets/img/avatars/5.png') : asset('assets/img/avatars/10.png')) }}');
+        }
+
+        /* Layer hitam dengan opacity */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Ikon pensil di tengah */
+        .overlay i {
+            color: white;
+            font-size: 24px;
+            visibility: hidden;
+        }
+
+        /* Efek hover */
+        .image-container:hover .overlay {
+            opacity: 1;
+        }
+
+        .image-container:hover .overlay i {
+            visibility: visible;
+        }
+    </style> --}}
+
 </head>
 
 <body>
-    <style>
-        #loading-screen {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        #loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #loading-screen img {
-            width: 150px;
-            height: auto;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-        }
-    </style>
-    <div id="loading-screen">
-        <img src="/assets/images/logo.png" alt="Loading..." />
-    </div>
     <script>
         window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
@@ -103,6 +89,7 @@
             }, 1000); // Durasi 2 detik sebelum fade out
         });
     </script>
+
     <!-- header area -->
     <header id="header-sticky">
         <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
@@ -118,32 +105,30 @@
                 <!-- menu -->
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}#tentang">Tentang</a>
+                            href="#tentang">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}#masukan">Masukan</a>
+                            href="#masukan">Masukan</a>
                     </li>
                     @auth
                         @hasrole('admin|tenant')
                             <li class="">
-                                <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                                <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                                     href="{{ route('user.history', Auth::user()->id) }}">History</a>
                             </li>
                         @endhasrole
                     @endauth
                 </ul>
-
-
                 <!-- menu end -->
 
                 <!-- right menu -->
@@ -160,7 +145,7 @@
                             <div class="relative">
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
-                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                    <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }} @elseif(Auth::user()->gender === 'male') {{ asset('assets/img/avatars/1.png') }}@else {{ asset('assets/img/avatars/10.png') }} @endif"
                                         onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
                                     {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
                                         onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
@@ -222,10 +207,12 @@
                                                     {{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
-                                        {{-- <li>
-                                            <a href="{{ route('dashboard') }}"
-                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
-                                        </li> --}}
+                                        <li>
+
+                                            <a href="{{ route('user.profile', Auth::user()->id) }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Profile' }}</span></a>
+                                        </li>
+
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
@@ -284,458 +271,153 @@
             </div>
         </div>
     </header>
-
-
-
-    <!-- Mobile Menu Area Start -->
-    <div class="nav-menu" id="nav-menu">
-        <div class="flex justify-center items-center p-6 mb-8">
-            <div>
-                <a href="#">
-                    <img src="/assets/img/images/logo.png" alt="Logo" style="width: 7rem; height: 2rem;"
-                        class="container">
-                </a>
+    @if (session('success'))
+        <div id="toast-success"
+            class="fixed top-8 right-0 mr-1 mt-1 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
+                <span class="material-icons">
+                    check_circle
+                </span>
             </div>
-            <div class="absolute right-6">
-                <button
-                    class="hamburger-btn-close bg-[#F7F7F9] text-primary-900 hover:bg-primary-500 w-[44px] h-[44px] rounded-full flex items-center justify-center hover:text-white"
-                    id="hamburger-btn-close">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                        <path d="M1 1L11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                    </svg>
-                </button>
+            <div class="ml-3 text-sm font-medium text-gray-700">
+                {{ session('success') }}
             </div>
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5  inline-flex h-8 w-8"
+                aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span class="sr-only">Close</span>
+                <span class="material-icons">
+                    close
+                </span>
+            </button>
         </div>
-        <!-- menu -->
-        <ul class="flex flex-col capitalize px-6 mb-6">
-            <li class="mb-2">
-                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="{{ route('home.index') }}">home</a>
-            </li>
-            <li class="mb-2">
-                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#loadMember">properties</a>
-            </li>
-            <li class="mb-2">
-                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#loadMember">tenant</a>
-            </li>
-            <li class="mb-2">
-                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#descc">about</a>
-            </li>
-            <li class="mb-2">
-                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#gambars">feedback</a>
-            </li>
-            <li class="">
-                <a class="nav-link inline-block font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition-all duration-500"
-                    href="#blog">contact</a>
-            </li>
-        </ul>
-        <div class="px-6 mb-8">
-            {{-- <a href="#" class="btn-primary">
-                <span>Sign up for Free</span>
-            </a> --}}
+    @endif
+
+
+    @if ($errors->any())
+        <div id="toast-error"
+            class="fixed top-8 right-0 mr-1 mt-1 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
+                <span class="material-icons">
+                    error
+                </span>
+            </div>
+            @foreach ($errors->all() as $error)
+                <div class="ml-3 text-sm font-medium text-gray-700">
+                    {{ $error }}
+                </div>
+            @endforeach
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 hover:text-gray-900 inline-flex h-8 w-8"
+                aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span class="sr-only">Close</span>
+                <span class="material-icons">
+                    close
+                </span>
+            </button>
         </div>
+    @endif
+
+    <div class="space-y-8 py-8 mx-4 mb:mx-16" style="margin-left: 4rem; margin-right: 4rem;">
+        @forelse ($leases as $lease)
+            <div class="flex justify-center gap-4">
+                <!-- Total Yang Sudah Dibayar -->
+                <div class="w-full md:w-1/3">
+                    <div class="bg-green-100 text-center p-4 rounded-lg shadow-md">
+                        <span class="text-gray-700">Total Yang Sudah Dibayar</span>
+                        <h5 class="text-green-600 mt-2 text-xl">
+                            {{ 'Rp. ' . number_format($lease->total_nominal) }}
+                        </h5>
+                    </div>
+                </div>
+                <!-- Total Iuran -->
+                <div class="w-full md:w-1/3">
+                    <div class="bg-red-100 text-center p-4 rounded-lg shadow-md">
+                        <span class="text-gray-700">Total Iuran</span>
+                        <h5 class="text-red-600 mt-2 text-xl">
+                            {{ 'Rp. ' . number_format($lease->total_iuran) }}
+                        </h5>
+                    </div>
+                </div>
+                <!-- Sisa Nominal Yang Harus Dibayar -->
+                <div class="w-full md:w-1/3">
+                    <div class="bg-yellow-100 text-center p-4 rounded-lg shadow-md">
+                        <span class="text-gray-700">Sisa Nominal Yang Harus Dibayar</span>
+                        <h5 class="text-yellow-600 mt-2 text-xl">
+                            {{ $lease->total_nominal === $lease->total_iuran ? 'Lunas' : 'Rp. ' . number_format($lease->total_iuran - $lease->total_nominal) }}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Pembayaran -->
+            <div class="bg-white p-8 rounded-lg shadow-lg mt-12 max-w-6xl mx-auto" style="height: 45rem">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                    <h1 class="text-5xl md:text-4xl font-bold">Data Pembayaran Kontrakan Perbulan</h1>
+                    <h5 class="text-gray-700 text-3xl md:text-2xl">{{ $lease->user->name }}</h5>
+                </div>
+
+                <!-- Tabel Pembayaran -->
+                <div class="flex justify-center">
+                    <div class="relative overflow-x-auto shadow-lg sm:rounded-lg">
+                        <table class="w-full text-lg text-left rtl:text-right text-gray-600 dark:text-gray-300">
+                            <thead
+                                class="text-md text-gray-800 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
+                                <tr>
+                                    <th scope="col" class="px-8 py-4">
+                                        Nama
+                                    </th>
+                                    <th scope="col" class="px-8 py-4">
+                                        Nominal
+                                    </th>
+                                    <th scope="col" class="px-8 py-4">
+                                        Pembayaran Untuk Bulan
+                                    </th>
+                                    <th scope="col" class="px-8 py-4">
+                                        Tanggal Pembayaran
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($lease->payments as $index => $payment)
+                                    <tr
+                                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                        <th scope="row"
+                                            class="px-8 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $lease->user->name }}
+                                        </th>
+                                        <td class="px-8 py-4">
+                                            {{ 'Rp. ' . number_format($payment->nominal) }}
+                                        </td>
+                                        <td class="px-8 py-4">
+                                            {{ \Carbon\Carbon::parse($payment->month)->locale('id')->translatedFormat('j F Y') }}
+                                        </td>
+                                        <td class="px-8 py-4">
+                                            {{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->translatedFormat('j F Y') }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="px-8 py-4 text-center text-gray-500">Belum ada
+                                            pembayaran.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        @empty
+            <div class="text-center text-gray-500">
+                <p>Tidak ada data kontrakan yang tersedia.</p>
+            </div>
+        @endforelse
     </div>
-    <!-- Mobile Menu Area End -->
-    <div class="overlay" id="overlay"></div>
-    <!-- header area end -->
-
-    <section class="section-padding bg-primary-50/70" style="padding:50px !important;">
-
-
-        <section>
-            <div class="container mx-auto my-5 p-10 mb-10">
-
-                <div class="flex flex-col lg:flex-row gap-6 my-2">
-                    <div class="w-full lg:w-1/2 rounded-lg flex" style="width: 120rem; height: 40rem">
-                        @if ($property->image)
-                            <img class="w-full h-auto object-cover rounded-lg"
-                                src="{{ asset('storage/' . $property->image) }}" alt="Property image" />
-                        @else
-                            <img class="w-full h-auto object-cover rounded-lg"
-                                src="{{ asset('assets/img/image_not_available.png') }}" alt="Image not available" />
-                        @endif
-                    </div>
-
-                    <div class="w-full lg:w-1/2 rounded-lg flex flex-col">
-                        <h3 class="font-bold text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}</h3>
-
-                        <div class="flex flex-wrap gap-3 mt-6">
-                            @if ($property->gender_target === 'male')
-                                <div class="inline-block bg-blue-100 text-blue-400 px-4 py-1 rounded-lg shadow-sm">
-                                    <i class="fa-solid fa-person"></i><strong class="ml-3">Laki-Laki</strong>
-                                </div>
-                            @else
-                                <div class="inline-block bg-pink-200 text-pink-400 px-4 py-1 rounded-lg shadow-sm">
-                                    <i class="fa-solid fa-person-dress"></i> Perempuan
-                                </div>
-                            @endif
-
-                            <div class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg shadow-sm">
-                                Total Orang: <strong>{{ $property->leases->count() }}</strong>
-                            </div>
-
-                            <div class="inline-block bg-yellow-100 text-yellow-400 px-2 py-1 rounded-lg shadow-sm">
-                                Kapasitas: <strong>{{ $property->capacity }}</strong>
-                            </div>
-                        </div>
-                        <div class="mt-8">
-                            <h4 class="font-bold">Ketua:</h4>
-
-                            @php
-                                $status = false;
-                            @endphp
-                            @foreach ($property->leases as $lease)
-                                @if ($lease->user->hasRole('admin'))
-                                    <div
-                                        class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-1 mr-3 shadow-sm">
-                                        <strong>{{ $lease->user->name }}</strong>
-                                    </div>
-                                    @php
-                                        $status = true;
-                                    @endphp
-                                @endif
-                            @endforeach
-
-                            @if ($status == false)
-                                <div
-                                    class="inline-block bg-red-200 text-red-400 px-5 py-1 rounded-2xl mt-1 mr-3 shadow-sm">
-                                    Ketua Tidak Tersedia
-                                </div>
-                            @endif
-
-                            <h2 class="font-bold text-2xl text-primary-500 mt-6 mb-8">
-                                {{ 'Rp. ' . number_format($property->rental_price, 0) . ' / bln' }}
-                            </h2>
-
-                            <div class="w-full mt-12">
-                                <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-                                    <div class="px-4 py-6 flex items-center bg-white rounded-lg">
-
-                                        <h6 class="mb-0">{{ $property->description }}</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <section id="property_gambar" class="section-padding property_gambar-section">
-                    <div class="container px-4 2xl:px-0">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2
-                                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                                Gambar
-                                <span class="text-primary-500 after-svg instructor">Kontrakan</span>
-                            </h2>
-                        </div>
-
-
-                        <div class="flex items-center mb-4">
-                            <p id="descc" class="text-gray-500 text-xl mb-0">Gambar gambar di kontrakan ini
-                                "{{ $property->name }}"</p>
-                        </div>
-                        <div class="slider-container mx-auto px-4 2xl:px-0">
-                            <div class="swiper instructorSwipper relative">
-                                <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                                    @forelse ($property->property_images as $image)
-                                        <div class="swiper-slide">
-                                            <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                                <div class="mb-4 overflow-hidden rounded-lg">
-                                                    <a href="#">
-                                                        <img src="{{ asset('storage/' . $image->image) }}"
-                                                            alt="" class="rounded-lg">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="flex justify-center items-center w-full h-[300px]">
-                                            <p class="text-center">Belum ada gambar gambar Kontrakan
-                                                {{ $property->name }}.</p>
-                                        </div>
-                                    @endforelse
-                                </div>
-
-                                @if ($property->property_images->isNotEmpty())
-                                    <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                                    <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                                    <div class="swiper-pagination" style="background: none; color: #20B486"></div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </section>
-
-
-        <section id="tenant" class="section-padding instructor-section">
-            <div class="container px-4 2xl:px-0">
-                <div class="flex items-center justify-between mb-4">
-                    <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                        Daftar
-                        <span class="text-primary-500 after-svg instructor">Penyewa</span>
-                    </h2>
-                </div>
-
-
-                <div class="flex items-center mb-4">
-                    <p id="descc" class="text-gray-500 text-xl mb-0">Daftar-daftar penyewa Kontrakan
-                        "{{ $property->name }}"</p>
-                </div>
-                <div class="slider-container mx-auto px-4 2xl:px-0">
-                    <div class="swiper instructorSwipper relative">
-                        <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                            @forelse ($property->leases as $user)
-                                <div class="swiper-slide">
-                                    <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                        <div class="mb-4 overflow-hidden rounded-lg">
-                                            <a href="#">
-                                                <img src="{{ $user->user->photo ? asset('storage/' . $user->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                    alt="{{ $user->user->name }}" class="rounded-lg">
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                                <a href="#">{{ $user->user->name }}</a>
-                                                {{-- <span
-                                                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                {{ $user->lease->status }}
-                                            </span> --}}
-                                            </h2>
-                                            <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                                <a href="#">
-                                                    {{ $user->user->instance->name }}
-                                                </a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            @empty
-                                <div class="flex justify-center items-center w-full h-[300px]">
-                                    <p class="text-center">Belum ada penyewa di Kontrakan {{ $property->name }} ini.
-                                    </p>
-                                </div>
-                            @endforelse
-                        </div>
-                        @if ($property->leases->isNotEmpty())
-                            <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                            <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                            <div class="swiper-pagination" style="background: none; color: #20B486"></div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            </div>
-        </section>
-
-        <section id="facility" class="section-padding facility-section">
-            <div class="container mx-auto mt-10">
-                <div class="flex items-center justify-between mb-4">
-                    <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
-                        Daftar
-                        <span class="text-primary-500 after-svg instructor">Fasilitas</span>
-                    </h2>
-                </div>
-
-
-                <p id="descc" class="text-gray-500 text-xl mb-4">Daftar-daftar penyewa Kontrakan
-                    "{{ $property->name }}"</p>
-
-
-
-                <div class="swiper-container relative">
-                    <div class="swiper-wrapper py-4 mt-4">
-                        @forelse ($property->facilities as $facility)
-                            <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
-                                <div class="max-w-xs min-h-[400px] flex flex-col">
-                                    <div
-                                        class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex">
-                                        <img class="w-16 h-16 mr-4 rounded-lg object-cover"
-                                            src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
-                                            alt="{{ $facility->name }}">
-                                        <div class="flex flex-col justify-between w-full">
-                                            <div>
-                                                <h4
-                                                    class="font-display text-gray-700 text-[20px] ms-3 leading-7 font-medium hover:text-primary-500 transition duration-300 ease-linear">
-                                                    {{ $facility->name }}
-                                                </h4>
-                                                <p class="text-gray-600">{{ $facility->description }}</p>
-                                            </div>
-                                            <div class="flex justify-end mt-2">
-                                                {{-- <a href="#"
-                                                    class="text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        @empty
-                            <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
-                        @endforelse
-                    </div>
-                    @if ($property->facilities->isNotEmpty())
-                        <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
-                        <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
-                    @endif
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- Mengimpor Swiper CSS dan JS -->
-
-
-        <div class="container mx-auto mt-10 mb-10">
-            <div class="flex items-center justify-between mb-4">
-                <h2
-                    class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
-                    <span class="text-primary-500 after-svg instructor">Lokasi</span>
-                </h2>
-            </div>
-            <div class="w-full bg-white shadow-lg rounded-lg overflow-hidden">
-                <div class="map-container relative" style="z-index: 0;">
-                    <div style="width: 100%; height: 745px;" id="map"></div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="container mx-auto mt-10 mb-10">
-            <div class="w-full mt-12">
-                <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-                    <div class="px-4 py-6 flex items-center bg-white rounded-lg">
-
-                        <h6 class="mb-0 text-center">Lokasi dari Kontrakan <span
-                                class="text-green-400">{{ $property->name }}</span> ke Hummasoft/Hummatech (
-                            {{ $property->address }} )</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    </section>
-
-
-
-    <style>
-        .map-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-        }
-
-        .map-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-    </style>
-
-    <script>
-        var lat = -7.896591;
-        var lng = 112.6089657;
-        var zoomLevel = 16;
-
-        var map = L.map('map').setView([lat, lng], zoomLevel);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© HummaKost'
-        }).addTo(map);
-
-        var waypoints = [{
-                latLng: L.latLng(<?php echo json_encode($property->langtitude); ?>, <?php echo json_encode($property->longtitude); ?>),
-                title: <?php echo json_encode($property->name); ?>,
-                address: <?php echo json_encode($property->address); ?>,
-            },
-            {
-                latLng: L.latLng(-7.900063, 112.6068816),
-                title: "Hummasoft / Hummatech (PT Humma Teknologi Indonesia)",
-                address: "Perum Permata Regency 1, Blk. 10 No.28, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152"
-            }
-        ];
-
-        var routingControl = L.Routing.control({
-            waypoints: waypoints.map(function(wp) {
-                return wp.latLng;
-            }),
-            routeWhileDragging: true,
-            createMarker: function(i, wp, nWps) {
-                var popupContent = waypoints[i].title + "<br><br><b>Address:</b>" + waypoints[i].address;
-                var marker = L.marker(wp.latLng).bindPopup(popupContent);
-                return marker;
-            }
-        }).addTo(map);
-    </script>
-
-
-    <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css" />
-    <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
-
-    <script>
-        const swiperMembers = new Swiper('.swiper-container:nth-of-type(1)', {
-            slidesPerView: 3,
-            spaceBetween: 20,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2
-                },
-                768: {
-                    slidesPerView: 3
-                },
-                1024: {
-                    slidesPerView: 4
-                },
-            },
-        });
-
-        const swiperFacilities = new Swiper('.swiper-container:nth-of-type(2)', {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1
-                },
-                768: {
-                    slidesPerView: 2
-                },
-                1024: {
-                    slidesPerView: 3
-                },
-            },
-        });
-    </script>
-
-
 
     <!-- footer area start -->
     <footer>
@@ -923,60 +605,7 @@
     </footer>
     <!-- footer area end -->
 
-    <!-- all script file -->
-    <script>
-        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-            max: 25,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.5,
-        });
 
-        var lat = -7.896591;
-        var lng = 112.6089657;
-        var zoomLevel = 16;
-
-        var map = L.map('map').setView([lat, lng], zoomLevel);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        var waypoints = [{
-                latLng: L.latLng(<?php echo json_encode($property->langtitude); ?>, <?php echo json_encode($property->longtitude); ?>),
-                title: <?php echo json_encode($property->name); ?>,
-                address: <?php echo json_encode($property->address); ?>,
-            },
-            {
-                latLng: L.latLng(-7.900063, 112.6068816),
-                title: "Hummasoft / Hummatech (PT Humma Teknologi Indonesia)",
-                address: "Perum Permata Regency 1, Blk. 10 No.28, Perun Gpa, Ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65152"
-            }
-        ];
-
-        var routingControl = L.Routing.control({
-            waypoints: waypoints.map(function(wp) {
-                return wp.latLng;
-            }),
-            routeWhileDragging: true,
-            createMarker: function(i, wp, nWps) {
-                var popupContent = waypoints[i].title + "<br><br><b>Address:</b>" + waypoints[i].address;
-                var marker = L.marker(wp.latLng).bindPopup(popupContent);
-                return marker;
-            }
-        }).addTo(map);
-    </script>
-
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="/assets/plugins/js/jquery.js"></script>
-    <script src="/assets/plugins/js/swipper.js"></script>
-    <script src="/assets/plugins/js/waypoint.js"></script>
-    <script src="/assets/plugins/js/counter.js"></script>
-    <script src="/assets/plugins/js/aos.js"></script>
-    <script src="/assets/js/main2.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
 </body>
 
 </html>

@@ -189,6 +189,14 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}#masukan">Masukan</a>
                     </li>
+                    @auth
+                        @hasrole('admin|tenant')
+                            <li class="">
+                                <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                                    href="{{ route('user.history', Auth::user()->id) }}">History</a>
+                            </li>
+                        @endhasrole
+                    @endauth
                 </ul>
 
 
@@ -663,9 +671,10 @@
 
                         <!-- Dropdown menu -->
                         <div id="dropdownMenu"
-                            class="hiddens absolute right-0 mt-2 w-60 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5" style="z-index: 10">
+                            class="hiddens absolute right-0 mt-2 w-60 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                            style="z-index: 10">
                             {{-- <div class="bg-gray-100"> --}}
-                                <p class="py-2 px-3 ">Urut berdasarkan:</p>
+                            <p class="py-2 px-3 ">Urut berdasarkan:</p>
                             {{-- </div> --}}
                             <form method="GET" action="">
                                 <label for="createdAt"
@@ -751,7 +760,8 @@
                                         class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-2 hover:text-primary-500 transition duration-300 ease-linear">
                                         <a href="{{ route('home.show', $property->id) }}">{{ $property->name }}</a>
                                     </h4>
-                                    <div class="flex gap-3 mt-4 " style="height: fit-content;width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
+                                    <div class="flex gap-3 mt-4 "
+                                        style="height: fit-content;width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
                                         <p class="text-gray-600 text-ellipsis">{{ $property->description }}</p>
                                     </div>
                                 </div>
