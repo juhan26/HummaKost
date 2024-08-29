@@ -46,6 +46,8 @@ Route::middleware(['auth', 'role:tenant|admin|super_admin'])->group(function () 
 
     Route::get('users/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
     Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
+
+    Route::get('/user/history/{user}', [UserController::class, 'history'])->name('user.history');
     // profile change
     Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.changePassword');
 

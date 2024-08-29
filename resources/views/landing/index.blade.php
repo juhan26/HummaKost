@@ -130,6 +130,12 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="#masukan">Masukan</a>
                     </li>
+                    @auth
+                        <li class="">
+                            <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                                href="{{ route('user.history', Auth::user()->id) }}">History</a>
+                        </li>
+                    @endauth
                 </ul>
                 <!-- menu end -->
 

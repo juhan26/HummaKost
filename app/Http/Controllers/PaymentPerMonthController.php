@@ -164,16 +164,7 @@ class PaymentPerMonthController extends Controller
     public function show($paymentPerMonth)
     {
         $lease = Lease::with('user', 'payments')->find($paymentPerMonth);
-        // $currentDate = now();
-
-        // $currentMonthPayment = $lease->payments->filter(function ($payment) use ($currentDate) {
-        //     return $payment->created_at->month === $currentDate->month && $payment->created_at->year === $currentDate->year;
-        // });
-
-        // $messeage = null;
-        // if ($currentMonthPayment) {
-        //     $messeage = "User belum melakukan pembayaran untuk bulan ini.";
-        // }
+        
 
         return view('pages.payments.detail', compact('lease'));
     }
