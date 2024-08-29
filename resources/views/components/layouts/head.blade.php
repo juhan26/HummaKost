@@ -32,7 +32,7 @@
 
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon"
-    href="https://demos.pixinvent.com/materialize-html-admin-template/assets/img/favicon/favicon.ico" />
+    href="{{ asset('assets/images/logo.png') }}" />
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>

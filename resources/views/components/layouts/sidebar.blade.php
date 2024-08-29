@@ -96,8 +96,8 @@
         <a href="{{ route('home.index') }}" class="app-brand-link">
             <div class="app-brand-logo demo d-flex justify-content-center align-items-center gap-2">
                 <img style="width: 30px" src="/assets/images/logo.png" alt="">
-                <div class="app-brand-text demo menu-text fw-semibold">
-                    {{ env('APP_NAME', 'HummaKost') }}
+                <div class="app-brand-text demo menu-text fw-semibold" style="font-family: 'Poppins';color:#E99A06;">
+                    Humma<span style="color:#20B486;">Kost</span>
                 </div>
             </div>
         </a>
