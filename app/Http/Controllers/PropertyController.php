@@ -137,6 +137,16 @@ class PropertyController extends Controller
     {
         $facilities = $request->facility_id;
 
+        $leases = $property->leases;
+
+        foreach ($leases as $lease) {
+            $user = $lease->user;
+            if ($user->gender != $request->gender_target) {
+                return redirect()->route('properties.edit', $property->id)
+                    ->with('error', 'Terdapat penyewa dengan jenis kelamin yang tidak sesuai dengan edit jenis kelamin.');
+            }
+        }
+
         if ($request->capacity < $property->leases->count()) {
             return redirect()->route('properties.edit', $property->id)->with('error', 'Jumlah kapasitas yang anda masukkan kurang dari yang jumlah orang yang terdapat di dalam kontrakan.');
         } else {
