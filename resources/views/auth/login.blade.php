@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>
-        Login - HummaKost
+        HummaKost - Masuk ke akun anda
     </title>
 
     <meta name="description"
@@ -39,15 +39,14 @@
     <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon"
-        href="https://demos.pixinvent.com/materialize-html-admin-template/assets/img/favicon/favicon.ico" />
-
+    <link rel="icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
         rel="stylesheet" />
 
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" href="../../assets/vendor/fonts/remixicon/remixicon.css" />
     <link rel="stylesheet" href="../../assets/vendor/fonts/flag-icons.css" />
@@ -68,7 +67,8 @@
 
     <link rel="stylesheet" href="sweetalert2.min.css">
     <!-- Page CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <!-- Page -->
     <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
 
@@ -80,7 +80,7 @@
     <script src="../../assets/js/config.js"></script>
 </head>
 
-<body>
+<body style="background-color: #f9f9f9">
 
     @if (session('error'))
         <script>
@@ -107,12 +107,12 @@
         <div class="authentication-wrapper authentication-basic container-p-y p-4 p-sm-0">
             <div class="authentication-inner py-6">
                 <!-- Login -->
-                <div class="card p-md-7 p-1">
+                <div class="card p-md-7 p-1 shadow-lg">
                     <div class="position-absolute" style="top: 10px;left:10px;">
                         <a href="/" class="d-flex align-items-center">
                             <span class="material-symbols-outlined">
                                 arrow_back
-                                </span>
+                            </span>
                         </a>
                     </div>
                     <!-- Logo -->
@@ -181,10 +181,14 @@
                     </div>
                 </div>
                 <!-- /Login -->
-                <img alt="mask" src="../../assets/img/illustrations/auth-basic-login-mask-light.png"
-                    class="authentication-image d-none d-lg-block"
-                    data-app-light-img="illustrations/auth-basic-login-mask-light.png"
-                    data-app-dark-img="illustrations/auth-basic-login-mask-dark.html" />
+
+                <img alt="mask" src="{{ asset('images/Group 65.png') }}"
+                    class="position-absolute d-none d-lg-block"
+                    style="top: 6%;z-index: -1;left:30%;opacity:60%;"
+                    data-aos="zoom-in"
+                    data-aos-duration="1000"
+                    data-aos-delay="500"
+                    />
             </div>
         </div>
     </div>
@@ -219,6 +223,7 @@
 
     <!-- Page JS -->
     <script src="../../assets/js/pages-auth.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const passwordField = document.getElementById('password');
@@ -239,6 +244,10 @@
             });
         });
     </script>
+    <script>
+        AOS.init();
+      </script>
+
 
 </body>
 
