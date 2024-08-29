@@ -386,7 +386,7 @@
                 <div class="text-center">
                     <h1 class="material-symbols-outlined mt-4" style="font-size: 3rem;color:rgba(32, 180, 134,.4);">
                         real_estate_agent</h1>
-                    <p class="card-title" style="color: rgba(0,0,0,.4)">Fasilitas tidak ditemukan
+                    <p class="card-title" style="color: rgba(0,0,0,.4)"> Belum Ada Pembayaran
                     </p>
                 </div>
             </div>
