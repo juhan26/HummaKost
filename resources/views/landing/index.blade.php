@@ -37,9 +37,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <style>
-
         * {
             scroll-behavior: smooth;
         }
@@ -89,7 +90,7 @@
         <img src="/assets/images/logo.png" alt="Loading..." />
     </div>
     <script>
-         window.addEventListener("load", function() {
+        window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
 
             // Simulate a delay for the loading screen
@@ -146,7 +147,7 @@
                             <div class="relative">
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
-                                    <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo)}} @elseif(Auth::user()->gender === 'male') {{ asset('assets/img/avatars/1.png') }}@else {{  asset('assets/img/avatars/10.png')}} @endif"
+                                    <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }} @elseif(Auth::user()->gender === 'male') {{ asset('assets/img/avatars/1.png') }}@else {{ asset('assets/img/avatars/10.png') }} @endif"
                                         onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
                                     {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
                                         onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
@@ -183,7 +184,7 @@
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
                                     <img src="
-                                    @if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo)}}
+                                    @if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }}
                                     @elseif(Auth::user()->gender === 'male')
                                     {{ asset('assets/img/avatars/5.png') }}
                                     @elseif(Auth::user()->gender === 'female')
@@ -754,32 +755,34 @@
 
             <div class="mt-10">
                 @auth
-                    <form action="{{ route('feedback.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
-                            <label for="message" class="block text-gray-700">Kritik dan Masukan Anda!</label>
-                            <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
-                                placeholder="Masukan kritik dan saran anda disini..."></textarea>
-                        </div>
-                        <div class="mb-4" data-aos="fade-right" data-aos-duration="1300">
-                            <label for="rating" class="block text-gray-700">Penilaian</label>
-                            <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
-                                <option value="5">5 - Terbaik</option>
-                                <option value="4">4 - Bagus</option>
-                                <option value="3">3 - Rata - Rata</option>
-                                <option value="2">2 - Tidak Bagus</option>
-                                <option value="1">1 - Buruk</option>
-                            </select>
-                        </div>
-                        @hasrole('admin|tenant')
-                        <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg"
-                            data-aos="fade-right" data-aos-duration="1400">
-                            Kirim
-                        </button>
-                        @endhasrole
-                    </form>
-                @else
-                    <p class="text-gray-700">Anda harus login agar bisa mengirimkan kritik dan saran</p>
+                    @hasrole('tenant|admin')
+                        <form action="{{ route('feedback.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
+                                <label for="message" class="block text-gray-700">Kritik dan Masukan Anda!</label>
+                                <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
+                                    placeholder="Masukan kritik dan saran anda disini..."></textarea>
+                            </div>
+                            <div class="mb-4" data-aos="fade-right" data-aos-duration="1300">
+                                <label for="rating" class="block text-gray-700">Penilaian</label>
+                                <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
+                                    <option value="5">5 - Terbaik</option>
+                                    <option value="4">4 - Bagus</option>
+                                    <option value="3">3 - Rata - Rata</option>
+                                    <option value="2">2 - Tidak Bagus</option>
+                                    <option value="1">1 - Buruk</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn py-2 px-4 underline text-primary-500 rounded-lg"
+                                data-aos="fade-right" data-aos-duration="1400">
+                                Kirim
+                            </button>
+
+                        </form>
+                    @else
+                        <p class="text-gray-700">Anda harus login agar bisa mengirimkan kritik dan saran</p>
+                    @endhasrole
                 @endauth
             </div>
 
@@ -817,6 +820,11 @@
                                     data-modal-toggle="edit-feedback-modal-{{ $feedback->id }}"
                                     class="w-8 h-8 flex items-center justify-center text-yellow-600 bg-yellow-100 rounded-full hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all duration-150">
                                     <i class="ri-edit-line text-sm"></i>
+                                </button>
+                                <button data-modal-target="delete-feedback-modal-{{ $feedback->id }}"
+                                    data-modal-toggle="delete-feedback-modal-{{ $feedback->id }}"
+                                    class="w-8 h-8 flex items-center justify-center text-red-600 bg-red-100 rounded-full hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-150">
+                                    <i class="ri-delete-bin-line text-sm"></i>
                                 </button>
                             @endif
                             @hasrole('super_admin')
