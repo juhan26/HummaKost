@@ -99,7 +99,18 @@ class LandingController extends Controller
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 
         $facilities = Facility::all();
-        $feedbacks = Feedback::with('user')->get();
+
+        $loogedInUserId = auth()->id();
+        $query = Feedback::query();
+        $feedbacks = $query->with('user')
+            ->orderByRaw("
+                CASE
+                    WHEN user_id = ? THEN 0
+                    ELSE 1
+                END
+            ", [$loogedInUserId])
+            ->latest()
+            ->paginate(10);
 
 
         // Kirim data ke view
