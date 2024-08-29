@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-7">
                 <div class="row h-100">
                     @php
@@ -123,10 +123,11 @@
                                                     <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
                                                     </td>
                                                     <td>
-                                                        <span class="px-2 py-1 rounded-lg 
+                                                        <span
+                                                            class="px-2 py-1 rounded-lg
                                                             {{ $user->status === 'accepted' ? 'badge rounded-pill bg-label-primary' : 'badge rounded-pill bg-label-danger' }}">
                                                             {{ $user->status === 'accepted' ? 'Diterima' : 'Ditolak' }}
-                                                        </span>                                                    
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -155,34 +156,131 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Chart</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center" style="max-height: 800px;">
+                            <canvas id="barChart" style="max-width: 700px; "></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Data Penyewa Perbulan</div>
+                    </div>
+                    <div class="card-body">
+                        <div id="barChart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Status Penyewa</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="dashboardChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pemasukan Per Bulan</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('dashboardChart').getContext('2d');
-        const dashboardChart = new Chart(ctx, {
+        var data = @json($leasesPerMonth);
+        var options = {
+            series: data,
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
+            // yaxis: {
+            //     title: {
+            //         text: 'Penyewa'
+            //     }
+            // },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val + " Penyewa"
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#barChart"), options);
+        chart.render();
+
+        const doughnutCtx = document.getElementById('dashboardChart').getContext('2d');
+        const dashboardChart = new Chart(doughnutCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Kontrakan : {{ $propertiesCount }}', 'Anggota : {{ $usersCount }}',
-                    'Fasilitas : {{ $facilityCount }}', 'Instansi: {{ $instanceCount }}'
+                labels: ['Diterima : {{ $userAccepted }}', 'Pending : {{ $userPending }}',
+                    'Ditolak : {{ $userRejected }}'
+
                 ],
                 datasets: [{
-                    data: [{{ $propertiesCount }}, {{ $usersCount }}, {{ $facilityCount }},
-                        {{ $instanceCount }}
+                    data: [
+                        {{ $userAccepted }},
+                        {{ $userPending }},
+                        {{ $userRejected }},
                     ],
                     backgroundColor: [
-                        'rgba(255, 178, 15, 0.5)',
-                        'rgba(9, 12, 155, 0.5)',
-                        'rgba(196, 69, 54, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-
+                        'rgb(32, 180, 133)',
+                        'rgb(255, 193, 7)',
+                        'rgb(220, 53, 69)',
                     ],
                     borderColor: [
-                        'rgba(255, 178, 15, 1)',
-                        'rgba(9, 12, 155, 1)',
-                        'rgba(196, 69, 54, 1)',
-                        'rgba(75, 192, 192, 1)',
+                        'rgb(32, 180, 133)',
+                        'rgb(255, 193, 7)',
+                        'rgb(220, 53, 69)',
                     ],
                     borderWidth: 1
                 }]
@@ -197,6 +295,41 @@
                         callbacks: {
                             label: function(context) {
                                 const label = context.label || '';
+                                const value = context.raw || 0;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        var monthlyTotals = @json($incomeMonthlyTotals);
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        const lineChart = new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                    'Dec'
+                ],
+                datasets: [{
+                    label: 'Dataset Contoh',
+                    data: Object.values(monthlyTotals),
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.dataset.label || '';
                                 const value = context.raw || 0;
                                 return `${label}: ${value}`;
                             }
