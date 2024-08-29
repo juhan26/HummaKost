@@ -88,9 +88,10 @@
                 Swal.fire({
                     title: "Perhatian",
                     text: @json(session('error')),
+                    showCancelButton: true,
+                    cancelButtonText:"Tutup",
                     showConfirmButton: false,
                     icon: 'info',
-                    footer: '<a href="/" class="btn btn-primary">Home</a>'
                 });
             });
         </script>
