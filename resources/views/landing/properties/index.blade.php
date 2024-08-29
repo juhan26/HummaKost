@@ -748,7 +748,7 @@
                                         class="font-display text-gray-700 text-[20px] leading-7 font-medium mt-2 hover:text-primary-500 transition duration-300 ease-linear">
                                         <a href="{{ route('home.show', $property->id) }}">{{ $property->name }}</a>
                                     </h4>
-                                    <div class="flex gap-3 mt-4 overflow-auto" style="max-height: 20px">
+                                    <div class="flex gap-3 mt-4 " style="height: fit-content;width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
                                         <p class="text-gray-600 text-ellipsis">{{ $property->description }}</p>
                                     </div>
                                 </div>
