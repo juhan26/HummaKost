@@ -198,12 +198,12 @@ class LeaseController extends Controller
                     'total_nominal' => $totalNominal,
                 ]);
 
-                return redirect()->route('leases.index')->with('success', 'Kontrak berhasil di tambahkan.');
+                return redirect()->back()->with('success', 'Kontrak berhasil di tambahkan.');
             } else {
-                return redirect()->route('leases.index')->with('error', 'Kontrakan Sudah Penuh.');
+                return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
             }
         } else {
-            return redirect()->route('leases.index')->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
+            return redirect()->back()->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
         }
     }
 
