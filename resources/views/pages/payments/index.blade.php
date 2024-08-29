@@ -172,7 +172,7 @@
                                         @endif
                                     @else
                                         <p style="color: red">
-                                            Belum membayar uang kontrakan, terakhir membayar pada bulan
+                                            Belum membayar uang kontrakan pada tanggal
                                             <strong>{{ $lastPaid->format('d F Y') }}</strong>
                                         </p>
                                     @endif
