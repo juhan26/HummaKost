@@ -59,7 +59,7 @@
                                     @endforeach
                                 </div>
                             @endhasrole
-                            <strong>Yang Sudah Membayar Pada: </strong>
+                            <strong>Telah Melakukan Pembayaran Pada: </strong>
                             <div class="col-12 mt-3 ">
                                 <p class="card-title">Bulan</p>
                                 <div class="dropdown-item">
