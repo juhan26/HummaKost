@@ -42,6 +42,8 @@ class HomeController extends Controller
         $userRejected = User::where('status', 'rejected')->count();
         $userPending = User::where('status', 'pending')->count();
 
+        $currentMonth = Carbon::now()->month;
+
         $paymentIncome = PaymentPerMonth::selectRaw('MONTH(created_at) as month, SUM(nominal) as total')
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->orderBy('month')
@@ -52,21 +54,24 @@ class HomeController extends Controller
             $incomeMonthlyTotals[$month] = $total;
         }
 
-        $properties = Property::with(['leases' => function ($query) {
+        $properties = Property::with(['leases' => function ($query) use ($currentMonth) {
             $query->selectRaw('property_id, MONTH(created_at) as month, COUNT(*) as total')
+                ->whereMonth('created_at', '<=', $currentMonth)
                 ->groupBy('property_id', 'month')
                 ->orderBy('month');
         }])->get();
-
+    
         $leasesPerMonth = [];
-
+    
         foreach ($properties as $property) {
-            $data = array_fill(0, 12, 0);
-
+            $data = array_fill(0, $currentMonth, 0);
+    
             foreach ($property->leases as $lease) {
-                $data[$lease->month - 1] = $lease->total;
+                if ($lease->month <= $currentMonth) {
+                    $data[$lease->month - 1] = $lease->total;
+                }
             }
-
+    
             $leasesPerMonth[] = [
                 'name' => $property->name,
                 'data' => $data,
