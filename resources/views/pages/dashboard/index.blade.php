@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-7">
                 <div class="row h-100">
                     @php
@@ -123,10 +123,11 @@
                                                     <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
                                                     </td>
                                                     <td>
-                                                        <span class="px-2 py-1 rounded-lg 
+                                                        <span
+                                                            class="px-2 py-1 rounded-lg
                                                             {{ $user->status === 'accepted' ? 'badge rounded-pill bg-label-primary' : 'badge rounded-pill bg-label-danger' }}">
                                                             {{ $user->status === 'accepted' ? 'Diterima' : 'Ditolak' }}
-                                                        </span>                                                    
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -155,13 +156,99 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Chart</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center" style="max-height: 800px;">
+                            <canvas id="barChart" style="max-width: 700px; "></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Data Penyewa Perbulan</div>
+                    </div>
+                    <div class="card-body">
+                        <div id="barChart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Doughnut Chart</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="dashboardChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('dashboardChart').getContext('2d');
-        const dashboardChart = new Chart(ctx, {
+        var data = @json($leasesPerMonth);
+        var options = {
+            series: data,
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
+            // yaxis: {
+            //     title: {
+            //         text: 'Penyewa'
+            //     }
+            // },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val + " Penyewa"
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#barChart"), options);
+        chart.render();
+
+
+
+        const doughnutCtx = document.getElementById('dashboardChart').getContext('2d');
+        const dashboardChart = new Chart(doughnutCtx, {
             type: 'doughnut',
             data: {
                 labels: ['Kontrakan : {{ $propertiesCount }}', 'Anggota : {{ $usersCount }}',
@@ -176,7 +263,6 @@
                         'rgba(9, 12, 155, 0.5)',
                         'rgba(196, 69, 54, 0.5)',
                         'rgba(75, 192, 192, 0.5)',
-
                     ],
                     borderColor: [
                         'rgba(255, 178, 15, 1)',
