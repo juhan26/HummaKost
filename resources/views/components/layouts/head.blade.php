@@ -10,7 +10,7 @@
     content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
 
 
-<title>{{ config('app.name', 'Laravel') }}</title>
+<title>{{ "Dashboard Admin - " . config('app.name', 'Laravel')}}</title>
 @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 <script>
@@ -40,6 +40,7 @@
     rel="stylesheet">
 <link rel="dns-prefetch" href="//fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <!-- Icons -->
 <link rel="stylesheet" href="../../assets/vendor/fonts/remixicon/remixicon.css" />
 <link rel="stylesheet" href="../../assets/vendor/fonts/flag-icons.css" />

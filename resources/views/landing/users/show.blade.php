@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Kontrakan Las Vegas" />
 
-    <title>HummaKost</title>
+    <title>HummaKost - Kontrakan ideal dengan harga yang terjangkau</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/x-icon" sizes="128x128" href="/assets/images/logo.png">
