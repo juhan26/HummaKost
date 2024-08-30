@@ -217,7 +217,7 @@
         var currentMonth = new Date().getMonth();
 
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var categories = months.slice(0, currentMonth + 1);
+        var latestMonth = months.slice(0, currentMonth + 1);
         var options = {
             series: data,
             chart: {
@@ -240,7 +240,7 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: categories,
+                categories: latestMonth,
             },
             // yaxis: {
             //     title: {
@@ -313,9 +313,7 @@
         const lineChart = new Chart(lineCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                    'Dec'
-                ],
+                labels: latestMonth,
                 datasets: [{
                     label: 'Pemasukan Perbulan',
                     data: Object.values(incomeMonthlyTotals),
