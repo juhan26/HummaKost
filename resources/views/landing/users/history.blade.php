@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"  />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
     <style>
         * {
             scroll-behavior: smooth;
@@ -120,14 +121,14 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="#masukan">Masukan</a>
                     </li>
-                    @auth
+                    {{-- @auth
                         @hasrole('admin|tenant')
                             <li class="">
                                 <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                                     href="{{ route('user.history', Auth::user()->id) }}">History</a>
                             </li>
                         @endhasrole
-                    @endauth
+                    @endauth --}}
                 </ul>
                 <!-- menu end -->
 
@@ -213,6 +214,12 @@
                                                 class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Profile' }}</span></a>
                                         </li>
 
+                                        <li>
+                                            <a href="{{ route('user.history', Auth::user()->id) }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                                History
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
@@ -322,7 +329,7 @@
         </div>
     @endif
 
-    <div class="space-y-8 py-8 mx-4 mb:mx-16" style="margin-left: 4rem; margin-right: 4rem;">
+    <div class="space-y-8 py-8 mx-4 mb:mx-16 w-3/4" style="margin-left: 14rem; margin-right: 14rem;">
         @forelse ($leases as $lease)
             <div class="flex justify-center gap-4">
                 <!-- Total Yang Sudah Dibayar -->
@@ -357,12 +364,12 @@
             <!-- Data Pembayaran -->
             <div class="bg-white p-8 rounded-lg shadow-lg mt-12 max-w-6xl mx-auto" style="height: 45rem">
                 <div class="flex flex-col md:flex-row items-center justify-between mb-8">
-                    <h1 class="text-5xl md:text-4xl font-bold">Data Pembayaran Kontrakan Perbulan</h1>
+                    <h1 class="text-5xl md:text-2xl font-bold">History Pembayaran Kontrakan Perbulan</h1>
                     <h5 class="text-gray-700 text-3xl md:text-2xl">{{ $lease->user->name }}</h5>
                 </div>
 
                 <!-- Tabel Pembayaran -->
-                <div class="flex justify-center">
+                <div class="flex justify-center w-3/4">
                     <div class="relative overflow-x-auto shadow-lg sm:rounded-lg">
                         <table class="w-full text-lg text-left rtl:text-right text-gray-600 dark:text-gray-300">
                             <thead
@@ -413,8 +420,41 @@
             </div>
 
         @empty
-            <div class="text-center text-gray-500">
-                <p>Tidak ada data kontrakan yang tersedia.</p>
+            <div class="space-y-8 py-8 mx-4 mb:mx-16 w-3/4"
+                style="margin-left: 14rem; margin-right: 14rem; height: 45rem;">
+                <div class="flex justify-center gap-4" style="">
+                    <!-- Total Yang Sudah Dibayar -->
+                    <div class="w-full md:w-1/3">
+                        <div class="bg-green-100 text-center p-4 rounded-lg shadow-md">
+                            <span class="text-gray-700">Total Yang Sudah Dibayar</span>
+                            <h5 class="text-green-600 mt-2 text-xl">
+                                Rp. 0
+                            </h5>
+                        </div>
+                    </div>
+                    <!-- Total Iuran -->
+                    <div class="w-full md:w-1/3">
+                        <div class="bg-red-100 text-center p-4 rounded-lg shadow-md">
+                            <span class="text-gray-700">Total Iuran</span>
+                            <h5 class="text-red-600 mt-2 text-xl">
+                                Rp. 0
+                            </h5>
+                        </div>
+                    </div>
+                    <!-- Sisa Nominal Yang Harus Dibayar -->
+                    <div class="w-full md:w-1/3">
+                        <div class="bg-yellow-100 text-center p-4 rounded-lg shadow-md">
+                            <span class="text-gray-700">Sisa Nominal Yang Harus Dibayar</span>
+                            <h5 class="text-yellow-600 mt-2 text-xl">
+                                Rp. 0
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center d-flex flex-col text-gray-500" style="margin-top: 4rem">
+                    <i class="ri-money-dollar-circle-line text-primary-500" style="font-size: 3rem"></i>
+                    <h1 class="text-primary-500">Tidak ada data kontrak yang tersedia.</h1>
+                </div>
             </div>
         @endforelse
     </div>
