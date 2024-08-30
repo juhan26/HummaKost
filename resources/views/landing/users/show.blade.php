@@ -79,14 +79,30 @@
 </head>
 
 <body>
+    <script>
+        window.addEventListener("load", function() {
+            const loadingScreen = document.getElementById("loading-screen");
+
+            // Simulate a delay for the loading screen
+            setTimeout(function() {
+                loadingScreen.classList.add("hidden"); // Tambahkan kelas hidden untuk fade out
+            }, 1000); // Durasi 2 detik sebelum fade out
+        });
+    </script>
+
+    <!-- header area -->
     <header id="header-sticky">
-        <div class="bg-white border-b border-gray-50" style="padding: 20px 30px;">
+        <div class=" bg-white border-b border-gray-50 " style="padding: 20px 30px">
             <div class="container-fluid flex justify-between items-center px-2 sm:px-2 2xl:px-0">
-                <!-- Logo -->
-                <a href="#">
-                    <img src="/assets/images/logo.png" alt="New Logo" style="width:3rem; height:3rem;">
-                </a>
-                <!-- Menu -->
+                <!-- logo -->
+                <div>
+                    <a href="#">
+                        <img src="/assets/images/logo.png" alt="New Logo" style="width:3rem; height:3rem;">
+                    </a>
+                </div>
+                <!-- logo -->
+
+                <!-- menu -->
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
@@ -94,18 +110,28 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}">Kontrakan</a>
+                            href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}">Tentang</a>
+                            href="#tentang">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}">Masukan</a>
+                            href="#masukan">Masukan</a>
                     </li>
+                    {{-- @auth
+                        @hasrole('admin|tenant')
+                            <li class="">
+                                <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                                    href="{{ route('user.history', Auth::user()->id) }}">History</a>
+                            </li>
+                        @endhasrole
+                    @endauth --}}
                 </ul>
-                <!-- Right Menu -->
+                <!-- menu end -->
+
+                <!-- right menu -->
                 <div class="flex items-center">
                     <div
                         class="flex items-center gap-2 text-base font-display font-medium text-gray-500 hover:text-primary-500 transition duration-500">
@@ -119,7 +145,7 @@
                             <div class="relative">
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
-                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/5.png') }}"
+                                    <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }} @elseif(Auth::user()->gender === 'male') {{ asset('assets/img/avatars/1.png') }}@else {{ asset('assets/img/avatars/10.png') }} @endif"
                                         onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
                                     {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
                                         onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
@@ -128,7 +154,7 @@
                                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
                                     <ul class="py-2 text-gray-700">
                                         {{-- <li class="flex items-center gap-2 px-4 py-2">
-                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/5.png') }}"
+                                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
                                             onclick="a(this)" alt="User Photo"
                                             class="w-7 h-7 object-cover rounded-full">
                                         <strong class="block px-4 py-2">{{ Auth::user()->name }}</strong>
@@ -188,6 +214,12 @@
                                         </li>
 
                                         <li>
+                                            <a href="{{ route('user.history', Auth::user()->id) }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                                History
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -208,29 +240,6 @@
                                     class="hidden xl:inline-block btn-primary"><span>{{ 'Masuk' }}</span></a>
                         @endif
                     </div>
-                    <script>
-                        document.getElementById('profile-btn').addEventListener('click', function(event) {
-                            event.preventDefault(); // Prevent default action to avoid reloading
-                            var menu = document.getElementById('profile-menu');
-                            menu.classList.toggle('hidden');
-                        });
-
-                        // window.addEventListener('click', function(event) {
-                        //     var menu = document.getElementById('profile-menu');
-                        //     var button = document.getElementById('profile-btn');
-                        //     if (!menu.contains(event.target) && event.target !== button) {
-                        //         menu.classList.add('hidden');
-                        //     }
-                        // });
-
-                        function a() {
-                            var menu = document.getElementById('profile-menu');
-                            // var button = document.getElementById('profile-btn');
-                            if (!menu.contains(event.target) && event.target !== button) {
-                                menu.classList.add('hidden');
-                            }
-                        }
-                    </script>
 
                     <!-- Hamburger Menu -->
                     <div class="xl:hidden inline-block hamburger-btn" id="hamburger-btn">
@@ -239,6 +248,32 @@
                         <span></span>
                     </div>
                 </div>
+
+                <script>
+                    document.getElementById('profile-btn').addEventListener('click', function(event) {
+                        event.preventDefault(); // Prevent default action to avoid reloading
+                        var menu = document.getElementById('profile-menu');
+                        menu.classList.toggle('hidden');
+                    });
+
+                    // window.addEventListener('click', function(event) {
+                    //     var menu = document.getElementById('profile-menu');
+                    //     var button = document.getElementById('profile-btn');
+                    //     if (!menu.contains(event.target) && event.target !== button) {
+                    //         menu.classList.add('hidden');
+                    //     }
+                    // });
+
+                    function a() {
+                        var menu = document.getElementById('profile-menu');
+                        // var button = document.getElementById('profile-btn');
+                        if (!menu.contains(event.target) && event.target !== button) {
+                            menu.classList.add('hidden');
+                        }
+                    }
+                </script>
+
+                <!-- right menu end -->
             </div>
         </div>
     </header>
@@ -600,8 +635,7 @@
                                                         <div class="col-span-1">
                                                             <input type="text" name="name" id="name"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                                placeholder="Name"
-                                                                value="{{$user->name}}">
+                                                                placeholder="Name" value="{{ $user->name }}">
                                                         </div>
                                                         <div class="col-span-1">
                                                             <input type="number" name="phone_number"
@@ -614,14 +648,13 @@
                                                             <input type="text" name="instance" id="instance"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                                 placeholder="No Hp"
-                                                                value="{{$user->instance->name }}"
-                                                                disabled>
+                                                                value="{{ $user->instance->name }}" disabled>
                                                         </div>
                                                         <div class="col-span-1">
                                                             <input type="text" name="email" id="email"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                                placeholder="Name"
-                                                                value="{{ $user->email }}" disabled>
+                                                                placeholder="Name" value="{{ $user->email }}"
+                                                                disabled>
                                                         </div>
 
                                                     </div>
@@ -660,7 +693,8 @@
                             <div class="col-12">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                                     <div class="flex flex-col items-start">
-                                        <h5 class="text-center text-lg font-weight-light mb-3">Total Yang Sudah Dibayar</h5>
+                                        <h5 class="text-center text-lg font-weight-light mb-3">Total Yang Sudah Dibayar
+                                        </h5>
                                         <div
                                             class="bg-green-100 text-green-800 p-4 rounded-lg shadow-md w-full max-w-md text-center">
                                             <div class="card-content">

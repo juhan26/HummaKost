@@ -1,5 +1,8 @@
 @extends('app')
 @section('content')
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
+<link rel="stylesheet" href="grid-gallery.css">
     <div class="col-12">
         <div class="">
             <div class="">
@@ -124,32 +127,34 @@
         </div>
     </div> --}}
 
-    <h4 class="fw-bold card-title ">Detail Foto Kontrakan</h4>
-    <div class="col-12 mt-3">
-        <div class="card shadow-sm">
-            <div class="card-body d-flex justify-content-start flex-wrap gap-4">
-                @forelse ($property->property_images as $index => $detailFoto)
-                    <div class="text-center mx-5" style="width: fit-content;">
-                        <div class="img rounded d-block"
-                            style="
-                            height:8rem;
-                            width:8rem;
-                            background: url({{ asset('storage/' . $detailFoto->image) }});
-                            background-position:center;
-                            background-size:cover;
-                            ">
-                        </div>
-                        <h4 class="mt-3 mb-1">Gambar ke {{ $index + 1 }}</h4>
-                        {{-- <img class="rounded mx-auto d-block" style="width: 15rem; height: 15rem;"
-                            src="{{ $detailFoto->image ? asset('storage/' . $detailFoto->image) : asset('assets/img/image_not_available.png') }}"> --}}
-                        {{-- <p class="text-muted mb-0">{{ $detailFoto->user->status }}</p> --}}
+    <h4 class="fw-bold text-center">Detail Foto Kontrakan</h4>
+    <section class="gallery-block grid-gallery">
+        <div class="container">
+            <div class="row">
+                @forelse ($property->property_images as $detailFoto)
+                    <div class="col-md-6 col-lg-4 item mb-4">
+                        <a class="lightbox" href="{{ asset('storage/' . $detailFoto->image) }}">
+                            <img class="img-fluid image scale-on-hover" style="width: 900px; height: 300px;" src="{{ asset('storage/' . $detailFoto->image) }}" alt="{{ $detailFoto->title ?? 'Gambar Kontrakan' }}">
+                        </a>
                     </div>
                 @empty
-                    <div class="te  xt-center text-muted">Belum Ada Foto Kontrakan</div>
+                    <div class="col-12 text-center text-muted">Belum Ada Foto Kontrakan</div>
                 @endforelse
             </div>
         </div>
-    </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script>
+        baguetteBox.run('.grid-gallery', { animation: 'slideIn' });
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script>
+        baguetteBox.run('.compact-gallery', { animation: 'slideIn' });
+    </script>
+
 
     <div class="d-flex gap-3 flex-column flex-lg-row mt-6">
         <!-- ANGGOTA -->

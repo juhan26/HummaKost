@@ -25,18 +25,18 @@ class StorePaymentRequest extends FormRequest
             'lease_id' => ['required', 'exists:leases,id'],
             // 'month' => ['required', 'string', 'max:255'],
             // 'nominal' => ['required', 'numeric', 'max:255'],
+            'payment_date' => ['required', 'date'],
             'description' => ['nullable', 'string', 'max:255'],
         ];
     }
 
     public function messages(): array
-{
-    return [
-        'lease_id.required' => 'ID sewa wajib diisi.',
-        'lease_id.exists' => 'ID sewa tidak ditemukan.',
-        'description.string' => 'Deskripsi harus berupa teks.',
-        'description.max' => 'Deskripsi maksimal 255 karakter.',
-    ];
-}
-
+    {
+        return [
+            'lease_id.required' => 'ID sewa wajib diisi.',
+            'lease_id.exists' => 'ID sewa tidak ditemukan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi maksimal 255 karakter.',
+        ];
+    }
 }

@@ -16,7 +16,7 @@ class Lease extends Model
     }
     public function properties()
     {
-        return $this->belongsTo(Property::class, 'property_id');
+    return $this->belongsTo(Property::class, 'property_id');
     }
     public function payments()
     {
