@@ -1,5 +1,6 @@
 <?php
 
+use Biscolab\ReCaptcha\Facades\ReCaptcha;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
