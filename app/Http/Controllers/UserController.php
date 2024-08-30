@@ -255,7 +255,8 @@ class UserController extends Controller
         // Mendapatkan lease yang terkait dengan pengguna yang sedang login beserta data pembayaran
         $leases = Lease::where('user_id', $user)
             ->with('payments')
-            ->get();
+            ->latest()
+            ->paginate(10);
 
         // Mengirim data ke view
         return view('landing.users.history', compact('leases'));
