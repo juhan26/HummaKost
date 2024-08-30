@@ -30,6 +30,43 @@
             scroll-behavior: smooth;
         }
     </style>
+    <style>
+        #loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen img {
+            width: 150px;
+            height: auto;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
     {{-- <style>
         /* Container untuk gambar dan ikon */
         .image-container {
@@ -80,6 +117,9 @@
 </head>
 
 <body>
+    <div id="loading-screen">
+        <img src="/assets/images/logo.png" alt="Loading..." />
+    </div>
     <script>
         window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
@@ -329,12 +369,27 @@
         </div>
     @endif
 
-    <div class="space-y-8 py-8 mx-4 mb:mx-16 w-3/4" style="margin-left: 14rem; margin-right: 14rem;">
+
+    <section
+        class="mx-auto 2xl:w-3/4 pl-5 bg-primary-50/70 rounded-2xl shadow-md flex items-center justify-between mx-5 mt-5">
+        <div class="flex-1">
+            <h1 class="text-3xl font-bold text-gray-800">Riwayat Pembayaran</h1>
+            <p class="text-gray-600 mt-2">Kontrakan | Riwayat Pembayaran Bulanan</p>
+        </div>
+        <div class="flex-shrink-0">
+            <img src="/assets/images/banner_atas.png" alt="Logo" class="w-80 h-30">
+        </div>
+    </section>
+    <div class="space-y-8 py-8 mx-4 w-3/4" style="margin-left: 14rem; margin-right: 14rem;">
+
+        @foreach ($leases as $lease)
+        @endforeach
+
         @forelse ($leases as $lease)
             <div class="flex justify-center gap-4">
                 <!-- Total Yang Sudah Dibayar -->
-                <div class="w-full md:w-1/3">
-                    <div class="bg-green-100 text-center p-4 rounded-lg shadow-md">
+                <div class="w-full" style=" border-radius: 30px">
+                    <div class="bg-green-200 text-center p-4 shadow-md" style="border-radius: 30px">
                         <span class="text-gray-700">Total Yang Sudah Dibayar</span>
                         <h5 class="text-green-600 mt-2 text-xl">
                             {{ 'Rp. ' . number_format($lease->total_nominal) }}
@@ -342,8 +397,8 @@
                     </div>
                 </div>
                 <!-- Total Iuran -->
-                <div class="w-full md:w-1/3">
-                    <div class="bg-red-100 text-center p-4 rounded-lg shadow-md">
+                <div class="w-full" style=" border-radius: 30px">
+                    <div class="bg-red-200 text-center p-4 rounded-lg shadow-md" style="border-radius: 30px">
                         <span class="text-gray-700">Total Iuran</span>
                         <h5 class="text-red-600 mt-2 text-xl">
                             {{ 'Rp. ' . number_format($lease->total_iuran) }}
@@ -351,9 +406,9 @@
                     </div>
                 </div>
                 <!-- Sisa Nominal Yang Harus Dibayar -->
-                <div class="w-full md:w-1/3">
-                    <div class="bg-yellow-100 text-center p-4 rounded-lg shadow-md">
-                        <span class="text-gray-700">Sisa Nominal Yang Harus Dibayar</span>
+                <div class="w-full" style=" border-radius: 30px">
+                    <div class="bg-yellow-200 text-center p-4 rounded-lg shadow-md" style="border-radius: 30px">
+                        <span class="text-yellow-600">Sisa Nominal Yang Harus Dibayar</span>
                         <h5 class="text-yellow-600 mt-2 text-xl">
                             {{ $lease->total_nominal === $lease->total_iuran ? 'Lunas' : 'Rp. ' . number_format($lease->total_iuran - $lease->total_nominal) }}
                         </h5>
@@ -362,101 +417,100 @@
             </div>
 
             <!-- Data Pembayaran -->
-            <div class="bg-white p-8 rounded-lg shadow-lg mt-12 max-w-6xl mx-auto" style="height: 45rem">
-                <div class="flex flex-col md:flex-row items-center justify-between mb-8">
-                    <h1 class="text-5xl md:text-2xl font-bold">History Pembayaran Kontrakan Perbulan</h1>
-                    <h5 class="text-gray-700 text-3xl md:text-2xl">{{ $lease->user->name }}</h5>
+            <div class=" p-8 rounded-lg max-w-8xl mx-auto" style="height: 45rem">
+                <div class="2xl:w-12 mx-auto">
+                    <!-- Search Bar -->
                 </div>
+
 
                 <!-- Tabel Pembayaran -->
-                <div class="flex justify-center w-3/4">
-                    <div class="relative overflow-x-auto shadow-lg sm:rounded-lg">
-                        <table class="w-full text-lg text-left rtl:text-right text-gray-600 dark:text-gray-300">
-                            <thead
-                                class="text-md text-gray-800 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
-                                <tr>
-                                    <th scope="col" class="px-8 py-4">
-                                        Nama
-                                    </th>
-                                    <th scope="col" class="px-8 py-4">
-                                        Nominal
-                                    </th>
-                                    <th scope="col" class="px-8 py-4">
-                                        Pembayaran Untuk Bulan
-                                    </th>
-                                    <th scope="col" class="px-8 py-4">
-                                        Tanggal Pembayaran
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($lease->payments as $index => $payment)
-                                    <tr
-                                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                        <th scope="row"
-                                            class="px-8 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $lease->user->name }}
-                                        </th>
-                                        <td class="px-8 py-4">
-                                            {{ 'Rp. ' . number_format($payment->nominal) }}
-                                        </td>
-                                        <td class="px-8 py-4">
-                                            {{ \Carbon\Carbon::parse($payment->month)->locale('id')->translatedFormat('j F Y') }}
-                                        </td>
-                                        <td class="px-8 py-4">
-                                            {{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->translatedFormat('j F Y') }}
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4" class="px-8 py-4 text-center text-gray-500">Belum ada
-                                            pembayaran.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
-        @empty
-            <div class="space-y-8 py-8 mx-4 mb:mx-16 w-3/4"
-                style="margin-left: 14rem; margin-right: 14rem; height: 45rem;">
-                <div class="flex justify-center gap-4" style="">
-                    <!-- Total Yang Sudah Dibayar -->
-                    <div class="w-full md:w-1/3">
-                        <div class="bg-green-100 text-center p-4 rounded-lg shadow-md">
-                            <span class="text-gray-700">Total Yang Sudah Dibayar</span>
-                            <h5 class="text-green-600 mt-2 text-xl">
-                                Rp. 0
-                            </h5>
-                        </div>
-                    </div>
-                    <!-- Total Iuran -->
-                    <div class="w-full md:w-1/3">
-                        <div class="bg-red-100 text-center p-4 rounded-lg shadow-md">
-                            <span class="text-gray-700">Total Iuran</span>
-                            <h5 class="text-red-600 mt-2 text-xl">
-                                Rp. 0
-                            </h5>
-                        </div>
-                    </div>
-                    <!-- Sisa Nominal Yang Harus Dibayar -->
-                    <div class="w-full md:w-1/3">
-                        <div class="bg-yellow-100 text-center p-4 rounded-lg shadow-md">
-                            <span class="text-gray-700">Sisa Nominal Yang Harus Dibayar</span>
-                            <h5 class="text-yellow-600 mt-2 text-xl">
-                                Rp. 0
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center d-flex flex-col text-gray-500" style="margin-top: 4rem">
-                    <i class="ri-money-dollar-circle-line text-primary-500" style="font-size: 3rem"></i>
-                    <h1 class="text-primary-500">Tidak ada data kontrak yang tersedia.</h1>
+                <div class="relative overflow-x-auto shadow-lg sm:rounded-lg">
+                    <table class="w-full text-lg text-left rtl:text-right text-gray-600 dark:text-gray-300">
+                        <thead
+                            class="text-md text-gray-800 uppercase bg-green-100 dark:bg-gray-700 dark:text-gray-300">
+                            <tr>
+                                <th scope="col" class="px-8 py-4">
+                                    Nama
+                                </th>
+                                <th scope="col" class="px-8 py-4">
+                                    Nominal
+                                </th>
+                                <th scope="col" class="px-8 py-4">
+                                    Pembayaran Untuk Bulan
+                                </th>
+                                <th scope="col" class="px-8 py-4">
+                                    Tanggal Pembayaran
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($lease->payments as $index => $payment)
+                                <tr
+                                    class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                    <th scope="row"
+                                        class="px-8 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $lease->user->name }}
+                                    </th>
+                                    <td class="px-8 py-4">
+                                        {{ 'Rp. ' . number_format($payment->nominal) }}
+                                    </td>
+                                    <td class="px-8 py-4">
+                                        {{ \Carbon\Carbon::parse($payment->month)->locale('id')->translatedFormat('j F Y') }}
+                                    </td>
+                                    <td class="px-8 py-4">
+                                        {{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->translatedFormat('j F Y') }}
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="px-8 py-4 text-center text-gray-500">Belum ada
+                                        pembayaran.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        @endforelse
+    </div>
+
+@empty
+    <div class="space-y-8 py-8 mx-4 mb:mx-16 w-3/4" style="margin-left: 14rem; margin-right: 14rem; height: 45rem;">
+        <<div class="flex justify-center gap-4">
+            <!-- Total Yang Sudah Dibayar -->
+            <div class="w-full" style=" border-radius: 30px">
+                <div class="bg-green-200 text-center p-4 shadow-md" style="border-radius: 30px">
+                    <span class="text-gray-700">Total Yang Sudah Dibayar</span>
+                    <h5 class="text-green-600 mt-2 text-xl">
+                        Rp. 0
+                    </h5>
+                </div>
+            </div>
+            <!-- Total Iuran -->
+            <div class="w-full" style=" border-radius: 30px">
+                <div class="bg-red-200 text-center p-4 rounded-lg shadow-md" style="border-radius: 30px">
+                    <span class="text-gray-700">Total Iuran</span>
+                    <h5 class="text-red-600 mt-2 text-xl">
+                        Rp. 0
+                    </h5>
+                </div>
+            </div>
+            <!-- Sisa Nominal Yang Harus Dibayar -->
+            <div class="w-full" style=" border-radius: 30px">
+                <div class="bg-yellow-200 text-center p-4 rounded-lg shadow-md" style="border-radius: 30px">
+                    <span class="text-yellow-600">Sisa Nominal Yang Harus Dibayar</span>
+                    <h5 class="text-yellow-600 mt-2 text-xl">
+                        Rp. 0
+                    </h5>
+                </div>
+            </div>
+    </div>
+    <div class="text-center d-flex flex-col text-gray-500" style="margin-top: 4rem">
+        <i class="ri-money-dollar-circle-line text-primary-500" style="font-size: 3rem"></i>
+        <h1 class="text-primary-500">Tidak ada data kontrak yang tersedia.</h1>
+    </div>
+    </div>
+    @endforelse
     </div>
 
     <!-- footer area start -->
@@ -646,6 +700,16 @@
     <!-- footer area end -->
 
 
+    <script>
+        // Scroll to #tenant section if the URL contains #tenant fragment
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash === '#tenant') {
+                document.getElementById('tenant').scrollIntoView();
+            }
+        });
+    </script>
 </body>
+
+
 
 </html>
