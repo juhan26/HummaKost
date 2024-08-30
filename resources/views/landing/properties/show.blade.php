@@ -493,8 +493,19 @@
                                     <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
                                         <div class="mb-4 overflow-hidden rounded-lg">
                                             <a href="#">
-                                                <img src="{{ $user->user->photo ? asset('storage/' . $user->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                    alt="{{ $user->user->name }}" class="rounded-lg">
+                                            @if ($user->user->photo)
+                                                        <img src="{{ asset('storage/' . $user->user->photo) }}"
+                                                            class="rounded-circle" alt="{{ $user->user->name }}">
+                                                    @elseif ($user->user->gender === 'male')
+                                                        <img class="rounded-circle" src="{{asset('assets/img/avatars/5.png')}}"
+                                                            alt="Avatar">
+                                                    @elseif ($user->user->gender === 'female')
+                                                        <!-- Jika jenis kelamin pengguna adalah female dan foto tidak ada, tampilkan avatar perempuan -->
+                                                        <img class="rounded-circle" src="{{asset('assets/img/avatars/10.png')}}"
+                                                            alt="Avatar">
+                                                    @endif
+                                                <!-- <img src="{{ $user->user->photo ? asset('storage/' . $user->user->photo) : asset('assets/img/image_not_available.png') }}"
+                                                    alt="{{ $user->user->name }}" class="rounded-lg"> -->
                                             </a>
                                         </div>
                                         <div>
