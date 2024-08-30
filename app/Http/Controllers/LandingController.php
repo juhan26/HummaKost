@@ -23,44 +23,36 @@ class LandingController extends Controller
         $price_range = $request->input('price_range');
         $sort = $request->input('sort');
         $availability = $request->input('availability');
-
-        if ($search || $gender || $availability || $price_range || $sort) {
-
-            $query->where(function ($query) use ($search) {
-                $query->where('name', 'LIKE', "%{$search}%");
-            })->where(function ($query) use ($gender) {
-                if ($gender !== 'all') {
-                    $query->where('gender_target', $gender);
-                }
-            })->where(function ($query) use ($availability) {
-                if ($availability !== 'all') {
-                    $query->where('status', $availability);
-                } else if ($availability == 'available') {
-                    $query->where('status', $availability);
-                } else if ($availability == 'full') {
-                    $query->where('status', $availability);
-                }
-            })->where(function ($query) use ($price_range) {
-                if ($price_range) {
-                    $query->whereBetween('rental_price', [0, $price_range]);
-                }
-            })->when(function ($query) use ($sort) {
-                if ($sort === 'newest') {
-                    $query->orderBy('created_at', 'desc');
-                } elseif ($sort === 'oldest') {
-                    $query->orderBy('created_at', 'asc');
-                }
-            });
-        }
-
-
-
-        // Sorting by price (ascending order)
-
-
+    
+        // Applying filters using when
+        $query->when($search, function ($query, $search) {
+            $query->where('name', 'LIKE', "%{$search}%");
+        })
+        ->when($gender && $gender !== 'all', function ($query) use ($gender) {
+            $query->where('gender_target', $gender);
+        })
+        ->when($availability && $availability !== 'all', function ($query) use ($availability) {
+            $query->where('status', $availability);
+        })
+        ->when($price_range, function ($query) use ($price_range) {
+            $query->whereBetween('rental_price', [0, $price_range]);
+        });
+    
+        // Sorting by status (available first, then full)
+        $query->orderByRaw("FIELD(status, 'available', 'full') ASC");
+    
+        // Additional sorting by date if provided
+        $query->when($sort, function ($query) use ($sort) {
+            if ($sort === 'newest') {
+                $query->orderBy('created_at', 'desc');
+            } elseif ($sort === 'oldest') {
+                $query->orderBy('created_at', 'asc');
+            }
+        });
+    
         // Pagination
         $properties = $query->paginate(6);
-
+    
         // Append all query parameters to pagination links
         $properties->appends([
             'search' => $request->input('search'),
@@ -69,10 +61,11 @@ class LandingController extends Controller
             'sort' => $request->input('sort'),
             'price_range' => $request->input('price_range'),
         ]);
-
+    
         // Return view with filtered properties
         return view('landing.properties.index', compact('properties', 'price_range'));
     }
+    
 
 
 
@@ -99,18 +92,7 @@ class LandingController extends Controller
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 
         $facilities = Facility::all();
-
-        $loogedInUserId = auth()->id();
-        $query = Feedback::query();
-        $feedbacks = $query->with('user')
-            ->orderByRaw("
-                CASE
-                    WHEN user_id = ? THEN 0
-                    ELSE 1
-                END
-            ", [$loogedInUserId])
-            ->latest()
-            ->paginate(10);
+        $feedbacks = Feedback::with('user')->get();
 
 
         // Kirim data ke view
