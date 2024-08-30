@@ -42,6 +42,8 @@ class HomeController extends Controller
         $userRejected = User::where('status', 'rejected')->count();
         $userPending = User::where('status', 'pending')->count();
 
+        $leases = Lease::with(['user', 'payments'])->latest()->get();
+
         $currentMonth = Carbon::now()->month;
 
         $paymentIncome = PaymentPerMonth::selectRaw('MONTH(created_at) as month, SUM(nominal) as total')
@@ -84,6 +86,6 @@ class HomeController extends Controller
             $query->where('name', 'super_admin');
         })->get();
 
-        return view('pages.dashboard.index', compact('incomeMonthlyTotals', 'leasesPerMonth', 'userAccepted', 'userRejected', 'userPending', 'propertiesCount', 'usersCount', 'leasesCount', 'facilityCount', 'instanceCount', 'users'));
+        return view('pages.dashboard.index', compact('leases', 'incomeMonthlyTotals', 'leasesPerMonth', 'userAccepted', 'userRejected', 'userPending', 'propertiesCount', 'usersCount', 'leasesCount', 'facilityCount', 'instanceCount', 'users'));
     }
 }

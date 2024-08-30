@@ -145,6 +145,8 @@ class PaymentPerMonthController extends Controller
             'payment_month' => $startPaymentMonthFormatted,
             'month' => $paymentMonthFormatted,
             'nominal' => $nominal,
+            'due_date' => Carbon::parse($paymentMonthFormatted)->addDays(3),
+            'payment_date' => $request->payment_date,
             'description' => $request->description,
         ]);
 
