@@ -8,6 +8,7 @@ use App\Models\Lease;
 use App\Models\PaymentPerMonth;
 use App\Models\Property;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -191,6 +192,8 @@ class LeaseController extends Controller
                     'lease_id' => $lease->id,
                     'payment_month' =>  $startPaymentMonthFormatted,
                     'month' => $paymentMonthFormatted,
+                    'due_date' => Carbon::parse($paymentMonthFormatted)->addDays(3),
+                    'payment_date' => today(),
                     'nominal' => $request->first_paid_month,
                 ]);
 
