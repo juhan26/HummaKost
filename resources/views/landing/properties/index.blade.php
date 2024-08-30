@@ -173,32 +173,30 @@
                 <!-- menu -->
                 <ul class="xl:flex items-center capitalize hidden">
                     <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.index') }}">Beranda</a>
                     </li>
                     <li class="">
-                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 transition duration-500 px-6 py-3"
+                        <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="{{ route('home.properties') }}">Kontrakan</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}#tentang">Tentang</a>
+                            href="#tentang">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="{{ route('home.index') }}#masukan">Masukan</a>
+                            href="#masukan">Masukan</a>
                     </li>
-                    @auth
+                    {{-- @auth
                         @hasrole('admin|tenant')
                             <li class="">
-                                <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                                <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                                     href="{{ route('user.history', Auth::user()->id) }}">History</a>
                             </li>
                         @endhasrole
-                    @endauth
+                    @endauth --}}
                 </ul>
-
-
                 <!-- menu end -->
 
                 <!-- right menu -->
@@ -215,7 +213,7 @@
                             <div class="relative">
                                 <button id="profile-btn" onclick="a(this)"
                                     class="flex items-center justify-center w-90 h-10 bg-white text-gray-600 hover:bg-white focus:outline-none">
-                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/avatars/1.png') }}"
+                                    <img src="@if (Auth::user()->photo) {{ asset('storage/' . Auth::user()->photo) }} @elseif(Auth::user()->gender === 'male') {{ asset('assets/img/avatars/1.png') }}@else {{ asset('assets/img/avatars/10.png') }} @endif"
                                         onclick="a(this)" alt="User Photo" class="object-cover w-10 h-10 rounded-full">
                                     {{-- <strong style="margin-left: 0.5rem" class="hover:text-primary-500 transform-gpu"
                                         onclick="a(this)">{{ Auth::user()->name }}</strong> --}}
@@ -277,10 +275,18 @@
                                                     {{ Auth::user()->email }}</small>
                                             </div>
                                         </li>
-                                        {{-- <li>
-                                            <a href="{{ route('dashboard') }}"
-                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Dasbor' }}</span></a>
-                                        </li> --}}
+                                        <li>
+
+                                            <a href="{{ route('user.profile', Auth::user()->id) }}"
+                                                class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Profile' }}</span></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{ route('user.history', Auth::user()->id) }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                                History
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
