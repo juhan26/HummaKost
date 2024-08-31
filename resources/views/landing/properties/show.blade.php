@@ -424,17 +424,17 @@
 
                 <section id="property_gambar" class="section property_gambar-section">
                     <div class="container px-4 2xl:px-0">
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center justify-center mb-4">
                             <h2
-                                class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                                class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                                 Gambar
                                 <span class="text-primary-500 after-svg instructor">Kontrakan</span>
                             </h2>
                         </div>
-                
+
                         <div class="flex items-center mb-4">
-                            <p id="descc" class="text-gray-500 text-xl mb-0">Gambar gambar di kontrakan ini
-                                "{{ $property->name }}"</p>
+                            {{-- <p id="descc" class="text-gray-500 text-xl mb-0">Gambar gambar di kontrakan ini
+                                "{{ $property->name }}"</p> --}}
                         </div>
                         <div class="gallery-container mx-auto 2xl:px-0">
                             @if ($property->property_images->isEmpty())
@@ -447,8 +447,10 @@
                                         <div class="grid gap-3">
                                             @foreach ($imagegallery as $image)
                                                 <div>
-                                                    <a href="{{ asset('storage/' . $image->image) }}" data-lightbox="property-gallery">
-                                                        <img src="{{ asset('storage/' . $image->image) }}" alt=""
+                                                    <a href="{{ asset('storage/' . $image->image) }}"
+                                                        data-lightbox="property-gallery">
+                                                        <img src="{{ asset('storage/' . $image->image) }}"
+                                                            alt=""
                                                             class="h-auto max-w-full rounded-lg object-cover w-full h-48">
                                                     </a>
                                                 </div>
@@ -458,30 +460,30 @@
                                 </div>
                             @endif
                         </div>
-                        
-                
+
+
                 </section>
-                
+
 
 
             </div>
         </section>
 
-
         <section id="tenant" class="section-padding instructor-section">
             <div class="container px-4 2xl:px-0">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-center mb-4">
                     <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
+                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                         Daftar
                         <span class="text-primary-500 after-svg instructor">Penyewa</span>
                     </h2>
                 </div>
 
-                <div class="flex items-center mb-4">
+
+                {{-- <div class="flex items-center mb-4">
                     <p id="descc" class="text-gray-500 text-xl mb-0">Daftar-daftar penyewa Kontrakan
                         "{{ $property->name }}"</p>
-                </div>
+                </div> --}}
 
                 <div class="slider-container mx-auto px-4 2xl:px-0">
                     <div class="swiper instructorSwipper relative">
@@ -536,74 +538,127 @@
         </section>
 
 
-        <section id="facility" class="section facility-section">
+        <section id="facility" class="section-padding facility-section">
             <div class="container mx-auto mt-10">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-center mb-4">
                     <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
+                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                         Daftar
                         <span class="text-primary-500 after-svg instructor">Fasilitas</span>
                     </h2>
                 </div>
 
+                <div class="flex items-center justify-center py-4 md:py-8 flex-wrap">
 
-                <p id="descc" class="text-gray-500 text-xl mb-4">Daftar-daftar penyewa Kontrakan
-                    "{{ $property->name }}"</p>
+                    <button type="button"
+                        class="facility-tab text-black hover:text-black border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800"
+                        data-facility="all">
+                        Semua fasilitas
+                    </button>
 
 
-
-                <div class="swiper-container relative">
-                    <div class="swiper-wrapper py-4 mt-4">
-                        @forelse ($property->facilities as $facility)
-                            <div class="swiper-slide" data-aos="fade-up" data-aos-duration="1000">
-                                <div class="max-w-xs min-h-[400px] flex flex-col">
-                                    <div
-                                        class="bg-white rounded-lg border-2 border-transparent hover:border-blue-500 transition p-4 flex">
-                                        <img class="w-16 h-16 mr-4 rounded-lg object-cover"
-                                            src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
-                                            alt="{{ $facility->name }}">
-                                        <div class="flex flex-col justify-between w-full">
-                                            <div>
-                                                <h4
-                                                    class="font-display text-gray-700 text-[20px] ms-3 leading-7 font-medium hover:text-primary-500 transition duration-300 ease-linear">
-                                                    {{ $facility->name }}
-                                                </h4>
-                                                <p class="text-gray-600">{{ $facility->description }}</p>
-                                            </div>
-                                            <div class="flex justify-end mt-2">
-                                                {{-- <a href="#"
-                                                    class="text-green-500 border border-green-500 rounded-full px-4 py-1 text-sm transition">Detail</a> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        @empty
-                            <div class="swiper-slide text-center text-black">Belum ada fasilitas</div>
-                        @endforelse
-                    </div>
-                    @if ($property->facilities->isNotEmpty())
-                        <div class="swiper-button-next" style="background: none; color: #20B486;"></div>
-                        <div class="swiper-button-prev" style="background: none; color: #20B486;"></div>
-                    @endif
+                    @foreach ($property->facilities as $facility)
+                        <button type="button"
+                            class="facility-tab text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:text-white dark:focus:ring-gray-800"
+                            data-facility="{{ $facility->id }}">
+                            {{ $facility->name }}
+                        </button>
+                    @endforeach
                 </div>
+
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    @forelse ($property->facilities as $facility)
+                        @forelse ($facility->facility_images as $index => $image)
+                            @if ($image)
+                                <div class="facility-images col-span-1" data-facility="{{ $facility->id }}"
+                                    style="display: none;">
+                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                        class="img-fluid rounded w-full h-64 object-cover">
+                                </div>
+                            @else
+                                <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3"
+                                    style="display: none;">
+                                    <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
+                                </div>
+                            @endif
+                        @empty
+
+                            <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3"
+                                style="display: none;">
+                                <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
+                            </div>
+                        @endforelse
+                    @empty
+
+                        <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3"
+                            data-facility="empty" style="display: none;">
+                            <p><strong>Tidak ada gambar detail.</strong></p>
+                        </div>
+                    @endforelse
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+
+                        function showImages(facilityId) {
+
+                            document.querySelectorAll('.facility-images').forEach(function(image) {
+                                image.style.display = 'none';
+                            });
+
+
+                            if (facilityId === 'all') {
+                                document.querySelectorAll('.facility-images').forEach(function(image) {
+                                    if (image.getAttribute('data-facility')) {
+                                        image.style.display = 'block';
+                                    }
+                                });
+                            } else {
+                                var images = document.querySelectorAll('.facility-images[data-facility="' + facilityId + '"]');
+                                if (images.length > 0) {
+                                    images.forEach(function(image) {
+                                        image.style.display = 'block';
+                                    });
+                                } else {
+
+                                    document.querySelector('.facility-images[data-facility="empty"]').style.display = 'block';
+                                }
+                            }
+                        }
+
+
+                        document.querySelectorAll('.facility-tab').forEach(function(tab) {
+                            tab.addEventListener('click', function() {
+
+                                var facilityId = this.getAttribute('data-facility');
+
+
+                                showImages(facilityId);
+                            });
+                        });
+
+
+                        showImages('all');
+                    });
+                </script>
 
             </div>
         </section>
+
 
 
         <!-- Mengimpor Swiper CSS dan JS -->
 
 
         <div class="container mx-auto mt-10 mb-10">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-center mb-4">
                 <h2
-                    class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4">
+                    class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
+                    Tempat
                     <span class="text-primary-500 after-svg instructor">Lokasi</span>
                 </h2>
             </div>
-            <div class="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="w-full bg-white rounded-2xl overflow-hidden">
                 <div class="map-container relative" style="z-index: 0;">
                     <div style="width: 100%; height: 745px;" id="map"></div>
                 </div>
