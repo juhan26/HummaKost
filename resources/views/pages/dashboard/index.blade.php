@@ -87,310 +87,470 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-12 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Penyewa Yang Mendekati Batas Tenggat Pembayaran</div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @forelse ($leases as $lease)
-                            @php
-                                foreach ($lease->payments as $payment) {
-                                    $due_date = $payment->due_date;
-                                }
-                                $startReminderDate = \Carbon\Carbon::parse($due_date)->subDays(3);
-                                $endReminderDate = \Carbon\Carbon::parse($due_date);
-                                $daysLeft = today()->diffInDays(\Carbon\Carbon::parse($due_date));
-                            @endphp
-            
-                            @if (today()->between($startReminderDate, $endReminderDate))
-                                <div class="col-md-4 col-lg-4">
-                                    <div class="card h-100" style="overflow: hidden">
-                                        <span
-                                            style="border-radius: 15px;height: 28px;top: 10px;right:10px;{{ $lease->total_nominal >= $lease->total_iuran ? 'border:1px solid rgba(50,200,50,.4);' : 'border:1px solid rgba(200,50,50,.4);' }}"
-                                            class="badge fs-6 position-absolute {{ $lease->total_nominal >= $lease->total_iuran ? 'bg-label-success' : 'bg-label-danger' }}">
-                                            {{ $lease->total_nominal >= $lease->total_iuran ? 'Lunas' : 'Belum Lunas' }}
-                                        </span>
-                                        <span
-                                            style="border-radius: 15px;height: 28px;top: 10px;left:10px;border:1px solid rgba(50,50,200,.4);"
-                                            class="badge fs-6 position-absolute bg-label-warning">
-                                            {{ $lease->properties->name }}
-                                        </span>
-                                        @if ($lease->user->photo)
-                                            <img src="{{ asset('storage/' . $lease->user->photo) }}" class=""
-                                                alt="{{ $lease->user->name }}">
-                                        @elseif ($lease->user->gender === 'male')
-                                            <img class="" src="../../assets/img/avatars/5.png" alt="Avatar">
-                                        @elseif ($lease->user->gender === 'female')
-                                            <img class="" src="../../assets/img/avatars/10.png" alt="Avatar">
-                                        @endif
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between p-0 m-1 align-items-center">
-                                                <h4 class="card-title"><strong>{{ $lease->user->name }}</strong></h4>
-                                            </div>
-                                            <div style="height:fit-content;">
-                                                <p class="card-text"
-                                                    style="width:70%; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical">
-                                                    @if ($daysLeft > 0)
-                                                        <p>Penyewa ini memiliki tenggat waktu semakin dekat, <strong style="color: red">sisa {{ $daysLeft }} hari lagi!</strong>
-                                                        </p>
-                                                    @elseif ($daysLeft == 0)
-                                                        <p style="color: red;">Hari ini adalah tenggat waktu!</p>
+            <div class="col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Penyewa Yang Mendekati Batas Tenggat Pembayaran</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <tr class="text-center" style="border-bottom: 1px solid rgba(0,0,0,.15);">
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>Sekolah</th>
+                                    <th>Kontrakan</th>
+                                    <th>Tenggat Waktu</th>
+                                    <th>Nominal Minimum Pembayaran</th>
+                                    {{-- @if (request()->input('filter') === 'admin')
+                                    <th>Kontrakan</th>
+                                @else
+                                    <th>Status</th>
+                                @endif --}}
+                                </tr>
+                                <tbody class="table-border-bottom-0">
+                                    @forelse ($leases as $index => $lease)
+                                        @php
+                                            foreach ($lease->payments as $payment) {
+                                                $due_date = $payment->due_date;
+                                            }
+                                            $startReminderDate = \Carbon\Carbon::parse($due_date)->subDays(3);
+                                            $endReminderDate = \Carbon\Carbon::parse($due_date);
+                                            $daysLeft = today()->diffInDays(\Carbon\Carbon::parse($due_date));
+                                        @endphp
+
+                                        @if (today()->between($startReminderDate, $endReminderDate))
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>
+                                                    <ul
+                                                        class="list-unstyled m-0 d-flex avatar-group my-1 align-items-center mx-5">
+                                                        <li data-bs-toggle="tooltip" data-bs-html="true"
+                                                            title='<img src="{{ $lease->user->photo ? asset('storage/' . $lease->user->photo) : asset('assets/img/image_not_available.png') }}"  class="card-img-top img-fluid" alt="{{ $lease->user->name }}">'
+                                                            class="avatar pull-up" data-popup="tooltip-custom"
+                                                            data-bs-placement="top" id="tt">
+                                                            @if ($lease->user->photo)
+                                                                <!-- Jika foto pengguna ada, tampilkan foto tersebut -->
+                                                                <img src="{{ asset('storage/' . $lease->user->photo) }}"
+                                                                    class="rounded-circle" alt="{{ $lease->user->name }}">
+                                                            @elseif ($lease->user->gender === 'male')
+                                                                <!-- Jika jenis kelamin pengguna adalah male dan foto tidak ada, tampilkan avatar laki-laki -->
+                                                                <img class="rounded-circle"
+                                                                    src="../../assets/img/avatars/5.png" alt="Avatar">
+                                                            @elseif ($lease->user->gender === 'female')
+                                                                <!-- Jika jenis kelamin pengguna adalah female dan foto tidak ada, tampilkan avatar perempuan -->
+                                                                <img class="rounded-circle"
+                                                                    src="../../assets/img/avatars/10.png" alt="Avatar">
+                                                            @endif
+                                                        </li>
+                                                        <li>
+                                                            <span class="card-title ms-3">
+                                                                {{ $lease->user->name }}
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', () => {
+                                                            const tooltip = document.querySelectorAll('#tt')
+                                                            tooltip.forEach(t => {
+                                                                new bootstrap.Tooltip(t);
+                                                            });
+                                                        });
+                                                    </script>
+                                                </td>
+                                                <td class="text-center">
+                                                    @if ($lease->user->gender === 'male')
+                                                        <div class="w-100 px-5">
+                                                            Laki-Laki
+                                                        </div>
+                                                    @else
+                                                        <div class="w-100 px-5">
+                                                            Perempuan
+                                                        </div>
                                                     @endif
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer d-flex justify-content-end gap-2 align-items-center px-5 mb-5">
-                                            <div>
-                                                @if ($lease->total_nominal < $lease->total_iuran && $lease->status == 'active')
-                                                    <button type="button" class="btn btn-primary" style="border-radius: 50px;"
-                                                        data-bs-toggle="modal" data-bs-target="#createModal{{ $lease->id }}">
-                                                        Bayar
-                                                    </button>
+                                                </td>
+                                                {{-- <td>
+                                                <div class="w-100 px-5">
+                                                    {{ $lease->user->email }}
+                                                </div>
+                                            </td> --}}
+                                                <td>
+                                                    @if ($lease->user->instance_id)
+                                                        <div class="w-100 px-5">
+                                                            {{ $lease->user->instance->name }}
+                                                        </div>
+                                                    @else
+                                                        <div class="w-100 px-5">
+                                                            Belum Memilih Sekolah
+                                                        </div>
+                                                    @endif
+                                                </td>
+                                                {{-- <td>
+                                                <div class="w-100 px-5">
+                                                    {{ $lease->user->phone_number }}
+                                                </div>
+                                            </td> --}}
+                                                <td>
+                                                    <div class="w-100 px-5">
+                                                        {{ $lease->properties->name }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="w-100 px-5">
+                                                        @if ($daysLeft > 0)
+                                                            <p><strong style="color: red">{{ $daysLeft }} Hari
+                                                                </strong>
+                                                            </p>
+                                                        @elseif ($daysLeft == 0)
+                                                            <p style="color: red;">Hari ini adalah tenggat waktu!</p>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="w-100 px-5">
+                                                        {{ 'Rp. ' . number_format($lease->properties->rental_price) }}
+                                                    </div>
+                                                </td>
+                                                {{-- <td>
+                                            @if (request()->input('filter') === 'admin')
+                                                @php
+                                                    $lease = \App\Models\Lease::where('user_id', $lease->user->id)->first();
+                                                @endphp
+                                                @if ($lease !== null)
+                                                    <a class="text-decoration-underline "
+                                                        href="{{ '/properties' . '/' . $lease->property_id }}">{{ $lease->properties->name }}</a>
+                                                @else
+                                                    <span>null</span>
                                                 @endif
-            
-                                                <button type="button" class="btn btn-primary"
-                                                    style="border-radius: 50px; background-color: #7B7EFF" data-bs-toggle="modal"
-                                                    data-bs-target="#detailModal{{ $lease->id }}">
-                                                    Detail
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        @empty
-                            <p>Tidak ada data yang tenggat waktunya tersisa 3 hari atau kurang.</p>
-                        @endforelse
+                                            @else
+                                                @if ($lease->user->status === 'pending')
+                                                    <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
+                                                @elseif ($lease->user->status === 'accepted')
+                                                    <span class="badge rounded-pill bg-label-primary me-1">Diterima</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-label-danger me-1">Ditolak</span>
+                                                @endif
+                                            @endif
+                                        </td>
+                                        @php
+                                            $adminAccess = 0;
+                                            $userRole = Auth::user();
+
+                                            if ($userRole->hasRole('admin')) {
+                                                if ($user->hasRole('admin')) {
+                                                    $adminAccess = 1;
+                                                }
+                                            }
+                                        @endphp
+                                        @if ($adminAccess === 0 && $user->status === 'pending')
+                                            <td>
+                                                <div class="w-100 px-5">
+                                                    <div class="row w-100 ">
+                                                        <div class="col-12 col-lg-6 mb-lg-1 mb-sm-3">
+                                                            <form action="{{ route('user.accept', $user->id) }}" method="POST"
+                                                                class="text-center w-100">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="col-12 btn btn-label-success p-0 m-0 accept-button"
+                                                                    style="width: fit-content;border:1px solid rgba(50, 200, 50,.2);">
+                                                                    <span class="material-symbols-outlined ">check</span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-12 col-lg-6">
+                                                            <form action="{{ route('user.reject', $user->id) }}" method="POST"
+                                                                class="text-center w-100">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="col-12 btn btn-label-danger p-0 m-0 reject-button"
+                                                                    style="width: fit-content;border:1px solid rgba(200, 50, 50,.1);">
+                                                                    <span class="material-symbols-outlined">close</span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        @elseif ($adminAccess === 0 && request()->input('filter') === 'admin')
+                                            @hasrole('super_admin')
+                                                <td>
+                                                    <div class="dropdown d-flex justify-content-center">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editModal{{ $user->id }}"><i
+                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#dismissModal{{ $user->id }}"><i
+                                                                    class="ri-close-circle-line me-1"></i>Berhentikan
+                                                                sebagai ketua kontrakan</a>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @endhasrole
+                                        @elseif ($adminAccess === 0 && $user->status !== 'pending')
+                                            @hasrole('super_admin')
+                                                <td>
+                                                    <div class="dropdown d-flex justify-content-center">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editModal{{ $user->id }}"><i
+                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
+                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#deleteModal{{ $user->id }}"><i
+                                                                    class="ri-delete-bin-line me-1"></i>Hapus Anggota</a>
+
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                            @endhasrole
+                                        @elseif ($adminAccess === 1)
+                                        @endif --}}
+                                            </tr>
+                                        @endif
+                                    @empty
+                                        <tr class="text-center">
+                                            <!-- Update colspan to match the number of columns in your table -->
+                                            <td colspan="8" class="">
+                                                <h1 class="material-symbols-outlined mt-4"
+                                                    style="font-size: 3rem;color:rgba(32, 180, 134,.4);">group</h1>
+                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Anggota tidak
+                                                    ditemukan
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- <div class="col-md-12">
-            <div class="row h-100">
-                @php
-                    // Mengambil semua user yang memiliki status pending
-                    $pendingUsers = \App\Models\User::where('status', 'pending')->get();
-                @endphp
-
-                <div class="col-12 mt-4">
-                    <div class="card h-100">
-                        <div class="card-header">
-                            <div class="card-title">Anggota Tertunda</div>
-                        </div>
-                        <div class="card-body">
+            <div class="col-md-12 mt-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <div class="card-title">Calon Penyewa Tertunda</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive text-nowrap" style="max-height: 400px; overflow: auto">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
                                         <th>Email</th>
+                                        <th>Nomor Telepon</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style="max-height: 400px; overflow: auto">
+                                    @php
+                                        $pendingUsers = \App\Models\User::where('status', 'pending')->get();
+                                    @endphp
                                     @forelse ($pendingUsers as $user)
                                         <tr>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
+                                            <td>{{ $user->phone_number }}</td>
                                             <td>
                                                 <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
                                             </td>
                                         </tr>
                                     @empty
-                                        <td colspan="3" class="text-center">Belum Ada Calon Penyewa</td>
+                                        <td colspan="4" class="text-center">Belum Ada Calon Penyewa</td>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
-                        <div class="d-flex justify-content-end mt-3 mb-5 me-4">
-                            <!-- Menambahkan filter ke route agar hanya menampilkan pengguna dengan status pending -->
+                    </div>
+                    <div class="d-flex justify-content-end mt-3 mb-5 me-4">
+                        <a href="{{ route('user.index') }}" class="btn btn-primary">Lihat Penyewa</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <div class="card-title">Penyewa Terbaru</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive text-nowrap" style="max-height: 400px; overflow: auto">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr class="text-center" style="border-bottom: 1px solid rgba(0,0,0,.15);">
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Sekolah</th>
+                                        <th>Kontrakan</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users->take(10) as $index => $user)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->gender === 'male' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                            <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
+                                            </td>
+                                            <td>{{ $user->lease ? $user->lease->properties->name : "Belum Ada Kontrakan" }}</td>
+                                            <td>
+                                                <span
+                                                    class="px-2 py-1 rounded-lg
+                                                            {{ $user->status === 'accepted' ? 'badge rounded-pill bg-label-primary' : 'badge rounded-pill bg-label-danger' }}">
+                                                    {{ $user->status === 'accepted' ? 'Diterima' : 'Ditolak' }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-end mt-3">
                             <a href="{{ route('user.index') }}" class="btn btn-primary">Lihat Anggota</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-12 ">
-
-                    <div class="card h-100">
-                        <div class="card-header">
-                            <div class="card-title">Anggota Terdaftar</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive text-nowrap">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr class="text-center" style="border-bottom: 1px solid rgba(0,0,0,.15);">
-                                            <th>No</th>
-                                            <th>Nama</th>
-                                            <th>Jenis Kelamin</th>
-                                            <th>Email</th>
-                                            <th>Sekolah</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($users->take(10) as $index => $user)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->gender === 'male' ? 'Laki-laki' : 'Perempuan' }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="px-2 py-1 rounded-lg
-                                                            {{ $user->status === 'accepted' ? 'badge rounded-pill bg-label-primary' : 'badge rounded-pill bg-label-danger' }}">
-                                                        {{ $user->status === 'accepted' ? 'Diterima' : 'Ditolak' }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="d-flex justify-content-end mt-3">
-                                <a href="{{ route('user.index') }}" class="btn btn-primary">Lihat Anggota</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div> --}}
-    </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var data = @json($leasesPerMonth);
-        var currentMonth = new Date().getMonth();
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var data = @json($leasesPerMonth);
+            var currentMonth = new Date().getMonth();
 
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var latestMonth = months.slice(0, currentMonth + 1);
-        var options = {
-            series: data,
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '55%',
-                    endingShape: 'rounded'
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var latestMonth = months.slice(0, currentMonth + 1);
+            var options = {
+                series: data,
+                chart: {
+                    type: 'bar',
+                    height: 350
                 },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: latestMonth,
-            },
-            // yaxis: {
-            //     title: {
-            //         text: 'Penyewa'
-            //     }
-            // },
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function(val) {
-                        return val + " Penyewa"
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                        endingShape: 'rounded'
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: latestMonth,
+                },
+                // yaxis: {
+                //     title: {
+                //         text: 'Penyewa'
+                //     }
+                // },
+                fill: {
+                    opacity: 1
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + " Penyewa"
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        var chart = new ApexCharts(document.querySelector("#barChart"), options);
-        chart.render();
+            var chart = new ApexCharts(document.querySelector("#barChart"), options);
+            chart.render();
 
-        const doughnutCtx = document.getElementById('dashboardChart').getContext('2d');
-        const dashboardChart = new Chart(doughnutCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Diterima : {{ $userAccepted }}', 'Pending : {{ $userPending }}',
-                    'Ditolak : {{ $userRejected }}'
+            const doughnutCtx = document.getElementById('dashboardChart').getContext('2d');
+            const dashboardChart = new Chart(doughnutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Diterima : {{ $userAccepted }}', 'Pending : {{ $userPending }}',
+                        'Ditolak : {{ $userRejected }}'
 
-                ],
-                datasets: [{
-                    data: [
-                        {{ $userAccepted }},
-                        {{ $userPending }},
-                        {{ $userRejected }},
                     ],
-                    backgroundColor: [
-                        'rgb(32, 180, 133)',
-                        'rgb(255, 193, 7)',
-                        'rgb(220, 53, 69)',
-                    ],
-                    borderColor: [
-                        'rgb(32, 180, 133)',
-                        'rgb(255, 193, 7)',
-                        'rgb(220, 53, 69)',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.raw || 0;
-                                return `${label}: ${value}`;
+                    datasets: [{
+                        data: [
+                            {{ $userAccepted }},
+                            {{ $userPending }},
+                            {{ $userRejected }},
+                        ],
+                        backgroundColor: [
+                            'rgb(32, 180, 133)',
+                            'rgb(255, 193, 7)',
+                            'rgb(220, 53, 69)',
+                        ],
+                        borderColor: [
+                            'rgb(32, 180, 133)',
+                            'rgb(255, 193, 7)',
+                            'rgb(220, 53, 69)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    return `${label}: ${value}`;
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
 
-        var incomeMonthlyTotals = @json($incomeMonthlyTotals);
-        const lineCtx = document.getElementById('lineChart').getContext('2d');
-        const lineChart = new Chart(lineCtx, {
-            type: 'line',
-            data: {
-                labels: latestMonth,
-                datasets: [{
-                    label: 'Pemasukan Perbulan',
-                    data: Object.values(incomeMonthlyTotals),
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.dataset.label || '';
-                                const value = context.raw || 0;
-                                return `${label}: ${value}`;
+            var incomeMonthlyTotals = @json($incomeMonthlyTotals);
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            const lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: latestMonth,
+                    datasets: [{
+                        label: 'Pemasukan Perbulan',
+                        data: Object.values(incomeMonthlyTotals),
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.raw || 0;
+                                    return `${label}: ${value}`;
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
-    </script>
-@endsection
+            });
+        </script>
+    @endsection
