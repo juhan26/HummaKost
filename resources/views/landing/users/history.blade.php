@@ -386,6 +386,7 @@
         @endforeach
 
         @forelse ($leases as $lease)
+
             <div class="flex justify-center gap-4">
                 <!-- Total Yang Sudah Dibayar -->
                 <div class="w-full" style=" border-radius: 30px">
@@ -446,25 +447,46 @@
                         </thead>
                         <tbody>
                             @forelse ($lease->payments as $index => $payment)
+                                @php
+                                    foreach ($lease->payments as $payment) {
+                                        $due_date = $payment->due_date;
+                                    }
+                                    $startReminderDate = \Carbon\Carbon::parse($due_date)->subDays(3);
+                                    $endReminderDate = \Carbon\Carbon::parse($due_date);
+                                    $daysLeft = today()->diffInDays(\Carbon\Carbon::parse($due_date));
+                                @endphp
                                 <tr
-                                    class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                    <th scope="row"
-                                        class="px-8 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $lease->user->name }}
-                                    </th>
-                                    <td class="px-8 py-4">
-                                        {{ 'Rp. ' . number_format($payment->nominal) }}
-                                    </td>
-                                    <td class="px-8 py-4">
-                                        {{ \Carbon\Carbon::parse($payment->month)->locale('id')->translatedFormat('j F Y') }}
-                                    </td>
-                                    <td class="px-8 py-4">
-                                        {{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->translatedFormat('j F Y') }}
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="px-8 py-4 text-center text-gray-500">Belum ada
+                                class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                <th scope="row"
+                                class="px-8 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $lease->user->name }}
+                            </th>
+                            <td class="px-8 py-4">
+                                {{ 'Rp. ' . number_format($payment->nominal) }}
+                            </td>
+                            <td class="px-8 py-4">
+                                {{ \Carbon\Carbon::parse($payment->month)->locale('id')->translatedFormat('j F Y') }}
+                            </td>
+                            <td class="px-8 py-4">
+                                {{ \Carbon\Carbon::parse($payment->created_at)->locale('id')->translatedFormat('j F Y') }}
+                            </td>
+                            @if (today()->between($startReminderDate, $endReminderDate))
+                            <td>
+                                <div class="w-100 px-5">
+                                    @if ($daysLeft > 0)
+                                        <p><strong style="color: red">{{ $daysLeft }} Hari
+                                            </strong>
+                                        </p>
+                                    @elseif ($daysLeft == 0)
+                                        <p style="color: red;">Hari ini adalah tenggat waktu!</p>
+                                    @endif
+                                </div>
+                            </td>
+                            @endif
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="px-8 py-4 text-center text-gray-500">Belum ada
                                         pembayaran.</td>
                                 </tr>
                             @endforelse
