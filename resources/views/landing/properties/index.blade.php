@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <link href="https://cdn.jsdelivr.n          et/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
 
     <!-- favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
@@ -428,7 +428,7 @@
             <div class="w-1/4 bg-white p-6 rounded-xl shadow-md" data-aos="fade-right" data-aos-duration="1100">
                 <form method="get">
                     @csrf
-                    <div class="mb-8">
+                    {{-- <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Filter tersedia:</h2>
                         <div class="mb-4">
                             <label for="availability1"
@@ -453,7 +453,7 @@
                                 <span>Tidak Tersedia</span>
                             </label>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="mb-8">
                         <h2 class="text-lg font-bold mb-4">Urut berdasarkan:</h2>
                         <div class="mb-4">
@@ -725,8 +725,8 @@
                                     </span>
                                 @else
                                     <span
-                                        class="label bg-red-100 text-red-400 px-4 py-1 rounded-xl font-semibold mx-auto mt-3 ml-3 text-center">
-                                        Full
+                                    class="label bg-red-100 text-red-400 w-25 px-4 py-1 rounded-xl font-semibold mt-3 ml-3 text-center">
+                                    Full
                                     </span>
                                 @endif
                                 <div class="course-content flex-grow px-4 py-4">
