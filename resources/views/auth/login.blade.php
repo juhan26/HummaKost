@@ -46,7 +46,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
         rel="stylesheet" />
 
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" href="../../assets/vendor/fonts/remixicon/remixicon.css" />
     <link rel="stylesheet" href="../../assets/vendor/fonts/flag-icons.css" />
@@ -78,19 +78,37 @@
     <script src="../../assets/vendor/js/template-customizer.js"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
+    {!! htmlScriptTagJsApi() !!}
 </head>
 
 <body style="background-color: #f9f9f9">
-
+    @if ($errors->any())
+        <div id="toast-error" class="bs-toast toast toast-ex animate__animated my-2 fade show" role="alert"
+            aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+            <div class="toast-header">
+                <i class="ri-error-warning-line me-2 text-danger"></i>
+                <div class="me-auto fw-medium">Error</div>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
     @if (session('error'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: "Perhatian",
                     text: @json(session('error')),
+                    showCancelButton: true,
+                    cancelButtonText: "Tutup",
                     showConfirmButton: false,
                     icon: 'info',
-                    footer: '<a href="/" class="btn btn-primary">Home</a>'
                 });
             });
         </script>
@@ -134,7 +152,7 @@
                             <div class="form-floating form-floating-outline mb-5">
                                 <input id="email" type="email"
                                     class="form-control @error('email') is-invalid @enderror" name="email"
-                                    value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                    value="{{ old('email') }}" autocomplete="email" autofocus>
 
                                 <label for="email">Email</label>
                                 @error('email')
@@ -143,19 +161,14 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="mb-5">
+                            <div>
                                 <div class="form-password-toggle">
                                     <div class="input-group input-group-merge">
                                         <div class="form-floating form-floating-outline">
                                             <input id="password" type="password"
                                                 class="form-control @error('password') is-invalid @enderror"
-                                                name="password" required autocomplete="current-password">
+                                                name="password" autocomplete="current-password">
                                             <label for="password">Password</label>
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
                                         </div>
                                         <span id="password-toggle" class="input-group-text cursor-pointer">
                                             <i id="password-icon" class="ri-eye-off-line"></i>
@@ -163,13 +176,46 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-5 d-flex justify-content-end mt-5">
+                            @error('password')
+                                <strong class="text-danger m-0" style="font-size: 13px">{{ $message }}</strong>
+                            @enderror
+                            <div class="mb-1 d-flex justify-content-end mt-1">
                                 @if (Route::has('password.request'))
                                     <a class="btn-link float-end mb-1 mt-2" href="{{ route('password.request') }}">
                                         <span>Lupa kata sandi?</span>
                                     </a>
                                 @endif
                             </div>
+                            <div>
+                                <style>
+                                    .recaptcha-container {
+                                        width: 100%;
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        margin: 0 auto;
+                                        padding: 10px;
+                                        box-sizing: border-box;
+                                    }
+
+                                    .g-recaptcha {
+                                        width: 100% !important;
+                                        transform: scale(1);
+                                        transform-origin: 0 0;
+                                    }
+                                </style>
+                                <div class="recaptcha-container">
+                                    {!! htmlFormSnippet([
+                                        'theme' => 'light',
+                                        'size' => 'normal',
+                                        'tabindex' => '3',
+                                        'callback' => 'callbackFunction',
+                                        'expired-callback' => 'expiredCallbackFunction',
+                                        'error-callback' => 'errorCallbackFunction',
+                                    ]) !!} {{-- class="g-recaptcha" --}}
+                                </div>
+                            </div>
+
                             <div class="my-5">
                                 <button type="submit" class="btn btn-primary d-grid w-100">
                                     {{ __('Login') }}
@@ -183,12 +229,8 @@
                 <!-- /Login -->
 
                 <img alt="mask" src="{{ asset('images/Group 65.png') }}"
-                    class="position-absolute d-none d-lg-block"
-                    style="top: 6%;z-index: -1;left:30%;opacity:60%;"
-                    data-aos="zoom-in"
-                    data-aos-duration="1000"
-                    data-aos-delay="500"
-                    />
+                    class="position-absolute d-none d-lg-block" style="top: 6%;z-index: -1;left:30%;opacity:60%;"
+                    data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="500" />
             </div>
         </div>
     </div>
@@ -246,7 +288,7 @@
     </script>
     <script>
         AOS.init();
-      </script>
+    </script>
 
 
 </body>

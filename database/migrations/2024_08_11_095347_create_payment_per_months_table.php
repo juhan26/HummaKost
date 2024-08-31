@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('payment_month');
             $table->string('month');
             $table->decimal('nominal', 10, 2);
+            $table->date('due_date')->nullable();
+            $table->date('payment_date');
             $table->text('description')->nullable();
             $table->timestamps();
         });

@@ -149,6 +149,7 @@
                                     foreach ($lease->payments as $payment) {
                                         $startPayment = $payment->payment_month;
                                         $lastPayment = $payment->month;
+                                        $due_date = $payment->due_date;
                                     }
                                 @endphp
 
@@ -169,6 +170,15 @@
                                                 Pembayaran selanjutnya pada tanggal
                                                 <strong style="color: red">{{ $lastPaid->format('d F Y') }}</strong>
                                             </p>
+                                        @endif
+
+                                        @php
+                                            $startReminderDate = \Carbon\Carbon::parse($due_date)->subDays(3);
+                                            $endReminderDate = \Carbon\Carbon::parse($due_date);
+                                        @endphp
+                                        @if (today()->between($startReminderDate, $endReminderDate))
+                                            <p>Pengingat: Tenggat waktu semakin dekat, sisa
+                                                {{ today()->diffInDays($endReminderDate) }} hari lagi!</p>
                                         @endif
                                     @else
                                         <p style="color: red">
@@ -255,6 +265,7 @@
                                             <th>Nominal</th>
                                             <th>Pembayaran Pada Tanggal</th>
                                             <th>Pembayaran Sampai Tanggal</th>
+                                            <th>Deskripsi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -267,6 +278,8 @@
                                                 <td>{{ \Carbon\Carbon::parse($payment->payment_month)->translatedFormat('d F Y') }}
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($payment->month)->subDays(1)->translatedFormat('d F Y') }}
+                                                </td>
+                                                <td>{{ $payment->description ? $payment->description : 'Deskripsi Kosong' }}
                                                 </td>
                                             </tr>
                                         @empty
@@ -363,6 +376,13 @@
                                         @error('sisa_iuran')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror --}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="payment_date" class="form-label">Tanggal Pembayaran</label>
+                                    <input type="date" class="form-control" name="payment_date">
+                                    @error('payment_date')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="createDescription" class="form-label">Deskripsi

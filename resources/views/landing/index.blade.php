@@ -130,6 +130,14 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="#masukan">Masukan</a>
                     </li>
+                    {{-- @auth
+                        @hasrole('admin|tenant')
+                            <li class="">
+                                <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 hover:text-primary-500 transition duration-500 px-6 py-3"
+                                    href="{{ route('user.history', Auth::user()->id) }}">History</a>
+                            </li>
+                        @endhasrole
+                    @endauth --}}
                 </ul>
                 <!-- menu end -->
 
@@ -215,6 +223,12 @@
                                                 class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Profile' }}</span></a>
                                         </li>
 
+                                        <li>
+                                            <a href="{{ route('user.history', Auth::user()->id) }}"
+                                                class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                                History
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"

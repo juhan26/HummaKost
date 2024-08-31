@@ -1,9 +1,13 @@
 @include('components.layouts.head')
-<div class="container d-flex justify-content-center align-items-start" style="height: 100vh">
-    <div class="row justify-content-center w-75" style="margin: 12% 0px 0px 0px">
-        <div class="col-md-8">
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-4">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+                <div class="card-header">
+                    <h3 class="text-center">
+                        Reset Password
+                    </h3>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -16,9 +20,9 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
+                                <label for="email" class="form-label">{{ __('Email Address') }}</label>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
@@ -29,10 +33,10 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
+                        <div class="row mb-0 mt-4">
+                            <div class="col-12 d-flex justify-content-end mt-4">
+                                <button type="submit" class="btn btn-primary mt-4">
+                                    {{ __('Kirim Tautan') }}
                                 </button>
                             </div>
                         </div>
