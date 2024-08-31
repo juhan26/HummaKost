@@ -70,38 +70,43 @@ class LandingController extends Controller
 
 
 
-    public function index(Request $request)
+    public function index(Request $request, User $user)
     {
         // Ambil property_id yang dipilih dari query string
         $properties = Property::latest()->paginate(6);
-
+    
         $selectedPropertyId = $request->input('property_id', $properties->first()->id ?? null);
-
-        // Ambil semua properti dengan pagination
-
+    
         // Query untuk leases berdasarkan property_id yang dipilih
         $leasesQuery = Lease::query();
         if ($selectedPropertyId) {
             $leasesQuery->where('property_id', $selectedPropertyId);
         }
-        // Muat relasi 'users' dengan leases
         $leases = $leasesQuery->with('user')->get();
-
-        // Ambil pengguna berdasarkan property_id yang dipilih dari le  ases
+    
+        // Ambil pengguna berdasarkan property_id yang dipilih dari leases
         $userIds = $leases->pluck('user.id')->unique();
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
-
+    
         $facilities = Facility::all();
         $feedbacks = Feedback::with('user')->get();
-
-
+    
+        // Cek apakah user sudah memberikan feedback untuk properti ini
+        // $existingFeedback = Feedback::where('user_id', $user->id)
+        //                             ->where('property_id', $selectedPropertyId)
+        //                             ->first();
+        
+        // if ($existingFeedback) {
+        //     return redirect()->back()->with('error', 'Anda sudah memberikan feedback untuk properti ini.');
+        // }
+    
         // Kirim data ke view
         return view('landing.index', compact('facilities', 'leases', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
     }
+    
 
 
-
-    public function show($id)
+        public function show($id)
     {
         // Ambil data properti berdasarkan ID dan muat lease serta pengguna yang terkait
         $property = Property::with('leases.user')->findOrFail($id);

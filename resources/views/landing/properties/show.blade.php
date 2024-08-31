@@ -18,6 +18,8 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    {{-- lightbox --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
     {{-- leafletjs --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
@@ -94,7 +96,7 @@
         <img src="/assets/images/logo.png" alt="Loading..." />
     </div>
     <script>
-         window.addEventListener("load", function() {
+        window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
 
             // Simulate a delay for the loading screen
@@ -420,7 +422,7 @@
                 </div>
 
 
-                <section id="property_gambar" class="section-padding property_gambar-section">
+                <section id="property_gambar" class="section property_gambar-section">
                     <div class="container px-4 2xl:px-0">
                         <div class="flex items-center justify-between mb-4">
                             <h2
@@ -429,43 +431,39 @@
                                 <span class="text-primary-500 after-svg instructor">Kontrakan</span>
                             </h2>
                         </div>
-
-
+                
                         <div class="flex items-center mb-4">
                             <p id="descc" class="text-gray-500 text-xl mb-0">Gambar gambar di kontrakan ini
                                 "{{ $property->name }}"</p>
                         </div>
-                        <div class="slider-container mx-auto px-4 2xl:px-0">
-                            <div class="swiper instructorSwipper relative">
-                                <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                                    @forelse ($property->property_images as $image)
-                                        <div class="swiper-slide">
-                                            <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                                <div class="mb-4 overflow-hidden rounded-lg">
-                                                    <a href="#">
-                                                        <img src="{{ asset('storage/' . $image->image) }}"
-                                                            alt="" class="rounded-lg">
+                        <div class="gallery-container mx-auto 2xl:px-0">
+                            @if ($property->property_images->isEmpty())
+                                <div class="flex justify-center items-center col-span-full h-[300px]">
+                                    <p class="text-center">Belum ada gambar Kontrakan {{ $property->name }}.</p>
+                                </div>
+                            @else
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    @foreach ($property->property_images->chunk(2) as $imagegallery)
+                                        <div class="grid gap-3">
+                                            @foreach ($imagegallery as $image)
+                                                <div>
+                                                    <a href="{{ asset('storage/' . $image->image) }}" data-lightbox="property-gallery">
+                                                        <img src="{{ asset('storage/' . $image->image) }}" alt=""
+                                                            class="h-auto max-w-full rounded-lg object-cover w-full h-48">
                                                     </a>
                                                 </div>
-                                            </div>
+                                            @endforeach
                                         </div>
-                                    @empty
-                                        <div class="flex justify-center items-center w-full h-[300px]">
-                                            <p class="text-center">Belum ada gambar gambar Kontrakan
-                                                {{ $property->name }}.</p>
-                                        </div>
-                                    @endforelse
+                                    @endforeach
                                 </div>
-
-                                @if ($property->property_images->isNotEmpty())
-                                    <div class="swiper-button-next" style="background: none; color: #20B486"></div>
-                                    <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
-                                    <div class="swiper-pagination" style="background: none; color: #20B486"></div>
-                                @endif
-                            </div>
+                            @endif
                         </div>
-                    </div>
+                        
+                
                 </section>
+                
+
+
             </div>
         </section>
 
@@ -480,32 +478,39 @@
                     </h2>
                 </div>
 
-
                 <div class="flex items-center mb-4">
                     <p id="descc" class="text-gray-500 text-xl mb-0">Daftar-daftar penyewa Kontrakan
                         "{{ $property->name }}"</p>
                 </div>
+
                 <div class="slider-container mx-auto px-4 2xl:px-0">
                     <div class="swiper instructorSwipper relative">
                         <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
                             @forelse ($property->leases as $user)
                                 <div class="swiper-slide">
-                                    <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                        <div class="mb-4 overflow-hidden rounded-lg">
+                                    <div
+                                        class="p-4 bg-white shadow-sm rounded-2xl instructor-card inline-flex flex-col items-center">
+                                        <div
+                                            class="mb-4 overflow-hidden rounded-lg inline-flex items-center justify-center">
                                             <a href="#">
-                                                <img src="{{ $user->user->photo ? asset('storage/' . $user->user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                    alt="{{ $user->user->name }}" class="rounded-lg">
+                                                @if ($user->user->photo)
+                                                    <img src="{{ asset('storage/' . $user->user->photo) }}"
+                                                        class="profile-img" alt="{{ $user->user->name }}">
+                                                @elseif ($user->user->gender === 'male')
+                                                    <img class="profile-img"
+                                                        src="{{ asset('assets/img/avatars/5.png') }}" alt="Avatar">
+                                                @elseif ($user->user->gender === 'female')
+                                                    <img class="profile-img"
+                                                        src="{{ asset('assets/img/avatars/10.png') }}"
+                                                        alt="Avatar">
+                                                @endif
                                             </a>
                                         </div>
-                                        <div>
-                                            <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
+                                        <div class="text-center">
+                                            <h2 class="mb-1.5 font-display text-xl text-gray-black">
                                                 <a href="#">{{ $user->user->name }}</a>
-                                                {{-- <span
-                                                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                {{ $user->lease->status }}
-                                            </span> --}}
                                             </h2>
-                                            <h4 class="mb-0 text-base font-display text-gray-500 text-center">
+                                            <h4 class="mb-0 text-base font-display text-gray-500">
                                                 <a href="#">
                                                     {{ $user->user->instance->name }}
                                                 </a>
@@ -520,18 +525,18 @@
                                 </div>
                             @endforelse
                         </div>
-                        @if ($property->leases->isNotEmpty())
+                        {{-- @if ($property->leases->isNotEmpty())
                             <div class="swiper-button-next" style="background: none; color: #20B486"></div>
                             <div class="swiper-button-prev" style="background: none; color: #20B486"></div>
                             <div class="swiper-pagination" style="background: none; color: #20B486"></div>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>
-            </div>
         </section>
 
-        <section id="facility" class="section-padding facility-section">
+
+        <section id="facility" class="section facility-section">
             <div class="container mx-auto mt-10">
                 <div class="flex items-center justify-between mb-4">
                     <h2
@@ -957,6 +962,15 @@
                 return marker;
             }
         }).addTo(map);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var elem = document.querySelector('.grid');
+            var msnry = new Masonry(elem, {
+                itemSelector: '.grid-item',
+                columnWidth: '.grid-sizer',
+                percentPosition: true
+            });
+        });
     </script>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -969,6 +983,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 </body>
 
 </html>

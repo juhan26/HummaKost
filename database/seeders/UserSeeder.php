@@ -94,7 +94,7 @@ class UserSeeder extends Seeder
 
         User::create([
             "name" => "Farah",
-            "gender" => "female",
+            "gender" => "female",       
             "email" => "farah@gmail.com",
             "phone_number" => "089602298379719",
             "instance_id" => 1,
