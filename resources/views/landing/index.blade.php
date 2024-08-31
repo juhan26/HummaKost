@@ -758,6 +758,7 @@
                     @hasrole('tenant|admin')
                         <form action="{{ route('feedback.store') }}" method="POST">
                             @csrf
+                            
                             <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
                                 <label for="message" class="block text-gray-700">Kritik dan Masukan Anda!</label>
                                 <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
