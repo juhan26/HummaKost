@@ -541,22 +541,19 @@
         <section id="facility" class="section-padding facility-section">
             <div class="container mx-auto mt-10">
                 <div class="flex items-center justify-center mb-4">
-                    <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
+                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                         Daftar
                         <span class="text-primary-500 after-svg instructor">Fasilitas</span>
                     </h2>
                 </div>
-
+        
                 <div class="flex items-center justify-center py-4 md:py-8 flex-wrap">
-
                     <button type="button"
                         class="facility-tab text-black hover:text-black border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800"
                         data-facility="all">
                         Semua fasilitas
                     </button>
-
-
+        
                     @foreach ($property->facilities as $facility)
                         <button type="button"
                             class="facility-tab text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:text-white dark:focus:ring-gray-800"
@@ -565,48 +562,36 @@
                         </button>
                     @endforeach
                 </div>
-
-
+        
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                     @forelse ($property->facilities as $facility)
                         @forelse ($facility->facility_images as $index => $image)
-                            @if ($image)
-                                <div class="facility-images col-span-1" data-facility="{{ $facility->id }}"
-                                    style="display: none;">
+                            <div class="facility-images col-span-1" data-facility="{{ $facility->id }}" style="display: none;">
+                                <a href="{{ asset('storage/' . $image->image) }}" data-lightbox="facility-gallery-{{ $facility->id }}">
                                     <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
                                         class="img-fluid rounded w-full h-64 object-cover">
-                                </div>
-                            @else
-                                <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3"
-                                    style="display: none;">
-                                    <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
-                                </div>
-                            @endif
+                                </a>
+                            </div>
                         @empty
-
                             <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3"
                                 style="display: none;">
                                 <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
                             </div>
                         @endforelse
                     @empty
-
-                        <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3"
-                            data-facility="empty" style="display: none;">
+                        <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3" data-facility="empty" style="display: none;">
                             <p><strong>Tidak ada gambar detail.</strong></p>
                         </div>
                     @endforelse
                 </div>
+        
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-
                         function showImages(facilityId) {
-
                             document.querySelectorAll('.facility-images').forEach(function(image) {
                                 image.style.display = 'none';
                             });
-
-
+        
                             if (facilityId === 'all') {
                                 document.querySelectorAll('.facility-images').forEach(function(image) {
                                     if (image.getAttribute('data-facility')) {
@@ -620,30 +605,24 @@
                                         image.style.display = 'block';
                                     });
                                 } else {
-
                                     document.querySelector('.facility-images[data-facility="empty"]').style.display = 'block';
                                 }
                             }
                         }
-
-
+        
                         document.querySelectorAll('.facility-tab').forEach(function(tab) {
                             tab.addEventListener('click', function() {
-
                                 var facilityId = this.getAttribute('data-facility');
-
-
                                 showImages(facilityId);
                             });
                         });
-
-
+        
                         showImages('all');
                     });
                 </script>
-
             </div>
         </section>
+        
 
 
 
