@@ -130,14 +130,6 @@
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
                             href="#masukan">Masukan</a>
                     </li>
-                    {{-- @auth
-                        @hasrole('admin|tenant')
-                            <li class="">
-                                <a class="menu-link font-display font-semibold text-base leading-6 text-primary-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                                    href="{{ route('user.history', Auth::user()->id) }}">History</a>
-                            </li>
-                        @endhasrole
-                    @endauth --}}
                 </ul>
                 <!-- menu end -->
 
@@ -223,12 +215,6 @@
                                                 class="items-center block px-4 py-2 text-sm hover:bg-gray-100"><span>{{ 'Profile' }}</span></a>
                                         </li>
 
-                                        <li>
-                                            <a href="{{ route('user.history', Auth::user()->id) }}"
-                                                class="block px-4 py-2 text-sm hover:bg-gray-100">
-                                                History
-                                            </a>
-                                        </li>
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 class="block px-4 py-2 text-sm hover:bg-gray-100"
@@ -772,17 +758,7 @@
                     @hasrole('tenant|admin')
                         <form action="{{ route('feedback.store') }}" method="POST">
                             @csrf
-
-                            <!-- Dropdown untuk memilih kontrakan -->
-                            <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
-                                <label for="kontrakan_id" class="block text-gray-700">Pilih Kontrakan</label>
-                                <select name="kontrakan_id" id="kontrakan_id" class="w-full px-3 py-2 border rounded-lg"
-                                    required>
-                                    @foreach ($kontrakans as $kontrakan)
-                                        <option value="{{ $kontrakan->id }}">{{ $kontrakan->nama_kontrakan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            
                             <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
                                 <label for="message" class="block text-gray-700">Kritik dan Masukan Anda!</label>
                                 <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
@@ -835,11 +811,9 @@
                             <div>
 
                                 <h2 class="text-base text-gray-900 font-semibold">
-                                    {{ $feedback->user_id ? $feedback->user->name : 'Anonymous' }}
+                                    {{ $feedback->user_id ? $feedback->user->name : 'Anonymous' }} 
                                 </h2>
-                                <span class="text-md text-primary-500">
-                                    <p>(untuk Kontrakan: )</p>
-                                </span>
+                                <span class="text-md text-primary-500"><p>(untuk Kontrakan: )</p></span>
                                 <span class="text-sm text-gray-600">
                                     {{ $feedback->created_at->diffForHumans() }}
                                 </span>
