@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Exceptions\Renderer\Exception;
 
 class LoginController extends Controller
@@ -51,31 +52,47 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $validator = Validator::make(request()->all(), [
+            'g-recaptcha-response' => 'recaptcha',
+            recaptchaFieldName() => recaptchaRuleName(),
+            'email' => 'required|email',
+            'password' => 'required',
+        ],[
+            'g-recaptcha-response.recaptcha'=>'Captcha tidak valid',
+            'email.required'=>'Email wajib diisi',
+            'email.email'=>'Kolom email harus terdapat "@" dan "."',
+            'password.required'=>'Password wajib diisi',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }else{
+            $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+            if (Auth::attempt($credentials)) {
+                $user = Auth::user();
 
-            // Check if the user has the role 'member' and status 'pending'
-            if ($user->roles->contains('name', 'tenant') && $user->status === 'pending') {
-                Auth::logout();
-                $request->session()->flash('error', 'Akun Anda masih belum dikonfirmasi admin, silakan hubungi admin.');
-                return redirect()->route('login');
-            } elseif ($user->roles->contains('name', 'tenant') && $user->status === 'rejected') {
-                Auth::logout();
-                $request->session()->flash('error', 'Akun anda ditolak oleh admin, silakan hubungi admin.');
-                return redirect('/');
-            } elseif ($user->roles->contains('name', 'tenant') && $user->status === 'accepted') {
-                return redirect('/');
+                // Check if the user has the role 'member' and status 'pending'
+                if ($user->roles->contains('name', 'tenant') && $user->status === 'pending') {
+                    Auth::logout();
+                    $request->session()->flash('error', 'Akun Anda masih belum dikonfirmasi admin, silakan hubungi admin.');
+                    return redirect()->route('login');
+                } elseif ($user->roles->contains('name', 'tenant') && $user->status === 'rejected') {
+                    Auth::logout();
+                    $request->session()->flash('error', 'Akun anda ditolak oleh admin, silakan hubungi admin.');
+                    return redirect('/');
+                } elseif ($user->roles->contains('name', 'tenant') && $user->status === 'accepted') {
+                    return redirect('/');
+                }
+
+                return redirect()->intended('dashboard');
             }
 
-            return redirect()->intended('dashboard');
-        }
+            // If authentication fails, redirect back with error
+            return back()->withErrors([
+                'email' => 'email atau password yang anda berikan tidak cocok',
+            ]);
 
-        // If authentication fails, redirect back with error
-        return back()->withErrors([
-            'email' => 'email atau password yang anda berikan tidak cocok',
-        ]);
+        }
     }
 
     public function __construct()

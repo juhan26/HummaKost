@@ -68,7 +68,7 @@
     <script src="../../assets/vendor/js/template-customizer.js"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
-
+    {!! htmlScriptTagJsApi() !!}
 </head>
 
 <body>
@@ -334,6 +334,16 @@
                                                     </span>
                                                 @enderror
                                             </div>
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-end mb-3">
+                                            {!! htmlFormSnippet([
+                                                'theme' => 'light',
+                                                'size' => 'normal',
+                                                'tabindex' => '3',
+                                                'callback' => 'callbackFunction',
+                                                'expired-callback' => 'expiredCallbackFunction',
+                                                'error-callback' => 'errorCallbackFunction',
+                                            ]) !!}
                                         </div>
                                         <div class="col-12 d-flex justify-content-between">
                                             <button type="button" class="btn btn-outline-secondary btn-prev"> <i
