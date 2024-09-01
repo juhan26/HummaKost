@@ -827,7 +827,7 @@
                                 <h2 class="text-base text-gray-900 font-semibold">
                                     {{ $feedback->user_id ? $feedback->user->name : 'Anonymous' }}
                                 </h2>
-                                <span class="text-md text-primary-500"><p>(untuk Kontrakan: )</p></span>
+                                {{-- <span class="text-md text-primary-500"><p>(untuk Kontrakan: {{ $leases->property->name }} )</p></span> --}}
                                 <span class="text-sm text-gray-600">
                                     {{ $feedback->created_at->diffForHumans() }}
                                 </span>
