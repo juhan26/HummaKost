@@ -1,8 +1,11 @@
 @extends('app')
+
 @section('content')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
 <link rel="stylesheet" href="grid-gallery.css">
+
     <div class="col-12">
         <div class="">
             <div class="">
@@ -129,12 +132,12 @@
 
     <h4 class="fw-bold text-center">Detail Foto Kontrakan</h4>
     <section class="gallery-block grid-gallery">
-        <div class="container">
+        <div class="container mb-10">
             <div class="row">
                 @forelse ($property->property_images as $detailFoto)
                     <div class="col-md-6 col-lg-4 item mb-4">
                         <a class="lightbox" href="{{ asset('storage/' . $detailFoto->image) }}">
-                            <img class="img-fluid image scale-on-hover" style="width: 900px; height: 300px;" src="{{ asset('storage/' . $detailFoto->image) }}" alt="{{ $detailFoto->title ?? 'Gambar Kontrakan' }}">
+                            <img class="img-fluid image scale-on-hover" style="width: 400px; height: 400px;" src="{{ asset('storage/' . $detailFoto->image) }}" alt="{{ $detailFoto->title ?? 'Gambar Kontrakan' }}">
                         </a>
                     </div>
                 @empty
@@ -156,11 +159,11 @@
     </script>
 
 
-    <div class="d-flex gap-3 flex-column flex-lg-row mt-6">
+<h4 class="fw-bold text-center">Daftar Anggota</h4>
+    <div class="d-flex gap-3 flex-column flex-lg-row mt-2">
         <!-- ANGGOTA -->
-        <div class="col-12 col-lg-6">
-            <h4 class="fw-bold card-title m-0">Daftar Anggota</h4>
-            <div class="card shadow-sm mt-3">
+        <div class="col-12 col-lg-12">
+            <div class="card shadow-sm mt-2">
 
                 <div class="card-body d-flex flex-wrap gap-4">
                     @forelse ($property_member as $member)
@@ -179,34 +182,34 @@
                             <p class="text-muted mb-0">{{ $member->phone_number }}</p>
                         </div>
                     @empty
-                        <div class="text-center text-muted">Belum ada anggota</div>
+                        <div class="col-12 text-center text-muted">Belum ada anggota</div>
                     @endforelse
                 </div>
             </div>
         </div>
         {{-- ANGGOTA --}}
 
-        <!-- FACILITIES -->
-        <div class="col-12 col-lg-6">
-            <h4 class="fw-bold card-title m-0">Daftar Fasilitas</h4>
-            <div class="card shadow-sm mt-3">
-                <div class="card-body d-flex flex-wrap gap-4">
-                    @forelse ($property->facilities as $facility)
-                        <div class="text-center" style="width: 12rem;">
-                            <img class="mx-auto d-block" style="width: 8rem; height: 8rem;"
-                                src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
-                                alt="{{ $facility->name }}">
-                            <h4 class="mt-3 mb-1">{{ $facility->name }}</h4>
-                            <p class="text-muted mb-0">{{ $facility->status }}</p>
-                        </div>
-                    @empty
-                        <div class="text-center text-muted">Belum ada fasilitas</div>
-                    @endforelse
-                </div>
+    </div>
+    <!-- FACILITIES -->
+    <h4 class="fw-bold text-center">Daftar Fasilitas</h4>
+    <div class="col-12 col-lg-12">
+        <div class="card shadow-sm">
+            <div class="card-body d-flex flex-wrap gap-4">
+                @forelse ($property->facilities as $facility)
+                    <div class="text-center" style="width: 12rem;">
+                        <img class="mx-auto d-block" style="width: 8rem; height: 8rem;"
+                            src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
+                            alt="{{ $facility->name }}">
+                        <h4 class="mt-3 mb-1">{{ $facility->name }}</h4>
+                        <p class="text-muted mb-0">{{ $facility->status }}</p>
+                    </div>
+                @empty
+                    <div class="col-12 text-center text-muted">Belum ada fasilitas</div>
+                @endforelse
             </div>
         </div>
-        <!-- FACILITIES -->
     </div>
+    <!-- FACILITIES -->
 
     <!-- MAPS -->
     <h4 class="fw-bold card-title mt-6">Lokasi</h4>
