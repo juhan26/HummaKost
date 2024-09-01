@@ -87,6 +87,18 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 mt-4 ">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Perbulan telat</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="latePaymentsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="col-md-12 mt-4">
                 <div class="card">
@@ -402,7 +414,8 @@
                                             <td>{{ $user->gender === 'male' ? 'Laki-laki' : 'Perempuan' }}</td>
                                             <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
                                             </td>
-                                            <td>{{ $user->lease ? $user->lease->properties->name : "Belum Ada Kontrakan" }}</td>
+                                            <td>{{ $user->lease ? $user->lease->properties->name : 'Belum Ada Kontrakan' }}
+                                            </td>
                                             <td>
                                                 <span
                                                     class="px-2 py-1 rounded-lg
@@ -548,6 +561,49 @@
                                     return `${label}: ${value}`;
                                 }
                             }
+                        }
+                    }
+                }
+            });
+
+
+            const ctx = document.getElementById('latePaymentsChart').getContext('2d');
+
+            const lateData = @json($lateData);
+
+            console.log('Late Data:', lateData);
+            const labels = Object.keys(lateData);
+
+            const datasets = [];
+            const users = @json($users->pluck('name', 'id'));
+
+            Object.keys(users).forEach(userId => {
+                const userLateData = labels.map(month => lateData[month] && lateData[month][userId] ? lateData[month][
+                    userId
+                ] : 0);
+
+                // Filter untuk hanya menampilkan pengguna yang memiliki keterlambatan
+                if (userLateData.some(daysLate => daysLate > 0)) {
+                    datasets.push({
+                        label: users[userId],
+                        data: userLateData,
+                        backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
+                        borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
+                        borderWidth: 1
+                    });
+                }
+            });
+
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
                 }
