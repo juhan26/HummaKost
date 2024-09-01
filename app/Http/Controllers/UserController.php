@@ -21,37 +21,41 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::query();
         $search = $request->input('search');
         $status = $request->input('status', []);
-        $filter = $request->input('filter');
 
-        if ($request->has('filter') || $request->has('search') || $request->has('status')) {
-            $filter = $request->input('filter');
-            $query->whereHas('roles', function ($query) use ($filter) {
-                $query->where('name', $filter);
-            })->where(function ($query) use ($search) {
+        // Query umum
+        $query = User::query();
+        $query2 = User::query();
+
+        if ($search || !empty($status)) {
+            $query->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%")
-                    ->orWhereRelation('instance', 'name', 'LIKE', "%$search%");
-            })->where(function ($query) use ($status) {
-                if (!empty($status)) {
-                    $query->whereIn('status', $status);
-                }
-            })->whereHas('roles', function ($query) {
-                $query->where('name', 'tenant')
-                    ->orWhere('name', 'admin');
+                    ->orWhereHas('instance', function ($query) use ($search) {
+                        $query->where('name', 'LIKE', "%$search%");
+                    });
+            })->when(!empty($status), function ($query) use ($status) {
+                $query->whereIn('status', $status);
             });
-        } else {
-            if (!Auth::user()->hasRole('tenant')) {
-                $query->whereHas('roles', function ($query) {
-                    $query->where('name', 'tenant');
-                })->where('id', '!=', Auth::user()->id);
-            }
+        }
+        if ($search || !empty($status)) {
+            $query2->where(function ($query2) use ($search) {
+                $query2->where('name', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%")
+                    ->orWhereHas('instance', function ($query2) use ($search) {
+                        $query2->where('name', 'LIKE', "%$search%");
+                    });
+            })->when(!empty($status), function ($query2) use ($status) {
+                $query2->whereIn('status', $status);
+            });
         }
 
-        // Get paginated users
-        $users = $query->orderByRaw("
+        // Tenant users
+        $users = $query->whereHas('roles', function ($query) {
+            $query->where('name', 'tenant');
+        })
+            ->orderByRaw("
         CASE
             WHEN status = 'pending' THEN 1
             WHEN status = 'accepted' THEN 2
@@ -59,18 +63,39 @@ class UserController extends Controller
             ELSE 4
         END
     ")
-            ->latest()
             ->paginate(10);
 
+        $users2 = $query2->whereHas('roles', function ($query2) {
+            $query2->where('name', 'admin');
+        })
+            ->orderByRaw("
+        CASE
+            WHEN status = 'pending' THEN 1
+            WHEN status = 'accepted' THEN 2
+            WHEN status = 'rejected' THEN 3
+            ELSE 4
+        END
+    ")
+            ->paginate(10);
+
+        // Debugging to check the resulting SQL and bindings
+
+        // Attach query parameters for pagination links
         $users->appends([
             'search' => $search,
-            'filter' => $filter,
+            'status' => $status,
+        ]);
+        $users2->appends([
+            'search' => $search,
             'status' => $status,
         ]);
 
         $instances = Instance::orderBy('name', 'ASC')->get();
-        return view('pages.users.index', compact('users', 'instances', 'status'));
+
+        return view('pages.users.index', compact('users', 'users2', 'instances', 'status'));
     }
+
+
 
 
 
