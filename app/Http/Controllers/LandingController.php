@@ -8,7 +8,9 @@ use App\Models\Furniture;
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
 
 class LandingController extends Controller
 {
@@ -23,7 +25,7 @@ class LandingController extends Controller
         $price_range = $request->input('price_range');
         $sort = $request->input('sort');
         $availability = $request->input('availability');
-    
+
         // Applying filters using when
         $query->when($search, function ($query, $search) {
             $query->where('name', 'LIKE', "%{$search}%");
@@ -37,10 +39,10 @@ class LandingController extends Controller
         ->when($price_range, function ($query) use ($price_range) {
             $query->whereBetween('rental_price', [0, $price_range]);
         });
-    
+
         // Sorting by status (available first, then full)
         $query->orderByRaw("FIELD(status, 'available', 'full') ASC");
-    
+
         // Additional sorting by date if provided
         $query->when($sort, function ($query) use ($sort) {
             if ($sort === 'newest') {
@@ -49,10 +51,10 @@ class LandingController extends Controller
                 $query->orderBy('created_at', 'asc');
             }
         });
-    
+
         // Pagination
         $properties = $query->paginate(6);
-    
+
         // Append all query parameters to pagination links
         $properties->appends([
             'search' => $request->input('search'),
@@ -61,11 +63,11 @@ class LandingController extends Controller
             'sort' => $request->input('sort'),
             'price_range' => $request->input('price_range'),
         ]);
-    
+
         // Return view with filtered properties
         return view('landing.properties.index', compact('properties', 'price_range'));
     }
-    
+
 
 
 
@@ -74,36 +76,43 @@ class LandingController extends Controller
     {
         // Ambil property_id yang dipilih dari query string
         $properties = Property::latest()->paginate(6);
-    
+
         $selectedPropertyId = $request->input('property_id', $properties->first()->id ?? null);
-    
+
         // Query untuk leases berdasarkan property_id yang dipilih
         $leasesQuery = Lease::query();
         if ($selectedPropertyId) {
             $leasesQuery->where('property_id', $selectedPropertyId);
         }
         $leases = $leasesQuery->with('user')->get();
-    
+
         // Ambil pengguna berdasarkan property_id yang dipilih dari leases
-        $userIds = $leases->pluck('user.id')->unique();
+        $userIds = $leases->pluck('user_id')->unique();
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
-    
+
         $facilities = Facility::all();
-        $feedbacks = Feedback::with('user')->get();
-    
+
+        if(Auth::check()){
+            $user = Auth::user()->id;
+        }
+        $lease = Lease::where('user_id', $user)
+        ->with('user')
+        ->get();
+        $feedbacks = Feedback::with('lease')->latest()->get();
+
         // Cek apakah user sudah memberikan feedback untuk properti ini
         // $existingFeedback = Feedback::where('user_id', $user->id)
         //                             ->where('property_id', $selectedPropertyId)
         //                             ->first();
-        
+
         // if ($existingFeedback) {
         //     return redirect()->back()->with('error', 'Anda sudah memberikan feedback untuk properti ini.');
         // }
-    
+
         // Kirim data ke view
-        return view('landing.index', compact('facilities', 'leases', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
+        return view('landing.index', compact('facilities', 'leases', 'lease', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
     }
-    
+
 
 
         public function show($id)

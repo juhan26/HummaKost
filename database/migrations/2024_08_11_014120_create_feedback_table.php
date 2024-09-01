@@ -16,9 +16,7 @@ return new class extends Migration
         $table->text('message');
         $table->integer('rating');
         $table->foreignId('lease_id')->constrained();
-        $table->unsignedBigInteger('user_id')->nullable();
-        $table->string('user_name')->default('Anonymous');
-        $table->string('user_image')->default('/assets/img/image_not_available.png');
+        // $table->unsignedBigInteger('user_id')->nullable();
         $table->timestamps();
     });
 }

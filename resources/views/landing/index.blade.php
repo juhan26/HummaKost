@@ -778,6 +778,28 @@
                                 <textarea name="message" id="message" rows="4" class="w-full px-3 py-2 border rounded-lg"
                                     placeholder="Masukan kritik dan saran anda disini..."></textarea>
                             </div>
+
+                            <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
+                                <label for="lease_id" class="block text-gray-700">Kontrakan</label>
+                                @forelse ($leases as $lease)
+                                    <input type="hidden" name="lease_id" value="{{ $lease->id }}">
+                                    <input type="text" value="{{ $lease->properties->name }}" disabled
+                                        class="w-full px-3 py-2 border rounded-lg">
+                                @empty
+                                    <input type="text" disabled value="Belum mempunyai kontrak"
+                                        class="w-full px-3 py-2 border rounded-lg">
+                                @endforelse
+                            </div>
+
+                            {{-- <div class="mb-4" data-aos="fade-right" data-aos-duration="1300">
+                                <label for="lease_id" class="block text-gray-700">Penilaian</label>
+                                <select name="lease_id" id="lease_id" class="w-full px-3 py-2 border rounded-lg">
+                                    @forelse ($lease as $leases)
+                                    <option value="{{$lease->id}}">5 - Terbaik</option>
+                                    @empty
+                                    <option value="">User ba</option>
+                                    @endforelse
+                            </div> --}}
                             <div class="mb-4" data-aos="fade-right" data-aos-duration="1300">
                                 <label for="rating" class="block text-gray-700">Penilaian</label>
                                 <select name="rating" id="rating" class="w-full px-3 py-2 border rounded-lg">
@@ -813,26 +835,29 @@
                     <div class="flex items-center justify-between gap-2.5 mb-2">
                         <div class="flex items-center gap-2.5">
                             <div class="w-10 h-10 rounded-full">
-                                @if ($feedback->user->photo)
+                                @if ($feedback->lease->user->photo)
                                     <img src="{{ asset('storage/' . $feedback->user->photo) }}" class="rounded-full"
-                                        alt="{{ $feedback->user->name }}">
-                                @elseif ($feedback->user->gender === 'male')
+                                        alt="{{ $feedback->lease->user->name }}">
+                                @elseif ($feedback->lease->user->gender === 'male')
                                     <img class="rounded-full" src="../../assets/img/avatars/5.png" alt="Avatar">
-                                @elseif ($feedback->user->gender === 'female')
+                                @elseif ($feedback->lease->user->gender === 'female')
                                     <img class="rounded-full" src="../../assets/img/avatars/10.png" alt="Avatar">
                                 @endif
                             </div>
                             <div>
 
                                 <h2 class="text-base text-gray-900 font-semibold">
-                                    {{ $feedback->user_id ? $feedback->user->name : 'Anonymous' }}
+                                    {{ $feedback->lease_id ? $feedback->lease->user->name : 'Anonymous' }}
+                                </h2>
+                                <h2 class="text-base text-green-500 font-semibold">
+                                    Kontrakan: {{ $feedback->lease->properties->name }}
                                 </h2>
                                 {{-- <span class="text-md text-primary-500"><p>(untuk Kontrakan: {{ $leases->property->name }} )</p></span> --}}
                                 <span class="text-sm text-gray-600">
                                     {{ $feedback->created_at->diffForHumans() }}
                                 </span>
                             </div>
-                            @if (auth()->check() && $feedback->user_id === auth()->id())
+                            @if (auth()->check() && $feedback->lease->user->id === auth()->id())
                                 <button data-modal-target="edit-feedback-modal-{{ $feedback->id }}"
                                     data-modal-toggle="edit-feedback-modal-{{ $feedback->id }}"
                                     class="w-8 h-8 flex items-center justify-center text-yellow-600 bg-yellow-100 rounded-full hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all duration-150">
