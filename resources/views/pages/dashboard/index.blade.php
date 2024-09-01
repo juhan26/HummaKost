@@ -94,7 +94,7 @@
                         <div class="card-title">Penyewa Yang Mendekati Batas Tenggat Pembayaran</div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive text-nowrap">
+                        <div class="table-responsive text-nowrap" style="max-height: 400px; overflow: auto">
                             <table class="table">
                                 <tr class="text-center" style="border-bottom: 1px solid rgba(0,0,0,.15);">
                                     <th>No</th>
@@ -111,17 +111,17 @@
                                 @endif --}}
                                 </tr>
                                 <tbody class="table-border-bottom-0">
-                                    @forelse ($leases as $index => $lease)
+                                    @foreach ($leases as $index => $lease)
                                         @php
                                             foreach ($lease->payments as $payment) {
                                                 $due_date = $payment->due_date;
                                             }
                                             $startReminderDate = \Carbon\Carbon::parse($due_date)->subDays(3);
                                             $endReminderDate = \Carbon\Carbon::parse($due_date);
-                                            $daysLeft = today()->diffInDays(\Carbon\Carbon::parse($due_date));
+                                            $daysLeft = today()->diffInDays(\Carbon\Carbon::parse($due_date), false);
                                         @endphp
 
-                                        @if (today()->between($startReminderDate, $endReminderDate))
+                                        @if (today()->between($startReminderDate, today()) && $daysLeft <= 3)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>
@@ -198,14 +198,16 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="w-100 px-5">
-                                                        @if ($daysLeft > 0)
-                                                            <p><strong style="color: red">{{ $daysLeft }} Hari
-                                                                </strong>
-                                                            </p>
-                                                        @elseif ($daysLeft == 0)
-                                                            <p style="color: red;">Hari ini adalah tenggat waktu!</p>
-                                                        @endif
+                                                    <div class="w-100 px-5" style="color: red">
+                                                        <strong>
+                                                            @if ($daysLeft > 0)
+                                                                {{ $daysLeft }} Hari
+                                                            @elseif ($daysLeft == 0)
+                                                                Hari ini adalah tenggat waktu!
+                                                            @elseif ($daysLeft < 0)
+                                                                Penyewa ini telah melewati batas tenggat pembayaran
+                                                            @endif
+                                                        </strong>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -315,21 +317,24 @@
                                         @endif --}}
                                             </tr>
                                         @endif
-                                    @empty
+                                    @endforeach
+                                    @if (empty(today()->between($startReminderDate, today()) && $daysLeft <= 3))
                                         <tr class="text-center">
-                                            <!-- Update colspan to match the number of columns in your table -->
-                                            <td colspan="8" class="">
+                                            <td colspan="7" class="">
                                                 <h1 class="material-symbols-outlined mt-4"
                                                     style="font-size: 3rem;color:rgba(32, 180, 134,.4);">group</h1>
-                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Anggota tidak
-                                                    ditemukan
+                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Tidak Ada Penyewa Yang
+                                                    Mendekati Tenggat Pembayaran
                                                 </p>
                                             </td>
                                         </tr>
-                                    @endforelse
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3 mb-5 me-4">
+                        <a href="{{ route('payments.index') }}" class="btn btn-primary">Lihat Pembayaran</a>
                     </div>
                 </div>
             </div>
@@ -344,6 +349,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>Nomor Telepon</th>
@@ -364,7 +370,15 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <td colspan="4" class="text-center">Belum Ada Calon Penyewa</td>
+                                        <tr class="text-center">
+                                            <td colspan="5">
+                                                <h1 class="material-symbols-outlined mt-4"
+                                                    style="font-size: 3rem;color:rgba(32, 180, 134,0.4);">group</h1>
+                                                <p class="card-title" style="color: rgba(0,0,0,.4)">Belum Ada Calon
+                                                    Penyewa
+                                                </p>
+                                            </td>
+                                        </tr>
                                     @endforelse
                                 </tbody>
                             </table>
@@ -382,7 +396,7 @@
                         <div class="card-title">Penyewa Terbaru</div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive text-nowrap" style="max-height: 400px; overflow: auto">
+                        <div class="table-responsive text-nowrap">
                             <table class="table mb-0">
                                 <thead>
                                     <tr class="text-center" style="border-bottom: 1px solid rgba(0,0,0,.15);">
@@ -402,7 +416,8 @@
                                             <td>{{ $user->gender === 'male' ? 'Laki-laki' : 'Perempuan' }}</td>
                                             <td>{{ $user->instance ? $user->instance->name : 'Belum Memilih Sekolah' }}
                                             </td>
-                                            <td>{{ $user->lease ? $user->lease->properties->name : "Belum Ada Kontrakan" }}</td>
+                                            <td>{{ $user->lease ? $user->lease->properties->name : 'Belum Ada Kontrakan' }}
+                                            </td>
                                             <td>
                                                 <span
                                                     class="px-2 py-1 rounded-lg
