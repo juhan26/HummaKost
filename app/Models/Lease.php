@@ -22,4 +22,8 @@ class Lease extends Model
     {
         return $this->hasMany(PaymentPerMonth::class);
     }
+
+    public function feedback(){
+        return $this->hasMany(Feedback::class);
+    }
 }

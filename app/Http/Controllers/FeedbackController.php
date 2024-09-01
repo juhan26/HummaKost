@@ -35,18 +35,20 @@ class FeedbackController extends Controller
     {
         $request->validate([
             'message' => 'required|string|max:1000',
+            'lease_id' => 'required|exists:leases,id',
             'rating' => 'required|integer|min:1|max:5',
         ]);
 
         $feedback = new Feedback();
         $feedback->message = $request->message;
         $feedback->rating = $request->rating;
+        $feedback->lease_id = $request->lease_id;
 
-        if (Auth::check()) {
-            $feedback->user_id = Auth::id();
-            $feedback->user_name = Auth::user()->name;
-            $feedback->user_image = Auth::user()->profile_image ?? 'image_not_available.png';
-        }
+        // if (Auth::check()) {
+        //     $feedback->user_id = Auth::id();
+        //     $feedback->user_name = Auth::user()->name;
+        //     $feedback->user_image = Auth::user()->profile_image ?? 'image_not_available.png';
+        // }
 
         $feedback->save();
 

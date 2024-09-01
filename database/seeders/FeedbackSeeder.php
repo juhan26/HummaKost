@@ -13,24 +13,24 @@ class FeedbackSeeder extends Seeder
      */
     public function run()
     {
-        Feedback::truncate();
+        // Feedback::truncate();
 
-        Feedback::create([
-            'user_id' => 3,
-            'message' => 'Tempatnya Nyaman!',
-            'rating' => 5,
-        ]);
+        // Feedback::create([
+        //     'user_id' => 3,
+        //     'message' => 'Tempatnya Nyaman!',
+        //     'rating' => 5,
+        // ]);
 
-        Feedback::create([
-            'user_id' => 4,
-            'message' => 'Untuk kenyamanan yang didapat dengan harga lumayan lah.',
-            'rating' => 4,
-        ]);
+        // Feedback::create([
+        //     'user_id' => 4,
+        //     'message' => 'Untuk kenyamanan yang didapat dengan harga lumayan lah.',
+        //     'rating' => 4,
+        // ]);
 
-        Feedback::create([
-            'user_id' => 5,
-            'message' => 'Perlu ditingkatkan kebersihannya.',
-            'rating' => 3,
-        ]);
+        // Feedback::create([
+        //     'user_id' => 5,
+        //     'message' => 'Perlu ditingkatkan kebersihannya.',
+        //     'rating' => 3,
+        // ]);
     }
 }
