@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-8">
                 <div class="card" style="height: 98%">
                     {{-- <div class="card-header">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             <div class="col-md-12 mt-8 mb-8">
                 <div class="card">
@@ -335,20 +335,25 @@
                 </div>
             </div>
 
-            <div class="col-md-12 mt-4 ">
+            <div class="col-md-12 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Daftar Penyewa yang sering telat melakukan Pembayaran (Perbulan) </div>
+                        <div class="card-title">Daftar Penyewa yang Sering Telat Melakukan Pembayaran (Perbulan)</div>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-center">
                             <canvas id="latePaymentsChart"></canvas>
                         </div>
                     </div>
+                    <div class="card-footer">
+                        <div id="latePaymentsList">
+                            <!-- Daftar akan diisi di sini -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-12 mt-8 mb-4">
+            <div class="col-md-12 mt-8 mb-">
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="card-title">Calon Penyewa Tertunda</div>
@@ -568,23 +573,20 @@
                 }
             });
 
-
             const ctx = document.getElementById('latePaymentsChart').getContext('2d');
 
+            // Mengambil data dari server
             const lateData = @json($lateData);
-
-            console.log('Late Data:', lateData);
             const labels = Object.keys(lateData);
-
-            const datasets = [];
             const users = @json($users->pluck('name', 'id'));
 
+            // Menyusun datasets untuk Chart.js
+            const datasets = [];
             Object.keys(users).forEach(userId => {
                 const userLateData = labels.map(month => lateData[month] && lateData[month][userId] ? lateData[month][
                     userId
                 ] : 0);
 
-                // Filter untuk hanya menampilkan pengguna yang memiliki keterlambatan
                 if (userLateData.some(daysLate => daysLate > 0)) {
                     datasets.push({
                         label: users[userId],
@@ -592,12 +594,13 @@
                         backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
                         borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
                         borderWidth: 1,
-                        barThickness: 20, // Ukuran ketebalan bar
-                        maxBarThickness: 25, // Ketebalan maksimum bar
+                        barThickness: 20,
+                        maxBarThickness: 25,
                     });
                 }
             });
 
+            // Membuat grafik dengan Chart.js
             const myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -607,10 +610,33 @@
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Days Late'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const dataset = tooltipItem.dataset;
+                                    const label = dataset.label || '';
+                                    const value = tooltipItem.raw;
+                                    return `${label}: telat ${value} hari`;
+                                }
+                            }
                         }
                     }
                 }
             });
+
         </script>
     @endsection
