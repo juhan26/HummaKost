@@ -781,9 +781,9 @@
 
                             <div class="mb-4" data-aos="fade-right" data-aos-duration="1200">
                                 <label for="lease_id" class="block text-gray-700">Kontrakan</label>
-                                @forelse ($leases as $lease)
-                                    <input type="hidden" name="lease_id" value="{{ $lease->id }}">
-                                    <input type="text" value="{{ $lease->properties->name }}" disabled
+                                @forelse ($lease as $leases)
+                                    <input type="hidden" name="lease_id" value="{{ $leases->id }}">
+                                    <input type="text" value="{{ $leases->properties->name }}" disabled
                                         class="w-full px-3 py-2 border rounded-lg">
                                 @empty
                                     <input type="text" disabled value="Belum mempunyai kontrak"

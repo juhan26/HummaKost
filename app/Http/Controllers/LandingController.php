@@ -30,15 +30,15 @@ class LandingController extends Controller
         $query->when($search, function ($query, $search) {
             $query->where('name', 'LIKE', "%{$search}%");
         })
-        ->when($gender && $gender !== 'all', function ($query) use ($gender) {
-            $query->where('gender_target', $gender);
-        })
-        ->when($availability && $availability !== 'all', function ($query) use ($availability) {
-            $query->where('status', $availability);
-        })
-        ->when($price_range, function ($query) use ($price_range) {
-            $query->whereBetween('rental_price', [0, $price_range]);
-        });
+            ->when($gender && $gender !== 'all', function ($query) use ($gender) {
+                $query->where('gender_target', $gender);
+            })
+            ->when($availability && $availability !== 'all', function ($query) use ($availability) {
+                $query->where('status', $availability);
+            })
+            ->when($price_range, function ($query) use ($price_range) {
+                $query->whereBetween('rental_price', [0, $price_range]);
+            });
 
         // Sorting by status (available first, then full)
         $query->orderByRaw("FIELD(status, 'available', 'full') ASC");
@@ -92,12 +92,14 @@ class LandingController extends Controller
 
         $facilities = Facility::all();
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $user = Auth::user()->id;
+            // dd($lease);
+
         }
         $lease = Lease::where('user_id', $user)
-        ->with('user')
-        ->get();
+            ->with('user')
+            ->get();
         $feedbacks = Feedback::with('lease')->latest()->get();
 
         // Cek apakah user sudah memberikan feedback untuk properti ini
@@ -115,7 +117,7 @@ class LandingController extends Controller
 
 
 
-        public function show($id)
+    public function show($id)
     {
         // Ambil data properti berdasarkan ID dan muat lease serta pengguna yang terkait
         $property = Property::with('leases.user')->findOrFail($id);
