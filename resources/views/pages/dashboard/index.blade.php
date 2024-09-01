@@ -4,7 +4,7 @@
     <div class="container mb-6 mt-8">
         <div class="row">
             <!-- Cards Section -->
-            <div class="col-md-3 mb-4">
+            <div class="col-md-3 mb-10">
                 <div class="card text-center" style="background-color: #E6F4EA;">
                     <div class="card-body">
                         <div class="icon mb-2">
@@ -51,7 +51,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12 mb-4">
+            <div class="col-md-12 mb-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Data Penyewa Perbulan</div>
@@ -63,7 +63,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card">
+                <div class="card" style="width: 100">
                     <div class="card-header">
                         <div class="card-title">Status Penyewa</div>
                     </div>
@@ -74,33 +74,22 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Pemasukan Perbulan</div>
-                    </div>
+                <div class="card" style="height: 98%">
+                    {{-- <div class="card-header">
+                    </div> --}}
                     <div class="card-body">
+                        <div class="card-title">Pemasukan Perbulan</div>
                         <div class="d-flex justify-content-center">
                             <canvas id="lineChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 mt-4 ">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Perbulan telat</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-center">
-                            <canvas id="latePaymentsChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
 
-            <div class="col-md-12 mt-4">
+            <div class="col-md-12 mt-8 mb-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Penyewa Yang Mendekati Batas Tenggat Pembayaran</div>
@@ -346,7 +335,20 @@
                 </div>
             </div>
 
-            <div class="col-md-12 mt-4">
+            <div class="col-md-12 mt-4 ">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Daftar Penyewa yang sering telat melakukan Pembayaran (Perbulan) </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="latePaymentsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-8 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="card-title">Calon Penyewa Tertunda</div>
@@ -589,7 +591,9 @@
                         data: userLateData,
                         backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
                         borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
-                        borderWidth: 1
+                        borderWidth: 1,
+                        barThickness: 20, // Ukuran ketebalan bar
+                        maxBarThickness: 25, // Ketebalan maksimum bar
                     });
                 }
             });
