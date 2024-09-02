@@ -212,7 +212,6 @@ class PropertyController extends Controller
 
     public function editPropertyLeader(Request $request, Property $property)
     {
-
         $lastLeader = $property->leases()->whereHas('user.roles', function ($query) {
             $query->where('name', 'admin');
         })->first();

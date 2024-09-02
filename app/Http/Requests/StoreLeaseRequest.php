@@ -33,9 +33,9 @@ class StoreLeaseRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'user_id.required' => 'ID pengguna wajib diisi.',
+            'user_id.required' => 'Kolom pengguna wajib diisi.',
             'user_id.exists' => 'Pengguna tidak ditemukan.',
-            'property_id.required' => 'ID properti wajib diisi.',
+            'property_id.required' => 'Kolom kontrakan wajib diisi.',
             'property_id.exists' => 'Properti tidak ditemukan.',
             'start_date.required' => 'Tanggal mulai wajib diisi.',
             'start_date.date' => 'Tanggal mulai harus berupa tanggal yang valid.',
