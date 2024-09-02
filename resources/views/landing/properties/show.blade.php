@@ -56,6 +56,87 @@
 
 <body>
     <style>
+        .facility-section {
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #20B486;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .facility-tab {
+            border: 2px solid #20B486;
+            background-color: white;
+            color: black;
+            border-radius: 30px;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .facility-tab.active,
+        .facility-tab:hover {
+            background-color: #20B486;
+            color: white;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .images-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .facility-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .empty-message {
+            text-align: center;
+            grid-column: span 2;
+        }
+
+        @media (min-width: 768px) {
+            .empty-message {
+                grid-column: span 3;
+            }
+        }
+
+
         #loading-screen {
             position: fixed;
             width: 100%;
@@ -99,10 +180,9 @@
         window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
 
-            // Simulate a delay for the loading screen
             setTimeout(function() {
-                loadingScreen.classList.add("hidden"); // Tambahkan kelas hidden untuk fade out
-            }, 1000); // Durasi 2 detik sebelum fade out
+                loadingScreen.classList.add("hidden"); 
+            }, 1000); 
         });
     </script>
     <!-- header area -->
@@ -436,7 +516,7 @@
                 </div>
 
 
-                <section id="property_gambar" class="section property_gambar-section">
+                <section id="property_gambar" class="section-padding property_gambar-section">
                     <div class="container px-4 2xl:px-0">
                         <div class="flex items-center justify-center mb-4">
                             <h2
@@ -552,8 +632,8 @@
         </section>
 
 
-        <section id="facility" class="section-padding facility-section">
-            <div class="container mx-auto mt-10">
+        <section id="facility" class="facility-section section-padding mb-20">
+            <div class="container">
                 <div class="flex items-center justify-center mb-4">
                     <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                         Daftar
@@ -561,56 +641,51 @@
                     </h2>
                 </div>
         
-                <div class="flex items-center justify-center py-4 md:py-8 flex-wrap">
-                    <button type="button"
-                        class="facility-tab text-black hover:text-black border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800"
-                        data-facility="all">
+
+                <div class="tabs-container">
+                    <button type="button" class="facility-tab active" data-facility="all">
                         Semua fasilitas
                     </button>
-        
+
                     @foreach ($property->facilities as $facility)
-                        <button type="button"
-                            class="facility-tab text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-                            data-facility="{{ $facility->id }}">
+                        <button type="button" class="facility-tab" data-facility="{{ $facility->id }}">
                             {{ $facility->name }}
                         </button>
                     @endforeach
                 </div>
-        
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+                <div class="images-grid">
                     @forelse ($property->facilities as $facility)
                         @forelse ($facility->facility_images as $index => $image)
-                            <div class="facility-images col-span-1" data-facility="{{ $facility->id }}" style="display: none;">
-                                <a href="{{ asset('storage/' . $image->image) }}" data-lightbox="facility-gallery-{{ $facility->id }}">
+                            <div class="facility-images" data-facility="{{ $facility->id }}" style="display: none;">
+                                <a href="{{ asset('storage/' . $image->image) }}"
+                                    data-lightbox="facility-gallery-{{ $facility->id }}">
                                     <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
-                                        class="img-fluid rounded w-full h-64 object-cover">
+                                        class="facility-img">
                                 </a>
                             </div>
                         @empty
-                            <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3"
-                                style="display: none;">
+                            {{-- <div class="facility-images empty-message" style="display: none;">
                                 <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
-                            </div>
+                            </div> --}}
                         @endforelse
                     @empty
-                        <div class="facility-images col-span-2 md:col-span-3 text-center m-0 py-3" data-facility="empty" style="display: none;">
+                        {{-- <div class="facility-images empty-message" data-facility="empty" style="display: none;">
                             <p><strong>Tidak ada gambar detail.</strong></p>
-                        </div>
+                        </div> --}}
                     @endforelse
                 </div>
-        
+
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         function showImages(facilityId) {
                             document.querySelectorAll('.facility-images').forEach(function(image) {
                                 image.style.display = 'none';
                             });
-        
+
                             if (facilityId === 'all') {
                                 document.querySelectorAll('.facility-images').forEach(function(image) {
-                                    if (image.getAttribute('data-facility')) {
-                                        image.style.display = 'block';
-                                    }
+                                    image.style.display = 'block';
                                 });
                             } else {
                                 var images = document.querySelectorAll('.facility-images[data-facility="' + facilityId + '"]');
@@ -623,28 +698,38 @@
                                 }
                             }
                         }
-        
+
+                        function setActiveTab(tab) {
+                            document.querySelectorAll('.facility-tab').forEach(function(btn) {
+                                btn.classList.remove('active');
+                            });
+                            tab.classList.add('active');
+                        }
+
                         document.querySelectorAll('.facility-tab').forEach(function(tab) {
                             tab.addEventListener('click', function() {
                                 var facilityId = this.getAttribute('data-facility');
                                 showImages(facilityId);
+                                setActiveTab(this);
                             });
                         });
-        
+
                         showImages('all');
                     });
                 </script>
             </div>
         </section>
-        
+
+
+
 
 
 
         <!-- Mengimpor Swiper CSS dan JS -->
 
 
-        <div class="container mx-auto mt-10 mb-10">
-            <div class="flex items-center justify-center mb-4">
+        <div class="container mx-auto mt-20 mb-10">
+            <div class="flex items-center justify-center mt-5 mb-4">
                 <h2
                     class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                     Tempat
@@ -662,7 +747,7 @@
 
         <div class="container mx-auto mt-10 mb-10">
             <div class="w-full mt-12">
-                <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="bg-white shadow-sm rounded-lg overflow-hidden mt-3">
                     <div class="px-4 py-6 flex items-center bg-white rounded-lg">
 
                         <h6 class="mb-0 text-center">Lokasi dari Kontrakan <span
