@@ -335,7 +335,7 @@
 <div class="row gallery-container grid-gallery">
     @forelse ($property->facilities as $facility)
         @forelse ($facility->facility_images as $image)
-            <div class="col item mb-4 facility-images" data-facility="{{ $facility->id }}" style="display: none;">
+            <div class="col-lg-3 item mb-4 facility-images" data-facility="{{ $facility->id }}" style="display: none;">
                 <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
                     <img class="img-fluid image scale-on-hover rounded"
                         src="{{ asset('storage/' . $image->image) }}"
