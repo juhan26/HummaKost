@@ -52,6 +52,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -181,8 +183,8 @@
             const loadingScreen = document.getElementById("loading-screen");
 
             setTimeout(function() {
-                loadingScreen.classList.add("hidden"); 
-            }, 1000); 
+                loadingScreen.classList.add("hidden");
+            }, 1000);
         });
     </script>
     <!-- header area -->
@@ -635,13 +637,67 @@
         <section id="facility" class="facility-section section-padding mb-20">
             <div class="container">
                 <div class="flex items-center justify-center mb-4">
-                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
+                    <h2
+                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                         Daftar
                         <span class="text-primary-500 after-svg instructor">Fasilitas</span>
                     </h2>
                 </div>
-        
 
+
+
+                <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab"
+                        data-tabs-toggle="#default-styled-tab-content"
+                        data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500"
+                        data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
+                        role="tablist">
+                        <li class="me-2" role="presentation">
+                            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"
+                                data-tabs-target="#styled-profile" type="button" role="tab"
+                                aria-controls="profile" aria-selected="false">Semua</button>
+                        </li>
+                        @foreach ($facility_images as $facility)
+                            <li class="me-2" role="presentation">
+                                <button
+                                    class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                    id="dashboard-styled-tab{{ $facility->id }}"
+                                    data-tabs-target="#styled-dashboard{{ $facility->id }}" type="button"
+                                    role="tab" aria-controls="dashboard"
+                                    aria-selected="false">{{ $facility->name }}</button>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div id="default-styled-tab-content">
+                    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-profile"
+                        role="tabpanel" aria-labelledby="profile-tab">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the
+                            <strong class="font-medium text-gray-800 dark:text-white">Profile tab's associated
+                                content</strong>. Clicking another tab will toggle the visibility of this one for the
+                            next. The tab JavaScript swaps classes to control the content visibility and styling.
+                        </p>
+                    </div>
+                    @foreach ($facility_images as $facility)
+                        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+                            id="styled-dashboard{{ $facility->id }}" role="tabpanel"
+                            aria-labelledby="dashboard-tab{{ $facility->id }}">
+
+                            @foreach ($property_facilities as $property_facility)
+                                <div class="facility-images" style="display: flex;">
+                                    <a href="{{ asset('storage/' . $property_facility->image) }}"
+                                        data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                        <img src="{{ asset('storage/' . $property_facility->image) }}"
+                                            alt="Facility Image" class="facility-img" style="width:100px;margin:10px 0px;">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
+
+
+                {{-- kodingan KEREN! --}}
                 <div class="tabs-container">
                     <button type="button" class="facility-tab active" data-facility="all">
                         Semua fasilitas
@@ -655,28 +711,22 @@
                 </div>
 
                 <div class="images-grid">
-                    @forelse ($property->facilities as $facility)
-                        @forelse ($facility->facility_images as $index => $image)
-                            <div class="facility-images" data-facility="{{ $facility->id }}" style="display: none;">
-                                <a href="{{ asset('storage/' . $image->image) }}"
-                                    data-lightbox="facility-gallery-{{ $facility->id }}">
-                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
-                                        class="facility-img">
-                                </a>
-                            </div>
-                        @empty
-                            {{-- <div class="facility-images empty-message" style="display: none;">
-                                <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
-                            </div> --}}
-                        @endforelse
+                    @forelse ($property_facilities as $property_facility)
+                        <div class="facility-images" data-facility="{{ $property_facility->facility_id }}"
+                            style="display: none;">
+                            <a href="{{ asset('storage/' . $property_facility->image) }}"
+                                data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                <img src="{{ asset('storage/' . $property_facility->image) }}" alt="Facility Image"
+                                    class="facility-img">
+                            </a>
+                        </div>
                     @empty
-                        {{-- <div class="facility-images empty-message" data-facility="empty" style="display: none;">
+                        <div class="facility-images empty-message" data-facility="empty" style="display: none;">
                             <p><strong>Tidak ada gambar detail.</strong></p>
-                        </div> --}}
+                        </div>
                     @endforelse
                 </div>
-
-                <script>
+                {{-- <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         function showImages(facilityId) {
                             document.querySelectorAll('.facility-images').forEach(function(image) {
@@ -688,13 +738,14 @@
                                     image.style.display = 'block';
                                 });
                             } else {
-                                var images = document.querySelectorAll('.facility-images[data-facility="' + facilityId + '"]');
+                                const images = document.querySelectorAll('.facility-images[data-facility="' + facilityId +
+                                    '"]');
                                 if (images.length > 0) {
                                     images.forEach(function(image) {
                                         image.style.display = 'block';
                                     });
                                 } else {
-                                    document.querySelector('.facility-images[data-facility="empty"]').style.display = 'block';
+                                    document.querySelector('.facility-images.empty-message').style.display = 'block';
                                 }
                             }
                         }
@@ -708,15 +759,16 @@
 
                         document.querySelectorAll('.facility-tab').forEach(function(tab) {
                             tab.addEventListener('click', function() {
-                                var facilityId = this.getAttribute('data-facility');
+                                const facilityId = this.getAttribute('data-facility');
                                 showImages(facilityId);
                                 setActiveTab(this);
                             });
                         });
 
+                        // Initial display of all images
                         showImages('all');
                     });
-                </script>
+                </script> --}}
             </div>
         </section>
 
@@ -867,7 +919,6 @@
 
 
 
-    <!-- footer area start -->
     <footer>
         <div class="container px-4 sm:px-6 2xl:px-0">
             <div class="flex flex-wrap justify-between gap-y-6">
@@ -1116,6 +1167,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 </body>
 

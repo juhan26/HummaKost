@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facility;
+use App\Models\FacilityImage;
 use App\Models\Feedback;
 use App\Models\Furniture;
 use App\Models\Lease;
@@ -110,8 +111,14 @@ class LandingController extends Controller
     public function show($id)
     {
         // Ambil data properti berdasarkan ID dan muat lease serta pengguna yang terkait
-        $property = Property::with('leases.user')->findOrFail($id);
-        // dd($property);
+        $property = Property::with('facility_images')->findOrFail($id);
+        $facility_images = $property->facilities;
+
+        foreach($facility_images as $facility){
+            $property_facilities = $facility->facility_images->where('property_id',);
+
+            dd($property_facilities);
+        }
         $properties = Property::all();
         // Ambil semua pengguna
         $leases = Lease::all();
@@ -121,6 +128,6 @@ class LandingController extends Controller
 
 
         // Kembalikan view dengan data yang dibutuhkan
-        return view('landing.properties.show', compact('property', 'properties', 'users', 'leases'));
+        return view('landing.properties.show', compact('property','facility_images', 'properties','property_facilities', 'users', 'leases'));
     }
 }

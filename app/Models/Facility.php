@@ -18,7 +18,7 @@ class Facility extends Model
 
     public function properties()
     {
-        return $this->belongsToMany(Property::class, 'property_facilities', 'furniture_id', 'property_id');
+        return $this->belongsToMany(Property::class, 'property_facilities', 'facility_id', 'property_id');
     }
 
     public function facility_images()

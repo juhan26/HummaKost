@@ -6,6 +6,7 @@ use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequest;
 use App\Models\Facility;
 use App\Models\FacilityImage;
+use App\Models\PropertyFacility;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,11 @@ class FacilityController extends Controller
         $facilities->appends([
             'search' => $request->search
         ]);
+
+        
+
+        // $property = Property::where('propert');
+
         return view('pages.facilities.index', compact('facilities'));
     }
 
