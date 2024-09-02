@@ -181,8 +181,8 @@
             const loadingScreen = document.getElementById("loading-screen");
 
             setTimeout(function() {
-                loadingScreen.classList.add("hidden"); 
-            }, 1000); 
+                loadingScreen.classList.add("hidden");
+            }, 1000);
         });
     </script>
     <!-- header area -->
@@ -640,7 +640,7 @@
                         <span class="text-primary-500 after-svg instructor">Fasilitas</span>
                     </h2>
                 </div>
-        
+
 
                 <div class="tabs-container">
                     <button type="button" class="facility-tab active" data-facility="all">
