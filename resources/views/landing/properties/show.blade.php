@@ -52,8 +52,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-
 </head>
 
 <body>
@@ -182,9 +180,10 @@
         window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
 
+            // Simulate a delay for the loading screen
             setTimeout(function() {
-                loadingScreen.classList.add("hidden");
-            }, 1000);
+                loadingScreen.classList.add("hidden"); 
+            }, 1000); 
         });
     </script>
     <!-- header area -->
@@ -1113,5 +1112,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 </body>
+
 
 </html>
