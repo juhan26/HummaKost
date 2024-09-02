@@ -160,10 +160,21 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style="padding-top:90px;">
                                 <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone"
-                                    data-facility-id="{{ $facility->id }}" enctype="multipart/form-data">
+                                    data-facility-id="{{ $facility->id }}" enctype="multipart/form-data" style="position: relative">
                                     @csrf
+                                    @php
+                                        $properties = $facility->properties;
+                                        // dd($property);
+                                    @endphp
+                                    <select name="property_id" class="form-select" style="position: absolute;top:-40%;left:0;height:50px;">
+                                        @forelse ($properties as $property)
+                                        <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                        @empty
+                                        <option>Tidak ada kontrakan yang menggunakan fasilitas ini</option>
+                                        @endforelse
+                                    </select>
                                     <input type="hidden" value="{{ $facility->id }}" name="facility_id">
                                     <button type="submit" id="submit-all" class="btn btn-primary position-absolute"
                                         style="bottom: 10px; right: 10px;cursor:pointer;">

@@ -13,7 +13,7 @@ class FacilityImageController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -34,6 +34,7 @@ class FacilityImageController extends Controller
 
         FacilityImage::create([
             'facility_id'=>$request->facility_id,
+            'property_id'=>$request->property_id,
             'image'=> $photoPath,
         ]);
     }

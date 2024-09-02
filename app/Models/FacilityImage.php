@@ -11,11 +11,17 @@ class FacilityImage extends Model
 
     protected $fillable = [
         'facility_id',
+        'property_id',
         'image',
     ];
 
     public function facility()
     {
         return $this->belongsTo(Facility::class, 'facility_id');
+    }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_id');
     }
 }
