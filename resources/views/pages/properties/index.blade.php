@@ -186,9 +186,9 @@
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h5 class="m-0">Gambar Properti</h5>
-                                        @if($property->property_image != null)
+                                        @if($property->property_images->isNotEmpty())
                                         <button id="delete-images-btn" class="btn btn-danger">Hapus</button>
-                                        @endif
+                                    @endif
                                     </div>
                                     <form id="delete-images-form" action="{{ route('property_images.destroySelected') }}"
                                         method="POST">
