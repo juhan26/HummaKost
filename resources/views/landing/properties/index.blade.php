@@ -183,11 +183,11 @@
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#tentang">Tentang</a>
+                            href="{{ route('home.index') }}#tentang">Tentang</a>
                     </li>
                     <li class="">
                         <a class="menu-link font-display font-semibold text-base leading-6 text-gray-500 hover:text-primary-500 transition duration-500 px-6 py-3"
-                            href="#masukan">Masukan</a>
+                            href="{{ route('home.index') }}#masukan">Masukan</a>
                     </li>
                     {{-- @auth
                         @hasrole('admin|tenant')
