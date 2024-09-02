@@ -240,18 +240,34 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="start_date" class="form-label">Tanggal Mulai</label>
-                                            <input type="date" class="form-control" name="start_date" id="start_date"
-                                                value="{{ $lease->start_date }}" disabled>
+                                            <label for="start_date" class="form-label">Tanggal Terakhir Sebelumnya</label>
+                                            <input type="hidden" class="form-control" name="start_date" id="start_date"
+                                                value="{{ $lease->end_date }}">
+                                            <input type="date" class="form-control" value="{{ $lease->end_date }}"
+                                                disabled>
                                             @error('start_date')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
-                                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                                value="{{ $lease->end_date }}">
+                                            <label for="end_date" class="form-label">Tambah Masa Kontrak</label>
+                                            <select name="end_date" class="form-select" id="end_date">
+                                                <option value="" disabled selected>Tambah Bulan Ngontrak
+                                                </option>
+                                                <option value="1">1 Bulan</option>
+                                                <option value="2">2 Bulan</option>
+                                                <option value="3">3 Bulan</option>
+                                                <option value="4">4 Bulan</option>
+                                                <option value="5">5 Bulan</option>
+                                                <option value="6">6 Bulan</option>
+                                                <option value="7">7 Bulan</option>
+                                                <option value="8">8 Bulan</option>
+                                                <option value="9">9 Bulan</option>
+                                                <option value="10">10 Bulan</option>
+                                                <option value="11">11 Bulan</option>
+                                                <option value="12">12 Bulan</option>
+                                            </select>
                                             @error('end_date')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -466,9 +482,22 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                value="{{ old('end_date') }}">
+                            <label for="end_date" class="form-label">Masa Kontrak</label>
+                            <select name="end_date" class="form-select" id="end_date">
+                                <option value="" disabled selected>Pilih Berapa Bulan Ngontrak</option>
+                                <option value="1">1 Bulan</option>
+                                <option value="2">2 Bulan</option>
+                                <option value="3">3 Bulan</option>
+                                <option value="4">4 Bulan</option>
+                                <option value="5">5 Bulan</option>
+                                <option value="6">6 Bulan</option>
+                                <option value="7">7 Bulan</option>
+                                <option value="8">8 Bulan</option>
+                                <option value="9">9 Bulan</option>
+                                <option value="10">10 Bulan</option>
+                                <option value="11">11 Bulan</option>
+                                <option value="12">12 Bulan</option>
+                            </select>
                             @error('end_date')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror

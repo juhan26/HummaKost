@@ -88,7 +88,7 @@
             <div class="toast-header">
                 <i class="ri-error-warning-line me-2 text-danger"></i>
                 <div class="me-auto fw-medium">Error</div>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
                 <ul>

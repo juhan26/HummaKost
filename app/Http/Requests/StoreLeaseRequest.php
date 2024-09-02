@@ -25,7 +25,7 @@ class StoreLeaseRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'property_id' => 'required|exists:properties,id',
             'start_date' => 'required|date|after_or_equal:today',
-            'end_date' => 'required|date|after:start_date',
+            'end_date' => 'required',
             'description' => 'nullable|string|max:255',
         ];
     }
@@ -41,8 +41,8 @@ class StoreLeaseRequest extends FormRequest
             'start_date.date' => 'Tanggal mulai harus berupa tanggal yang valid.',
             'start_date.after_or_equal' => 'Tanggal mulai tidak boleh sebelum hari ini.',
             'end_date.required' => 'Tanggal akhir wajib diisi.',
-            'end_date.date' => 'Tanggal akhir harus berupa tanggal yang valid.',
-            'end_date.after' => 'Tanggal akhir harus setelah tanggal mulai.',
+            // 'end_date.date' => 'Tanggal akhir harus berupa tanggal yang valid.',
+            // 'end_date.after' => 'Tanggal akhir harus setelah tanggal mulai.',
         ];
     }
 }
