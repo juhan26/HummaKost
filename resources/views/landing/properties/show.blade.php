@@ -675,18 +675,20 @@
                         @php
                             $property_facilitiesAll = $facility_images;
                         @endphp
-                        @foreach ($property_facilitiesAll as $property_facility)
-                            @foreach ($property_facility->facility_images as $image)
-                                <div class="facility-images" style="display: flex;">
-                                    <a href="{{ asset('storage/' . $image->image) }}"
-                                        data-lightbox="facility-gallery-{{ $image->id }}">
-                                        <img src="{{ asset('storage/' . $image->image) }}"
-                                            alt="Facility Image" class="facility-img"
-                                            style="width:300pxpx;margin:10px 0px;">
-                                    </a>
-                                </div>
+                        <div class="facility-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            @foreach ($property_facilitiesAll as $property_facility)
+                                @foreach ($property_facility->facility_images as $image)
+                                    <div class="facility-images" style="flex: 0 1 300px; margin: 10px;">
+                                        <a href="{{ asset('storage/' . $image->image) }}"
+                                            data-lightbox="facility-gallery-{{ $image->id }}">
+                                            <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                                class="facility-img"
+                                                style="width: 100%; height: auto; border-radius: 8px;">
+                                        </a>
+                                    </div>
+                                @endforeach
                             @endforeach
-                        @endforeach
+                        </div>
                     </div>
                     @foreach ($facility_images as $facility)
                         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
@@ -699,16 +701,18 @@
                                     return $item->facility_id == $facility->id;
                                 });
                             @endphp
-                            @foreach ($filtered_facilities as $property_facility)
-                                <div class="facility-images" style="display: flex;">
-                                    <a href="{{ asset('storage/' . $property_facility->image) }}"
-                                        data-lightbox="facility-gallery-{{ $property_facility->id }}">
-                                        <img src="{{ asset('storage/' . $property_facility->image) }}"
-                                            alt="Facility Image" class="facility-img"
-                                            style="width:300pxpx;margin:10px 0px;">
-                                    </a>
-                                </div>
-                            @endforeach
+                            <div class="facility-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                @foreach ($filtered_facilities as $property_facility)
+                                    <div class="facility-images" style="flex: 0 1 300px; margin: 10px;">
+                                        <a href="{{ asset('storage/' . $property_facility->image) }}"
+                                            data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                            <img src="{{ asset('storage/' . $property_facility->image) }}"
+                                                alt="Facility Image" class="facility-img"
+                                                style="width: 100%; height: auto; border-radius: 8px;">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     @endforeach
                 </div>
