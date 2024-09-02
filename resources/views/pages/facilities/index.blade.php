@@ -154,7 +154,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar
-                                    {{ $facility->id }}</h5>
+                                    {{ $facility->name }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -164,7 +164,7 @@
                                     @csrf
                                     <input type="hidden" value="{{ $facility->id }}" name="facility_id">
                                     <button type="submit" id="submit-all" class="btn btn-primary position-absolute"
-                                        style="bottom: 10px; right: 10px;">
+                                        style="bottom: 10px; right: 10px;cursor:pointer;">
                                         Tambah Gambar
                                     </button>
                                 </form>
