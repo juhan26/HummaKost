@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use App\Models\Facility;
+use App\Models\FacilityImage;
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\PropertyFacility;
@@ -117,8 +118,14 @@ class PropertyController extends Controller
             });
         })->where('status', 'active')->get();
 
+        $facility_images = $property->facilities;
+        // dd($facility_images);
+
         $properties = Property::all();
-        return view('pages.properties.detail', compact('property_member', 'property', 'properties', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
+
+
+
+        return view('pages.properties.detail', compact('property_member', 'facility_images', 'property', 'properties', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
     }
 
     /**

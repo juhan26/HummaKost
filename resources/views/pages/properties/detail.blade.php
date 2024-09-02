@@ -1,7 +1,6 @@
 @extends('app')
 
 @section('content')
-
     {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
     <link rel="stylesheet" href="grid-gallery.css">
@@ -317,81 +316,65 @@
         {{-- ANGGOTA --}}
 
     </div>
-   <!-- FACILITIES -->
-<h4 class="fw-bold text-center">Daftar Fasilitas</h4>
 
-<div class="tabs-container">
-    <button type="button" class="facility-tab active" data-facility="all">
-        Semua fasilitas
-    </button>
+    <!-- FACILITIES -->
+    <h4 class="fw-bold text-center">Daftar Fasilitas</h4>
 
-    @foreach ($property->facilities as $facility)
-        <button type="button" class="facility-tab" data-facility="{{ $facility->id }}">
-            {{ $facility->name }}
-        </button>
-    @endforeach
-</div>
-
-<div class="row gallery-container grid-gallery">
-    @forelse ($property->facilities as $facility)
-        @forelse ($facility->facility_images as $image)
-            <div class="col-lg-3 item mb-4 facility-images" data-facility="{{ $facility->id }}" style="display: none;">
-                <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                    <img class="img-fluid image scale-on-hover rounded"
-                        src="{{ asset('storage/' . $image->image) }}"
-                        alt="Facility Image">
-                </a>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Semua</button>
+        </li>
+        @foreach ($facility_images as $facility)
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab{{ $facility->id }}" data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane{{ $facility->id }}" type="button" role="tab"
+                    aria-controls="profile-tab-pane" aria-selected="false">{{ $facility->name }}</button>
+            </li>
+        @endforeach
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+            tabindex="0">
+            @php
+                $property_facilitiesAll = $facility_images;
+            @endphp
+            @foreach ($property_facilitiesAll as $property_facility_image)
+                @foreach ($property_facility_image->facility_images as $image)
+                    <div class="col item mb-4 facility-images">
+                        <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
+                            <img class="img-fluid image scale-on-hover rounded"
+                                src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
+                        </a>
+                    </div>
+                @endforeach
+            @endforeach
+        </div>
+        @foreach ($facility_images as $facility)
+            <div class="tab-pane fade" id="profile-tab-pane{{ $facility->id }}" role="tabpanel"
+                aria-labelledby="profile-tab{{ $facility->id }}" tabindex="0">
+                {{ $facility->name }}
+                @php
+                    $property_facilities = $facility->facility_images->where('property_id', $property->id);
+                    $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
+                        return $item->facility_id == $facility->id;
+                    });
+                @endphp
+                @foreach ($filtered_facilities as $image)
+                    <div class="col item mb-4 facility-images" data-facility="{{ $image->id }}"
+                        style="display: none;">
+                        <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
+                            <img class="img-fluid image scale-on-hover rounded"
+                                src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
+                        </a>
+                    </div>
+                @endforeach
             </div>
-        @empty
-            {{-- Optional empty message --}}
-        @endforelse
-    @empty
-        <div class="col-12 text-center text-muted">Belum Ada Foto</div>
-    @endforelse
-</div>
+        @endforeach
+    </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function showImages(facilityId) {
-            document.querySelectorAll('.facility-images').forEach(function(image) {
-                image.style.display = 'none';
-            });
 
-            if (facilityId === 'all') {
-                document.querySelectorAll('.facility-images').forEach(function(image) {
-                    image.style.display = 'block';
-                });
-            } else {
-                var images = document.querySelectorAll('.facility-images[data-facility="' + facilityId + '"]');
-                images.forEach(function(image) {
-                    image.style.display = 'block';
-                });
-            }
 
-            baguetteBox.run('.grid-gallery', {
-                animation: 'slideIn'
-            });
-        }
-
-        function setActiveTab(tab) {
-            document.querySelectorAll('.facility-tab').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-            tab.classList.add('active');
-        }
-
-        document.querySelectorAll('.facility-tab').forEach(function(tab) {
-            tab.addEventListener('click', function() {
-                var facilityId = this.getAttribute('data-facility');
-                showImages(facilityId);
-                setActiveTab(this);
-            });
-        });
-
-        showImages('all');
-    });
-</script>
 
 
     <!-- FACILITIES -->
