@@ -1,10 +1,9 @@
 @extends('app')
 
 @section('content')
-
-{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
-<link rel="stylesheet" href="grid-gallery.css">
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
+    <link rel="stylesheet" href="grid-gallery.css">
 
     <div class="col-12">
         <div class="">
@@ -137,7 +136,9 @@
                 @forelse ($property->property_images as $detailFoto)
                     <div class="col-md-6 col-lg-4 item mb-4">
                         <a class="lightbox" href="{{ asset('storage/' . $detailFoto->image) }}">
-                            <img class="img-fluid image scale-on-hover" style="width: 400px; height: 400px;" src="{{ asset('storage/' . $detailFoto->image) }}" alt="{{ $detailFoto->title ?? 'Gambar Kontrakan' }}">
+                            <img class="img-fluid image scale-on-hover" style="width: 400px; height: 400px;"
+                                src="{{ asset('storage/' . $detailFoto->image) }}"
+                                alt="{{ $detailFoto->title ?? 'Gambar Kontrakan' }}">
                         </a>
                     </div>
                 @empty
@@ -149,17 +150,21 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script>
-        baguetteBox.run('.grid-gallery', { animation: 'slideIn' });
+        baguetteBox.run('.grid-gallery', {
+            animation: 'slideIn'
+        });
     </script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script>
-        baguetteBox.run('.compact-gallery', { animation: 'slideIn' });
+        baguetteBox.run('.compact-gallery', {
+            animation: 'slideIn'
+        });
     </script>
 
 
-<h4 class="fw-bold text-center">Daftar Anggota</h4>
+    <h4 class="fw-bold text-center">Daftar Anggota</h4>
     <div class="d-flex gap-3 flex-column flex-lg-row mt-2">
         <!-- ANGGOTA -->
         <div class="col-12 col-lg-12">
@@ -335,9 +340,15 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                value="{{ old('end_date') }}">
+                            <label for="end_date" class="form-label">Masa Kontrak</label>
+                            <select name="end_date" class="form-select" id="end_date">
+                                <option value="" disabled selected>Pilih Berapa Bulan Ngontrak</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ old('end_date') == $i ? 'selected' : '' }}>
+                                        {{ $i }} Bulan
+                                    </option>
+                                @endfor
+                            </select>
                             @error('end_date')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror

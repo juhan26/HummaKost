@@ -98,6 +98,7 @@ class PropertyController extends Controller
                     $query->where('name', 'admin');
                 });
             })->where('status', 'accepted')
+            ->where('gender', $property->gender_target)
             ->latest()
             ->get();
 
