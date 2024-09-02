@@ -9,11 +9,10 @@ class Feedback extends Model
 {
     use HasFactory;
 
-    protected $table = "feedbacks"; 
+    protected $table = "feedbacks";
     protected $fillable = ['message', 'rating', 'user_id', 'user_name', 'user_image'];
 
-    public function user() {
-        return $this->belongsTo(User::class, 'user_id');
+    public function lease(){
+        return $this->belongsTo(Lease::class, 'lease_id');
     }
 }
-    

@@ -382,10 +382,39 @@
     </section>
     <div class="space-y-8 py-8 mx-4 w-3/4" style="margin-left: 14rem; margin-right: 14rem;">
 
-        @foreach ($leases as $lease)
-        @endforeach
 
         @forelse ($leases as $lease)
+            @php
+                foreach ($lease->payments as $payment) {
+                    $due_date = $payment->due_date;
+                }
+                $startReminderDate = \Carbon\Carbon::parse($due_date)->subDays(3);
+                $endReminderDate = \Carbon\Carbon::parse($due_date);
+                $daysLeft = today()->diffInDays(\Carbon\Carbon::parse($due_date));
+            @endphp
+            @if (today()->between($startReminderDate, $endReminderDate))
+                <div class="w-full" style=" border-radius: 30px">
+                    @if ($daysLeft > 0)
+                        <div class="bg-red-200 text-center p-4 shadow-md" style="border-radius: 30px">
+                            <span class="text-gray-700">Tenggat Waktu Pembayaran</span>
+                            <h5 class="text-red-600 mt-2 text-xl">
+                                {{ $daysLeft }} Hari
+                            </h5>
+                        </div>
+                        {{-- <p><strong style="color: red">Reminder{{ $daysLeft }} Hari
+                        </strong>
+                    </p> --}}
+                    @elseif ($daysLeft == 0)
+                        <div class="bg-red-200 text-center p-4 shadow-md" style="border-radius: 30px">
+                            <h5 class="text-red-600 mt-2 text-xl">
+                                Hari ini Tenggat Pembayaranmu !!
+                            </h5>
+                        </div>
+                    @endif
+                </div>
+            @endif
+
+
             <div class="flex justify-center gap-4">
                 <!-- Total Yang Sudah Dibayar -->
                 <div class="w-full" style=" border-radius: 30px">
@@ -708,6 +737,18 @@
             }
         });
     </script>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/plugins/js/jquery.js"></script>
+    <script src="/assets/plugins/js/swipper.js"></script>
+    <script src="/assets/plugins/js/waypoint.js"></script>
+    <script src="/assets/plugins/js/counter.js"></script>
+    <script src="/assets/plugins/js/aos.js"></script>
+    <script src="/assets/js/main2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 </body>
 
 

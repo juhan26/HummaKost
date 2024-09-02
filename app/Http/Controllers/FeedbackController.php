@@ -33,20 +33,31 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $message = [
+            'message.required' => 'Pesan harus diisi',
+            'message.string' => 'Pesan harus berupa teks',
+            'message.max' => 'Pesan maksimal 1000 karakter',
+            'lease_id.required' => 'Belum Mempunyai Kontrak',
+        ];
+
         $request->validate([
             'message' => 'required|string|max:1000',
+            'lease_id' => 'required|exists:leases,id',
             'rating' => 'required|integer|min:1|max:5',
-        ]);
+        ], $message);
 
         $feedback = new Feedback();
         $feedback->message = $request->message;
         $feedback->rating = $request->rating;
+        $feedback->lease_id = $request->lease_id;
 
-        if (Auth::check()) {
-            $feedback->user_id = Auth::id();
-            $feedback->user_name = Auth::user()->name;
-            $feedback->user_image = Auth::user()->profile_image ?? 'image_not_available.png';
-        }
+        // if (Auth::check()) {
+        //     $feedback->user_id = Auth::id();
+        //     $feedback->user_name = Auth::user()->name;
+        //     $feedback->user_image = Auth::user()->profile_image ?? 'image_not_available.png';
+        // }
 
         $feedback->save();
 
@@ -83,10 +94,10 @@ class FeedbackController extends Controller
      */
     public function destroy(Feedback $feedback)
     {
-        try{
+        try {
             $feedback->delete();
             return back()->with('success', 'Berhasil menghapus Feedback');
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             return back()->with('error', 'Gagal menghapus Feedback');
         }
     }

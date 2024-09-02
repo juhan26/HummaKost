@@ -20,7 +20,7 @@
     <div class="container" style="min-height: 200px">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4"
             style="padding: 50px 0 30px 0;">
-            <h3 class="m-0 mb-3 mb-md-0"><strong>List Fasilitas</strong></h3>
+            <h3 class="m-0 mb-3 mb-md-0"><stron g>List Fasilitas</stron></h3>
             <form action="{{ route('facilities.index') }}" method="GET"
                 class="d-flex flex-column flex-md-row align-items-center" style="gap: 15px; position: relative; width: 70%;">
                 @csrf

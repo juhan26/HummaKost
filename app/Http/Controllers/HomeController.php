@@ -32,6 +32,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+
         $propertiesCount = Property::count();
         $instanceCount = Instance::count();
         $usersCount = User::count();
@@ -46,6 +48,7 @@ class HomeController extends Controller
 
         $currentMonth = Carbon::now()->month;
 
+        // Menghitung pendapatan bulanan
         $paymentIncome = PaymentPerMonth::selectRaw('MONTH(created_at) as month, SUM(nominal) as total')
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->whereMonth('created_at', '<=', $currentMonth)
@@ -58,6 +61,37 @@ class HomeController extends Controller
             $incomeMonthlyTotals[$month] = $total;
         }
 
+        // Menghitung keterlambatan pembayaran per bulan
+        $latePayments = DB::table('leases')
+            ->join('payment_per_months', 'leases.id', '=', 'payment_per_months.lease_id')
+            ->select(
+                'leases.user_id',
+                DB::raw('MONTH(payment_per_months.created_at) as month'),
+                DB::raw('GREATEST(0, DATEDIFF(payment_per_months.payment_date, payment_per_months.due_date)) as days_late')
+            )
+            ->where('payment_per_months.payment_date', '>', 'payment_per_months.due_date')
+            ->get();
+
+
+        // Mengelompokkan data berdasarkan bulan dan user
+       // ngelooping bulan dari jan - dec ajggg
+       $lateData = [];
+       for ($i = 1; $i <= $currentMonth; $i++) {
+           $monthYear = Carbon::create(null, $i)->format('F');
+           $lateData[$monthYear] = [];
+       }
+   
+       // data yang telat byayar
+       foreach ($latePayments as $payment) {
+           $monthYear = Carbon::create(null, $payment->month)->format('F');
+           if (!isset($lateData[$monthYear][$payment->user_id])) {
+               $lateData[$monthYear][$payment->user_id] = 0;
+           }
+           $lateData[$monthYear][$payment->user_id] += $payment->days_late;
+       }
+
+
+        // Menghitung jumlah penyewaan per bulan per properti
         $properties = Property::with(['leases' => function ($query) use ($currentMonth) {
             $query->selectRaw('property_id, MONTH(created_at) as month, COUNT(*) as total')
                 ->whereMonth('created_at', '<=', $currentMonth)
@@ -66,16 +100,13 @@ class HomeController extends Controller
         }])->get();
 
         $leasesPerMonth = [];
-
         foreach ($properties as $property) {
             $data = array_fill(0, $currentMonth, 0);
-
             foreach ($property->leases as $lease) {
                 if ($lease->month <= $currentMonth) {
                     $data[$lease->month - 1] = $lease->total;
                 }
             }
-
             $leasesPerMonth[] = [
                 'name' => $property->name,
                 'data' => $data,
@@ -86,6 +117,20 @@ class HomeController extends Controller
             $query->where('name', 'super_admin');
         })->get();
 
-        return view('pages.dashboard.index', compact('leases', 'incomeMonthlyTotals', 'leasesPerMonth', 'userAccepted', 'userRejected', 'userPending', 'propertiesCount', 'usersCount', 'leasesCount', 'facilityCount', 'instanceCount', 'users'));
+        return view('pages.dashboard.index', compact(
+            'leases',
+            'incomeMonthlyTotals',
+            'leasesPerMonth',
+            'userAccepted',
+            'userRejected',
+            'userPending',
+            'propertiesCount',
+            'usersCount',
+            'leasesCount',
+            'facilityCount',
+            'instanceCount',
+            'users',
+            'lateData'
+        ));
     }
 }
