@@ -39,15 +39,13 @@ class UserController extends Controller
                 $query->whereIn('status', $status);
             });
         }
-        if ($search || !empty($status)) {
+        if ($search) {
             $query2->where(function ($query2) use ($search) {
                 $query2->where('name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%")
                     ->orWhereHas('instance', function ($query2) use ($search) {
                         $query2->where('name', 'LIKE', "%$search%");
                     });
-            })->when(!empty($status), function ($query2) use ($status) {
-                $query2->whereIn('status', $status);
             });
         }
 
@@ -87,7 +85,6 @@ class UserController extends Controller
         ]);
         $users2->appends([
             'search' => $search,
-            'status' => $status,
         ]);
 
         $instances = Instance::orderBy('name', 'ASC')->get();
@@ -207,9 +204,9 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->phone_number = $request->phone_number;
 
-        if ($request->memberMenu === "y" || $user->hasRole('super_admin')) {
-            $user->gender = $request->input('gender');
-        }
+        // if ($request->memberMenu === "y" || $user->hasRole('super_admin')) {
+        //     $user->gender = $request->input('gender');
+        // }
 
         $user->save();
 

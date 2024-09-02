@@ -615,84 +615,6 @@
             </div>
         </div>
     </section>
-    {{-- <!-- intructor section start -->
-    <section id="tenant" class="section-padding instructor-section bg-secondary-50">
-        <div class="container px-4 2xl:px-0">
-            <form id="propertyForm" method="GET" action="#loadMember">
-                <div class="flex items-center justify-between mb-4">
-                    <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[48px] md:text-3xl text-2xl font-semibold font-display mb-4">
-                        <span class="text-primary-500 after-svg instructor">Tenant</span>
-                    </h2>
-                    <div class="ml-6 w-40 md:w-52 lg:w-64 relative">
-                        <!-- Menyesuaikan lebar untuk berbagai ukuran layar -->
-                        <label for="property" class="sr-only">Select Property:</label>
-                        <select id="property" name="property_id"
-                            class="block w-full text-primary-900 xl:text-[20px] xl:leading-[24px] md:text-xl text-base font-semibold font-display border border-primary-500 rounded-md py-2 px-3 md:px-4 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500"
-                            onchange="document.getElementById('tenantRedirect').value = '#tenant'; this.form.submit();">
-                            @foreach ($properties as $property)
-                                <option value="{{ $property->id }}"
-                                    {{ $selectedPropertyId == $property->id ? 'selected' : '' }}>
-                                    {{ $property->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <!-- Custom Arrow -->
-                        <svg class="absolute top-1/2 right-3 md:right-4 transform -translate-y-1/2 w-4 md:w-5 h-4 md:h-5 text-gray-500 pointer-events-none"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                        </svg>
-                        <input type="hidden" id="tenantRedirect" name="redirect" value="">
-                    </div>
-                </div>
-            </form>
-
-
-
-            <div class="flex items-center mb-4">
-                <p id="descc" class="text-gray-500 text-xl mb-0">Various versions have evolved over the years,
-                    sometimes by accident.</p>
-            </div>
-            <div class="slider-container mx-auto px-4 2xl:px-0">
-                <div class="swiper instructorSwipper relative">
-                    <div class="swiper-wrapper 2xl:pr-[22%] lg:py-[50px] py-8">
-                        @forelse ($users as $user)
-                            <div class="swiper-slide">
-                                <div class="p-4 bg-white shadow-sm rounded-2xl instructor-card">
-                                    <div class="mb-4 overflow-hidden rounded-lg">
-                                        <a href="#">
-                                            <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/img/image_not_available.png') }}"
-                                                alt="{{ $user->name }}" class="rounded-lg">
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <h2 class="mb-1.5 font-display text-xl text-gray-black text-center">
-                                            <a href="#">{{ $user->name }}</a>
-                                            <span
-                                                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                {{ $user->lease->status }}
-                                            </span>
-                                        </h2>
-                                        <h4 class="mb-0 text-base font-display text-gray-500 text-center">
-                                            <a href="#">
-                                                {{ \Carbon\Carbon::parse($user->lease->start_date)->format('d M Y') }}
-                                                - {{ \Carbon\Carbon::parse($user->lease->end_date)->format('d M Y') }}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <p>No users available for this user.</p>
-                        @endforelse
-                    </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 
     <script>
         // Scroll to #tenant section if the URL contains #tenant fragment
@@ -1250,43 +1172,6 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="footer-widget min-w-[160px]">
-                    <div class="footer-widget-title xl:mb-8 md:mb-5 mb-3">
-                        <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Category</h2>
-                    </div>
-                    <div class="footer-widget-content">
-                        <ul>
-                            <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Design</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Development</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Marketing</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Business</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Lifestyle</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Photography</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="inline-block text-base text-gray-500 xl:mb-4 md:mb-3 mb-2 footer-link hover:text-primary-500 transition duration-300 ease-in-out">Music</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div> --}}
                 <div class="footer-widget min-w-[320px]">
                     <div class="footer-widget-title xl:mb-8 md:mb-5 mb-3">
                         <h2 class="text-gray-black text-xl xl:text-2xl tracking-[0.002em] font-semibold">Subscribes
@@ -1298,7 +1183,6 @@
                         <form>
                             <input type="email" placeholder="Email here"
                                 class="p-4 bg-gray-custom/50 rounded-lg w-full block mb-6 focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out">
-                            <!-- /focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-300 ease-in-out -->
                             <button type="button" class="btn-primary">
                                 <span>Subscribes Now</span>
                             </button>
@@ -1308,9 +1192,6 @@
             </div>
         </div>
     </footer>
-    <!-- footer area end -->
-
-    <!-- all script file -->
     <script>
         VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
             max: 25,
@@ -1318,40 +1199,27 @@
             glare: true,
             "max-glare": 0.5,
         });
-
         function submitFormAndScroll() {
             var form = document.getElementById('propertyForm');
             var selectedPropertyId = document.getElementById('property').value;
-
-            // Append query parameters to the URL
             var url = new URL(window.location.href);
             url.searchParams.set('property_id', selectedPropertyId);
             url.searchParams.set('redirect', '#tenant');
-
-            // Scroll to the desired position
             window.scrollTo({
                 top: 700,
                 behavior: 'smooth'
             });
-
-            // Submit the form with the updated URL
             window.location.href = url.toString();
         }
-
-        // Check if the page was reloaded
         if (performance.navigation.type === 1) {
-            // Redirect to the root path
             window.location.href = '/';
         }
-
-        // Scroll to #tenant section if the URL contains #tenant fragment
         document.addEventListener('DOMContentLoaded', function() {
             if (window.location.hash === '#tenant') {
                 document.getElementById('tenant').scrollIntoView();
             }
         });
     </script>
-
     <script src="/assets/plugins/js/jquery.js"></script>
     <script src="/assets/plugins/js/swipper.js"></script>
     <script src="/assets/plugins/js/waypoint.js"></script>
@@ -1360,11 +1228,5 @@
     <script src="/assets/js/main2.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
-
-
 </body>
-
 </html>
-
-
-m
