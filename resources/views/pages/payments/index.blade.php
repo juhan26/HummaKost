@@ -155,20 +155,25 @@
 
                                 @if ($lastPayment)
                                     @php
-                                        $lastPaid = \Carbon\Carbon::createFromFormat('d F Y', $lastPayment);
+                                        $lastPaid = \Carbon\Carbon::createFromFormat('d F Y', $lastPayment)->locale(
+                                            'id',
+                                        );
                                         $currentMonth = \Carbon\Carbon::today();
                                         $lastPaymentMinusOneDay = $lastPaid->copy()->subDays(1);
                                     @endphp
                                     @if ($lastPaid >= $currentMonth)
                                         <p class="text-primary">
-                                            Telah membayar kontrakan pada tanggal <strong>{{ $startPayment }}</strong>
+                                            Telah membayar kontrakan pada tanggal
+                                            <strong>{{ \Carbon\Carbon::parse($startPayment)->translatedFormat('d F Y') }}</strong>
                                             sampai
-                                            tanggal <strong>{{ $lastPaymentMinusOneDay->format('d F Y') }}</strong>
+                                            tanggal
+                                            <strong>{{ \Carbon\Carbon::parse($lastPaymentMinusOneDay)->translatedFormat('d F Y') }}</strong>
                                         </p>
                                         @if ($lease->total_nominal < $lease->total_iuran && $lease->status == 'active')
                                             <p>
                                                 Pembayaran selanjutnya pada tanggal
-                                                <strong style="color: red">{{ $lastPaid->format('d F Y') }}</strong>
+                                                <strong
+                                                    style="color: red">{{ \Carbon\Carbon::parse($lastPaid)->translatedFormat('d F Y') }}</strong>
                                             </p>
                                         @endif
 
@@ -182,8 +187,8 @@
                                         @endif
                                     @else
                                         <p style="color: red">
-                                            Belum membayar uang kontrakan, terakhir membayar pada bulan
-                                            <strong>{{ $lastPaid->format('d F Y') }}</strong>
+                                            Belum membayar uang kontrakan pada tanggal
+                                            <strong>{{ \Carbon\Carbon::parse($lastPaid)->translatedFormat('d F Y') }}</strong>
                                         </p>
                                     @endif
                                 @else
@@ -287,7 +292,7 @@
                                                 <!-- Update colspan to match the number of columns in your table -->
                                                 <td colspan="50" class="">
                                                     <h1 class="material-symbols-outlined mt-4"
-                                                        style="font-size: 3rem;color:rgba(32, 180, 134,.4);">group</h1>
+                                                        style="font-size: 3rem;color:rgba(32, 180, 134,.4);">payments</h1>
                                                     <p class="card-title" style="color: rgba(0,0,0,.4)">Belum Pernah
                                                         Melakukan Pembayaran
                                                     </p>
@@ -405,7 +410,7 @@
             <div class="col-12">
                 <div class="text-center">
                     <h1 class="material-symbols-outlined mt-4" style="font-size: 3rem;color:rgba(32, 180, 134,.4);">
-                        real_estate_agent</h1>
+                        payments</h1>
                     <p class="card-title" style="color: rgba(0,0,0,.4)"> Belum Ada Pembayaran
                     </p>
                 </div>

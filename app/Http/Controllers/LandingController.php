@@ -102,16 +102,6 @@ class LandingController extends Controller
             ->get();
         $feedbacks = Feedback::with('lease')->latest()->get();
 
-        // Cek apakah user sudah memberikan feedback untuk properti ini
-        // $existingFeedback = Feedback::where('user_id', $user->id)
-        //                             ->where('property_id', $selectedPropertyId)
-        //                             ->first();
-
-        // if ($existingFeedback) {
-        //     return redirect()->back()->with('error', 'Anda sudah memberikan feedback untuk properti ini.');
-        // }
-
-        // Kirim data ke view
         return view('landing.index', compact('facilities', 'leases', 'lease', 'properties', 'users', 'selectedPropertyId', 'feedbacks'));
     }
 
