@@ -293,7 +293,7 @@ class LeaseController extends Controller
         //     ]);
         // }
 
-        return redirect()->route('leases.index')->with('success', 'Data kontrakan berhasil di ubah.');
+        return redirect()->route('leases.index')->with('success', 'Data kontrak berhasil di ubah.');
     }
 
 
