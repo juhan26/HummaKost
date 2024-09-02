@@ -88,6 +88,23 @@
                 </div>
             </div>
 
+            <div class="col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Daftar Penyewa yang Sering Telat Melakukan Pembayaran (Perbulan)</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="latePaymentsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div id="latePaymentsList">
+                            <!-- Daftar akan diisi di sini -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="col-md-12 mt-8 mb-8">
                 <div class="card">
@@ -112,6 +129,9 @@
                                 @endif --}}
                                 </tr>
                                 <tbody class="table-border-bottom-0">
+                                    @php
+                                        $hasDueDates = false;
+                                    @endphp
                                     @foreach ($leases as $index => $lease)
                                         @php
                                             foreach ($lease->payments as $payment) {
@@ -120,6 +140,10 @@
                                             $startReminderDate = \Carbon\Carbon::parse($due_date)->subDays(3);
                                             $endReminderDate = \Carbon\Carbon::parse($due_date);
                                             $daysLeft = today()->diffInDays(\Carbon\Carbon::parse($due_date), false);
+
+                                            if (today()->between($startReminderDate, today()) && $daysLeft <= 3) {
+                                                $hasDueDates = true;
+                                            }
                                         @endphp
 
                                         @if (today()->between($startReminderDate, today()) && $daysLeft <= 3)
@@ -216,110 +240,10 @@
                                                         {{ 'Rp. ' . number_format($lease->properties->rental_price) }}
                                                     </div>
                                                 </td>
-                                                {{-- <td>
-                                            @if (request()->input('filter') === 'admin')
-                                                @php
-                                                    $lease = \App\Models\Lease::where('user_id', $lease->user->id)->first();
-                                                @endphp
-                                                @if ($lease !== null)
-                                                    <a class="text-decoration-underline "
-                                                        href="{{ '/properties' . '/' . $lease->property_id }}">{{ $lease->properties->name }}</a>
-                                                @else
-                                                    <span>null</span>
-                                                @endif
-                                            @else
-                                                @if ($lease->user->status === 'pending')
-                                                    <span class="badge rounded-pill bg-label-warning me-1">Tertunda</span>
-                                                @elseif ($lease->user->status === 'accepted')
-                                                    <span class="badge rounded-pill bg-label-primary me-1">Diterima</span>
-                                                @else
-                                                    <span class="badge rounded-pill bg-label-danger me-1">Ditolak</span>
-                                                @endif
-                                            @endif
-                                        </td>
-                                        @php
-                                            $adminAccess = 0;
-                                            $userRole = Auth::user();
-
-                                            if ($userRole->hasRole('admin')) {
-                                                if ($user->hasRole('admin')) {
-                                                    $adminAccess = 1;
-                                                }
-                                            }
-                                        @endphp
-                                        @if ($adminAccess === 0 && $user->status === 'pending')
-                                            <td>
-                                                <div class="w-100 px-5">
-                                                    <div class="row w-100 ">
-                                                        <div class="col-12 col-lg-6 mb-lg-1 mb-sm-3">
-                                                            <form action="{{ route('user.accept', $user->id) }}" method="POST"
-                                                                class="text-center w-100">
-                                                                @csrf
-                                                                <button type="submit"
-                                                                    class="col-12 btn btn-label-success p-0 m-0 accept-button"
-                                                                    style="width: fit-content;border:1px solid rgba(50, 200, 50,.2);">
-                                                                    <span class="material-symbols-outlined ">check</span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="col-12 col-lg-6">
-                                                            <form action="{{ route('user.reject', $user->id) }}" method="POST"
-                                                                class="text-center w-100">
-                                                                @csrf
-                                                                <button type="submit"
-                                                                    class="col-12 btn btn-label-danger p-0 m-0 reject-button"
-                                                                    style="width: fit-content;border:1px solid rgba(200, 50, 50,.1);">
-                                                                    <span class="material-symbols-outlined">close</span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        @elseif ($adminAccess === 0 && request()->input('filter') === 'admin')
-                                            @hasrole('super_admin')
-                                                <td>
-                                                    <div class="dropdown d-flex justify-content-center">
-                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
-                                                        <div class="dropdown-menu">
-                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal{{ $user->id }}"><i
-                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
-                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                                data-bs-target="#dismissModal{{ $user->id }}"><i
-                                                                    class="ri-close-circle-line me-1"></i>Berhentikan
-                                                                sebagai ketua kontrakan</a>
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            @endhasrole
-                                        @elseif ($adminAccess === 0 && $user->status !== 'pending')
-                                            @hasrole('super_admin')
-                                                <td>
-                                                    <div class="dropdown d-flex justify-content-center">
-                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
-                                                        <div class="dropdown-menu">
-                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal{{ $user->id }}"><i
-                                                                    class="ri-pencil-line me-1"></i>Ubah</a>
-                                                            <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                                data-bs-target="#deleteModal{{ $user->id }}"><i
-                                                                    class="ri-delete-bin-line me-1"></i>Hapus Anggota</a>
-
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                            @endhasrole
-                                        @elseif ($adminAccess === 1)
-                                        @endif --}}
                                             </tr>
                                         @endif
                                     @endforeach
-                                    @if (empty(today()->between($startReminderDate, today()) && $daysLeft <= 3))
+                                    @if (!$hasDueDates)
                                         <tr class="text-center">
                                             <td colspan="7" class="">
                                                 <h1 class="material-symbols-outlined mt-4"
@@ -336,24 +260,6 @@
                     </div>
                     <div class="d-flex justify-content-end mt-3 mb-5 me-4">
                         <a href="{{ route('payments.index') }}" class="btn btn-primary">Lihat Pembayaran</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-12 mt-4">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Daftar Penyewa yang Sering Telat Melakukan Pembayaran (Perbulan)</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-center">
-                            <canvas id="latePaymentsChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div id="latePaymentsList">
-                            <!-- Daftar akan diisi di sini -->
-                        </div>
                     </div>
                 </div>
             </div>
@@ -651,6 +557,5 @@
                     }
                 }
             });
-
         </script>
     @endsection
