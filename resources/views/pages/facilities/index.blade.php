@@ -174,7 +174,7 @@
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h5 class="m-0">Gambar Fasilitas</h5>
-                                        @if($facility->facility_image != null)
+                                        @if($facility->facility_image->isNotEmpty())
                                             <button id="delete-images-btn" class="btn btn-danger">Hapus</button>
                                         @endif
                                     </div>
