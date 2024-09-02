@@ -314,82 +314,83 @@
         {{-- ANGGOTA --}}
 
     </div>
-    <!-- FACILITIES -->
-    <h4 class="fw-bold text-center">Daftar Fasilitas</h4>
-    <div class="tabs-container">
-        <button type="button" class="facility-tab active" data-facility="all">
-            Semua fasilitas
+   <!-- FACILITIES -->
+<h4 class="fw-bold text-center">Daftar Fasilitas</h4>
+
+<div class="tabs-container">
+    <button type="button" class="facility-tab active" data-facility="all">
+        Semua fasilitas
+    </button>
+
+    @foreach ($property->facilities as $facility)
+        <button type="button" class="facility-tab" data-facility="{{ $facility->id }}">
+            {{ $facility->name }}
         </button>
+    @endforeach
+</div>
 
-        @foreach ($property->facilities as $facility)
-            <button type="button" class="facility-tab" data-facility="{{ $facility->id }}">
-                {{ $facility->name }}
-            </button>
-        @endforeach
-    </div>
-
-    <div class="row">
-        @forelse ($property->facilities as $facility)
-            @forelse ($facility->facility_images as $index => $image)
-                <div class="col-3 facility-images justify-content-center" data-facility="{{ $facility->id }}" style="display: none;">
-                    <a href="{{ asset('storage/' . $image->image) }}"
-                        data-lightbox="facility-gallery-{{ $facility->id }}">
-                        <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image" class="facility-img">
-                    </a>
-                </div>
-            @empty
-                {{-- <div class="facility-images empty-message" style="display: none;">
-                    <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
-                </div> --}}
-            @endforelse
+<div class="row gallery-container grid-gallery">
+    @forelse ($property->facilities as $facility)
+        @forelse ($facility->facility_images as $image)
+            <div class="col item mb-4 facility-images" data-facility="{{ $facility->id }}" style="display: none;">
+                <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
+                    <img class="img-fluid image scale-on-hover rounded"
+                        src="{{ asset('storage/' . $image->image) }}"
+                        alt="Facility Image">
+                </a>
+            </div>
         @empty
-            {{-- <div class="facility-images empty-message" data-facility="empty" style="display: none;">
-                <p><strong>Tidak ada gambar detail.</strong></p>
-            </div> --}}
+            {{-- Optional empty message --}}
         @endforelse
-    </div>
+    @empty
+        <div class="col-12 text-center text-muted">Belum Ada Foto</div>
+    @endforelse
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function showImages(facilityId) {
-                document.querySelectorAll('.facility-images').forEach(function(image) {
-                    image.style.display = 'none';
-                });
-
-                if (facilityId === 'all') {
-                    document.querySelectorAll('.facility-images').forEach(function(image) {
-                        image.style.display = 'block';
-                    });
-                } else {
-                    var images = document.querySelectorAll('.facility-images[data-facility="' + facilityId + '"]');
-                    if (images.length > 0) {
-                        images.forEach(function(image) {
-                            image.style.display = 'block';
-                        });
-                    } else {
-                        document.querySelector('.facility-images[data-facility="empty"]').style.display = 'block';
-                    }
-                }
-            }
-
-            function setActiveTab(tab) {
-                document.querySelectorAll('.facility-tab').forEach(function(btn) {
-                    btn.classList.remove('active');
-                });
-                tab.classList.add('active');
-            }
-
-            document.querySelectorAll('.facility-tab').forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    var facilityId = this.getAttribute('data-facility');
-                    showImages(facilityId);
-                    setActiveTab(this);
-                });
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function showImages(facilityId) {
+            document.querySelectorAll('.facility-images').forEach(function(image) {
+                image.style.display = 'none';
             });
 
-            showImages('all');
+            if (facilityId === 'all') {
+                document.querySelectorAll('.facility-images').forEach(function(image) {
+                    image.style.display = 'block';
+                });
+            } else {
+                var images = document.querySelectorAll('.facility-images[data-facility="' + facilityId + '"]');
+                images.forEach(function(image) {
+                    image.style.display = 'block';
+                });
+            }
+
+            baguetteBox.run('.grid-gallery', {
+                animation: 'slideIn'
+            });
+        }
+
+        function setActiveTab(tab) {
+            document.querySelectorAll('.facility-tab').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            tab.classList.add('active');
+        }
+
+        document.querySelectorAll('.facility-tab').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                var facilityId = this.getAttribute('data-facility');
+                showImages(facilityId);
+                setActiveTab(this);
+            });
         });
-    </script>
+
+        showImages('all');
+    });
+</script>
+
+
     <!-- FACILITIES -->
 
     <!-- MAPS -->
