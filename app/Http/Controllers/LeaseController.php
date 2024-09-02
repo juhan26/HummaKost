@@ -204,7 +204,7 @@ class LeaseController extends Controller
                 return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
             }
         } else {
-            return redirect()->back()->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
+            return redirect()->back()->withInput()->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
         }
     }
 
