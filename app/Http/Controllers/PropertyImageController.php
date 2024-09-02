@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PropertyImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PropertyImageController extends Controller
 {
@@ -68,4 +69,27 @@ class PropertyImageController extends Controller
     {
         //
     }
+
+    public function destroySelected(Request $request)
+{
+    // Validasi input untuk memastikan bahwa ada gambar yang dipilih
+    $request->validate([
+        'images_to_delete' => 'required|array',
+        'images_to_delete.*' => 'exists:property_images,id',
+    ]);
+
+    // Ambil ID gambar yang akan dihapus
+    $imageIds = $request->input('images_to_delete');
+
+    // Hapus gambar dari storage dan database
+    foreach ($imageIds as $id) {
+        $image = PropertyImage::findOrFail($id);
+        Storage::disk('public')->delete($id); // Hapus file gambar dari storage
+        $image->delete(); // Hapus record dari database
+    }
+
+    // Redirect kembali dengan pesan sukses
+    return redirect()->back()->with('success', 'Gambar terpilih berhasil dihapus.');
+}
+
 }

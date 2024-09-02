@@ -180,7 +180,8 @@
                                             <p>Penyewa ini <span style="color:red">belum menyelesaikan pembayaran.</span>
                                             </p>
                                             <div>
-                                                <textarea class="form-control" name="description" id="forceDoneDescription" placeholder="Berikan alasan..."></textarea>
+                                                <textarea class="form-control" name="description" id="forceDoneDescription{{ $lease->id }}"
+                                                    placeholder="Berikan alasan..."></textarea>
                                                 @error('description')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -193,18 +194,34 @@
                                     @endif
                                     <div class="modal-footer">
                                         @if ($lease->total_iuran > $lease->total_nominal)
-                                            <button type="submit" class="btn btn-danger" id="forceDoneBtn"
-                                                disabled>Selesaikan
-                                                Paksa</button>
+                                            <button type="submit" class="btn btn-danger"
+                                                id="forceDoneBtn{{ $lease->id }}" disabled>Selesaikan Paksa</button>
                                         @else
                                             <button type="submit" class="btn btn-primary">Selesai</button>
                                         @endif
+
+
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                     {{-- Done Detail --}}
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const descriptionField = document.getElementById('forceDoneDescription{{ $lease->id }}');
+                            const doneButton = document.getElementById('forceDoneBtn{{ $lease->id }}');
+
+                            descriptionField.addEventListener('input', function() {
+                                if (descriptionField.value.trim() === "") {
+                                    doneButton.disabled = true;
+                                } else {
+                                    doneButton.disabled = false;
+                                }
+                            });
+                        });
+                    </script>
 
                     {{-- Edit Lease Modal --}}
                     <div class="modal fade" id="editModal{{ $lease->id }}" tabindex="-1"
@@ -240,18 +257,34 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="start_date" class="form-label">Tanggal Mulai</label>
-                                            <input type="date" class="form-control" name="start_date" id="start_date"
-                                                value="{{ $lease->start_date }}" disabled>
+                                            <label for="start_date" class="form-label">Tanggal Terakhir Sebelumnya</label>
+                                            <input type="hidden" class="form-control" name="start_date" id="start_date"
+                                                value="{{ $lease->end_date }}">
+                                            <input type="date" class="form-control" value="{{ $lease->end_date }}"
+                                                disabled>
                                             @error('start_date')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
-                                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                                value="{{ $lease->end_date }}">
+                                            <label for="end_date" class="form-label">Tambah Masa Kontrak</label>
+                                            <select name="end_date" class="form-select" id="end_date">
+                                                <option value="" disabled selected>Tambah Bulan Ngontrak
+                                                </option>
+                                                <option value="1">1 Bulan</option>
+                                                <option value="2">2 Bulan</option>
+                                                <option value="3">3 Bulan</option>
+                                                <option value="4">4 Bulan</option>
+                                                <option value="5">5 Bulan</option>
+                                                <option value="6">6 Bulan</option>
+                                                <option value="7">7 Bulan</option>
+                                                <option value="8">8 Bulan</option>
+                                                <option value="9">9 Bulan</option>
+                                                <option value="10">10 Bulan</option>
+                                                <option value="11">11 Bulan</option>
+                                                <option value="12">12 Bulan</option>
+                                            </select>
                                             @error('end_date')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -466,9 +499,15 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                value="{{ old('end_date') }}">
+                            <label for="end_date" class="form-label">Masa Kontrak</label>
+                            <select name="end_date" class="form-select" id="end_date">
+                                <option value="" disabled selected>Pilih Berapa Bulan Ngontrak</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ old('end_date') == $i ? 'selected' : '' }}>
+                                        {{ $i }} Bulan
+                                    </option>
+                                @endfor
+                            </select>
                             @error('end_date')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -499,19 +538,6 @@
     {{-- Create Lease Modal --}}
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const descriptionField = document.getElementById('forceDoneDescription');
-            const doneButton = document.getElementById('forceDoneBtn');
-
-            descriptionField.addEventListener('input', function() {
-                if (descriptionField.value.trim() === "") {
-                    doneButton.disabled = true;
-                } else {
-                    doneButton.disabled = false;
-                }
-            });
-        });
-
         document.getElementById('propertySelect').addEventListener('change', function() {
             let selectedOption = this.options[this.selectedIndex];
             let price = selectedOption.getAttribute('data-price');

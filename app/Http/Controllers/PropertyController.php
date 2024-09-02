@@ -98,6 +98,7 @@ class PropertyController extends Controller
                     $query->where('name', 'admin');
                 });
             })->where('status', 'accepted')
+            ->where('gender', $property->gender_target)
             ->latest()
             ->get();
 
@@ -198,16 +199,19 @@ class PropertyController extends Controller
 
     public function addPropertyLeader(Request $request)
     {
-        $user = User::find($request->user_id);
-        $user->removeRole('tenant');
-        $user->assignRole('admin');
+        if ($request->user_id) {
+            $user = User::findOrFail($request->user_id);
+            $user->removeRole('tenant');
+            $user->assignRole('admin');
 
-        return redirect()->back()->with('success', 'Berhasil Menambah Ketua Kontrakan');
+            return redirect()->back()->with('success', 'Berhasil menambah ketua kontrakan.');
+        } else {
+            return redirect()->back()->with('error', 'Kolom Ketuk kontrakan tidak boleh kosong.');
+        }
     }
 
     public function editPropertyLeader(Request $request, Property $property)
     {
-
         $lastLeader = $property->leases()->whereHas('user.roles', function ($query) {
             $query->where('name', 'admin');
         })->first();

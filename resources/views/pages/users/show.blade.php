@@ -132,7 +132,8 @@
                                         <li class="nav-item" role="presentation">
                                             <button type="button" class="nav-link d-flex flex-column gap-1 waves-effect"
                                                 role="tab" data-bs-toggle="tab" data-bs-target="#navs-messages-card"
-                                                aria-controls="navs-messages-card" aria-selected="false" tabindex="-1"><i class="ri-shield-keyhole-line"></i> Keamanan </button>
+                                                aria-controls="navs-messages-card" aria-selected="false" tabindex="-1"><i
+                                                    class="ri-shield-keyhole-line"></i> Keamanan </button>
                                         </li>
                                     </ul>
                                 </div>
@@ -162,21 +163,22 @@
                                                 </span>
                                             </li>
                                             @hasrole('admin|tenant')
-                                            <li class="d-flex align-items-center mb-4"><i
-                                                    class="ri-check-line ri-24px"></i><span
-                                                    class="fw-medium mx-2">Status:</span>
-                                                @if ($user->lease)
-                                                    @if ($user->lease->status == 'active')
-                                                        <span class="badge bg-label-success rounded-pill">Aktif</span>
+                                                <li class="d-flex align-items-center mb-4"><i
+                                                        class="ri-check-line ri-24px"></i><span
+                                                        class="fw-medium mx-2">Status:</span>
+                                                    @if ($user->lease)
+                                                        @if ($user->lease->status == 'active')
+                                                            <span class="badge bg-label-success rounded-pill">Aktif</span>
+                                                        @else
+                                                            <span class="badge bg-label-danger rounded-pill">Tidak Aktif</span>
+                                                        @endif
                                                     @else
                                                         <span class="badge bg-label-danger rounded-pill">Tidak Aktif</span>
                                                     @endif
-                                                @else
-                                                    <span class="badge bg-label-danger rounded-pill">Tidak Aktif</span>
-                                                @endif
-                                            </li>
+                                                </li>
                                             @endhasrole
-                                            <li class="d-flex align-items-center mb-4"><i class="ri-shield-user-line"></i><span
+                                            <li class="d-flex align-items-center mb-4"><i
+                                                    class="ri-shield-user-line"></i><span
                                                     class="fw-medium mx-2">Role:</span>
                                                 @foreach ($user->getRoleNames() as $role)
                                                     @if ($role == 'admin')
@@ -219,7 +221,8 @@
                                                 <div class="alert alert-warning alert-dismissible" role="alert">
                                                     <h5 class="alert-heading mb-1">Untuk memastikan bahwa persyaratan ini
                                                         terpenuhi.
-                                                        <span>Minimal 8 karakter Untuk Mematikan Bahwa Persyatan Ini Terpernuhi</span>
+                                                        <span>Minimal 8 karakter Untuk Mematikan Bahwa Persyatan Ini
+                                                            Terpernuhi</span>
                                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                             aria-label="Close"></button>
                                                 </div>
@@ -249,7 +252,8 @@
                                                                 <input class="form-control" type="password"
                                                                     name="confirmPassword" id="confirmPassword"
                                                                     placeholder="············">
-                                                                <label for="confirmPassword">Konfirmasi Password Baru</label>
+                                                                <label for="confirmPassword">Konfirmasi Password
+                                                                    Baru</label>
                                                             </div>
                                                             <span class="input-group-text cursor-pointer text-heading">
                                                                 <i id="password-icon" class=""></i>
@@ -616,8 +620,7 @@
                                 <div class="col-12 fv-plugins-icon-container">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="name" name="name" class="form-control"
-                                            value="{{ $user->name }}"
-                                            placeholder="{{ $user->name }}">
+                                            value="{{ $user->name }}" placeholder="{{ $user->name }}">
                                         <label for="name">Nama</label>
                                     </div>
                                     <div
@@ -630,9 +633,8 @@
                                     <div class="input-group input-group-merge">
                                         <div class="form-floating form-floating-outline">
                                             <input type="text" id="phone_number" name="phone_number"
-                                                class="form-control phone-number-mask"
-                                                value="{{$user->phone_number}}""
-                                                placeholder="{{$user->phone_number}}">
+                                                class="form-control phone-number-mask" value="{{ $user->phone_number }}""
+                                                placeholder="{{ $user->phone_number }}">
                                             <label for="phone_number">Nomor telepon</label>
                                         </div>
                                     </div>
@@ -647,12 +649,14 @@
                                         </div>
                                     </div>
                                 @endhasrole
-                                @hasrole('super_admin')
+                                @hasrole('admin')
                                     <div class="col-12">
                                         <div class="form-floating form-floating-outline">
                                             <select name="gender" id="gender" class="form-select">
-                                                <option value="male" {{ $user->gender === "male" ? "selected" : "" }}>Laki-laki</option>
-                                                <option value="female" {{ $user->gender === "female" ? "selected" : "" }}>Perempuan</option>
+                                                <option value="male" {{ $user->gender === 'male' ? 'selected' : '' }}>
+                                                    Laki-laki</option>
+                                                <option value="female" {{ $user->gender === 'female' ? 'selected' : '' }}>
+                                                    Perempuan</option>
                                             </select>
                                             <label for="gender">Jenis Kelamin</label>
                                         </div>

@@ -204,9 +204,22 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->phone_number = $request->phone_number;
 
-        // if ($request->memberMenu === "y" || $user->hasRole('super_admin')) {
-        //     $user->gender = $request->input('gender');
-        // }
+      if (!$request->memberMenu){
+        $leases = Lease::where('user_id', $user->id)
+            ->with('properties')
+            ->get();
+        // dd($leases);
+
+        foreach ($leases as $lease) {
+            if ($request->gender !== $lease->properties->gender_target) {
+                return redirect()->back()->with('error', 'Perubahan Gagal Karena tidak sesuai dengan kontrakan yang anda pilih');
+            }
+        }
+        $user->gender = $request->gender;
+        }
+        // Lanjutkan proses penyimpanan data pengguna
+
+
 
         $user->save();
 

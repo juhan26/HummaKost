@@ -20,7 +20,9 @@
     <div class="container" style="min-height: 200px">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4"
             style="padding: 50px 0 30px 0;">
-            <h3 class="m-0 mb-3 mb-md-0"><stron g>List Fasilitas</stron></h3>
+            <h3 class="m-0 mb-3 mb-md-0">
+                <stron g>List Fasilitas</stron>
+            </h3>
             <form action="{{ route('facilities.index') }}" method="GET"
                 class="d-flex flex-column flex-md-row align-items-center" style="gap: 15px; position: relative; width: 70%;">
                 @csrf
@@ -181,27 +183,72 @@
                                 </form>
 
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
-                                    <div class="row g-4">
-                                        @forelse ($facility->facility_images as $index => $image)
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
-                                                    class="img-fluid rounded"
-                                                    style="max-height: 250px; object-fit: cover;">
-                                            </div>
-                                        @empty
-                                            <div class="col-12">
-                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong>
-                                                </p>
-                                            </div>
-                                        @endforelse
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="m-0">Gambar Fasilitas</h5>
+                                        @if ($facility->facility_images->isNotEmpty())
+                                            <button id="delete-images-btn" class="btn btn-danger">Hapus</button>
+                                        @endif
                                     </div>
+                                    <form id="delete-images-form-{{ $facility->id }}"
+                                        action="{{ route('facility_images.destroySelected') }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="row g-4">
+                                            @forelse ($facility->facility_images as $index => $image)
+                                                <div class="col-12 col-md-6 col-lg-4 position-relative">
+                                                    <input type="checkbox" name="images_to_delete[]"
+                                                        value="{{ $image->id }}"
+                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox"
+                                                        style="display: none;">
+                                                    <img src="{{ asset('storage/' . $image->image) }}"
+                                                        alt="Facility Image" class="img-fluid rounded"
+                                                        style="max-height: 250px; object-fit: cover;">
+                                                </div>
+                                            @empty
+                                                <div class="col-12">
+                                                    <p class="text-center m-0 py-3"><strong>Tidak ada gambar
+                                                            detail.</strong></p>
+                                                </div>
+                                            @endforelse
+                                        </div>
+                                    </form>
                                 </div>
+
+                                <script>
+                                    let deleteImagesBtn = document.getElementById('delete-images-btn');
+                                    let form = document.getElementById('delete-images-form-{{ $facility->id }}');
+                                    let checkboxes = document.querySelectorAll('.delete-checkbox');
+
+                                    deleteImagesBtn.addEventListener('click', function() {
+                                        // Check if the button is in "Hapus" mode or "Hapus Gambar Terpilih" mode
+                                        if (deleteImagesBtn.textContent === "Hapus") {
+                                            // Show checkboxes
+                                            checkboxes.forEach(function(checkbox) {
+                                                checkbox.style.display = 'block';
+                                            });
+                                            // Change button text
+                                            deleteImagesBtn.textContent = "Hapus Gambar Terpilih";
+                                            deleteImagesBtn.disabled = true; // Disable button until any checkbox is checked
+                                        } else {
+                                            // Submit form to delete selected images
+                                            form.submit();
+                                        }
+                                    });
+
+                                    checkboxes.forEach(function(checkbox) {
+                                        checkbox.addEventListener('change', function() {
+                                            // Enable or disable button based on checkbox selection
+                                            let anyChecked = Array.from(checkboxes).some(chk => chk.checked);
+                                            deleteImagesBtn.disabled = !anyChecked;
+                                        });
+                                    });
+                                </script>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Image Detail Modal -->
-
 
 
                 <!-- Update Modal -->

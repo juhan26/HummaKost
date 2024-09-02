@@ -301,6 +301,31 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div id="toast-error"
+            class="fixed top-8 right-0 mr-1 mt-1 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
+                <span class="material-icons">
+                    error
+                </span>
+            </div>
+            <div class="ml-3 text-sm font-medium text-gray-700">
+                {{ session('error') }}
+            </div>
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8"
+                aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span class="sr-only">Close</span>
+                <span class="material-icons">
+                    close
+                </span>
+            </button>
+        </div>
+    @endif
+
+
 
     @if ($errors->any())
         <div id="toast-error"
@@ -391,7 +416,7 @@
                                                     class="mb-0 px-4 py-2 text-center bg-blue-200 text-blue-500 py-2 rounded-full font-semibold">
                                                     Kontrakan
                                                 </h5>
-                                                <span>{{ $user->properties ? $user->properties->name : 'Kontrakan Tidak ditemukan' }}</span>
+                                                <span>{{ $user->lease->properties ? $user->lease->properties->name : 'Kontrakan Tidak ditemukan' }}</span>
                                             </div>
                                         </div>
                                         @hasrole('admin|tenant')
@@ -632,11 +657,32 @@
 
                                                     <!-- Form fields -->
                                                     <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2 w-full">
-                                                        <div class="col-span-1">
+                                                        <div class="col-span-2">
                                                             <input type="text" name="name" id="name"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                                 placeholder="Name" value="{{ $user->name }}">
                                                         </div>
+                                                        <div class="col-span-1">
+                                                            <select name="gender" id="gender"
+                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                                @if ($user->gender == 'male')
+                                                                    <option value="male"
+                                                                        {{ $user->gender == 'male' ? 'selected' : '' }}>
+                                                                        Laki-Laki</option>
+                                                                    <option value="female"
+                                                                        {{ $user->gender == 'female' ? 'selected' : '' }}>
+                                                                        Perempuan</option>
+                                                                @else
+                                                                    <option value="female"
+                                                                        {{ $user->gender == 'female' ? 'selected' : '' }}>
+                                                                        Perempuan</option>
+                                                                    <option value="male"
+                                                                        {{ $user->gender == 'male' ? 'selected' : '' }}>
+                                                                        Laki-Laki</option>
+                                                                @endif
+                                                            </select>
+                                                        </div>
+
                                                         <div class="col-span-1">
                                                             <input type="number" name="phone_number"
                                                                 id="phone_number"

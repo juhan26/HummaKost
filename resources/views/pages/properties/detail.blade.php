@@ -2,10 +2,128 @@
 
 @section('content')
 
-{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
-<link rel="stylesheet" href="grid-gallery.css">
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
+    <link rel="stylesheet" href="grid-gallery.css">
 
+    <style>
+        .facility-section {
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #20B486;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .facility-tab {
+            border: 2px solid #20B486;
+            background-color: white;
+            color: black;
+            border-radius: 30px;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .facility-tab.active,
+        .facility-tab:hover {
+            background-color: #20B486;
+            color: white;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .images-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .facility-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .empty-message {
+            text-align: center;
+            grid-column: span 2;
+        }
+
+        @media (min-width: 768px) {
+            .empty-message {
+                grid-column: span 3;
+            }
+        }
+
+
+        #loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen img {
+            width: 150px;
+            height: auto;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
     <div class="col-12">
         <div class="">
             <div class="">
@@ -132,12 +250,14 @@
 
     <h4 class="fw-bold text-center">Detail Foto Kontrakan</h4>
     <section class="gallery-block grid-gallery">
-        <div class="container mb-10">
-            <div class="row">
+        <div class="gallery-container mx-auto 2xl:px-0">
+            <div class="row row-cols-5">
                 @forelse ($property->property_images as $detailFoto)
-                    <div class="col-md-6 col-lg-4 item mb-4">
+                    <div class="col item mb-4">
                         <a class="lightbox" href="{{ asset('storage/' . $detailFoto->image) }}">
-                            <img class="img-fluid image scale-on-hover" style="width: 400px; height: 400px;" src="{{ asset('storage/' . $detailFoto->image) }}" alt="{{ $detailFoto->title ?? 'Gambar Kontrakan' }}">
+                            <img class="img-fluid image scale-on-hover rounded"
+                                src="{{ asset('storage/' . $detailFoto->image) }}"
+                                alt="{{ $detailFoto->title ?? 'Gambar Kontrakan' }}">
                         </a>
                     </div>
                 @empty
@@ -149,23 +269,27 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script>
-        baguetteBox.run('.grid-gallery', { animation: 'slideIn' });
+        baguetteBox.run('.grid-gallery', {
+            animation: 'slideIn'
+        });
     </script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script>
-        baguetteBox.run('.compact-gallery', { animation: 'slideIn' });
+        baguetteBox.run('.compact-gallery', {
+            animation: 'slideIn'
+        });
     </script>
 
 
-<h4 class="fw-bold text-center">Daftar Anggota</h4>
+    <h4 class="fw-bold text-center">Daftar Anggota</h4>
     <div class="d-flex gap-3 flex-column flex-lg-row mt-2">
         <!-- ANGGOTA -->
         <div class="col-12 col-lg-12">
-            <div class="card shadow-sm mt-2">
+            <div class="mt-2">
 
-                <div class="card-body d-flex flex-wrap gap-4">
+                <div class="d-flex flex-wrap gap-4">
                     @forelse ($property_member as $member)
                         <div class="text-center" style="width: 12rem;">
                             @if ($member->photo)
@@ -192,27 +316,84 @@
     </div>
     <!-- FACILITIES -->
     <h4 class="fw-bold text-center">Daftar Fasilitas</h4>
-    <div class="col-12 col-lg-12">
-        <div class="card shadow-sm">
-            <div class="card-body d-flex flex-wrap gap-4">
-                @forelse ($property->facilities as $facility)
-                    <div class="text-center" style="width: 12rem;">
-                        <img class="mx-auto d-block" style="width: 8rem; height: 8rem;"
-                            src="{{ $facility->photo ? asset('storage/' . $facility->photo) : asset('/assets/img/image_not_available.png') }}"
-                            alt="{{ $facility->name }}">
-                        <h4 class="mt-3 mb-1">{{ $facility->name }}</h4>
-                        <p class="text-muted mb-0">{{ $facility->status }}</p>
-                    </div>
-                @empty
-                    <div class="col-12 text-center text-muted">Belum ada fasilitas</div>
-                @endforelse
-            </div>
-        </div>
+    <div class="tabs-container">
+        <button type="button" class="facility-tab active" data-facility="all">
+            Semua fasilitas
+        </button>
+
+        @foreach ($property->facilities as $facility)
+            <button type="button" class="facility-tab" data-facility="{{ $facility->id }}">
+                {{ $facility->name }}
+            </button>
+        @endforeach
     </div>
+
+    <div class="row">
+        @forelse ($property->facilities as $facility)
+            @forelse ($facility->facility_images as $index => $image)
+                <div class="col-3 facility-images justify-content-center" data-facility="{{ $facility->id }}" style="display: none;">
+                    <a href="{{ asset('storage/' . $image->image) }}"
+                        data-lightbox="facility-gallery-{{ $facility->id }}">
+                        <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image" class="facility-img">
+                    </a>
+                </div>
+            @empty
+                {{-- <div class="facility-images empty-message" style="display: none;">
+                    <p><strong>Tidak ada gambar detail untuk {{ $facility->name }}.</strong></p>
+                </div> --}}
+            @endforelse
+        @empty
+            {{-- <div class="facility-images empty-message" data-facility="empty" style="display: none;">
+                <p><strong>Tidak ada gambar detail.</strong></p>
+            </div> --}}
+        @endforelse
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function showImages(facilityId) {
+                document.querySelectorAll('.facility-images').forEach(function(image) {
+                    image.style.display = 'none';
+                });
+
+                if (facilityId === 'all') {
+                    document.querySelectorAll('.facility-images').forEach(function(image) {
+                        image.style.display = 'block';
+                    });
+                } else {
+                    var images = document.querySelectorAll('.facility-images[data-facility="' + facilityId + '"]');
+                    if (images.length > 0) {
+                        images.forEach(function(image) {
+                            image.style.display = 'block';
+                        });
+                    } else {
+                        document.querySelector('.facility-images[data-facility="empty"]').style.display = 'block';
+                    }
+                }
+            }
+
+            function setActiveTab(tab) {
+                document.querySelectorAll('.facility-tab').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+                tab.classList.add('active');
+            }
+
+            document.querySelectorAll('.facility-tab').forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var facilityId = this.getAttribute('data-facility');
+                    showImages(facilityId);
+                    setActiveTab(this);
+                });
+            });
+
+            showImages('all');
+        });
+    </script>
     <!-- FACILITIES -->
 
     <!-- MAPS -->
-    <h4 class="fw-bold card-title mt-6">Lokasi</h4>
+    <h4 class="fw-bold text-center">Lokasi</h4>
     <div class="col-12 mt-3">
         <div class="card shadow-sm">
             <div class="card-body p-0">
@@ -335,9 +516,15 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                value="{{ old('end_date') }}">
+                            <label for="end_date" class="form-label">Masa Kontrak</label>
+                            <select name="end_date" class="form-select" id="end_date">
+                                <option value="" disabled selected>Pilih Berapa Bulan Ngontrak</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ old('end_date') == $i ? 'selected' : '' }}>
+                                        {{ $i }} Bulan
+                                    </option>
+                                @endfor
+                            </select>
                             @error('end_date')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
