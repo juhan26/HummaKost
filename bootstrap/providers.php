@@ -2,6 +2,6 @@
 
 return [
     App\Providers\AppServiceProvider::class,
-    Spatie\Permission\PermissionServiceProvider::class,
     Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
+    Spatie\Permission\PermissionServiceProvider::class,
 ];
