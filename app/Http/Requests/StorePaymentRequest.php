@@ -35,6 +35,8 @@ class StorePaymentRequest extends FormRequest
         return [
             'lease_id.required' => 'ID sewa wajib diisi.',
             'lease_id.exists' => 'ID sewa tidak ditemukan.',
+            'payment_date.required' => 'Tanggal pembayaran tidak boleh kosong.',
+            'payment_date.date' => 'Tanggal pembayaran harus berformat tanggal.',
             'description.string' => 'Deskripsi harus berupa teks.',
             'description.max' => 'Deskripsi maksimal 255 karakter.',
         ];

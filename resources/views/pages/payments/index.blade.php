@@ -164,16 +164,16 @@
                                     @if ($lastPaid >= $currentMonth)
                                         <p class="text-primary">
                                             Telah membayar kontrakan pada tanggal
-                                            <strong>{{ \Carbon\Carbon::parse($startPayment)->translatedFormat('d F Y') }}</strong>
+                                            <strong>{{ \Carbon\Carbon::parse($startPayment)->locale('id')->translatedFormat('d F Y') }}</strong>
                                             sampai
                                             tanggal
-                                            <strong>{{ \Carbon\Carbon::parse($lastPaymentMinusOneDay)->translatedFormat('d F Y') }}</strong>
+                                            <strong>{{ \Carbon\Carbon::parse($lastPaymentMinusOneDay)->locale('id')->translatedFormat('d F Y') }}</strong>
                                         </p>
                                         @if ($lease->total_nominal < $lease->total_iuran && $lease->status == 'active')
                                             <p>
                                                 Pembayaran selanjutnya pada tanggal
                                                 <strong
-                                                    style="color: red">{{ \Carbon\Carbon::parse($lastPaid)->translatedFormat('d F Y') }}</strong>
+                                                    style="color: red">{{ \Carbon\Carbon::parse($lastPaid)->locale('id')->translatedFormat('d F Y') }}</strong>
                                             </p>
                                         @endif
 
@@ -188,7 +188,7 @@
                                     @else
                                         <p style="color: red">
                                             Belum membayar uang kontrakan pada tanggal
-                                            <strong>{{ \Carbon\Carbon::parse($lastPaid)->translatedFormat('d F Y') }}</strong>
+                                            <strong>{{ \Carbon\Carbon::parse($lastPaid)->locale('id')->translatedFormat('d F Y') }}</strong>
                                         </p>
                                     @endif
                                 @else
