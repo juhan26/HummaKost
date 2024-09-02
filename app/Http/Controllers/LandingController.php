@@ -114,11 +114,13 @@ class LandingController extends Controller
         $property = Property::with('facility_images')->findOrFail($id);
         $facility_images = $property->facilities;
 
+
         foreach($facility_images as $facility){
             $property_facilities = $facility->facility_images->where('property_id',);
 
             
         }
+
         $properties = Property::all();
         // Ambil semua pengguna
         $leases = Lease::all();
@@ -128,6 +130,6 @@ class LandingController extends Controller
 
 
         // Kembalikan view dengan data yang dibutuhkan
-        return view('landing.properties.show', compact('property','facility_images', 'properties','property_facilities', 'users', 'leases'));
+        return view('landing.properties.show', compact('property','facility_images', 'properties', 'users', 'leases'));
     }
 }

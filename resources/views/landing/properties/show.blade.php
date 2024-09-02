@@ -52,8 +52,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-
 </head>
 
 <body>
@@ -182,9 +180,10 @@
         window.addEventListener("load", function() {
             const loadingScreen = document.getElementById("loading-screen");
 
+            // Simulate a delay for the loading screen
             setTimeout(function() {
-                loadingScreen.classList.add("hidden");
-            }, 1000);
+                loadingScreen.classList.add("hidden"); 
+            }, 1000); 
         });
     </script>
     <!-- header area -->
@@ -672,103 +671,50 @@
                 <div id="default-styled-tab-content">
                     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-profile"
                         role="tabpanel" aria-labelledby="profile-tab">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the
-                            <strong class="font-medium text-gray-800 dark:text-white">Profile tab's associated
-                                content</strong>. Clicking another tab will toggle the visibility of this one for the
-                            next. The tab JavaScript swaps classes to control the content visibility and styling.
-                        </p>
+                        @php
+                            $property_facilitiesAll = $facility_images;
+                        @endphp
+                        <div class="facility-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            @foreach ($property_facilitiesAll as $property_facility)
+                                @foreach ($property_facility->facility_images as $image)
+                                    <div class="facility-images" style="flex: 0 1 300px; margin: 10px;">
+                                        <a href="{{ asset('storage/' . $image->image) }}"
+                                            data-lightbox="facility-gallery-{{ $image->id }}">
+                                            <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                                class="facility-img"
+                                                style="width: 100%; height: auto; border-radius: 8px;">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     @foreach ($facility_images as $facility)
                         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
                             id="styled-dashboard{{ $facility->id }}" role="tabpanel"
                             aria-labelledby="dashboard-tab{{ $facility->id }}">
-
-                            @foreach ($property_facilities as $property_facility)
-                                <div class="facility-images" style="display: flex;">
-                                    <a href="{{ asset('storage/' . $property_facility->image) }}"
-                                        data-lightbox="facility-gallery-{{ $property_facility->id }}">
-                                        <img src="{{ asset('storage/' . $property_facility->image) }}"
-                                            alt="Facility Image" class="facility-img" style="width:100px;margin:10px 0px;">
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </div>
-
-
-                {{-- kodingan KEREN! --}}
-                <div class="tabs-container">
-                    <button type="button" class="facility-tab active" data-facility="all">
-                        Semua fasilitas
-                    </button>
-
-                    @foreach ($property->facilities as $facility)
-                        <button type="button" class="facility-tab" data-facility="{{ $facility->id }}">
-                            {{ $facility->name }}
-                        </button>
-                    @endforeach
-                </div>
-
-                <div class="images-grid">
-                    @forelse ($property_facilities as $property_facility)
-                        <div class="facility-images" data-facility="{{ $property_facility->facility_id }}"
-                            style="display: none;">
-                            <a href="{{ asset('storage/' . $property_facility->image) }}"
-                                data-lightbox="facility-gallery-{{ $property_facility->id }}">
-                                <img src="{{ asset('storage/' . $property_facility->image) }}" alt="Facility Image"
-                                    class="facility-img">
-                            </a>
-                        </div>
-                    @empty
-                        <div class="facility-images empty-message" data-facility="empty" style="display: none;">
-                            <p><strong>Tidak ada gambar detail.</strong></p>
-                        </div>
-                    @endforelse
-                </div>
-                {{-- <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        function showImages(facilityId) {
-                            document.querySelectorAll('.facility-images').forEach(function(image) {
-                                image.style.display = 'none';
-                            });
-
-                            if (facilityId === 'all') {
-                                document.querySelectorAll('.facility-images').forEach(function(image) {
-                                    image.style.display = 'block';
+                            <p>{{ $facility->name }}</p>
+                            @php
+                                $property_facilities = $facility->facility_images->where('property_id', $property->id);
+                                $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
+                                    return $item->facility_id == $facility->id;
                                 });
-                            } else {
-                                const images = document.querySelectorAll('.facility-images[data-facility="' + facilityId +
-                                    '"]');
-                                if (images.length > 0) {
-                                    images.forEach(function(image) {
-                                        image.style.display = 'block';
-                                    });
-                                } else {
-                                    document.querySelector('.facility-images.empty-message').style.display = 'block';
-                                }
-                            }
-                        }
-
-                        function setActiveTab(tab) {
-                            document.querySelectorAll('.facility-tab').forEach(function(btn) {
-                                btn.classList.remove('active');
-                            });
-                            tab.classList.add('active');
-                        }
-
-                        document.querySelectorAll('.facility-tab').forEach(function(tab) {
-                            tab.addEventListener('click', function() {
-                                const facilityId = this.getAttribute('data-facility');
-                                showImages(facilityId);
-                                setActiveTab(this);
-                            });
-                        });
-
-                        // Initial display of all images
-                        showImages('all');
-                    });
-                </script> --}}
+                            @endphp
+                            <div class="facility-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                @foreach ($filtered_facilities as $property_facility)
+                                    <div class="facility-images" style="flex: 0 1 300px; margin: 10px;">
+                                        <a href="{{ asset('storage/' . $property_facility->image) }}"
+                                            data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                            <img src="{{ asset('storage/' . $property_facility->image) }}"
+                                                alt="Facility Image" class="facility-img"
+                                                style="width: 100%; height: auto; border-radius: 8px;">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </section>
 
@@ -1170,5 +1116,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 </body>
+
 
 </html>
