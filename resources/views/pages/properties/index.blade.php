@@ -139,9 +139,9 @@
                                 </span>
                             @endif
                             @if ($property->status == 'available')
-                            <span class="label bg-label-primary ms-1"
-                                style="padding: 6px 15px; border-radius: 15px;">Tersedia</span>
-                                @else
+                                <span class="label bg-label-primary ms-1"
+                                    style="padding: 6px 15px; border-radius: 15px;">Tersedia</span>
+                            @else
                                 <span class="label bg-label-danger ms-1"
                                     style="padding: 6px 15px; border-radius: 15px;">Full</span>
                             @endif
@@ -184,25 +184,77 @@
                                 </form>
 
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
-                                    <div class="row g-4">
-                                        @forelse ($property->property_images as $index => $image)
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <img src="{{ asset('storage/' . $image->image) }}" alt="Property Image"
-                                                    class="img-fluid rounded"
-                                                    style="max-height: 250px; object-fit: cover;">
-                                            </div>
-                                        @empty
-                                            <div class="col-12">
-                                                <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong>
-                                                </p>
-                                            </div>
-                                        @endforelse
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="m-0">Gambar Properti</h5>
+                                        @if($property->property_image != null)
+                                        <button id="delete-images-btn" class="btn btn-danger">Hapus</button>
+                                        @endif
                                     </div>
+                                    <form id="delete-images-form" action="{{ route('property_images.destroySelected') }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="row g-4">
+                                            @forelse ($property->property_images as $index => $image)
+                                                <div class="col-12 col-md-6 col-lg-4 position-relative">
+                                                    <input type="checkbox" name="images_to_delete[]"
+                                                        value="{{ $image->id }}"
+                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox"
+                                                        style="display: none;">
+                                                    <img src="{{ asset('storage/' . $image->image) }}"
+                                                        alt="Property Image" class="img-fluid rounded"
+                                                        style="max-height: 250px; object-fit: cover;">
+                                                </div>
+                                            @empty
+                                                <div class="col-12">
+                                                    <p class="text-center m-0 py-3"><strong>Tidak ada gambar
+                                                            detail.</strong></p>
+                                                </div>
+                                            @endforelse
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    document.getElementById('delete-images-btn').addEventListener('click', function() {
+                        // Tampilkan checkbox
+                        let checkboxes = document.querySelectorAll('.delete-checkbox');
+                        checkboxes.forEach(function(checkbox) {
+                            checkbox.style.display = 'block';
+                        });
+
+                        // Ganti tombol "Hapus" dengan "Hapus Gambar Terpilih"
+                        let deleteImagesBtn = document.getElementById('delete-images-btn');
+                        deleteImagesBtn.textContent = "Hapus Gambar Terpilih";
+                        deleteImagesBtn.disabled = true; // Disabled by default
+
+                        // Aktifkan tombol "Hapus Gambar Terpilih" jika ada checkbox yang dipilih
+                        toggleDeleteButtonState();
+
+                        // Ubah event listener untuk submit form ketika tombol di klik
+                        deleteImagesBtn.addEventListener('click', function() {
+                            document.getElementById('delete-images-form').submit();
+                        });
+                    });
+
+                    document.querySelectorAll('.delete-checkbox').forEach(function(checkbox) {
+                        checkbox.addEventListener('change', function() {
+                            toggleDeleteButtonState();
+                        });
+                    });
+
+                    function toggleDeleteButtonState() {
+                        let checkboxes = document.querySelectorAll('.delete-checkbox');
+                        let anyChecked = Array.from(checkboxes).some(chk => chk.checked);
+                        let deleteImagesBtn = document.getElementById('delete-images-btn');
+                        deleteImagesBtn.disabled = !anyChecked;
+                    }
+                </script>
+
                 <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
                     aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
                     <div class="modal-dialog">

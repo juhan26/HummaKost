@@ -108,6 +108,9 @@ Route::middleware(['auth', 'role:admin|super_admin'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
     Route::get('users/show/{user}', [UserController::class, 'show'])->name('user.show');
+
+    Route::delete('/property-images/delete-selected', [PropertyImageController::class, 'destroySelected'])->name('property_images.destroySelected');
+    Route::delete('/facility-images/destroy-selected', [FacilityImageController::class, 'destroySelected'])->name('facility_images.destroySelected');
 });
 
 // require_once __DIR__ . '/chandra.php';
