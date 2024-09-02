@@ -269,10 +269,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script>
-        baguetteBox.run('.grid-gallery', {
-            animation: 'slideIn'
+        document.addEventListener('DOMContentLoaded', function () {
+            baguetteBox.run('.grid-gallery', {
+                animation: 'slideIn'
+            });
         });
     </script>
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
