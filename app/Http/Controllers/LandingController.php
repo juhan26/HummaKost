@@ -117,7 +117,7 @@ class LandingController extends Controller
         foreach($facility_images as $facility){
             $property_facilities = $facility->facility_images->where('property_id',);
 
-            dd($property_facilities);
+            
         }
         $properties = Property::all();
         // Ambil semua pengguna
