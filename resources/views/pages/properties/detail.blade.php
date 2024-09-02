@@ -394,7 +394,7 @@
     <!-- FACILITIES -->
 
     <!-- MAPS -->
-    <h4 class="fw-bold card-title mt-6">Lokasi</h4>
+    <h4 class="fw-bold text-center">Lokasi</h4>
     <div class="col-12 mt-3">
         <div class="card shadow-sm">
             <div class="card-body p-0">
