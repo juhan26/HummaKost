@@ -138,26 +138,24 @@ class LeaseController extends Controller
 
             // Menggunakan Carbon untuk menangani tanggal
             $startDate = \Carbon\Carbon::parse($request->start_date);
-            $endDate = \Carbon\Carbon::parse($request->end_date);
+            $totalMonth = (int) $request->end_date;
+            $totalIuran = $totalMonth * $property->rental_price;
+            $end_date = $startDate->copy()->addMonth($totalMonth);
 
             // Cek apakah end_date lebih awal dari start_date
-            if ($endDate->lt($startDate)) {
-                return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
-            }
+            // if ($endDate->lt($startDate)) {
+            //     return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
+            // }
 
             // Cek apakah start_date dan end_date berada di bulan yang sama
-            if ($startDate->isSameMonth($endDate)) {
-                // Hitung total_iuran menggunakan rental_price dari property
-                $totalIuran = $property->rental_price;
-            } else {
-                // Hitung jumlah bulan penuh di antara dua tanggal
-                $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+            // if ($startDate->isSameMonth($endDate)) {
+            //     // Hitung total_iuran menggunakan rental_price dari property
+            //     $totalIuran = $property->rental_price;
+            // } else {
+            //     $totalMonths = $startDate->diffInMonths($endDate->copy()->addMonth()) + 1;
+            //     $totalIuran = $totalMonths * $property->rental_price;
+            // }
 
-                // Hitung total_iuran
-                $totalIuran = $totalMonths * $property->rental_price;
-            }
-
-            // Cek kapasitas dan status property
             $capacity = $property->capacity;
 
             if (Lease::where('property_id', $request->property_id)->where('status', 'active')->count() < $capacity) {
@@ -172,7 +170,7 @@ class LeaseController extends Controller
                     'user_id' => $request->user_id,
                     'property_id' => $request->property_id,
                     'start_date' => $request->start_date,
-                    'end_date' => $request->end_date,
+                    'end_date' => $end_date,
                     'description' => $request->description,
                     'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
                     'total_nominal' => 0,
@@ -206,7 +204,7 @@ class LeaseController extends Controller
                 return redirect()->back()->with('error', 'Kontrakan Sudah Penuh.');
             }
         } else {
-            return redirect()->back()->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
+            return redirect()->back()->withInput()->with('error', 'Jenis kelamin user ini dengan terget jenis kelamin kontrakan tidak sesuai.');
         }
     }
 
@@ -257,36 +255,45 @@ class LeaseController extends Controller
 
         // Menggunakan Carbon untuk menangani tanggal
         $startDate = \Carbon\Carbon::parse($request->start_date);
-        $endDate = \Carbon\Carbon::parse($request->end_date);
+        $totalMonth = (int) $request->end_date;
+        $totalIuran = $lease->total_iuran + ($totalMonth * $property->rental_price);
+        $end_date = $startDate->copy()->addMonth($totalMonth);
 
         // Cek apakah end_date lebih awal dari start_date
-        if ($endDate->lt($startDate)) {
-            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
-        }
+        // if ($endDate->lt($startDate)) {
+        //     return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih awal dari tanggal mulai.');
+        // }
 
-        if ($startDate->isSameMonth($endDate)) {
-            $totalIuran = $property->rental_price;
-        } else {
-            $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
-            $totalIuran = $totalMonths * $property->rental_price;
-        }
+        // if ($startDate->isSameMonth($endDate)) {
+        //     $totalIuran = $property->rental_price;
+        // } else {
+        //     $totalMonths = $startDate->copy()->endOfMonth()->diffInMonths($endDate->startOfMonth()) + 1;
+        //     $totalIuran = $totalMonths * $property->rental_price;
+        // }
 
-        if ($request->end_date > $lease->end_date) {
-            $lease->update([
-                'end_date' => $request->end_date,
-                'status' => 'active',
-                'description' => $request->description,
-                'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
-            ]);
-        } else {
-            $lease->update([
-                'end_date' => $request->end_date,
-                'description' => $request->description,
-                'total_iuran' => number_format($totalIuran, 2, '.', ''), // Format dengan dua desimal
-            ]);
-        }
+        $lease->update([
+            'end_date' => $end_date,
+            'status' => 'active',
+            'description' => $request->description,
+            'total_iuran' => number_format($totalIuran, 2, '.', ''),
+        ]);
 
-        return redirect()->route('leases.index')->with('success', 'Data kontrakan berhasil di ubah.');
+        // if ($request->end_date > $lease->end_date) {
+        //     $lease->update([
+        //         'end_date' => $request->end_date,
+        //         'status' => 'active',
+        //         'description' => $request->description,
+        //         'total_iuran' => number_format($totalIuran, 2, '.', ''),
+        //     ]);
+        // } else {
+        //     $lease->update([
+        //         'end_date' => $request->end_date,
+        //         'description' => $request->description,
+        //         'total_iuran' => number_format($totalIuran, 2, '.', ''),
+        //     ]);
+        // }
+
+        return redirect()->route('leases.index')->with('success', 'Data kontrak berhasil di ubah.');
     }
 
 

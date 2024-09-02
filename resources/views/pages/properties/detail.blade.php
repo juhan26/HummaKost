@@ -124,7 +124,6 @@
             }
         }
     </style>
-
     <div class="col-12">
         <div class="">
             <div class="">
@@ -517,9 +516,15 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="end_date" class="form-label">Tanggal Berakhir</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                value="{{ old('end_date') }}">
+                            <label for="end_date" class="form-label">Masa Kontrak</label>
+                            <select name="end_date" class="form-select" id="end_date">
+                                <option value="" disabled selected>Pilih Berapa Bulan Ngontrak</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ old('end_date') == $i ? 'selected' : '' }}>
+                                        {{ $i }} Bulan
+                                    </option>
+                                @endfor
+                            </select>
                             @error('end_date')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror

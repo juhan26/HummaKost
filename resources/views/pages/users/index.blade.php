@@ -3,13 +3,16 @@
 @section('content')
     <div class="col-12">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item me-4" role="presentation">
-                <button class="nav-link active btn btn-primary rounded text-black" id="tenant-tab" data-bs-toggle="tab" data-bs-target="#tenant-tab-pane"
-                    type="button" role="tab" aria-controls="tenant-tab-pane" aria-selected="true">Penyewa</button>
+            <li class="nav-item me-4
+            " role="presentation">
+                <button class="nav-link active btn btn-primary rounded text-black" id="tenant-tab" data-bs-toggle="tab"
+                    data-bs-target="#tenant-tab-pane" type="button" role="tab" aria-controls="tenant-tab-pane"
+                    aria-selected="true">Penyewa</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link btn btn-primary rounded text-black" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin-tab-pane" type="button"
-                    role="tab" aria-controls="admin-tab-pane" aria-selected="false">Ketua Kontrakan</button>
+                <button class="nav-link btn btn-primary rounded text-black" id="admin-tab" data-bs-toggle="tab"
+                    data-bs-target="#admin-tab-pane" type="button" role="tab" aria-controls="admin-tab-pane"
+                    aria-selected="false">Ketua Kontrakan</button>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
