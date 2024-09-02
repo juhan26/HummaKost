@@ -48,7 +48,7 @@ class HomeController extends Controller
 
         $currentMonth = Carbon::now()->month;
 
-        // Menghitung pendapatan bulanan
+
         $paymentIncome = PaymentPerMonth::selectRaw('MONTH(created_at) as month, SUM(nominal) as total')
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->whereMonth('created_at', '<=', $currentMonth)
@@ -61,7 +61,7 @@ class HomeController extends Controller
             $incomeMonthlyTotals[$month] = $total;
         }
 
-        // Menghitung keterlambatan pembayaran per bulan
+
         $latePayments = DB::table('leases')
             ->join('payment_per_months', 'leases.id', '=', 'payment_per_months.lease_id')
             ->select(
@@ -73,25 +73,23 @@ class HomeController extends Controller
             ->get();
 
 
-        // Mengelompokkan data berdasarkan bulan dan user
-       // ngelooping bulan dari jan - dec ajggg
-       $lateData = [];
-       for ($i = 1; $i <= $currentMonth; $i++) {
-           $monthYear = Carbon::create(null, $i)->format('F');
-           $lateData[$monthYear] = [];
-       }
-   
-       // data yang telat byayar
-       foreach ($latePayments as $payment) {
-           $monthYear = Carbon::create(null, $payment->month)->format('F');
-           if (!isset($lateData[$monthYear][$payment->user_id])) {
-               $lateData[$monthYear][$payment->user_id] = 0;
-           }
-           $lateData[$monthYear][$payment->user_id] += $payment->days_late;
-       }
+        $lateData = [];
+        for ($i = 1; $i <= $currentMonth; $i++) {
+            $monthYear = Carbon::create(null, $i)->format('F');
+            $lateData[$monthYear] = [];
+        }
+
+        // data yang telat byayar
+        foreach ($latePayments as $payment) {
+            $monthYear = Carbon::create(null, $payment->month)->format('F');
+            if (!isset($lateData[$monthYear][$payment->user_id])) {
+                $lateData[$monthYear][$payment->user_id] = 0;
+            }
+            $lateData[$monthYear][$payment->user_id] += $payment->days_late;
+        }
 
 
-        // Menghitung jumlah penyewaan per bulan per properti
+
         $properties = Property::with(['leases' => function ($query) use ($currentMonth) {
             $query->selectRaw('property_id, MONTH(created_at) as month, COUNT(*) as total')
                 ->whereMonth('created_at', '<=', $currentMonth)
