@@ -109,23 +109,23 @@ class LandingController extends Controller
 
 
     public function show($id)
-{
-    $property = Property::with(['facilities.facility_images' => function($query) use ($id) {
-        $query->where('property_id', $id); 
-    }])->findOrFail($id);
+    {
+        $property = Property::with(['facilities.facility_images' => function($query) use ($id) {
+            $query->where('property_id', $id); 
+        }])->findOrFail($id);
 
 
-    $facility_images = $property->facilities; 
+        $facility_images = $property->facilities; 
 
-    $properties = Property::all();
+        $properties = Property::all();
 
-    $leases = Lease::all();
+        $leases = Lease::all();
 
 
-    $userIds = $leases->pluck('user.id')->unique();
-    $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
+        $userIds = $leases->pluck('user.id')->unique();
+        $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 
-    return view('landing.properties.show', compact('property', 'facility_images', 'properties', 'users', 'leases'));
-}
+        return view('landing.properties.show', compact('property', 'facility_images', 'properties', 'users', 'leases'));
+    }
 
 }
