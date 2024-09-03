@@ -169,7 +169,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="propertyUpdateModalLabel">Detail Gambar
-                                    {{ $property->id }}</h5>
+                                    {{ $property->name }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -186,20 +186,20 @@
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h5 class="m-0">Gambar Properti</h5>
-                                        @if($property->property_images->isNotEmpty())
+                                        @if ($property->property_images->isNotEmpty())
                                             <button id="delete-images-btn-{{ $property->id }}" class="btn btn-danger">Hapus</button>
                                         @endif
                                     </div>
-                                    <form id="delete-images-form-{{ $property->id }}" action="{{ route('property_images.destroySelected') }}"
-                                        method="POST">
+                                    <form id="delete-images-form-{{ $property->id }}"
+                                        action="{{ route('property_images.destroySelected') }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <div class="row g-4">
-                                            @forelse ($property->property_images as $index => $image)
+                                            @forelse ($property->property_images as $image)
                                                 <div class="col-12 col-md-6 col-lg-4 position-relative">
                                                     <input type="checkbox" name="images_to_delete[]"
                                                         value="{{ $image->id }}"
-                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox delete-checkbox-{{ $property->id }}"
+                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox-{{ $property->id }}"
                                                         style="display: none;">
                                                     <img src="{{ asset('storage/' . $image->image) }}"
                                                         alt="Property Image" class="img-fluid rounded"
@@ -207,55 +207,46 @@
                                                 </div>
                                             @empty
                                                 <div class="col-12">
-                                                    <p class="text-center m-0 py-3"><strong>Tidak ada gambar detail.</strong></p>
+                                                    <p class="text-center m-0 py-3"><strong>Tidak ada gambar
+                                                            detail.</strong></p>
                                                 </div>
                                             @endforelse
                                         </div>
                                     </form>
                                 </div>
+                
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        let deleteImagesBtn{{ $property->id }} = document.getElementById('delete-images-btn-{{ $property->id }}');
+                                        let form{{ $property->id }} = document.getElementById('delete-images-form-{{ $property->id }}');
+                                        let checkboxes{{ $property->id }} = document.querySelectorAll('.delete-checkbox-{{ $property->id }}');
+                
+                                        deleteImagesBtn{{ $property->id }}.addEventListener('click', function () {
+                                            if (deleteImagesBtn{{ $property->id }}.textContent === "Hapus") {
+                                                checkboxes{{ $property->id }}.forEach(function (checkbox) {
+                                                    checkbox.style.display = 'block';
+                                                });
+                                                deleteImagesBtn{{ $property->id }}.textContent = "Hapus Gambar Terpilih";
+                                                deleteImagesBtn{{ $property->id }}.disabled = true;
+                                            } else {
+                                                form{{ $property->id }}.submit();
+                                            }
+                                        });
+                
+                                        checkboxes{{ $property->id }}.forEach(function (checkbox) {
+                                            checkbox.addEventListener('change', function () {
+                                                let anyChecked = Array.from(checkboxes{{ $property->id }}).some(chk => chk.checked);
+                                                deleteImagesBtn{{ $property->id }}.disabled = !anyChecked;
+                                            });
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <script>
-                    document.querySelectorAll('[id^="delete-images-btn-"]').forEach(function(deleteImagesBtn) {
-                        deleteImagesBtn.addEventListener('click', function() {
-                            // Tampilkan checkbox
-                            let propertyId = this.id.split('-').pop();
-                            let checkboxes = document.querySelectorAll('.delete-checkbox-' + propertyId);
-                            checkboxes.forEach(function(checkbox) {
-                                checkbox.style.display = 'block';
-                            });
-                
-                            // Ganti tombol "Hapus" dengan "Hapus Gambar Terpilih"
-                            this.textContent = "Hapus Gambar Terpilih";
-                            this.disabled = true; // Disabled by default
-                
-                            // Aktifkan tombol "Hapus Gambar Terpilih" jika ada checkbox yang dipilih
-                            toggleDeleteButtonState(propertyId);
-                
-                            // Ubah event listener untuk submit form ketika tombol di klik
-                            this.addEventListener('click', function() {
-                                document.getElementById('delete-images-form-' + propertyId).submit();
-                            });
-                        });
-                    });
-                
-                    document.querySelectorAll('.delete-checkbox').forEach(function(checkbox) {
-                        checkbox.addEventListener('change', function() {
-                            let propertyId = this.value;
-                            toggleDeleteButtonState(propertyId);
-                        });
-                    });
-                
-                    function toggleDeleteButtonState(propertyId) {
-                        let checkboxes = document.querySelectorAll('.delete-checkbox-' + propertyId);
-                        let anyChecked = Array.from(checkboxes).some(chk => chk.checked);
-                        let deleteImagesBtn = document.getElementById('delete-images-btn-' + propertyId);
-                        deleteImagesBtn.disabled = !anyChecked;
-                    }
-                </script>
+                                
                 
 
                 <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1"
@@ -453,10 +444,15 @@
                     });
 
                     this.on("queuecomplete", function() {
+                        window.location.href = "{{ route('properties.index') }}";
+
                         dropzoneInstance.submitForm();
+
                     });
                 },
                 submitForm: function() {
+                    window.location.href = "{{ route('properties.index') }}";
+                    
                     dropzoneElement.submit();
                 }
             });
