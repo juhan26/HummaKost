@@ -87,6 +87,23 @@
             transform: scale(1.05);
         }
 
+        .image-gal a {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+        }
+
+        .image-gal img {  
+            object-fit: cover;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .image-gal a:hover img {
+            transform: scale(1.05);
+        }
+
         .facility-section {
             padding: 20px 0;
         }
@@ -562,10 +579,10 @@
                                 </div>
                             @else
                                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    @foreach ($property->property_images->chunk(2) as $imagegallery)
-                                        <div class="grid gap-3">
+                                    @foreach ($property->property_images->chunk(1) as $imagegallery)
+                                        <div class=" grid gap-3">
                                             @foreach ($imagegallery as $image)
-                                                <div>
+                                                <div class="image-gal">
                                                     <a href="{{ asset('storage/' . $image->image) }}"
                                                         data-lightbox="property-gallery">
                                                         <img src="{{ asset('storage/' . $image->image) }}"
