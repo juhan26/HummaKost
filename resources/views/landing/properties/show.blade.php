@@ -56,6 +56,54 @@
 
 <body>
     <style>
+        .facility-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .facility-images a {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            padding-top: 75%;
+            /* Aspect Ratio 4:3 (height will be 75% of the width) */
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            /* Fallback background color */
+        }
+
+        .facility-images img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .facility-images a:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-gal a {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+        }
+
+        .image-gal img {  
+            object-fit: cover;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .image-gal a:hover img {
+            transform: scale(1.05);
+        }
+
         .facility-section {
             padding: 20px 0;
         }
@@ -118,13 +166,6 @@
             }
         }
 
-        .facility-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
         .empty-message {
             text-align: center;
             grid-column: span 2;
@@ -182,8 +223,8 @@
 
             // Simulate a delay for the loading screen
             setTimeout(function() {
-                loadingScreen.classList.add("hidden"); 
-            }, 1000); 
+                loadingScreen.classList.add("hidden");
+            }, 1000);
         });
     </script>
     <!-- header area -->
@@ -538,10 +579,10 @@
                                 </div>
                             @else
                                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    @foreach ($property->property_images->chunk(2) as $imagegallery)
-                                        <div class="grid gap-3">
+                                    @foreach ($property->property_images->chunk(1) as $imagegallery)
+                                        <div class=" grid gap-3">
                                             @foreach ($imagegallery as $image)
-                                                <div>
+                                                <div class="image-gal">
                                                     <a href="{{ asset('storage/' . $image->image) }}"
                                                         data-lightbox="property-gallery">
                                                         <img src="{{ asset('storage/' . $image->image) }}"
@@ -636,19 +677,16 @@
         <section id="facility" class="facility-section section-padding mb-20">
             <div class="container">
                 <div class="flex items-center justify-center mb-4">
-                    <h2
-                        class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
+                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
                         Daftar
                         <span class="text-primary-500 after-svg instructor">Fasilitas</span>
                     </h2>
                 </div>
-
-
-
+        
                 <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab"
                         data-tabs-toggle="#default-styled-tab-content"
-                        data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500"
+                        data-tabs-active-classes="text-green-600 hover:text-green-600 dark:text-green-500 dark:hover:text-green-500 border-green-600 dark:border-green-500"
                         data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
                         role="tablist">
                         <li class="me-2" role="presentation">
@@ -669,47 +707,41 @@
                     </ul>
                 </div>
                 <div id="default-styled-tab-content">
-                    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-profile"
+                    <div class="hidden p-4 rounded-lg bg-primary-50 dark:bg-primary-800" id="styled-profile"
                         role="tabpanel" aria-labelledby="profile-tab">
                         @php
                             $property_facilitiesAll = $facility_images;
                         @endphp
-                        <div class="facility-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <div class="facility-images">
                             @foreach ($property_facilitiesAll as $property_facility)
                                 @foreach ($property_facility->facility_images as $image)
-                                    <div class="facility-images" style="flex: 0 1 300px; margin: 10px;">
-                                        <a href="{{ asset('storage/' . $image->image) }}"
-                                            data-lightbox="facility-gallery-{{ $image->id }}">
-                                            <img src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
-                                                class="facility-img"
-                                                style="width: 100%; height: auto; border-radius: 8px;">
-                                        </a>
-                                    </div>
+                                    <a href="{{ asset('storage/' . $image->image) }}"
+                                        data-lightbox="facility-gallery-{{ $image->id }}">
+                                        <img src="{{ asset('storage/' . $image->image) }}"
+                                            alt="Facility Image" class="facility-img">
+                                    </a>
                                 @endforeach
                             @endforeach
                         </div>
                     </div>
                     @foreach ($facility_images as $facility)
-                        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+                        <div class="hidden p-4 rounded-lg bg-primary-50 dark:bg-primary-800"
                             id="styled-dashboard{{ $facility->id }}" role="tabpanel"
                             aria-labelledby="dashboard-tab{{ $facility->id }}">
-                            <p>{{ $facility->name }}</p>
+                            <p class="mb-4 text-black font-bold">{{ $facility->name }}</p>
                             @php
                                 $property_facilities = $facility->facility_images->where('property_id', $property->id);
                                 $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
                                     return $item->facility_id == $facility->id;
                                 });
                             @endphp
-                            <div class="facility-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <div class="facility-images">
                                 @foreach ($filtered_facilities as $property_facility)
-                                    <div class="facility-images" style="flex: 0 1 300px; margin: 10px;">
-                                        <a href="{{ asset('storage/' . $property_facility->image) }}"
-                                            data-lightbox="facility-gallery-{{ $property_facility->id }}">
-                                            <img src="{{ asset('storage/' . $property_facility->image) }}"
-                                                alt="Facility Image" class="facility-img"
-                                                style="width: 100%; height: auto; border-radius: 8px;">
-                                        </a>
-                                    </div>
+                                    <a href="{{ asset('storage/' . $property_facility->image) }}"
+                                        data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                        <img src="{{ asset('storage/' . $property_facility->image) }}"
+                                            alt="Facility Image" class="facility-img">
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -717,11 +749,6 @@
                 </div>
             </div>
         </section>
-
-
-
-
-
 
         <!-- Mengimpor Swiper CSS dan JS -->
 

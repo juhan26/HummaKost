@@ -164,15 +164,12 @@
                                 <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone"
                                     data-facility-id="{{ $facility->id }}" enctype="multipart/form-data" style="position: relative">
                                     @csrf
-                                    @php
-                                        $properties = $facility->properties;
-                                        // dd($property);
-                                    @endphp
-                                    <select name="property_id" class="form-select" style="position: absolute;top:-40%;left:0;height:50px;">
-                                        @forelse ($properties as $property)
-                                        <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                    <select name="property_id" class="form-select"
+                                        style="position: absolute;top:-40%;left:0;height:50px;">
+                                        @forelse ($facility->properties as $property)
+                                            <option value="{{ $property->id }}">{{ $property->name }}</option>
                                         @empty
-                                        <option>Tidak ada kontrakan yang menggunakan fasilitas ini</option>
+                                            <option>Tidak ada kontrakan yang menggunakan fasilitas ini</option>
                                         @endforelse
                                     </select>
                                     <input type="hidden" value="{{ $facility->id }}" name="facility_id">
@@ -181,12 +178,12 @@
                                         Tambah Gambar
                                     </button>
                                 </form>
-
+                
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h5 class="m-0">Gambar Fasilitas</h5>
                                         @if ($facility->facility_images->isNotEmpty())
-                                            <button id="delete-images-btn" class="btn btn-danger">Hapus</button>
+                                            <button id="delete-images-btn-{{ $facility->id }}" class="btn btn-danger">Hapus</button>
                                         @endif
                                     </div>
                                     <form id="delete-images-form-{{ $facility->id }}"
@@ -198,7 +195,7 @@
                                                 <div class="col-12 col-md-6 col-lg-4 position-relative">
                                                     <input type="checkbox" name="images_to_delete[]"
                                                         value="{{ $image->id }}"
-                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox"
+                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox-{{ $facility->id }}"
                                                         style="display: none;">
                                                     <img src="{{ asset('storage/' . $image->image) }}"
                                                         alt="Facility Image" class="img-fluid rounded"
@@ -213,43 +210,38 @@
                                         </div>
                                     </form>
                                 </div>
-
+                
                                 <script>
-                                    let deleteImagesBtn = document.getElementById('delete-images-btn');
-                                    let form = document.getElementById('delete-images-form-{{ $facility->id }}');
-                                    let checkboxes = document.querySelectorAll('.delete-checkbox');
-
-                                    deleteImagesBtn.addEventListener('click', function() {
-                                        // Check if the button is in "Hapus" mode or "Hapus Gambar Terpilih" mode
-                                        if (deleteImagesBtn.textContent === "Hapus") {
-                                            // Show checkboxes
-                                            checkboxes.forEach(function(checkbox) {
-                                                checkbox.style.display = 'block';
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        let deleteImagesBtn{{ $facility->id }} = document.getElementById('delete-images-btn-{{ $facility->id }}');
+                                        let form{{ $facility->id }} = document.getElementById('delete-images-form-{{ $facility->id }}');
+                                        let checkboxes{{ $facility->id }} = document.querySelectorAll('.delete-checkbox-{{ $facility->id }}');
+                
+                                        deleteImagesBtn{{ $facility->id }}.addEventListener('click', function () {
+                                            if (deleteImagesBtn{{ $facility->id }}.textContent === "Hapus") {
+                                                checkboxes{{ $facility->id }}.forEach(function (checkbox) {
+                                                    checkbox.style.display = 'block';
+                                                });
+                                                deleteImagesBtn{{ $facility->id }}.textContent = "Hapus Gambar Terpilih";
+                                                deleteImagesBtn{{ $facility->id }}.disabled = true;
+                                            } else {
+                                                form{{ $facility->id }}.submit();
+                                            }
+                                        });
+                
+                                        checkboxes{{ $facility->id }}.forEach(function (checkbox) {
+                                            checkbox.addEventListener('change', function () {
+                                                let anyChecked = Array.from(checkboxes{{ $facility->id }}).some(chk => chk.checked);
+                                                deleteImagesBtn{{ $facility->id }}.disabled = !anyChecked;
                                             });
-                                            // Change button text
-                                            deleteImagesBtn.textContent = "Hapus Gambar Terpilih";
-                                            deleteImagesBtn.disabled = true; // Disable button until any checkbox is checked
-                                        } else {
-                                            // Submit form to delete selected images
-                                            form.submit();
-                                        }
-                                    });
-
-                                    checkboxes.forEach(function(checkbox) {
-                                        checkbox.addEventListener('change', function() {
-                                            // Enable or disable button based on checkbox selection
-                                            let anyChecked = Array.from(checkboxes).some(chk => chk.checked);
-                                            deleteImagesBtn.disabled = !anyChecked;
                                         });
                                     });
                                 </script>
-
-
+                
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </div>                
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
