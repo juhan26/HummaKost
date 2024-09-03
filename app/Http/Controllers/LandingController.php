@@ -27,7 +27,7 @@ class LandingController extends Controller
         $sort = $request->input('sort');
         $availability = $request->input('availability');
 
-        // Applying filters using when
+
         $query->when($search, function ($query, $search) {
             $query->where('name', 'LIKE', "%{$search}%");
         })
@@ -41,10 +41,10 @@ class LandingController extends Controller
                 $query->whereBetween('rental_price', [0, $price_range]);
             });
 
-        // Sorting by status (available first, then full)
+
         $query->orderByRaw("FIELD(status, 'available', 'full') ASC");
 
-        // Additional sorting by date if provided
+
         $query->when($sort, function ($query) use ($sort) {
             if ($sort === 'newest') {
                 $query->orderBy('created_at', 'desc');
@@ -53,10 +53,10 @@ class LandingController extends Controller
             }
         });
 
-        // Pagination
+
         $properties = $query->paginate(6);
 
-        // Append all query parameters to pagination links
+
         $properties->appends([
             'search' => $request->input('search'),
             'gender' => $request->input('gender'),
@@ -80,14 +80,14 @@ class LandingController extends Controller
 
         $selectedPropertyId = $request->input('property_id', $properties->first()->id ?? null);
 
-        // Query untuk leases berdasarkan property_id yang dipilih
+
         $leasesQuery = Lease::query();
         if ($selectedPropertyId) {
             $leasesQuery->where('property_id', $selectedPropertyId);
         }
         $leases = $leasesQuery->with('user')->get();
 
-        // Ambil pengguna berdasarkan property_id yang dipilih dari leases
+
         $userIds = $leases->pluck('user_id')->unique();
         $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
 
@@ -109,27 +109,23 @@ class LandingController extends Controller
 
 
     public function show($id)
-    {
-        // Ambil data properti berdasarkan ID dan muat lease serta pengguna yang terkait
-        $property = Property::with('facility_images')->findOrFail($id);
-        $facility_images = $property->facilities;
+{
+    $property = Property::with(['facilities.facility_images' => function($query) use ($id) {
+        $query->where('property_id', $id); 
+    }])->findOrFail($id);
 
 
-        foreach($facility_images as $facility){
-            $property_facilities = $facility->facility_images->where('property_id',);
+    $facility_images = $property->facilities; 
 
-            
-        }
+    $properties = Property::all();
 
-        $properties = Property::all();
-        // Ambil semua pengguna
-        $leases = Lease::all();
-
-        $userIds = $leases->pluck('user.id')->unique();
-        $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
+    $leases = Lease::all();
 
 
-        // Kembalikan view dengan data yang dibutuhkan
-        return view('landing.properties.show', compact('property','facility_images', 'properties', 'users', 'leases'));
-    }
+    $userIds = $leases->pluck('user.id')->unique();
+    $users = User::whereIn('id', $userIds)->role('tenant')->latest()->get();
+
+    return view('landing.properties.show', compact('property', 'facility_images', 'properties', 'users', 'leases'));
+}
+
 }

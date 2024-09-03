@@ -674,81 +674,81 @@
         </section>
 
 
-        <section id="facility" class="facility-section section-padding mb-20">
-            <div class="container">
-                <div class="flex items-center justify-center mb-4">
-                    <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
-                        Daftar
-                        <span class="text-primary-500 after-svg instructor">Fasilitas</span>
-                    </h2>
-                </div>
-        
-                <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab"
-                        data-tabs-toggle="#default-styled-tab-content"
-                        data-tabs-active-classes="text-green-600 hover:text-green-600 dark:text-green-500 dark:hover:text-green-500 border-green-600 dark:border-green-500"
-                        data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
-                        role="tablist">
-                        <li class="me-2" role="presentation">
-                            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"
-                                data-tabs-target="#styled-profile" type="button" role="tab"
-                                aria-controls="profile" aria-selected="false">Semua</button>
-                        </li>
-                        @foreach ($facility_images as $facility)
-                            <li class="me-2" role="presentation">
-                                <button
-                                    class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                                    id="dashboard-styled-tab{{ $facility->id }}"
-                                    data-tabs-target="#styled-dashboard{{ $facility->id }}" type="button"
-                                    role="tab" aria-controls="dashboard"
-                                    aria-selected="false">{{ $facility->name }}</button>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-                <div id="default-styled-tab-content">
-                    <div class="hidden p-4 rounded-lg bg-primary-50 dark:bg-primary-800" id="styled-profile"
-                        role="tabpanel" aria-labelledby="profile-tab">
-                        @php
-                            $property_facilitiesAll = $facility_images;
-                        @endphp
-                        <div class="facility-images">
-                            @foreach ($property_facilitiesAll as $property_facility)
-                                @foreach ($property_facility->facility_images as $image)
-                                    <a href="{{ asset('storage/' . $image->image) }}"
-                                        data-lightbox="facility-gallery-{{ $image->id }}">
-                                        <img src="{{ asset('storage/' . $image->image) }}"
-                                            alt="Facility Image" class="facility-img">
-                                    </a>
-                                @endforeach
-                            @endforeach
-                        </div>
+            <section id="facility" class="facility-section section-padding mb-20">
+                <div class="container">
+                    <div class="flex items-center justify-center mb-4">
+                        <h2 class="text-primary-900 xl:text-[40px] xl:leading-[40px] md:text-2xl text-xl font-semibold font-display mb-4 text-center">
+                            Daftar
+                            <span class="text-primary-500 after-svg instructor">Fasilitas</span>
+                        </h2>
                     </div>
-                    @foreach ($facility_images as $facility)
-                        <div class="hidden p-4 rounded-lg bg-primary-50 dark:bg-primary-800"
-                            id="styled-dashboard{{ $facility->id }}" role="tabpanel"
-                            aria-labelledby="dashboard-tab{{ $facility->id }}">
-                            <p class="mb-4 text-black font-bold">{{ $facility->name }}</p>
+            
+                    <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab"
+                            data-tabs-toggle="#default-styled-tab-content"
+                            data-tabs-active-classes="text-green-600 hover:text-green-600 dark:text-green-500 dark:hover:text-green-500 border-green-600 dark:border-green-500"
+                            data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
+                            role="tablist">
+                            <li class="me-2" role="presentation">
+                                <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"
+                                    data-tabs-target="#styled-profile" type="button" role="tab"
+                                    aria-controls="profile" aria-selected="false">Semua</button>
+                            </li>
+                            @foreach ($facility_images as $facility)
+                                <li class="me-2" role="presentation">
+                                    <button
+                                        class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                        id="dashboard-styled-tab{{ $facility->id }}"
+                                        data-tabs-target="#styled-dashboard{{ $facility->id }}" type="button"
+                                        role="tab" aria-controls="dashboard"
+                                        aria-selected="false">{{ $facility->name }}</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div id="default-styled-tab-content">
+                        <div class="hidden p-4 rounded-lg bg-primary-50 dark:bg-primary-800" id="styled-profile"
+                            role="tabpanel" aria-labelledby="profile-tab">
                             @php
-                                $property_facilities = $facility->facility_images->where('property_id', $property->id);
-                                $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
-                                    return $item->facility_id == $facility->id;
-                                });
+                                $property_facilitiesAll = $facility_images;
                             @endphp
                             <div class="facility-images">
-                                @foreach ($filtered_facilities as $property_facility)
-                                    <a href="{{ asset('storage/' . $property_facility->image) }}"
-                                        data-lightbox="facility-gallery-{{ $property_facility->id }}">
-                                        <img src="{{ asset('storage/' . $property_facility->image) }}"
-                                            alt="Facility Image" class="facility-img">
-                                    </a>
+                                @foreach ($property_facilitiesAll as $property_facility)
+                                    @foreach ($property_facility->facility_images as $image)
+                                        <a href="{{ asset('storage/' . $image->image) }}"
+                                            data-lightbox="facility-gallery-{{ $image->id }}">
+                                            <img src="{{ asset('storage/' . $image->image) }}"
+                                                alt="Facility Image" class="facility-img">
+                                        </a>
+                                    @endforeach
                                 @endforeach
                             </div>
                         </div>
-                    @endforeach
+                        @foreach ($facility_images as $facility)
+                            <div class="hidden p-4 rounded-lg bg-primary-50 dark:bg-primary-800"
+                                id="styled-dashboard{{ $facility->id }}" role="tabpanel"
+                                aria-labelledby="dashboard-tab{{ $facility->id }}">
+                                <p class="mb-4 text-black font-bold">{{ $facility->name }}</p>
+                                @php
+                                    $property_facilities = $facility->facility_images->where('property_id', $property->id);
+                                    $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
+                                        return $item->facility_id == $facility->id;
+                                    });
+                                @endphp
+                                <div class="facility-images">
+                                    @foreach ($filtered_facilities as $property_facility)
+                                        <a href="{{ asset('storage/' . $property_facility->image) }}"
+                                            data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                            <img src="{{ asset('storage/' . $property_facility->image) }}"
+                                                alt="Facility Image" class="facility-img">
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
         <!-- Mengimpor Swiper CSS dan JS -->
 

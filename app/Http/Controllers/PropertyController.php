@@ -90,43 +90,48 @@ class PropertyController extends Controller
      * Display the specified resource.
      */
     public function show(Property $property)
-    {
-        $users = User::orWhereDoesntHave('lease')
-            ->where(function ($query) {
-                $query->whereHas('roles', function ($query) {
-                    $query->where('name', 'tenant');
-                })->orWhereHas('roles', function ($query) {
-                    $query->where('name', 'admin');
-                });
-            })->where('status', 'accepted')
-            ->where('gender', $property->gender_target)
-            ->latest()
-            ->get();
+{
 
-        $property_member = User::whereHas('lease', function ($query) use ($property) {
-            $query->where('property_id', $property->id)
-                ->where('status', 'active');
-        })->get();
-
-        $addUserPropertyLeader = Lease::where('property_id', $property->id)
-            ->where('status', 'active')
-            ->get();
-
-        $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
-            $query->whereDoesntHave('roles', function ($query) {
+    $users = User::orWhereDoesntHave('lease')
+        ->where(function ($query) {
+            $query->whereHas('roles', function ($query) {
+                $query->where('name', 'tenant');
+            })->orWhereHas('roles', function ($query) {
                 $query->where('name', 'admin');
             });
-        })->where('status', 'active')->get();
-
-        $facility_images = $property->facilities;
-        // dd($facility_images);
-
-        $properties = Property::all();
+        })->where('status', 'accepted')
+        ->where('gender', $property->gender_target)
+        ->latest()
+        ->get();
 
 
+    $property_member = User::whereHas('lease', function ($query) use ($property) {
+        $query->where('property_id', $property->id)
+            ->where('status', 'active');
+    })->get();
 
-        return view('pages.properties.detail', compact('property_member', 'facility_images', 'property', 'properties', 'users', 'addUserPropertyLeader', 'editUserPropertyLeader'));
-    }
+
+    $addUserPropertyLeader = Lease::where('property_id', $property->id)
+        ->where('status', 'active')
+        ->get();
+
+    $editUserPropertyLeader = Lease::where('property_id', $property->id)->whereHas('user', function ($query) {
+        $query->whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'admin');
+        });
+    })->where('status', 'active')->get();
+
+    $facility_images = $property->facilities()->with(['facility_images' => function($query) use ($property) {
+        $query->where('property_id', $property->id);
+    }])->get();
+    
+    $properties = Property::all();
+
+
+    return view('pages.properties.detail', compact('property_member','facility_images','property','properties','users','addUserPropertyLeader', 'editUserPropertyLeader'
+    ));
+}
+
 
     /**
      * Show the form for editing the specified resource.
