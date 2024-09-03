@@ -484,19 +484,20 @@
             <div class="container mx-auto my-5 p-10 mb-10">
 
                 <div class="flex flex-col lg:flex-row gap-6 my-2">
-                    <div class="w-full lg:w-1/2 rounded-lg flex" style="width: 120rem; height: 40rem">
+                    <div class="w-full lg:w-30 rounded-lg flex" style="flex: 0 0 50%; height: 40rem;">
                         @if ($property->image)
-                            <img class="w-full h-auto object-cover rounded-lg"
+                            <img class="w-full h-75 object-cover rounded-lg"
                                 src="{{ asset('storage/' . $property->image) }}" alt="Property image" />
                         @else
-                            <img class="w-full h-auto object-cover rounded-lg"
+                            <img class="w-full h-75 object-cover rounded-lg"
                                 src="{{ asset('assets/img/image_not_available.png') }}" alt="Image not available" />
                         @endif
                     </div>
-
-                    <div class="w-full lg:w-1/2 rounded-lg flex flex-col">
+                
+                    <!-- Informasi Kontrakan -->
+                    <div class="w-full lg:w-70 rounded-lg flex flex-col" style="flex: 0 0 50%;">
                         <h3 class="font-bold text-3xl text-gray-800 mt-5 mb-1">{{ $property->name }}</h3>
-
+                
                         <div class="flex flex-wrap gap-3 mt-6">
                             @if ($property->gender_target === 'male')
                                 <div class="inline-block bg-blue-100 text-blue-400 px-4 py-1 rounded-lg shadow-sm">
@@ -507,25 +508,25 @@
                                     <i class="fa-solid fa-person-dress"></i> Perempuan
                                 </div>
                             @endif
-
+                
                             <div class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg shadow-sm">
                                 Total Orang: <strong>{{ $property->leases->count() }}</strong>
                             </div>
-
+                
                             <div class="inline-block bg-yellow-100 text-yellow-400 px-2 py-1 rounded-lg shadow-sm">
                                 Kapasitas: <strong>{{ $property->capacity }}</strong>
                             </div>
                         </div>
+                        
                         <div class="mt-8">
                             <h4 class="font-bold">Ketua:</h4>
-
+                
                             @php
                                 $status = false;
                             @endphp
                             @foreach ($property->leases as $lease)
                                 @if ($lease->user->hasRole('admin'))
-                                    <div
-                                        class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-1 mr-3 shadow-sm">
+                                    <div class="inline-block bg-green-200 text-green-400 px-2 py-1 rounded-lg mt-1 mr-3 shadow-sm">
                                         <strong>{{ $lease->user->name }}</strong>
                                     </div>
                                     @php
@@ -533,29 +534,27 @@
                                     @endphp
                                 @endif
                             @endforeach
-
+                
                             @if ($status == false)
-                                <div
-                                    class="inline-block bg-red-200 text-red-400 px-5 py-1 rounded-2xl mt-1 mr-3 shadow-sm">
+                                <div class="inline-block bg-red-200 text-red-400 px-5 py-1 rounded-2xl mt-1 mr-3 shadow-sm">
                                     Ketua Tidak Tersedia
                                 </div>
                             @endif
-
+                
                             <h2 class="font-bold text-2xl text-primary-500 mt-6 mb-8">
                                 {{ 'Rp. ' . number_format($property->rental_price, 0) . ' / bln' }}
                             </h2>
-
+                
                             <div class="w-full mt-12">
                                 <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                                     <div class="px-4 py-6 flex items-center bg-white rounded-lg">
-
                                         <h6 class="mb-0">{{ $property->description }}</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
 
 
                 <section id="property_gambar" class="section-padding property_gambar-section">
@@ -714,7 +713,7 @@
                                 @foreach ($property_facilitiesAll as $property_facility)
                                     @foreach ($property_facility->facility_images as $image)
                                         <a href="{{ asset('storage/' . $image->image) }}"
-                                            data-lightbox="facility-gallery-{{ $image->id }}">
+                                            data-lightbox="facility-gallery-filter">
                                             <img src="{{ asset('storage/' . $image->image) }}"
                                                 alt="Facility Image" class="facility-img">
                                         </a>
@@ -736,7 +735,7 @@
                                 <div class="facility-images">
                                     @foreach ($filtered_facilities as $property_facility)
                                         <a href="{{ asset('storage/' . $property_facility->image) }}"
-                                            data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                            data-lightbox="facility-gallery-filter-{{ $facility->id }}">
                                             <img src="{{ asset('storage/' . $property_facility->image) }}"
                                                 alt="Facility Image" class="facility-img">
                                         </a>
