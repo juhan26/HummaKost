@@ -358,6 +358,7 @@
                     $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
                         return $item->facility_id == $facility->id;
                     });
+                    // dd($filtered_facilities);
                 @endphp
                 @foreach ($filtered_facilities as $image)
                     <div class="col item mb-4 facility-images">
