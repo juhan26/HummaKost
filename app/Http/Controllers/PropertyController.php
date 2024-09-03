@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Lease;
+use App\Models\Facility;
+use App\Models\Property;
+use Illuminate\Http\Request;
+use App\Models\FacilityImage;
+use App\Models\PropertyFacility;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
-use App\Models\Facility;
-use App\Models\FacilityImage;
-use App\Models\Lease;
-use App\Models\Property;
-use App\Models\PropertyFacility;
-use App\Models\User;
-use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PropertyController extends Controller
 {
@@ -227,6 +228,16 @@ class PropertyController extends Controller
 
     public function editPropertyLeader(Request $request, Property $property)
     {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+        ],[
+            'user_id.required' => "Penyewa yang dipilih tidak valid",
+            'user_id.exists' => "Penyewa yang dipilih tidak valid",
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $lastLeader = $property->leases()->whereHas('user.roles', function ($query) {
             $query->where('name', 'admin');
         })->first();
@@ -235,6 +246,7 @@ class PropertyController extends Controller
             $lastLeader->user->removeRole('admin');
             $lastLeader->user->assignRole('tenant');
         }
+
 
         $newLeader = User::find($request->user_id);
         $newLeader->removeRole('tenant');
