@@ -45,18 +45,18 @@
                             </div>
 
                             <div class="d-flex justify-content-around flex-wrap my-6 gap-0 gap-md-3 gap-lg-4">
-                                <div class="d-flex align-items-center me-5 gap-4">
-                                    <div class="avatar">
-                                        <div class="avatar-initial bg-label-primary rounded-3">
-                                            <span class="material-symbols-outlined">cottage</span>
+                                @hasrole('admin|tenant')
+                                    <div class="d-flex align-items-center me-5 gap-4">
+                                        <div class="avatar">
+                                            <div class="avatar-initial bg-label-primary rounded-3">
+                                                <span class="material-symbols-outlined">cottage</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0">Kontrakan</h5>
+                                            <span>{{ $user->lease ? $user->lease->properties->name : 'belum ada' }}</span>
                                         </div>
                                     </div>
-                                    <div>
-                                        <h5 class="mb-0">Kontrakan</h5>
-                                        <span>{{ $user->lease ? $user->lease->properties->name : 'belum ada' }}</span>
-                                    </div>
-                                </div>
-                                @hasrole('admin|tenant')
                                     <div class="d-flex align-items-center gap-4">
                                         <div class="avatar">
                                             <div class="avatar-initial bg-label-primary rounded-3">
@@ -277,38 +277,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="row mt-8">
-                            <div class="col-6">
-                                <span style="">
-                                    <h5 style="text-align: center">Total Yang Sudah Dibayar</h5>
-                                </span>
-                                <div class="card bg-success-subtle text-center">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <h5 class="text-success mt-2">
-                                                {{ $user->lease ? 'Rp. ' . number_format($user->lease->total_nominal) : 'Belum Ada Pembayaran' }}
-                                            </h5>
+                    @hasrole('admin|tenant')
+                        <div class="col-12">
+                            <div class="row mt-8">
+                                <div class="col-6">
+                                    <span style="">
+                                        <h5 style="text-align: center">Total Yang Sudah Dibayar</h5>
+                                    </span>
+                                    <div class="card bg-success-subtle text-center">
+                                        <div class="card-content">
+                                            <div class="card-body">
+                                                <h5 class="text-success mt-2">
+                                                    {{ $user->lease ? 'Rp. ' . number_format($user->lease->total_nominal) : 'Belum Ada Pembayaran' }}
+                                                </h5>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-6">
-                                <span style="">
-                                    <h5 style="text-align: center">Total Yang Harus Dibayar</h5>
-                                </span>
-                                <div class="card bg-warning-subtle text-center">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <h5 class="text-warning mt-2">
-                                                {{ $user->lease ? ($user->lease->total_nominal === $user->lease->total_iuran ? 'Lunas' : 'Rp. ' . number_format($user->lease->total_iuran - $user->lease->total_nominal)) : 'Belum Ada Tagihan' }}
-                                            </h5>
+                                <div class="col-6">
+                                    <span style="">
+                                        <h5 style="text-align: center">Total Yang Harus Dibayar</h5>
+                                    </span>
+                                    <div class="card bg-warning-subtle text-center">
+                                        <div class="card-content">
+                                            <div class="card-body">
+                                                <h5 class="text-warning mt-2">
+                                                    {{ $user->lease ? ($user->lease->total_nominal === $user->lease->total_iuran ? 'Lunas' : 'Rp. ' . number_format($user->lease->total_iuran - $user->lease->total_nominal)) : 'Belum Ada Tagihan' }}
+                                                </h5>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endhasrole
                     {{-- <div class="card mb-6">
                         <h5 class="pb-4 border-bottom mb-4">Details</h5>
                         <div class="info-container">
@@ -599,7 +601,7 @@
                                             <div class="overlay">
                                                 <i class="ri-edit-line"></i>
                                             </div>
-                                            <input accept=".jpeg" type="file" id="modalEditUserPhoto" name="photo"
+                                            <input type="file" id="modalEditUserPhoto" name="photo"
                                                 class="form-control" hidden onchange="previewImage(event)">
                                         </div>
                                     </label>
@@ -649,19 +651,17 @@
                                         </div>
                                     </div>
                                 @endhasrole
-                                @hasrole('admin')
-                                    <div class="col-12">
-                                        <div class="form-floating form-floating-outline">
-                                            <select name="gender" id="gender" class="form-select">
-                                                <option value="male" {{ $user->gender === 'male' ? 'selected' : '' }}>
-                                                    Laki-laki</option>
-                                                <option value="female" {{ $user->gender === 'female' ? 'selected' : '' }}>
-                                                    Perempuan</option>
-                                            </select>
-                                            <label for="gender">Jenis Kelamin</label>
-                                        </div>
+                                <div class="col-12">
+                                    <div class="form-floating form-floating-outline">
+                                        <select name="gender" id="gender" class="form-select">
+                                            <option value="male" {{ $user->gender === 'male' ? 'selected' : '' }}>
+                                                Laki-laki</option>
+                                            <option value="female" {{ $user->gender === 'female' ? 'selected' : '' }}>
+                                                Perempuan</option>
+                                        </select>
+                                        <label for="gender">Jenis Kelamin</label>
                                     </div>
-                                @endhasrole
+                                </div>
                                 <div class="col-12">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="email" name="email" class="form-control"
