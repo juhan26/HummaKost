@@ -416,7 +416,7 @@
                                                     class="mb-0 px-4 py-2 text-center bg-blue-200 text-blue-500 py-2 rounded-full font-semibold">
                                                     Kontrakan
                                                 </h5>
-                                                <span>{{ $user->lease->properties ? $user->lease->properties->name : 'Kontrakan Tidak ditemukan' }}</span>
+                                                <span>{{ $user->lease ? $user->lease->properties->name : 'Belum Ada Kontrakan' }}</span>
                                             </div>
                                         </div>
                                         @hasrole('admin|tenant')
