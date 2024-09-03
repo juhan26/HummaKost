@@ -314,17 +314,22 @@
     <!-- FACILITIES -->
     <h4 class="fw-bold text-center">Daftar Fasilitas</h4>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs py-5 d-flex justify-content-center" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
-                type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Semua</button>
+                type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"><span
+                    class="material-symbols-outlined">
+                    grid_view
+                </span></button>
         </li>
         @foreach ($facility_images as $facility)
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="facility-tab{{ $facility->id }}" data-bs-toggle="tab"
                     data-bs-target="#facility-tab-pane{{ $facility->id }}" type="button" role="tab"
-                    aria-controls="facility-tab-pane{{ $facility->id }}"
-                    aria-selected="false">{{ $facility->name }}</button>
+                    aria-controls="facility-tab-pane{{ $facility->id }}" aria-selected="false">
+
+                        {{  $facility->name}}
+                </button>
             </li>
         @endforeach
     </ul>
