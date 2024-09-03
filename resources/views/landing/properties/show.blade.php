@@ -580,7 +580,7 @@
                             @else
                                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     @foreach ($property->property_images->chunk(1) as $imagegallery)
-                                        <div class=" grid gap-3">
+                                        <div class="grid gap-3">
                                             @foreach ($imagegallery as $image)
                                                 <div class="image-gal">
                                                     <a href="{{ asset('storage/' . $image->image) }}"
@@ -596,8 +596,6 @@
                                 </div>
                             @endif
                         </div>
-
-
                 </section>
 
 
