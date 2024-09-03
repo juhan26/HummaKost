@@ -165,7 +165,7 @@
                                     data-facility-id="{{ $facility->id }}" enctype="multipart/form-data" style="position: relative">
                                     @csrf
                                     <select name="property_id" class="form-select"
-                                        style="position: absolute;top:-40%;left:0;height:50px;">
+                                        style="position: absolute;top:-80px;left:0;height:50px;">
                                         @forelse ($facility->properties as $property)
                                             <option value="{{ $property->id }}">{{ $property->name }}</option>
                                         @empty
@@ -178,7 +178,7 @@
                                         Tambah Gambar
                                     </button>
                                 </form>
-                
+
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h5 class="m-0">Gambar Fasilitas</h5>
@@ -210,13 +210,13 @@
                                         </div>
                                     </form>
                                 </div>
-                
+
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
                                         let deleteImagesBtn{{ $facility->id }} = document.getElementById('delete-images-btn-{{ $facility->id }}');
                                         let form{{ $facility->id }} = document.getElementById('delete-images-form-{{ $facility->id }}');
                                         let checkboxes{{ $facility->id }} = document.querySelectorAll('.delete-checkbox-{{ $facility->id }}');
-                
+
                                         deleteImagesBtn{{ $facility->id }}.addEventListener('click', function () {
                                             if (deleteImagesBtn{{ $facility->id }}.textContent === "Hapus") {
                                                 checkboxes{{ $facility->id }}.forEach(function (checkbox) {
@@ -228,7 +228,7 @@
                                                 form{{ $facility->id }}.submit();
                                             }
                                         });
-                
+
                                         checkboxes{{ $facility->id }}.forEach(function (checkbox) {
                                             checkbox.addEventListener('change', function () {
                                                 let anyChecked = Array.from(checkboxes{{ $facility->id }}).some(chk => chk.checked);
@@ -237,11 +237,11 @@
                                         });
                                     });
                                 </script>
-                
+
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
@@ -442,6 +442,14 @@
                             <label for="facilityPhoto" class="form-label">Foto Fasilitas</label>
                             <input type="file" id="imageInput" class="form-control" name="photo">
                         </div>
+                        <div class="mb-3">
+                            <label for="selectpickerIcons">Icons</label>
+                              <select class="selectpicker w-100 show-tick" id="selectpickerIcons" data-tick-icon="ri-check-line" data-style="btn-default">
+                                <option class="material-symbols-outlined" value="instagram">money <span>money</span></option>
+                                <option data-icon="ri-pinterest-line">Pinterest</option>
+                                <option data-icon="ri-twitch-fill">Twitch</option>
+                              </select>
+                          </div>
                         <div class="mb-3">
                             <label for="facilityName" class="form-label">Nama Fasilitas</label>
                             <input type="text" class="form-control" id="facilityName" name="name">
