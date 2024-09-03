@@ -714,7 +714,7 @@
                                 @foreach ($property_facilitiesAll as $property_facility)
                                     @foreach ($property_facility->facility_images as $image)
                                         <a href="{{ asset('storage/' . $image->image) }}"
-                                            data-lightbox="facility-gallery-{{ $image->id }}">
+                                            data-lightbox="facility-gallery-filter">
                                             <img src="{{ asset('storage/' . $image->image) }}"
                                                 alt="Facility Image" class="facility-img">
                                         </a>
@@ -736,7 +736,7 @@
                                 <div class="facility-images">
                                     @foreach ($filtered_facilities as $property_facility)
                                         <a href="{{ asset('storage/' . $property_facility->image) }}"
-                                            data-lightbox="facility-gallery-{{ $property_facility->id }}">
+                                            data-lightbox="facility-gallery-filter-{{ $facility->id }}">
                                             <img src="{{ asset('storage/' . $property_facility->image) }}"
                                                 alt="Facility Image" class="facility-img">
                                         </a>
