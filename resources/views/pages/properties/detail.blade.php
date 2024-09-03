@@ -334,44 +334,41 @@
         @endforeach
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-            tabindex="0">
-            @php
-                $property_facilitiesAll = $facility_images;
-            @endphp
-            @foreach ($property_facilitiesAll as $property_facility_image)
-                @foreach ($property_facility_image->facility_images as $image)
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            @foreach ($facility_images as $facility)
+                @php
+                    $property_facilities = $facility->facility_images->where('property_id', $property->id);
+                @endphp
+
+                @foreach ($property_facilities as $image)
                     <div class="col item mb-4 facility-images">
                         <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                            <img class="img-fluid image scale-on-hover rounded"
-                                src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
+                            <img class="img-fluid image scale-on-hover rounded" src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
                         </a>
                     </div>
                 @endforeach
             @endforeach
         </div>
+
+        
         @foreach ($facility_images as $facility)
-            <div class="tab-pane fade" id="profile-tab-pane{{ $facility->id }}" role="tabpanel"
-                aria-labelledby="profile-tab{{ $facility->id }}" tabindex="0">
-                {{ $facility->name }}
+            <div class="tab-pane fade" id="profile-tab-pane{{ $facility->id }}" role="tabpanel" aria-labelledby="profile-tab{{ $facility->id }}" tabindex="0">
+                <h4>{{ $facility->name }}</h4>
                 @php
                     $property_facilities = $facility->facility_images->where('property_id', $property->id);
-                    $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
-                        return $item->facility_id == $facility->id;
-                    });
                 @endphp
-                @foreach ($filtered_facilities as $image)
-                    <div class="col item mb-4 facility-images" data-facility="{{ $image->id }}"
-                        style="display: none;">
+
+                @foreach ($property_facilities as $image)
+                    <div class="col item mb-4 facility-images" data-facility="{{ $image->id }}">
                         <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                            <img class="img-fluid image scale-on-hover rounded"
-                                src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
+                            <img class="img-fluid image scale-on-hover rounded" src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
                         </a>
                     </div>
                 @endforeach
             </div>
         @endforeach
     </div>
+
 
 
 
