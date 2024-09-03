@@ -268,7 +268,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             baguetteBox.run('.grid-gallery', {
                 animation: 'slideIn'
             });
@@ -334,17 +334,16 @@
         @endforeach
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-            tabindex="0">
-            @php
-                $property_facilitiesAll = $facility_images;
-            @endphp
-            @foreach ($property_facilitiesAll as $property_facility_image)
-                @foreach ($property_facility_image->facility_images as $image)
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            @foreach ($facility_images as $facility)
+                @php
+                    $property_facilities = $facility->facility_images->where('property_id', $property->id);
+                @endphp
+
+                @foreach ($property_facilities as $image)
                     <div class="col item mb-4 facility-images">
                         <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                            <img class="img-fluid image scale-on-hover rounded"
-                                src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
+                            <img class="img-fluid image scale-on-hover rounded" src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
                         </a>
                     </div>
                 @endforeach
@@ -361,8 +360,7 @@
                     });
                 @endphp
                 @foreach ($filtered_facilities as $image)
-                    <div class="col item mb-4 facility-images" data-facility="{{ $image->id }}"
-                        style="display: none;">
+                    <div class="col item mb-4 facility-images">
                         <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
                             <img class="img-fluid image scale-on-hover rounded"
                                 src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
