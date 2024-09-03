@@ -359,10 +359,10 @@
                     $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
                         return $item->facility_id == $facility->id;
                     });
+                    // dd($filtered_facilities);
                 @endphp
                 @foreach ($filtered_facilities as $image)
-                    <div class="col item mb-4 facility-images" data-facility="{{ $image->id }}"
-                        style="display: none;">
+                    <div class="col item mb-4 facility-images">
                         <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
                             <img class="img-fluid image scale-on-hover rounded"
                                 src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
