@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="grid-gallery.css">
 
     <style>
+
         .facility-section {
             padding: 20px 0;
         }
@@ -66,13 +67,6 @@
             .images-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-        }
-
-        .facility-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
         }
 
         .empty-message {
@@ -317,6 +311,7 @@
 
     </div>
 
+
     <!-- FACILITIES -->
     <h4 class="fw-bold text-center">Daftar Fasilitas</h4>
 
@@ -327,53 +322,66 @@
         </li>
         @foreach ($facility_images as $facility)
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab{{ $facility->id }}" data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane{{ $facility->id }}" type="button" role="tab"
-                    aria-controls="profile-tab-pane" aria-selected="false">{{ $facility->name }}</button>
+                <button class="nav-link" id="facility-tab{{ $facility->id }}" data-bs-toggle="tab"
+                    data-bs-target="#facility-tab-pane{{ $facility->id }}" type="button" role="tab"
+                    aria-controls="facility-tab-pane{{ $facility->id }}"
+                    aria-selected="false">{{ $facility->name }}</button>
             </li>
         @endforeach
     </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-            @foreach ($facility_images as $facility)
-                @php
-                    $property_facilities = $facility->facility_images->where('property_id', $property->id);
-                @endphp
 
-                @foreach ($property_facilities as $image)
-                    <div class="col item mb-4 facility-images">
-                        <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                            <img class="img-fluid image scale-on-hover rounded" src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
-                        </a>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+            <section class="gallery-block grid-gallery">
+                <div class="gallery-container mx-auto 2xl:px-0">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        @foreach ($facility_images as $facility)
+                            @foreach ($facility->facility_images as $image)
+                                <div class="col item mb-4 facility-images">
+                                    <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
+                                        <img class="img-fluid image scale-on-hover rounded"
+                                            src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                            style="height: 200px; object-fit: cover;">
+                                    </a>
+                                </div>
+                            @endforeach
+                        @endforeach
                     </div>
-                @endforeach
-            @endforeach
+                </div>
+            </section>
         </div>
+
         @foreach ($facility_images as $facility)
-            <div class="tab-pane fade" id="profile-tab-pane{{ $facility->id }}" role="tabpanel"
-                aria-labelledby="profile-tab{{ $facility->id }}" tabindex="0">
-                {{ $facility->name }}
-                @php
-                    $property_facilities = $facility->facility_images->where('property_id', $property->id);
-                    $filtered_facilities = $property_facilities->filter(function ($item) use ($facility) {
-                        return $item->facility_id == $facility->id;
-                    });
-                    // dd($filtered_facilities);
-                @endphp
-                @foreach ($filtered_facilities as $image)
-                    <div class="col item mb-4 facility-images">
-                        <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                            <img class="img-fluid image scale-on-hover rounded"
-                                src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
-                        </a>
+            <div class="tab-pane fade" id="facility-tab-pane{{ $facility->id }}" role="tabpanel"
+                aria-labelledby="facility-tab{{ $facility->id }}">
+                <p class="mb-4 text-black font-bold">{{ $facility->name }}</p>
+                <section class="gallery-block grid-gallery">
+                    <div class="gallery-container 2xl:px-0">
+                        <div class="row g-4">
+                            @foreach ($facility->facility_images as $image)
+                                <div class="col item mb-4 facility-images">
+                                    <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
+                                        <img class="img-fluid image scale-on-hover rounded"
+                                            src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
+                                            style="height: 200px; object-fit: cover;">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                @endforeach
+                </section>
             </div>
         @endforeach
     </div>
 
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            baguetteBox.run('.grid-gallery', {
+                animation: 'slideIn'
+            });
+        });
+    </script>
 
 
     <!-- FACILITIES -->
