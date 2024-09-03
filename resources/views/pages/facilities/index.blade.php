@@ -164,6 +164,7 @@
                 <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone"
                     data-facility-id="{{ $facility->id }}" enctype="multipart/form-data" style="position: relative">
                     @csrf
+                    @hasrole('super_admin')
                     <select name="property_id" class="form-select"
                         style="position: absolute;top:-40%;left:0;height:50px;">
                         @forelse ($facility->properties as $property)
@@ -172,6 +173,13 @@
                             <option>Tidak ada kontrakan yang menggunakan fasilitas ini</option>
                         @endforelse
                     </select>
+                    @endhasrole
+
+                    @hasrole('admin')
+                    <input type="hidden" name="property_id" class="form-control" value="{{ Auth::user()->lease->property_id }}">
+                    <input type="text" class="form-control" value="{{ Auth::user()->lease->properties->name }}" disabled style="position: absolute;top:-40%;left:0;height:50px;">
+                    @endhasrole
+
                     <input type="hidden" value="{{ $facility->id }}" name="facility_id">
                     <button type="submit" id="submit-all" class="btn btn-primary position-absolute"
                         style="bottom: 10px; right: 10px;cursor:pointer;">
