@@ -121,10 +121,13 @@ class PropertyController extends Controller
         });
     })->where('status', 'active')->get();
 
-    $facility_images = $property->facilities()->with(['facility_images' => function($query) use ($property) {
+    $facility_images = $property->facilities()
+    ->with(['facility_images' => function($query) use ($property) {
         $query->where('property_id', $property->id);
     }])->get();
-    
+
+    // $facility_images->paginate(3);
+
     $properties = Property::all();
 
 
