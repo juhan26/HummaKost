@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="grid-gallery.css">
 
     <style>
-
         .facility-section {
             padding: 20px 0;
         }
@@ -334,19 +333,28 @@
         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
             <section class="gallery-block grid-gallery">
                 <div class="gallery-container mx-auto 2xl:px-0">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                        @foreach ($facility_images as $facility)
-                            @foreach ($facility->facility_images as $image)
-                                <div class="col item mb-4 facility-images">
-                                    <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                                        <img class="img-fluid image scale-on-hover rounded"
-                                            src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
-                                            style="height: 200px; object-fit: cover;">
+                    <div class="row">
+                        @php
+                            // Flatten the images into a single collection
+                            $images = collect($facility_images)->flatMap(function ($facility) {
+                                return $facility->facility_images;
+                            });
+                        @endphp
+
+                        @foreach ($images->chunk(1) as $chunk)
+                            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                                @foreach ($chunk as $image)
+                                    <a class="lightbox" href="{{ asset('storage/' . $image->image) }}" class="w-100">
+                                        <img class="img-fluid image scale-on-hover rounded mb-6 w-100 "
+                                            style="box-shadow: 0px 0px 10px rgba(0,0,0,.2);"
+                                            src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
                                     </a>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         @endforeach
                     </div>
+
+
                 </div>
             </section>
         </div>
@@ -357,16 +365,40 @@
                 <p class="mb-4 text-black font-bold">{{ $facility->name }}</p>
                 <section class="gallery-block grid-gallery">
                     <div class="gallery-container 2xl:px-0">
-                        <div class="row g-4">
-                            @foreach ($facility->facility_images as $image)
-                                <div class="col item mb-4 facility-images">
-                                    <a class="lightbox" href="{{ asset('storage/' . $image->image) }}">
-                                        <img class="img-fluid image scale-on-hover rounded"
-                                            src="{{ asset('storage/' . $image->image) }}" alt="Facility Image"
-                                            style="height: 200px; object-fit: cover;">
-                                    </a>
+                        <div class="row">
+                            @php
+                                $images = $facility->facility_images;
+                                $totalImages = count($images);
+                                if ($totalImages > 0) {
+                                    // Menghitung jumlah kolom
+                                    $imagesPerColumn = ceil($totalImages / 3);
+                                } else {
+                                    $imagesPerColumn = 0;
+                                }
+                                $columns = ceil($totalImages / $imagesPerColumn);
+                            @endphp
+
+                            @for ($i = 0; $i < $columns; $i++)
+                                <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                                    @for ($j = 0; $j < $imagesPerColumn; $j++)
+                                        @php
+                                            $index = $i * $imagesPerColumn + $j;
+                                        @endphp
+
+                                        @if ($index < $totalImages)
+                                            @php
+                                                $image = $images[$index];
+                                            @endphp
+                                            <a class="lightbox" href="{{ asset('storage/' . $image->image) }}"
+                                                class="w-100">
+                                                <img class="img-fluid image scale-on-hover rounded mb-4 w-100"
+                                                    style="box-shadow: 0px 0px 10px rgba(0,0,0,.2);"
+                                                    src="{{ asset('storage/' . $image->image) }}" alt="Facility Image">
+                                            </a>
+                                        @endif
+                                    @endfor
                                 </div>
-                            @endforeach
+                            @endfor
                         </div>
                     </div>
                 </section>
