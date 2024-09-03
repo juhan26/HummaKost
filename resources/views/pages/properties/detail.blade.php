@@ -374,12 +374,8 @@
                             @php
                                 $images = $facility->facility_images;
                                 $totalImages = count($images);
-                                if ($totalImages > 0) {
-                                    // Menghitung jumlah kolom
-                                    $imagesPerColumn = ceil($totalImages / 3);
-                                } else {
-                                    $imagesPerColumn = 0;
-                                }
+                                    $imagesPerColumn = 1;
+
                                 $columns = ceil($totalImages / $imagesPerColumn);
                             @endphp
 
