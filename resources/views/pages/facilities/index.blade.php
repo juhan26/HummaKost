@@ -150,55 +150,54 @@
                 <!-- Detail Modal -->
 
                 <!-- Image Detail Modal -->
-                <div class="modal fade" id="imageDetail{{ $facility->id }}" tabindex="-1"
+                <div class="modal fade" id="imageDetail{{ $property->id }}" tabindex="-1"
                     aria-labelledby="imageDetailModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-primary" id="facilityUpdateModalLabel">Detail Gambar
-                                    {{ $facility->name }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <h5 class="modal-title text-primary" id="propertyUpdateModalLabel">Detail Gambar
+                                    {{ $property->id }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" style="padding-top:90px;">
-                                <form action="{{ route('facility_images.store') }}" class="dropzone facility-dropzone"
-                                    data-facility-id="{{ $facility->id }}" enctype="multipart/form-data" style="position: relative">
+                                <form action="{{ route('property_images.store') }}" class="dropzone property-dropzone"
+                                    data-property-id="{{ $property->id }}" enctype="multipart/form-data" style="position: relative">
                                     @csrf
-                                    <select name="property_id" class="form-select"
+                                    <select name="facility_id" class="form-select"
                                         style="position: absolute;top:-80px;left:0;height:50px;">
-                                        @forelse ($facility->properties as $property)
-                                            <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                        @forelse ($property->facilities as $facility)
+                                            <option value="{{ $facility->id }}">{{ $facility->name }}</option>
                                         @empty
-                                            <option>Tidak ada kontrakan yang menggunakan fasilitas ini</option>
+                                            <option>Tidak ada fasilitas yang terhubung dengan properti ini</option>
                                         @endforelse
                                     </select>
-                                    <input type="hidden" value="{{ $facility->id }}" name="facility_id">
+                                    <input type="hidden" value="{{ $property->id }}" name="property_id">
                                     <button type="submit" id="submit-all" class="btn btn-primary position-absolute"
                                         style="bottom: 10px; right: 10px;cursor:pointer;">
                                         Tambah Gambar
                                     </button>
                                 </form>
-
+                
                                 <div class="p-4 shadow-sm mt-3" style="border-radius:15px">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="m-0">Gambar Fasilitas</h5>
-                                        @if ($facility->facility_images->isNotEmpty())
-                                            <button id="delete-images-btn-{{ $facility->id }}" class="btn btn-danger">Hapus</button>
+                                        <h5 class="m-0">Gambar Properti</h5>
+                                        @if ($property->property_images->isNotEmpty())
+                                            <button id="delete-images-btn-{{ $property->id }}" class="btn btn-danger">Hapus</button>
                                         @endif
                                     </div>
-                                    <form id="delete-images-form-{{ $facility->id }}"
-                                        action="{{ route('facility_images.destroySelected') }}" method="POST">
+                                    <form id="delete-images-form-{{ $property->id }}"
+                                        action="{{ route('property_images.destroySelected') }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <div class="row g-4">
-                                            @forelse ($facility->facility_images as $index => $image)
+                                            @forelse ($property->property_images as $index => $image)
                                                 <div class="col-12 col-md-6 col-lg-4 position-relative">
                                                     <input type="checkbox" name="images_to_delete[]"
                                                         value="{{ $image->id }}"
-                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox-{{ $facility->id }}"
+                                                        class="position-absolute top-0 start-0 mt-2 ms-2 form-check-input delete-checkbox-{{ $property->id }}"
                                                         style="display: none;">
                                                     <img src="{{ asset('storage/' . $image->image) }}"
-                                                        alt="Facility Image" class="img-fluid rounded"
+                                                        alt="Property Image" class="img-fluid rounded"
                                                         style="max-height: 250px; object-fit: cover;">
                                                 </div>
                                             @empty
@@ -210,38 +209,39 @@
                                         </div>
                                     </form>
                                 </div>
-
+                
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
-                                        let deleteImagesBtn{{ $facility->id }} = document.getElementById('delete-images-btn-{{ $facility->id }}');
-                                        let form{{ $facility->id }} = document.getElementById('delete-images-form-{{ $facility->id }}');
-                                        let checkboxes{{ $facility->id }} = document.querySelectorAll('.delete-checkbox-{{ $facility->id }}');
-
-                                        deleteImagesBtn{{ $facility->id }}.addEventListener('click', function () {
-                                            if (deleteImagesBtn{{ $facility->id }}.textContent === "Hapus") {
-                                                checkboxes{{ $facility->id }}.forEach(function (checkbox) {
+                                        let deleteImagesBtn{{ $property->id }} = document.getElementById('delete-images-btn-{{ $property->id }}');
+                                        let form{{ $property->id }} = document.getElementById('delete-images-form-{{ $property->id }}');
+                                        let checkboxes{{ $property->id }} = document.querySelectorAll('.delete-checkbox-{{ $property->id }}');
+                
+                                        deleteImagesBtn{{ $property->id }}.addEventListener('click', function () {
+                                            if (deleteImagesBtn{{ $property->id }}.textContent === "Hapus") {
+                                                checkboxes{{ $property->id }}.forEach(function (checkbox) {
                                                     checkbox.style.display = 'block';
                                                 });
-                                                deleteImagesBtn{{ $facility->id }}.textContent = "Hapus Gambar Terpilih";
-                                                deleteImagesBtn{{ $facility->id }}.disabled = true;
+                                                deleteImagesBtn{{ $property->id }}.textContent = "Hapus Gambar Terpilih";
+                                                deleteImagesBtn{{ $property->id }}.disabled = true;
                                             } else {
-                                                form{{ $facility->id }}.submit();
+                                                form{{ $property->id }}.submit();
                                             }
                                         });
-
-                                        checkboxes{{ $facility->id }}.forEach(function (checkbox) {
+                
+                                        checkboxes{{ $property->id }}.forEach(function (checkbox) {
                                             checkbox.addEventListener('change', function () {
-                                                let anyChecked = Array.from(checkboxes{{ $facility->id }}).some(chk => chk.checked);
-                                                deleteImagesBtn{{ $facility->id }}.disabled = !anyChecked;
+                                                let anyChecked = Array.from(checkboxes{{ $property->id }}).some(chk => chk.checked);
+                                                deleteImagesBtn{{ $property->id }}.disabled = !anyChecked;
                                             });
                                         });
                                     });
                                 </script>
-
+                
                             </div>
                         </div>
                     </div>
                 </div>
+                
 
                 <!-- Update Modal -->
                 <div class="modal fade" id="updateModal{{ $facility->id }}" tabindex="-1"
